@@ -3,7 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Team2-iFive.iml" filepath="$PROJECT_DIR$/.idea/Team2-iFive.iml" />
-      <module fileurl="file://$PROJECT_DIR$/BE/iDrop/iDrop.iml" filepath="$PROJECT_DIR$/BE/iDrop/iDrop.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/iDrop.main.iml" filepath="$PROJECT_DIR$/.idea/modules/iDrop.main.iml" />
     </modules>
   </component>
 </project>

@@ -16,6 +16,8 @@
 | <img src="https://github.com/Sang-minKIM.png" width="100" height="100"> | <img src="https://github.com/yook-jongho.png" width="100" height="100"> | <img src="https://github.com/Gyeongsu1997.png" width="100" height="100"> | <img src="https://github.com/Win-9.png" width="100" height="100">     | <img src="https://github.com/eekrwl.png" width="100" height="100"> |
 |               [@Sang-minKIM](https://github.com/Sang-minKIM)            |              [@yook-jongho](https://github.com/yook-jongho)     |                [@Gyeongsu1997](https://github.com/Gyeongsu1997)      |                [@Win-9](https://github.com/Win-9)                 |                [@eekrwl](https://github.com/eekrwl)                |              
 |                               김상민                                  |                                육종호                                 |                               최경수                                  |                              강승구                                 |                               안채완                               |                               
+
+
 ## 🏆️ 팀 목표 🏆️
 - 실제로 사용할 수 있는 서비스 만들기
 - 개발자들끼리의 협업 경험하기
@@ -46,3 +48,25 @@
 
 ## 🔀 브렌치 구조 (협업 전략)
 ![브렌치 구조](https://github.com/softeerbootcamp-3rd/Team2-iFive/assets/39684697/7b76adcf-e68b-4566-a20d-2a76e3c8537a)
+
+## 📃 프로젝트 문서 📃
+
+### 개발 문서
+
+| 문서 종류          | 링크                                                                               |
+| ------------------ | ---------------------------------------------------------------------------------- |
+| API 문서           |  |
+| ERD                |  |
+| 코딩 컨벤션        |  |
+| Git 컨벤션        | [Git 컨벤션]()        |
+
+<br/>
+
+### 기획 문서
+
+| 문서 종류     | 링크                                                                                                                                                                                                                           |
+| ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 기획안     | [기획안]()|
+| 와이어 프레임 | [와이어 프레임]() |
+
+<br/><br/>

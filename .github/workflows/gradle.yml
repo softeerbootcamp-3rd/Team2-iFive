@@ -33,7 +33,7 @@ jobs:
     - name: 빌드
       run: |
         cd BE/iDrop
-        ./gradlew clean builder -x test
+        ./gradlew clean build -x test
 
     - name: AWS credential 설정
       uses: aws-actions/configure-aws-credentials@v1

@@ -1,0 +1,24 @@
+@import "@/styles/fontStyle.scss";
+
+.timeItem {
+    width: 80%;
+    height: 56px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #fff;
+    border-radius: 5px;
+    padding: 0 10px;
+
+    .timeDay {
+        @extend %B_16;
+    }
+
+    .timeForm {
+        display: flex;
+    }
+    .timeInput {
+        width: 30px;
+        @extend %M_20;
+    }
+}

@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Map from "./pages/Map/Map";
 import Home from "./pages/Home";
 import Subscribe from "./pages/Subscribe/Subscribe";
 import SubscribeDrivers from "./pages/SubscribeDrivers";

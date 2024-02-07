@@ -4,7 +4,7 @@ import Location from "@/assets/Location.svg";
 import iDropGreen from "@/assets/iDropGreen.svg";
 import Star from "@/assets/Star.svg";
 import Success from "@/assets/Success.svg";
-import User from "@/assets/User.svg";
+import user from "@/assets/user.svg";
 import { BottomSheet } from "../../Components/Common/Bottomsheet/Bottomsheet";
 
 export function Menu() {
@@ -24,7 +24,7 @@ export function Menu() {
             <div className={styles.menuContainer}>
                 <MenuButton imgUrl={Location} text="실시간 위치"></MenuButton>
                 <MenuButton imgUrl={Success} text="구독하기"></MenuButton>
-                <MenuButton imgUrl={User} text="프로필"></MenuButton>
+                <MenuButton imgUrl={user} text="프로필"></MenuButton>
                 <MenuButton imgUrl={Star} text="이용내역"></MenuButton>
             </div>
             <BottomSheet data={data}></BottomSheet>

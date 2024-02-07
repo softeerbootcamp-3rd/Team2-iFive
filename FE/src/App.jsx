@@ -1,5 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import Map from "./pages/Map/Map";
 import Home from "./pages/Home";
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {

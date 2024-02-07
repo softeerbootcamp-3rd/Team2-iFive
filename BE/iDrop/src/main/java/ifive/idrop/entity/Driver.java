@@ -16,6 +16,7 @@ public class Driver extends Users {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "driver_id")
     private Long id;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private LocalDate birth;
     private String image;

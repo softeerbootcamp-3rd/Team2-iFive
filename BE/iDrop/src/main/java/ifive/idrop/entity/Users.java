@@ -1,6 +1,7 @@
 package ifive.idrop.entity;
 
 import ifive.idrop.dto.UserLoginDto;
+import ifive.idrop.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.Builder;
 import lombok.Getter;
@@ -21,6 +22,8 @@ public abstract class Users {
     private String password;
     private String name;
     private String phone;
+    @Enumerated(EnumType.STRING)
+    private Role role;
     private String refreshToken;
 
     @Builder
@@ -37,5 +40,9 @@ public abstract class Users {
 
     public boolean verifyUser(UserLoginDto userLoginDto) {
         return this.userId.equals(userLoginDto.getUserId()) && this.password.equals(userLoginDto.getPassword());
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 }

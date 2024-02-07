@@ -1,19 +1,5 @@
 @import "../../../styles/fontStyle.scss";
 
-header {
-    display: flex;
-    height: 30px;
-    align-items: center;
-}
-
-.handle {
-    width: 36px;
-    height: 5px;
-    margin: 0 auto;
-    border-radius: 25px;
-    background-color: #c0c1c2;
-}
-
 .content {
     display: flex;
     gap: 30px;

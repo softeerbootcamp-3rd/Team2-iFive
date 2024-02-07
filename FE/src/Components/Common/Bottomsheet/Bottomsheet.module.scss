@@ -7,11 +7,11 @@
     width: 100%;
     max-height: 30%;
     border-radius: 20px 20px 0px 0px;
-    border-top: 1px solid;
     background: #fff;
     z-index: 999;
     overflow: hidden;
     transition: max-height 0.3s;
+    box-shadow: 0px 4px 4px 3px rgba(0, 0, 0, 0.5);
 }
 
 .expanded {
@@ -32,4 +32,11 @@ header {
     margin: 0 auto;
     border-radius: 25px;
     background-color: #c0c1c2;
+}
+
+hr {
+    width: 90%;
+    margin: 0 auto;
+    border-width: 0.1px;
+    background-color: #ebebeb;
 }

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styles from "./Subscribe.module.scss";
-
 import { Header } from "@/components/common/Header/Header";
 import { Footer } from "@/components/common/Footer/Footer";
+import { TimeItem } from "@/components/Subscribe/TimeItem";
 
 const weekDays = [
     "일요일",
@@ -13,22 +13,6 @@ const weekDays = [
     "금요일",
     "토요일"
 ];
-
-function TimeItem({ day }) {
-    return (
-        <li className={styles.timeItem}>
-            <h6 className={styles.timeDay}>{day}</h6>
-            <form className={styles.timeForm}>
-                <div className={styles.timeWrapper}>
-                    <input type="text" className={styles.timeInput} />
-                    <label className={styles.timeSuffix}>시</label>
-                    <input type="text" className={styles.timeInput} />
-                    <label className={styles.timeSuffix}>분</label>
-                </div>
-            </form>
-        </li>
-    );
-}
 
 export default function Subscribe() {
     const [timeList, setTimeList] = useState(["일요일"]);

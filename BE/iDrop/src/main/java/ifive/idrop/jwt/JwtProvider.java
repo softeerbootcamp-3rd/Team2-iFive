@@ -4,12 +4,14 @@ import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@Component
 public class JwtProvider {
     public static final byte[] secret = "IDropSecretKeyIDropSecretKeyIDropSecretKey".getBytes();
     private final SecretKey secretKey = Keys.hmacShaKeyFor(secret);

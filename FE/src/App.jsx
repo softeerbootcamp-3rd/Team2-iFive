@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Subscribe from "./pages/Subscribe/Subscribe";
 import SubscribeDrivers from "./pages/SubscribeDrivers";
 import SubscribeDriverDetail from "./pages/SubscribeDriverDetail";
+import { Menu } from "./pages/menu/Menu";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Login from "./pages/Login/Login";
 
@@ -14,11 +15,11 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
+                <Route path="menu" element={<Menu />} />
                 <Route path="onboarding" element={<Onboarding />} />
                 <Route path="login" element={<Login />} />
                 {/* 
-                    <Route path="join" element={<Join />} />
-                <Route path="menu" element={<Menu />} />*/}
+                    <Route path="join" element={<Join />} /> */}
                 <Route path="subscribe" element={<Subscribe />}>
                     <Route path="drivers" element={<SubscribeDrivers />}>
                         <Route path=":id" element={<SubscribeDriverDetail />} />

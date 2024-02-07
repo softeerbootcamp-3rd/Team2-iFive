@@ -21,6 +21,12 @@ public class UserRepository {
         return em.find(Users.class, id);
     }
 
+    public Users findByUserId(String userId) {
+        return em.createQuery("select u from Users u where u.userId = :userId", Users.class)
+                .setParameter("userId", userId)
+                .getSingleResult();
+    }
+
     public List<Users> findDrivers() {
         return em.createQuery("select u from Users u where u.role = :role", Users.class)
                 .setParameter("role", Role.DRIVER.getRole())

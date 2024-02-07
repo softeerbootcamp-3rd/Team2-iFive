@@ -1,10 +1,13 @@
 package ifive.idrop.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ifive.idrop.dto.BaseResponse;
 import ifive.idrop.dto.UserLoginDto;
+import ifive.idrop.dto.UserRegisterDto;
 import ifive.idrop.entity.Users;
 import ifive.idrop.jwt.Jwt;
 import ifive.idrop.jwt.JwtProvider;
+import ifive.idrop.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -14,24 +17,20 @@ import java.util.HashMap;
 @RequiredArgsConstructor
 @Service
 public class UserService {
+    private final UserRepository userRepository;
     private final JwtProvider jwtProvider;
     private final ObjectMapper objectMapper;
 
-//    @Transactional
-//    public UserResponseDto registerUser(UserRegisterDto userRegisterDto){
-//        Users user = userRepository.save(userRegisterDto.toEntity());
-//        UserRole role = UserRole.builder()
-//                .role(Role.USER)
-//                .user(user)
-//                .build();
-//        user.addRole(role);
-//        userRoleRepository.save(role);
-//        return new UserResponseDto(user);
-//    }
-//
+    @Transactional
+    public BaseResponse<String> registerUser(UserRegisterDto userRegisterDto){
+        Users user = userRegisterDto.toEntity();
+        userRepository.save(user);
+        return BaseResponse.of("성공적으로 회원가입 되었습니다.", user.getRole().getRole());
+    }
+
 //    public UserVerifyResponseDto verifyUser(UserLoginDto userLoginDto){
-//        Users user = userRepository.findByUserEmail(userLoginDto.getUserId());
-//        if(user == null)
+//        Users user = userRepository.findByUserId(userLoginDto.getUserId());
+//        if (user == null)
 //            return UserVerifyResponseDto.builder()
 //                    .isValid(false)
 //                    .build();
@@ -45,8 +44,8 @@ public class UserService {
 //    }
 //
 //    @Transactional
-//    public void updateRefreshToken(String userEmail,String refreshToken){
-//        Users user = userRepository.findByUserEmail(userEmail);
+//    public void updateRefreshToken(String userId, String refreshToken){
+//        Users user = userRepository.findByUserId(userId);
 //        if(user == null)
 //            return;
 //        user.updateRefreshToken(refreshToken);
@@ -67,25 +66,10 @@ public class UserService {
 //            String authenticateUserJson = objectMapper.writeValueAsString(authenticateUser);
 //            claims.put(VerifyUserFilter.AUTHENTICATE_USER,authenticateUserJson);
 //            Jwt jwt = jwtProvider.createJwt(claims);
-//            updateRefreshToken(user.getUserEmail(),jwt.getRefreshToken());
+//            updateRefreshToken(user.getUserId(),jwt.getRefreshToken());
 //            return jwt;
 //        } catch (Exception e){
 //            return null;
 //        }
 //    }
-//
-//    @Transactional
-//    public boolean addUserRole(String email, Role role){
-//        Users users = userRepository.findByUserEmail(email);
-//        if(users.getUserRoles().stream().anyMatch(userRole -> userRole.getRole().equals(role)))
-//            return false;
-//        UserRole userRole = UserRole.builder()
-//                .user(users)
-//                .role(role)
-//                .build();
-//        users.addRole(userRole);
-//        userRoleRepository.save(userRole);
-//        return true;
-//    }
-
 }

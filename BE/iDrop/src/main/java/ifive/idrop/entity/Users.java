@@ -3,7 +3,6 @@ package ifive.idrop.entity;
 import ifive.idrop.dto.UserLoginDto;
 import ifive.idrop.entity.enums.Role;
 import jakarta.persistence.*;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -26,12 +25,12 @@ public abstract class Users {
     private Role role;
     private String refreshToken;
 
-    @Builder
-    public Users(String userId, String password, String name, String phone){
+    public void setUserInfo(String userId, String password, String name, String phone, Role role){
         this.userId = userId;
         this.password = password;
         this.name = name;
         this.phone = phone;
+        this.role = role;
     }
 
     public void updateRefreshToken(String refreshToken) {
@@ -40,9 +39,5 @@ public abstract class Users {
 
     public boolean verifyUser(UserLoginDto userLoginDto) {
         return this.userId.equals(userLoginDto.getUserId()) && this.password.equals(userLoginDto.getPassword());
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
     }
 }

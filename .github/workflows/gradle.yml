@@ -25,10 +25,15 @@ jobs:
         distribution: 'temurin'
 
     - name: gradlew 실행 권한 설정
-      run: chmod +x ./gradlew
+      run: |
+        cd BE
+        chmod +x ./gradlew
+    
 
     - name: 빌드
-      run: ./gradlew clean builder -x test
+      run: |
+        cd BE
+        ./gradlew clean builder -x test
 
     - name: AWS credential 설정
       uses: aws-actions/configure-aws-credentials@v1

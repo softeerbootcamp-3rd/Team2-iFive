@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Subscribe from "./pages/Subscribe/Subscribe";
 import SubscribeDrivers from "./pages/SubscribeDrivers";
 import SubscribeDriverDetail from "./pages/SubscribeDriverDetail";
+import Onboarding from "./pages/Onboarding/Onboarding";
 
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {
@@ -12,11 +13,12 @@ function App() {
         <Router>
             <Routes>
                 <Route path="/" element={<Home />} />
-                {/* <Route path="onboarding" element={<Onboarding />}>
+                <Route path="onboarding" element={<Onboarding />} />
+                {/* 
                     <Route index element={<OnboardingLogin />} />
-                    <Route path="login" element={<OnboardingLogin />} />
-                    <Route path="join" element={<OnboardingJoin />} />
-                </Route>
+                    <Route path="login" element={<Login />} />
+                    <Route path="join" element={<Join />} />
+
                 <Route path="menu" element={<Menu />} />*/}
                 <Route path="subscribe" element={<Subscribe />}>
                     <Route path="drivers" element={<SubscribeDrivers />}>

@@ -18,13 +18,14 @@ function App() {
                 <Route path="menu" element={<Menu />} />
                 <Route path="onboarding" element={<Onboarding />} />
                 <Route path="login" element={<Login />} />
-                {/* 
-                    <Route path="join" element={<Join />} /> */}
-                <Route path="subscribe" element={<Subscribe />}>
-                    <Route path="drivers" element={<DriverList />}>
-                        {/* <Route path=":id" element={<SubscribeDriverDetail />} /> */}
-                    </Route>
-                </Route>
+                {/* <Route path="join" element={<Join />} /> */}
+                <Route path="subscription/form" element={<Subscribe />} />
+                <Route path="subscription/drivers" element={<DriverList />} />
+                {/* <Route
+                    path="subscription/driver/:id"
+                    element={<DriverDetail />}
+                /> */}
+
                 {/*<Route path="kid" element={<Kid />} /> */}
                 <Route path="map" element={<Map />} />
                 {/* <Route path="feedback" element={<Feedback />} />

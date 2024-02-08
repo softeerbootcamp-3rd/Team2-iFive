@@ -28,6 +28,12 @@ public class UserService {
         return BaseResponse.of("성공적으로 회원가입 되었습니다.", user.getRole().getRole());
     }
 
+//    public void checkDuplicateUserId(String userId) {
+//        Users user = userRepository.findByUserId(userId);
+//        if (user != null)
+//            throw new RuntimeException();
+//    }
+
 //    public UserVerifyResponseDto verifyUser(UserLoginDto userLoginDto){
 //        Users user = userRepository.findByUserId(userLoginDto.getUserId());
 //        if (user == null)

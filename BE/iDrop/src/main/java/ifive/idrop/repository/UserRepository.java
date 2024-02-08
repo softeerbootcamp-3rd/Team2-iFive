@@ -1,5 +1,7 @@
 package ifive.idrop.repository;
 
+import ifive.idrop.entity.Driver;
+import ifive.idrop.entity.Parent;
 import ifive.idrop.entity.Users;
 import ifive.idrop.entity.enums.Role;
 import jakarta.persistence.EntityManager;
@@ -17,25 +19,19 @@ public class UserRepository {
         em.persist(users);
     }
 
-    public Users findOne(Long id) {
-        return em.find(Users.class, id);
-    }
+//    public Users findByUserId(String userId) {
+//        return em.createQuery("select u from Users u where u.userId = :userId", Users.class)
+//                .setParameter("userId", userId)
+//                .getSingleResult();
+//    }
 
-    public Users findByUserId(String userId) {
-        return em.createQuery("select u from Users u where u.userId = :userId", Users.class)
-                .setParameter("userId", userId)
-                .getSingleResult();
-    }
-
-    public List<Users> findDrivers() {
-        return em.createQuery("select u from Users u where u.role = :role", Users.class)
-                .setParameter("role", Role.DRIVER.getRole())
+    public List<Driver> findDrivers() {
+        return em.createQuery("select d from Driver d", Driver.class)
                 .getResultList();
     }
 
-    public List<Users> findParents() {
-        return em.createQuery("select u from Users u where u.role = :role", Users.class)
-                .setParameter("role", Role.PARENT.getRole())
+    public List<Parent> findParents() {
+        return em.createQuery("select p from Parent p", Parent.class)
                 .getResultList();
     }
 }

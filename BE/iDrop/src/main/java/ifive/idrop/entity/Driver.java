@@ -10,7 +10,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@DiscriminatorValue("D")
 public class Driver extends Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

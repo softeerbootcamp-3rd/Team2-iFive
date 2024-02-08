@@ -8,7 +8,6 @@ import java.util.List;
 
 @Entity
 @Getter
-@DiscriminatorValue("P")
 public class Parent extends Users {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

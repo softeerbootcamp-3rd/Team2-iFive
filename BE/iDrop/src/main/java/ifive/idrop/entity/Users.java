@@ -4,19 +4,10 @@ import ifive.idrop.dto.UserLoginDto;
 import ifive.idrop.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
-@NoArgsConstructor
 @Getter
-@Entity
-@Inheritance(strategy = InheritanceType.JOINED)
-@DiscriminatorColumn
+@MappedSuperclass
 public abstract class Users {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "users_id")
-    private Long id;
-
     private String userId;
     private String password;
     private String name;

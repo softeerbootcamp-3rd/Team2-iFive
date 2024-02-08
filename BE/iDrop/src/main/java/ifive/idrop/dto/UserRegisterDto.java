@@ -18,7 +18,7 @@ public class UserRegisterDto {
     private String phone;
     private String role;
 
-    public Users toEntity(){
+    public Users toEntity() {
         if ("기사".equals(role)) {
             Driver driver = new Driver();
             driver.setUserInfo(userId, password, name, phone, Role.DRIVER);

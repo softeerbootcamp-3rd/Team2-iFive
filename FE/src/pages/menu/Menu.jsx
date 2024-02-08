@@ -4,7 +4,7 @@ import Location from "@/assets/Location.svg";
 import iDropGreen from "@/assets/iDropGreen.svg";
 import Star from "@/assets/Star.svg";
 import Success from "@/assets/Success.svg";
-import user from "@/assets/user.svg";
+import user from "@/assets/user_icon.svg";
 import { BottomSheet } from "../../Components/Common/Bottomsheet/Bottomsheet";
 
 export function Menu() {

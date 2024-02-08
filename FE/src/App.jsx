@@ -5,9 +5,11 @@ import Home from "./pages/Home";
 import Subscribe from "./pages/Subscribe/Subscribe";
 import SubscribeDrivers from "./pages/SubscribeDrivers";
 import SubscribeDriverDetail from "./pages/SubscribeDriverDetail";
-import { Menu } from "./pages/menu/Menu";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Login from "./pages/Login/Login";
+import { Menu } from "./pages/menu/Menu";
+import { CompleteComponent } from "./Components/Common/Complete/Complete";
+import Publish from "./pages/Publish/Publish";
 
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {
@@ -34,6 +36,7 @@ function App() {
                 </Route>
                 <Route path="driver-profile" element={<DriverProfile />} />
                 <Route path="call-list" element={<CallList />} /> */}
+                <Route path="publish" element={<Publish />}></Route>
             </Routes>
         </Router>
     );

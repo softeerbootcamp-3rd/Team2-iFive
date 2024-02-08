@@ -29,7 +29,7 @@ jobs:
         cd BE/iDrop
         mkdir -p ./src/main/resources/env
         echo touch ./src/main/resources/env/mysql.yml
-        echo ${{ secrets.MYSQL_INFO }} > ./src/main/resources/env/mysql.yml
+        echo "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
 
     - name: gradlew 실행 권한 설정
       run: |

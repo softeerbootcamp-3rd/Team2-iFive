@@ -10,6 +10,7 @@ import Login from "./pages/Login/Login";
 import { Menu } from "./pages/menu/Menu";
 import { CompleteComponent } from "./Components/Common/Complete/Complete";
 import Publish from "./pages/Publish/Publish";
+import DriverList from "./pages/DriverList/DriverList";
 
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {
@@ -20,13 +21,14 @@ function App() {
                 <Route path="menu" element={<Menu />} />
                 <Route path="onboarding" element={<Onboarding />} />
                 <Route path="login" element={<Login />} />
-                {/* 
-                    <Route path="join" element={<Join />} /> */}
-                <Route path="subscribe" element={<Subscribe />}>
-                    <Route path="drivers" element={<SubscribeDrivers />}>
-                        <Route path=":id" element={<SubscribeDriverDetail />} />
-                    </Route>
-                </Route>
+                {/* <Route path="join" element={<Join />} /> */}
+                <Route path="subscription/form" element={<Subscribe />} />
+                <Route path="subscription/drivers" element={<DriverList />} />
+                {/* <Route
+                    path="subscription/driver/:id"
+                    element={<DriverDetail />}
+                /> */}
+
                 {/*<Route path="kid" element={<Kid />} /> */}
                 <Route path="map" element={<Map />} />
                 {/* <Route path="feedback" element={<Feedback />} />

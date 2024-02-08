@@ -26,24 +26,33 @@ public class UserRepository {
     }
 
     public Optional<Users> findByUserId(String userId) {
-        // CriteriaBuilder 생성
-        CriteriaBuilder cb = em.getCriteriaBuilder();
+//        // CriteriaBuilder 생성
+//        CriteriaBuilder cb = em.getCriteriaBuilder();
+//
+//        // CriteriaQuery 생성 및 반환 타입 설정
+//        CriteriaQuery<Driver> driverCq = cb.createQuery(Driver.class);
+//        CriteriaQuery<Parent> parentCq = cb.createQuery(Parent.class);
+//
+//        // Root 엔티티 지정
+//        Root<Driver> driverRoot = driverCq.from(Driver.class);
+//        Root<Parent> parentRoot = parentCq.from(Parent.class);
+//
+//        // userId 조건 추가
+//        driverCq.where(cb.equal(driverRoot.get("userId"), userId));
+//        parentCq.where(cb.equal(parentRoot.get("userId"), userId));
+//
+//        // Query 실행
+//        List<Driver> driverResultList = em.createQuery(driverCq).getResultList();
+//        List<Parent> parentResultList = em.createQuery(parentCq).getResultList();
 
-        // CriteriaQuery 생성 및 반환 타입 설정
-        CriteriaQuery<Driver> driverCq = cb.createQuery(Driver.class);
-        CriteriaQuery<Parent> parentCq = cb.createQuery(Parent.class);
+        List<Driver> driverResultList = em.createQuery("select d from Driver d where d.userId = :userId", Driver.class)
+                .setParameter("userId", userId)
+                .getResultList();
 
-        // Root 엔티티 지정
-        Root<Driver> driverRoot = driverCq.from(Driver.class);
-        Root<Parent> parentRoot = parentCq.from(Parent.class);
+        List<Parent> parentResultList = em.createQuery("select p from Parent p where p.userId = :userId", Parent.class)
+                .setParameter("userId", userId)
+                .getResultList();
 
-        // userId 조건 추가
-        driverCq.where(cb.equal(driverRoot.get("userId"), userId));
-        parentCq.where(cb.equal(parentRoot.get("userId"), userId));
-
-        // Query 실행
-        List<Driver> driverResultList = em.createQuery(driverCq).getResultList();
-        List<Parent> parentResultList = em.createQuery(parentCq).getResultList();
 
         // 하나의 List로 합치기
         List<Users> result = Stream.concat(driverResultList.stream(), parentResultList.stream()).toList();

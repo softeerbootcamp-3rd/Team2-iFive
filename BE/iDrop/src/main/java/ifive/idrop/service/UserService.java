@@ -5,6 +5,8 @@ import ifive.idrop.dto.BaseResponse;
 import ifive.idrop.dto.UserLoginDto;
 import ifive.idrop.dto.UserRegisterDto;
 import ifive.idrop.entity.Users;
+import ifive.idrop.exception.CommonException;
+import ifive.idrop.exception.ErrorCode;
 import ifive.idrop.jwt.Jwt;
 import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
@@ -13,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -23,16 +26,17 @@ public class UserService {
 
     @Transactional
     public BaseResponse<String> registerUser(UserRegisterDto userRegisterDto){
+        checkDuplicateUserId(userRegisterDto.getUserId());
         Users user = userRegisterDto.toEntity();
         userRepository.save(user);
         return BaseResponse.of("성공적으로 회원가입 되었습니다.", user.getRole().getRole());
     }
 
-//    public void checkDuplicateUserId(String userId) {
-//        Users user = userRepository.findByUserId(userId);
-//        if (user != null)
-//            throw new RuntimeException();
-//    }
+    public void checkDuplicateUserId(String userId) {
+        Optional<Users> optional = userRepository.findByUserId(userId);
+        if (optional.isPresent())
+            throw new CommonException(ErrorCode.DUPLICATE_USERID_ERROR);
+    }
 
 //    public UserVerifyResponseDto verifyUser(UserLoginDto userLoginDto){
 //        Users user = userRepository.findByUserId(userLoginDto.getUserId());

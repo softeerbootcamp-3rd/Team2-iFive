@@ -3,8 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Map from "./pages/Map/Map";
 import Home from "./pages/Home";
 import Subscribe from "./pages/Subscribe/Subscribe";
-import SubscribeDrivers from "./pages/SubscribeDrivers";
-import SubscribeDriverDetail from "./pages/SubscribeDriverDetail";
+
 import { Menu } from "./pages/menu/Menu";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Login from "./pages/Login/Login";
@@ -21,8 +20,8 @@ function App() {
                 {/* 
                     <Route path="join" element={<Join />} /> */}
                 <Route path="subscribe" element={<Subscribe />}>
-                    <Route path="drivers" element={<SubscribeDrivers />}>
-                        <Route path=":id" element={<SubscribeDriverDetail />} />
+                    <Route path="drivers" element={<DriverList />}>
+                        {/* <Route path=":id" element={<SubscribeDriverDetail />} /> */}
                     </Route>
                 </Route>
                 {/*<Route path="kid" element={<Kid />} /> */}

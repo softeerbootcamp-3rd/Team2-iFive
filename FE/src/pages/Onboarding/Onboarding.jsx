@@ -1,7 +1,7 @@
 import styles from "./Onboarding.module.scss";
 import logoIcon from "@/assets/logo.svg";
 import truckIcon from "@/assets/truck.png";
-import userIcon from "@/assets/user.svg";
+import userIcon from "@/assets/user_icon.svg";
 import { Type } from "@/components/Onboarding/Type";
 
 export default function Onboarding() {

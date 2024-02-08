@@ -7,6 +7,7 @@ import Subscribe from "./pages/Subscribe/Subscribe";
 import { Menu } from "./pages/menu/Menu";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Login from "./pages/Login/Login";
+import DriverList from "./pages/DriverList/DriverList";
 
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {

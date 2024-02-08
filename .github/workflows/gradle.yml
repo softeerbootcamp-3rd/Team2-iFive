@@ -52,4 +52,4 @@ jobs:
       run: aws deploy push --application-name ${{ secrets.CODE_DEPLOY_APP_NAME }} --ignore-hidden-files --s3-location s3://${{ secrets.BUCKET_NAME }}/$GITHUB_SHA.zip --source .
 
     - name: EC2 배포
-      run: aws deploy create-deployment --application-name ${{ secrets.CODE_DEPLOY_APP_NAME }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ secrets.DEPLOYMENT_GROUP_NAME }} --s3-location bucket=${{ secrets.BUCKET_NAME }},key=$GITHUB_SHA.zip,bundleType=zip
+      run: aws deploy create-deployment --application-name ${{ secrets.CODE_DEPLOY_APP_NAME }} --deployment-config-name CodeDeployDefault.AllAtOnce --deployment-group-name ${{ secrets.DEPLOYMENT_GROUP_NAME }} --s3-location bucket=${{ secrets.BUCKET_NAME }},key=build/$GITHUB_SHA.zip,bundleType=zip

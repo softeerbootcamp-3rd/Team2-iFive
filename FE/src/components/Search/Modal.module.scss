@@ -1,0 +1,44 @@
+@import "@/styles/color.scss";
+@import "@/styles/fontStyle.scss";
+
+.modalFull {
+    position: fixed;
+    top: 0;
+    left: 50%;
+
+    width: 100%;
+    max-width: 480px;
+    height: 100dvh;
+    background-color: $bgColor;
+    display: flex;
+    flex-direction: column;
+    z-index: 1000;
+}
+
+/* 열릴 때 애니메이션 */
+.slideIn {
+    animation: slideDown 0.5s ease-out forwards;
+}
+
+/* 닫힐 때 애니메이션 */
+.slideOut {
+    animation: slideUp 0.5s ease-out forwards;
+}
+
+@keyframes slideDown {
+    from {
+        transform: translate(-50%, -100%);
+    }
+    to {
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes slideUp {
+    from {
+        transform: translate(-50%, 0);
+    }
+    to {
+        transform: translate(-50%, -100%);
+    }
+}

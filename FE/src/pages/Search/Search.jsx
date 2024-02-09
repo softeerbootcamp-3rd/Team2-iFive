@@ -51,15 +51,15 @@ export default function Search() {
                             출발지/도착지
                         </label>
                         <input
-                            type="text"
+                            type="button"
                             className={styles.locationInput}
-                            placeholder="출발지"
-                            onFocus={handleOpenModal}
+                            value="출발지"
+                            onClick={handleOpenModal}
                         />
                         <input
-                            type="text"
+                            type="button"
                             className={styles.locationInput}
-                            placeholder="도착지"
+                            value="도착지"
                             onClick={handleOpenModal}
                         />
                     </form>

@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Map from "./pages/Map/Map";
 import Home from "./pages/Home";
-import Subscription from "./pages/Subscription/Subscription";
+import Search from "./pages/Search/Search";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Login from "./pages/Login/Login";
 import { Menu } from "./pages/menu/Menu";
@@ -19,7 +19,7 @@ function App() {
                 <Route path="onboarding" element={<Onboarding />} />
                 <Route path="login" element={<Login />} />
                 {/* <Route path="join" element={<Join />} /> */}
-                <Route path="subscription/form" element={<Subscription />} />
+                <Route path="subscription/search" element={<Search />} />
                 <Route path="subscription/drivers" element={<DriverList />} />
                 {/* <Route
                     path="subscription/driver/:id"

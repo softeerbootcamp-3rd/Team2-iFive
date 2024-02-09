@@ -1,5 +1,5 @@
 import { useState } from "react";
-import styles from "./Subscribe.module.scss";
+import styles from "./Search.module.scss";
 import { Header } from "@/components/common/Header/Header";
 import { Footer } from "@/components/common/Footer/Footer";
 import { TimeItem } from "@/components/Subscribe/TimeItem";
@@ -14,7 +14,7 @@ const weekDays = [
     "토요일"
 ];
 
-export default function Subscription() {
+export default function Search() {
     const [timeList, setTimeList] = useState(["일요일"]);
 
     const dayListElement = weekDays.map((day) => (

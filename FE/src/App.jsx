@@ -2,13 +2,10 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Map from "./pages/Map/Map";
 import Home from "./pages/Home";
-import Subscribe from "./pages/Subscribe/Subscribe";
-import SubscribeDrivers from "./pages/SubscribeDrivers";
-import SubscribeDriverDetail from "./pages/SubscribeDriverDetail";
+import Subscription from "./pages/Subscription/Subscription";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Login from "./pages/Login/Login";
 import { Menu } from "./pages/menu/Menu";
-import { CompleteComponent } from "./Components/Common/Complete/Complete";
 import Publish from "./pages/Publish/Publish";
 import DriverList from "./pages/DriverList/DriverList";
 
@@ -22,7 +19,7 @@ function App() {
                 <Route path="onboarding" element={<Onboarding />} />
                 <Route path="login" element={<Login />} />
                 {/* <Route path="join" element={<Join />} /> */}
-                <Route path="subscription/form" element={<Subscribe />} />
+                <Route path="subscription/form" element={<Subscription />} />
                 <Route path="subscription/drivers" element={<DriverList />} />
                 {/* <Route
                     path="subscription/driver/:id"

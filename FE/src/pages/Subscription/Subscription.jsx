@@ -14,7 +14,7 @@ const weekDays = [
     "토요일"
 ];
 
-export default function Subscribe() {
+export default function Subscription() {
     const [timeList, setTimeList] = useState(["일요일"]);
 
     const dayListElement = weekDays.map((day) => (

@@ -1,7 +1,6 @@
 package ifive.idrop.jwt;
 
 import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.stereotype.Component;
@@ -42,12 +41,13 @@ public class JwtProvider {
     }
 
     public Date getExpireDateAccessToken() {
-        long expireTimeMils = 1000 * 60 * 60;
+//        long expireTimeMils = 1000 * 60 * 60;
+        long expireTimeMils = 1000 * 60;
         return new Date(System.currentTimeMillis() + expireTimeMils);
     }
 
     public Date getExpireDateRefreshToken() {
-        long expireTimeMils = 1000L * 60 * 60 * 24 * 60;
+        long expireTimeMils = 1000L * 60 * 60 * 24 * 14;
         return new Date(System.currentTimeMillis() + expireTimeMils);
     }
 }

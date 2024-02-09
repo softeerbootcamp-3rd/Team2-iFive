@@ -4,9 +4,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import ifive.idrop.dto.BaseResponse;
 import ifive.idrop.dto.UserLoginDto;
 import ifive.idrop.dto.UserRegisterDto;
+import ifive.idrop.dto.UserVerifyResponseDto;
 import ifive.idrop.entity.Users;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
+import ifive.idrop.filter.AuthenticateUser;
+import ifive.idrop.filter.VerifyUserFilter;
 import ifive.idrop.jwt.Jwt;
 import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
@@ -35,51 +38,55 @@ public class UserService {
     public void checkDuplicateUserId(String userId) {
         Optional<Users> optional = userRepository.findByUserId(userId);
         if (optional.isPresent())
-            throw new CommonException(ErrorCode.DUPLICATE_USERID_ERROR);
+            throw new CommonException(ErrorCode.DUPLICATE_USERID);
     }
 
-//    public UserVerifyResponseDto verifyUser(UserLoginDto userLoginDto){
-//        Users user = userRepository.findByUserId(userLoginDto.getUserId());
-//        if (user == null)
-//            return UserVerifyResponseDto.builder()
-//                    .isValid(false)
-//                    .build();
-//        return UserVerifyResponseDto.builder()
-//                .isValid(true)
-//                .userRole(user.getUserRoles().stream().map(UserRole::getRole).collect(Collectors.toSet())).build();
-//    }
-//
-//    public UserResponseDto findUserByEmail(String userEmail){
-//        return new UserResponseDto(userRepository.findByUserEmail(userEmail));
-//    }
-//
-//    @Transactional
-//    public void updateRefreshToken(String userId, String refreshToken){
-//        Users user = userRepository.findByUserId(userId);
-//        if(user == null)
-//            return;
-//        user.updateRefreshToken(refreshToken);
-//    }
-//
-//    @Transactional
-//    public Jwt refreshToken(String refreshToken){
-//        try{
-//            // 유효한 토큰 인지 검증
-//            jwtProvider.getClaims(refreshToken);
-//            Users user = userRepository.findByRefreshToken(refreshToken);
-//            if(user == null)
-//                return null;
-//
-//            HashMap<String, Object> claims = new HashMap<>();
-//            AuthenticateUser authenticateUser = new AuthenticateUser(user.getUserEmail(),
-//                    user.getUserRoles().stream().map(UserRole::getRole).collect(Collectors.toSet()));
-//            String authenticateUserJson = objectMapper.writeValueAsString(authenticateUser);
-//            claims.put(VerifyUserFilter.AUTHENTICATE_USER,authenticateUserJson);
-//            Jwt jwt = jwtProvider.createJwt(claims);
-//            updateRefreshToken(user.getUserId(),jwt.getRefreshToken());
-//            return jwt;
-//        } catch (Exception e){
-//            return null;
-//        }
-//    }
+    public UserVerifyResponseDto verifyUser(UserLoginDto userLoginDto){
+        Optional<Users> optional = userRepository.findByUserId(userLoginDto.getUserId());
+        if (optional.isEmpty())
+            return UserVerifyResponseDto.builder()
+                    .errorCode(ErrorCode.USERID_NOT_EXIST)
+                    .build();
+        Users user = optional.get();
+        if (!user.getPassword().equals(userLoginDto.getPassword()))
+            return UserVerifyResponseDto.builder()
+                    .errorCode(ErrorCode.PASSWORD_NOT_MATCHED)
+                    .build();
+
+        return UserVerifyResponseDto.builder()
+                .role(user.getRole())
+                .build();
+    }
+
+    @Transactional
+    public void updateRefreshToken(String userId, String refreshToken){
+        Optional<Users> optional = userRepository.findByUserId(userId);
+        if (optional.isEmpty())
+            return;
+        Users user = optional.get();
+        user.updateRefreshToken(refreshToken);
+    }
+
+
+    @Transactional
+    public Jwt refreshToken(String refreshToken){
+        try{
+            // 유효한 토큰 인지 검증
+            jwtProvider.getClaims(refreshToken);
+            Optional<Users> optional = userRepository.findByRefreshToken(refreshToken);
+            if (optional.isEmpty())
+                return null;
+            Users user = optional.get();
+
+            HashMap<String, Object> claims = new HashMap<>();
+            AuthenticateUser authenticateUser = new AuthenticateUser(user.getUserId(), user.getRole());
+            String authenticateUserJson = objectMapper.writeValueAsString(authenticateUser);
+            claims.put(VerifyUserFilter.AUTHENTICATE_USER, authenticateUserJson);
+            Jwt jwt = jwtProvider.createJwt(claims);
+            updateRefreshToken(user.getUserId(),jwt.getRefreshToken());
+            return jwt;
+        } catch (Exception e){
+            return null;
+        }
+    }
 }

@@ -5,10 +5,10 @@ import iDropGreen from "@/assets/iDropGreen.svg";
 import Star from "@/assets/Star.svg";
 import Success from "@/assets/Success.svg";
 import user from "@/assets/user_icon.svg";
-import { BottomSheet } from "../../Components/Common/Bottomsheet/Bottomsheet";
+import { BottomSheet } from "../../components/common/Bottomsheet/Bottomsheet";
 
 export function Menu() {
-    const data = {
+    const childData = {
         name: "육 아들",
         time: "7:00~8:00",
         start: "서울 시청",
@@ -27,7 +27,7 @@ export function Menu() {
                 <MenuButton imgUrl={user} text="프로필"></MenuButton>
                 <MenuButton imgUrl={Star} text="이용내역"></MenuButton>
             </div>
-            <BottomSheet data={data}></BottomSheet>
+            <BottomSheet childData={childData}></BottomSheet>
         </div>
     );
 }

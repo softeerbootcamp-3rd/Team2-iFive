@@ -1,7 +1,8 @@
 import { useState } from "react";
 import styles from "./bottomsheet.module.scss";
 import { KidInfo } from "./kidInfoBox";
-export function BottomSheet({ data }) {
+
+export function BottomSheet({ childData }) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleBottomSheet = () => {
@@ -18,7 +19,7 @@ export function BottomSheet({ data }) {
             </header>
             <h3>픽업 서비스 구독 중</h3>
             <hr />
-            <KidInfo data={data}></KidInfo>
+            <KidInfo childData={childData}></KidInfo>
         </div>
     );
 }

@@ -21,7 +21,6 @@ const mockLocations = [
 ];
 
 const createMarker = (locations, map) => {
-    console.log(locations);
     locations.forEach((location, index) => {
         new naver.maps.Marker({
             position: new naver.maps.LatLng(location.x, location.y),
@@ -31,7 +30,7 @@ const createMarker = (locations, map) => {
 };
 
 export default function Map({
-    locations = [],
+    locations = mockLocations,
     zoom = 16,
     width = "100%",
     height = "100%"
@@ -46,8 +45,8 @@ export default function Map({
         const mapDiv = document.getElementById("map");
         const map = new window.naver.maps.Map(mapDiv, customMapOptions);
         // TO DO: 출발지 목적지 좌표값 받아오기
-        createMarker(mockLocations, map);
-    }, [mockLocations]);
+        createMarker(locations, map);
+    }, [locations]);
 
     return (
         <div className={styles.wrapper}>

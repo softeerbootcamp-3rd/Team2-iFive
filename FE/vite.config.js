@@ -12,7 +12,7 @@ export default defineConfig(({ mode }) => {
                 minify: true,
                 inject: {
                     data: {
-                        naverApiKey: env.VITE_NAVER_KEY
+                        naverApiKey: env.VITE_NAVER_KEY_ID
                     }
                 }
             })

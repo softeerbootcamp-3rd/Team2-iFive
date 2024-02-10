@@ -4,7 +4,7 @@ import styles from "./AddressFinderMap.module.scss";
 import { initMap } from "./initMap";
 
 export function AddressFinderMap({ setNewAddress }) {
-    const mapElementRef = useRef(); // 지도를 렌더링할 DOM 요소에 대한 참조
+    const mapElementRef = useRef();
     const [isLoading, setIsLoading] = useState(true);
 
     useEffect(() => {

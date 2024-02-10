@@ -4,6 +4,7 @@ import { Header } from "@/components/common/Header/Header";
 import { Footer } from "@/components/common/Footer/Footer";
 import { TimeItem } from "@/components/Search/TimeItem";
 import Modal from "../../components/Search/Modal";
+import { useSearchParams } from "react-router-dom";
 
 const weekDays = [
     "일요일",
@@ -18,8 +19,15 @@ const weekDays = [
 export default function Search() {
     const [timeList, setTimeList] = useState(["일요일"]);
     const [modalOpen, setModalOpen] = useState(false);
+    const [mapType, setMapType] = useState("");
+    const [searchParams] = useSearchParams();
+    const [departure, destination] = [
+        searchParams.get("departure"),
+        searchParams.get("destination")
+    ];
 
-    const handleOpenModal = () => {
+    const handleOpenModal = ({ target: { name } }) => {
+        setMapType(name);
         setModalOpen(true);
     };
 
@@ -53,13 +61,15 @@ export default function Search() {
                         <input
                             type="button"
                             className={styles.locationInput}
-                            value="출발지"
+                            name="출발지"
+                            value={departure}
                             onClick={handleOpenModal}
                         />
                         <input
                             type="button"
                             className={styles.locationInput}
-                            value="도착지"
+                            name="도착지"
+                            value={destination}
                             onClick={handleOpenModal}
                         />
                     </form>
@@ -73,7 +83,11 @@ export default function Search() {
                     </article>
                 </section>
                 <Footer text="확인" />
-                <Modal isOpen={modalOpen} onClose={handleCloseModal} />
+                <Modal
+                    type={mapType}
+                    isOpen={modalOpen}
+                    onClose={handleCloseModal}
+                />
             </main>
         </>
     );

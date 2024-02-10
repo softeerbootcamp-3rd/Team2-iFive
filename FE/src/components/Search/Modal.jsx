@@ -3,11 +3,18 @@ import ReactDOM from "react-dom";
 import styles from "./Modal.module.scss"; // CSS 모듈 import
 import { Footer } from "../Common/Footer/Footer";
 import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
+import { useSearchParams } from "react-router-dom";
 
-const Modal = ({ isOpen, onClose }) => {
+const Modal = ({ type, isOpen, onClose }) => {
     const [animate, setAnimate] = useState(false);
     const [newAddress, setNewAddress] = useState("");
+    const [searchParams, setSearchParams] = useSearchParams();
     const handleClose = () => {
+        const searchParamKey = type === "출발지" ? "departure" : "destination";
+        setSearchParams({
+            ...Object.fromEntries(searchParams),
+            [searchParamKey]: newAddress
+        });
         setAnimate(false); // 모달 닫기 애니메이션 시작
     };
 
@@ -32,11 +39,17 @@ const Modal = ({ isOpen, onClose }) => {
             }`}
             onAnimationEnd={handleAnimationEnd}
         >
-            <AddressFinderMap
-                newAddress={newAddress}
-                setNewAddress={setNewAddress}
-            />
-            <div className={styles.address}>{newAddress}</div>
+            <AddressFinderMap setNewAddress={setNewAddress} />
+            <div className={styles.addressWrapper}>
+                <label htmlFor="address">{type}</label>
+                <input
+                    name="address"
+                    className={styles.address}
+                    type="text"
+                    value={newAddress}
+                    readOnly
+                />
+            </div>
             <Footer
                 className={styles.closeButton}
                 onClick={handleClose}

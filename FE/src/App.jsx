@@ -1,23 +1,20 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Map from "./pages/Map/Map";
 import Home from "./pages/Home";
 import Subscribe from "./pages/Subscribe/Subscribe";
-import SubscribeDrivers from "./pages/SubscribeDrivers";
-import SubscribeDriverDetail from "./pages/SubscribeDriverDetail";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Login from "./pages/Login/Login";
-import { Menu } from "./pages/menu/Menu";
-import { CompleteComponent } from "./Components/Common/Complete/Complete";
+import { Menu } from "./pages/Menu/Menu";
 import Publish from "./pages/Publish/Publish";
 import DriverList from "./pages/DriverList/DriverList";
+import { Locate } from "./pages/Locate/Locate";
 
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {
     return (
         <Router>
             <Routes>
-                <Route path="/" element={<Home />} />
+                <Route path="/" element={<Menu />} />
                 <Route path="menu" element={<Menu />} />
                 <Route path="onboarding" element={<Onboarding />} />
                 <Route path="login" element={<Login />} />
@@ -30,7 +27,7 @@ function App() {
                 /> */}
 
                 {/*<Route path="kid" element={<Kid />} /> */}
-                <Route path="map" element={<Map />} />
+                <Route path="map" element={<Locate />} />
                 {/* <Route path="feedback" element={<Feedback />} />
                 <Route path="pickup">
                     <Route path="start" element={<PickupStart />} />

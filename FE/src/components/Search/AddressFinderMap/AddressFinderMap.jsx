@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { getCurrentCoords } from "../../../utils/getCurrentLocation";
 import styles from "./AddressFinderMap.module.scss";
 import { initMap } from "./initMap";
+import { Loader } from "../../common/Loader/Loader";
 
 export function AddressFinderMap({ setNewAddress }) {
     const mapElementRef = useRef();
@@ -26,8 +27,8 @@ export function AddressFinderMap({ setNewAddress }) {
     }, []);
 
     return (
-        <div>
-            {isLoading && <p>Loading.......</p>}
+        <div className={styles.container}>
+            {isLoading && <Loader />}
             <div ref={mapElementRef} id="map" className={styles.map} />
         </div>
     );

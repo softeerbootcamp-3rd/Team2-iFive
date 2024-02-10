@@ -22,8 +22,8 @@ export default function Search() {
     const [mapType, setMapType] = useState("");
     const [searchParams] = useSearchParams();
     const [departure, destination] = [
-        searchParams.get("departure"),
-        searchParams.get("destination")
+        searchParams.get("departure") || "출발지",
+        searchParams.get("destination") || "도착지"
     ];
 
     const handleOpenModal = ({ target: { name } }) => {

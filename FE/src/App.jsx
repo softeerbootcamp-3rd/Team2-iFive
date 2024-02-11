@@ -8,6 +8,7 @@ import { Menu } from "./pages/Menu/Menu";
 import Publish from "./pages/Publish/Publish";
 import DriverList from "./pages/DriverList/DriverList";
 import { Locate } from "./pages/Locate/Locate";
+import { PickUpPage } from "./pages/PickUp/PickUp";
 
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {
@@ -36,6 +37,7 @@ function App() {
                 <Route path="driver-profile" element={<DriverProfile />} />
                 <Route path="call-list" element={<CallList />} /> */}
                 <Route path="publish" element={<Publish />}></Route>
+                <Route path="pickup" element={<PickUpPage />}></Route>
             </Routes>
         </Router>
     );

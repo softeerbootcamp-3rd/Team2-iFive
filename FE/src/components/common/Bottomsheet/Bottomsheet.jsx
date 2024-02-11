@@ -18,7 +18,6 @@ export function BottomSheet({ childData }) {
                 <div className={styles.handle}></div>
             </header>
             <h3>픽업 서비스 구독 중</h3>
-            <hr />
             <KidInfo childData={childData}></KidInfo>
         </div>
     );

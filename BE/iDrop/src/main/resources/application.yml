@@ -1,7 +1,10 @@
 spring:
+  main:
+    allow-bean-definition-overriding: true
   config:
     import:
       - "env/mysql.yml"
+      - "env/jwt.yml"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${mysql_endpoint}

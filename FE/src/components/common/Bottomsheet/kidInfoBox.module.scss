@@ -3,7 +3,9 @@
 .content {
     display: flex;
     gap: 30px;
-    padding: 10px 50px;
+    border-block: 1px solid #c0c1c2;
+    writing-mode: horizontal-tb;
+    padding: 20px 0px;
 }
 
 .infoBox {
@@ -22,5 +24,6 @@
 .kidImg {
     width: 82px;
     height: 82px;
+    border-radius: 15px;
     background-color: #c0c1c2;
 }

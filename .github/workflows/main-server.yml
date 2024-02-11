@@ -37,6 +37,7 @@ jobs:
       run: |
         cd BE/iDrop
         chmod +x ./gradlew
+        pwd
 
     - name: 빌드
       run: |

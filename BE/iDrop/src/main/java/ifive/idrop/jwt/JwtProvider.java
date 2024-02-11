@@ -3,32 +3,42 @@ package ifive.idrop.jwt;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 import javax.crypto.SecretKey;
+import java.nio.charset.StandardCharsets;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+@RequiredArgsConstructor
 @Component
+@EnableConfigurationProperties(JwtProperties.class)
 public class JwtProvider {
-    public static final byte[] secret = "IDropSecretKeyIDropSecretKeyIDropSecretKey".getBytes();
-    private final SecretKey secretKey = Keys.hmacShaKeyFor(secret);
+    private final JwtProperties jwtProperties;
 
     public String createToken(Map<String, Object> claims, Date expireDate) {
         return Jwts.builder()
                 .claims(claims)
                 .expiration(expireDate)
-                .signWith(secretKey)
+                .signWith(getSecretKey())
                 .compact();
     }
 
     public Claims getClaims(String token) {
         return Jwts.parser()
-                .verifyWith(secretKey)
+                .verifyWith(getSecretKey())
                 .build()
                 .parseSignedClaims(token)
                 .getPayload();
+    }
+
+    private SecretKey getSecretKey() {
+        return Keys.hmacShaKeyFor(
+                jwtProperties.getSecretKey().getBytes(StandardCharsets.UTF_8)
+        );
     }
 
     public Jwt createJwt(Map<String, Object> claims) {
@@ -41,12 +51,10 @@ public class JwtProvider {
     }
 
     public Date getExpireDateAccessToken() {
-        long expireTimeMils = 1000 * 60 * 60;
-        return new Date(System.currentTimeMillis() + expireTimeMils);
+        return new Date(System.currentTimeMillis() + jwtProperties.getAccessExp());
     }
 
     public Date getExpireDateRefreshToken() {
-        long expireTimeMils = 1000L * 60 * 60 * 24 * 14;
-        return new Date(System.currentTimeMillis() + expireTimeMils);
+        return new Date(System.currentTimeMillis() + jwtProperties.getRefreshExp());
     }
 }

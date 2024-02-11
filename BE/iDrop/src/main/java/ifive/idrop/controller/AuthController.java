@@ -1,6 +1,6 @@
 package ifive.idrop.controller;
 
-import ifive.idrop.dto.TokenRefreshDto;
+import ifive.idrop.dto.TokenRefreshRequest;
 import ifive.idrop.jwt.Jwt;
 import ifive.idrop.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -18,12 +18,12 @@ public class AuthController {
     private final UserService userService;
 
     @PostMapping("/refresh/token")
-    public ResponseEntity<Jwt> tokenRefresh(@RequestBody TokenRefreshDto tokenRefreshDto) {
-        Jwt jwt = userService.refreshToken(tokenRefreshDto.getRefreshToken());
-        if (jwt == null){
+    public ResponseEntity<Jwt> tokenRefresh(@RequestBody TokenRefreshRequest tokenRefreshRequest) {
+        Jwt newlyCreatedJwt = userService.createNewJwtFromRefreshToken(tokenRefreshRequest.getRefreshToken());
+        if (newlyCreatedJwt == null){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body(null);
         }
-        return ResponseEntity.ok(jwt);
+        return ResponseEntity.ok(newlyCreatedJwt);
     }
 }

@@ -1,6 +1,6 @@
 package ifive.idrop.entity;
 
-import ifive.idrop.dto.UserLoginDto;
+import ifive.idrop.dto.LoginRequest;
 import ifive.idrop.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -28,7 +28,7 @@ public abstract class Users {
         this.refreshToken = refreshToken;
     }
 
-    public boolean verifyUser(UserLoginDto userLoginDto) {
-        return this.userId.equals(userLoginDto.getUserId()) && this.password.equals(userLoginDto.getPassword());
+    public boolean verifyUser(LoginRequest loginRequest) {
+        return this.userId.equals(loginRequest.getUserId()) && this.password.equals(loginRequest.getPassword());
     }
 }

@@ -1,16 +1,14 @@
 package ifive.idrop.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ifive.idrop.dto.UserLoginDto;
-import ifive.idrop.dto.UserVerifyResponseDto;
+import ifive.idrop.dto.LoginRequest;
+import ifive.idrop.entity.enums.Role;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorResponse;
-import ifive.idrop.exception.GlobalExceptionHandler;
 import ifive.idrop.service.UserService;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
@@ -30,11 +28,9 @@ public class VerifyUserFilter implements Filter {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         if ((httpServletRequest.getMethod().equals("POST"))) {
             try {
-                UserLoginDto userLoginDto = objectMapper.readValue(request.getReader(), UserLoginDto.class);
-                UserVerifyResponseDto verifyResponse = userService.verifyUser(userLoginDto);
-                if (verifyResponse.getErrorCode() != null)
-                    throw new CommonException(verifyResponse.getErrorCode());
-                request.setAttribute(AUTHENTICATE_USER, new AuthenticateUser(userLoginDto.getUserId(), verifyResponse.getRole()));
+                LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
+                Role role = userService.verifyUser(loginRequest);
+                request.setAttribute(AUTHENTICATE_USER, new AuthenticateUser(loginRequest.getUserId(), role));
                 chain.doFilter(request, response);
             } catch (CommonException e) {
                 log.error("user verify failed");

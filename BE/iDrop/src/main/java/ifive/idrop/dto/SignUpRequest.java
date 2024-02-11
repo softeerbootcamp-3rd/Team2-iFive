@@ -11,7 +11,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class UserRegisterDto {
+public class SignUpRequest {
     private String userId;
     private String password;
     private String name;

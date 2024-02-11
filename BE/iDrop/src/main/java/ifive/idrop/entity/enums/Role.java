@@ -9,5 +9,5 @@ public enum Role {
     DRIVER("기사"),
     PARENT("부모");
 
-    private final String role;
+    private final String name;
 }

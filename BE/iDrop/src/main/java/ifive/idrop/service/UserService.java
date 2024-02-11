@@ -2,10 +2,10 @@ package ifive.idrop.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ifive.idrop.dto.BaseResponse;
-import ifive.idrop.dto.UserLoginDto;
-import ifive.idrop.dto.UserRegisterDto;
-import ifive.idrop.dto.UserVerifyResponseDto;
+import ifive.idrop.dto.LoginRequest;
+import ifive.idrop.dto.SignUpRequest;
 import ifive.idrop.entity.Users;
+import ifive.idrop.entity.enums.Role;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
 import ifive.idrop.filter.AuthenticateUser;
@@ -28,11 +28,11 @@ public class UserService {
     private final ObjectMapper objectMapper;
 
     @Transactional
-    public BaseResponse<String> registerUser(UserRegisterDto userRegisterDto){
-        checkDuplicateUserId(userRegisterDto.getUserId());
-        Users user = userRegisterDto.toEntity();
+    public BaseResponse<String> signUp(SignUpRequest signUpRequest){
+        checkDuplicateUserId(signUpRequest.getUserId());
+        Users user = signUpRequest.toEntity();
         userRepository.save(user);
-        return BaseResponse.of("성공적으로 회원가입 되었습니다.", user.getRole().getRole());
+        return BaseResponse.of("성공적으로 회원가입 되었습니다.", user.getRole().getName());
     }
 
     public void checkDuplicateUserId(String userId) {
@@ -41,21 +41,12 @@ public class UserService {
             throw new CommonException(ErrorCode.DUPLICATE_USERID);
     }
 
-    public UserVerifyResponseDto verifyUser(UserLoginDto userLoginDto){
-        Optional<Users> optional = userRepository.findByUserId(userLoginDto.getUserId());
-        if (optional.isEmpty())
-            return UserVerifyResponseDto.builder()
-                    .errorCode(ErrorCode.USERID_NOT_EXIST)
-                    .build();
-        Users user = optional.get();
-        if (!user.getPassword().equals(userLoginDto.getPassword()))
-            return UserVerifyResponseDto.builder()
-                    .errorCode(ErrorCode.PASSWORD_NOT_MATCHED)
-                    .build();
-
-        return UserVerifyResponseDto.builder()
-                .role(user.getRole())
-                .build();
+    public Role verifyUser(LoginRequest loginRequest){
+        Optional<Users> optional = userRepository.findByUserId(loginRequest.getUserId());
+        Users user = optional.orElseThrow(() -> new CommonException(ErrorCode.USERID_NOT_EXIST));
+        if (!user.verifyUser(loginRequest))
+            throw new CommonException(ErrorCode.PASSWORD_NOT_MATCHED);
+        return user.getRole();
     }
 
     @Transactional
@@ -69,7 +60,7 @@ public class UserService {
 
 
     @Transactional
-    public Jwt refreshToken(String refreshToken){
+    public Jwt createNewJwtFromRefreshToken(String refreshToken) {
         try{
             // 유효한 토큰 인지 검증
             jwtProvider.getClaims(refreshToken);

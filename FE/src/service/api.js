@@ -1,3 +1,11 @@
+/**
+ * @param {Object} props
+ * @param {string} props.id 사용자 ID
+ * @param {string} props.password 사용자 비밀번호
+ * @returns {Promise<{success: boolean, data?: Object, message?: string}>}
+ * 로그인 성공 시 { success: true, data: Object },
+ * 실패 시 { success: false, message: string } 반환
+ */
 export async function login({ id, password }) {
     try {
         const response = await fetch("http://localhost:8080/user/login", {

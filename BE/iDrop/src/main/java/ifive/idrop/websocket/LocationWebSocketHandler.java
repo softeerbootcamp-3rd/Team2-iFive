@@ -2,7 +2,6 @@ package ifive.idrop.websocket;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ifive.idrop.annotation.Login;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.entity.Parent;
 import ifive.idrop.entity.Users;
@@ -13,22 +12,14 @@ import ifive.idrop.filter.AuthenticateUser;
 import ifive.idrop.filter.VerifyUserFilter;
 import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
-import ifive.idrop.resolver.LoginUsersArgumentResolver;
 import io.jsonwebtoken.Claims;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Optional;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 @Slf4j

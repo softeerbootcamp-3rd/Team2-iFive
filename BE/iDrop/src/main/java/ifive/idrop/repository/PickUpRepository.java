@@ -1,5 +1,6 @@
 package ifive.idrop.repository;
 
+import ifive.idrop.entity.PickUp;
 import ifive.idrop.entity.PickUpInfo;
 import ifive.idrop.entity.PickUpLocation;
 import ifive.idrop.entity.PickUpSubscribe;
@@ -24,5 +25,9 @@ public class PickUpRepository {
 
     public void savePickUpInfo(PickUpInfo pickUpInfo) {
         em.persist(pickUpInfo);
+    }
+
+    public void savePickUp(PickUp pick) {
+        em.persist(pick);
     }
 }

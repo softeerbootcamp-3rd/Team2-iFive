@@ -1,8 +1,8 @@
 package ifive.idrop.websocket;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
+import ifive.idrop.websocket.location.LocationWebSocketHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -17,6 +17,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
+    private final PickUpInfoRepository pickUpInfoRepository;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -26,6 +27,6 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public LocationWebSocketHandler locationWebSocketHandler() {
-        return new LocationWebSocketHandler(jwtProvider, new ObjectMapper(), userRepository);
+        return new LocationWebSocketHandler(jwtProvider, userRepository, pickUpInfoRepository);
     }
 }

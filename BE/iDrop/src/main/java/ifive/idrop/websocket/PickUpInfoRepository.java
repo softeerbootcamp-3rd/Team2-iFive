@@ -1,0 +1,54 @@
+package ifive.idrop.websocket;
+
+import ifive.idrop.entity.PickUp;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Repository;
+
+import java.time.LocalDateTime;
+
+@Slf4j
+@Repository
+@RequiredArgsConstructor
+public class PickUpInfoRepository {
+
+    private final EntityManager em;
+
+    /**
+     * driverId로 현재 해당 기사의 업무 시간에 해당하는 PickUp 찾기
+     * @param driverId
+     * @return PickUp
+     */
+    public PickUp findPickUpByDriverIdWithCurrentTimeInReservedWindow(Long driverId) {
+        LocalDateTime now = LocalDateTime.now();
+
+        //현재 시간이 reservedTime ~ reservedTime+1시간 에 해당하는 PickUp 찾기
+        String jpql = "SELECT p FROM PickUp p WHERE p.pickUpSubscribe.pickUpInfo.driver.id = :driverId " +
+                "AND p.reservedTime <= :now AND :now <= (p.reservedTime + 1 HOUR)";
+
+        TypedQuery<PickUp> query = em.createQuery(jpql, PickUp.class);
+        query.setParameter("driverId", driverId);
+        query.setParameter("now", now);
+
+        return query.getSingleResult();
+    }
+
+    /**
+     * pickUpId로 해당 픽업의 child id, parent id 찾기
+     * @param pickUpId
+     * @return Object[]  [0]: childId, [1]: parentId
+     */
+    public Object[] findChildAndParentIdByPickUp(Long pickUpId) {
+        String jpql = "SELECT c.id, p.id FROM PickUp pu " +
+                "JOIN pu.pickUpSubscribe.pickUpInfo.child c " +
+                "JOIN c.parent p " +
+                "WHERE pu.id = :pickUpId";
+
+        TypedQuery<Object[]> query = em.createQuery(jpql, Object[].class);
+        query.setParameter("pickUpId", pickUpId);
+
+        return query.getSingleResult();
+    }
+}

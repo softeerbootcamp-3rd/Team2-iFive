@@ -81,7 +81,7 @@ async function sendAuthRequest(url, options = {}) {
 // 위의 두 함수 사용 예시.
 async function submitReview(reviewData) {
     try {
-        const response = await sendRequest("/api/reviews", {
+        const response = await sendAuthRequest("/api/reviews", {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(reviewData)

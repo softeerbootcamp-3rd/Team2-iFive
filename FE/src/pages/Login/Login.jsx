@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./Login.module.scss";
 import { redirect, useNavigate } from "react-router-dom";
 import { login } from "../../service/api";
+import { setToken } from "../../utils/auth";
 
 export default function Login() {
     const [userId, setUserId] = useState("");
@@ -16,8 +17,8 @@ export default function Login() {
         });
 
         if (success) {
-            localStorage.setItem("accessToken", data.accessToken);
-            localStorage.setItem("refreshToken", data.refreshToken);
+            setToken("accessToken", data.accessToken);
+            setToken("refreshToken", data.refreshToken);
             navigate("/");
         } else {
             console.error(message);

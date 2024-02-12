@@ -1,13 +1,18 @@
 package ifive.idrop.entity;
 
 import jakarta.persistence.*;
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 
 @Entity
+@Builder
+@RequiredArgsConstructor
 public class PickUpInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "pickup_info_id")
     private Long id;
+
     @OneToOne
     @JoinColumn(name = "pickup_location_id")
     private PickUpLocation pickUpLocation;
@@ -24,4 +29,9 @@ public class PickUpInfo {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "pickUpInfo")
     private PickUpSubscribe pickUpSubscribe;
+
+    public void updatePickUpSubscribe(PickUpSubscribe pickUpSubscribe) {
+        this.pickUpSubscribe = pickUpSubscribe;
+        pickUpSubscribe.setPickUpInfo(this);
+    }
 }

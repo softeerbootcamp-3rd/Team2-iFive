@@ -8,6 +8,7 @@ import Login, { logout as logoutAction } from "./pages/Login/Login";
 import { Menu } from "./pages/menu/Menu";
 import Publish from "./pages/Publish/Publish";
 import DriverList from "./pages/DriverList/DriverList";
+import { checkAuthLoader } from "./utils/auth";
 
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {
@@ -22,6 +23,9 @@ function App() {
 
                 {/* <Route path="join" element={<Join />} /> */}
                 <Route path="subscription/form" element={<Subscribe />} />
+
+                {/* 로그인 필요한 페이지 예시
+                <Route path="subscription/form" loader={checkAuthLoader} element={<Subscribe />} /> */}
                 <Route path="subscription/drivers" element={<DriverList />} />
                 {/* <Route
                     path="subscription/driver/:id"

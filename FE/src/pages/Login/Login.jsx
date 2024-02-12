@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styles from "./Login.module.scss";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import { login } from "../../service/api";
 
 export default function Login() {
@@ -61,4 +61,10 @@ export default function Login() {
             </nav>
         </main>
     );
+}
+
+export function logout() {
+    localStorage.removeItem("accessToken");
+    localStorage.removeItem("refreshToken");
+    return redirect("/login");
 }

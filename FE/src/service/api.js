@@ -1,5 +1,5 @@
 import { logout } from "../pages/Login/Login";
-import { getAccessToken, getRefreshToken } from "../utils/getTokens";
+import { getAccessToken, getRefreshToken } from "../utils/auth";
 
 /**
  * @param {Object} props

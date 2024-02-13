@@ -18,6 +18,9 @@ public class BaseResponse<T> {
     public static BaseResponse<?> from(String message) {
         return new BaseResponse<>(message);
     }
+    public static <T> BaseResponse<T> success() {
+        return new BaseResponse<>("Data Successfully Proceed");
+    }
 
     public static <T> BaseResponse<T> of (String message, T data) {
         return new BaseResponse<T>(message, data);

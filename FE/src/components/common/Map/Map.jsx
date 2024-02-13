@@ -17,12 +17,12 @@ const createMarker = (locations, map) => {
 
 export default function Map({
     locations = mockLocations,
-    zoom = 13,
+    zoom = 15,
     addOption = {}
 }) {
     const mapRef = useRef();
     const customMapOptions = {
-        center: new naver.maps.LatLng(mockLocations[1].x, mockLocations[1].y),
+        center: getLatLng(mockLocations[1].x, mockLocations[1].y),
         zoom: zoom,
         ...addOption
     };

@@ -23,5 +23,5 @@ export function getLatLng(x, y) {
 
 export function generateMap(mapElement, customMapOptions = {}) {
     const newMapOptions = { ...initMapOptions, ...customMapOptions };
-    return new window.naver.maps.Map(mapElement, customMapOptions);
+    return new window.naver.maps.Map(mapElement, newMapOptions);
 }

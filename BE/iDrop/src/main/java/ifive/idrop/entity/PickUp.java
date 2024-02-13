@@ -1,11 +1,12 @@
 package ifive.idrop.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Entity
+@Getter
 public class PickUp {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

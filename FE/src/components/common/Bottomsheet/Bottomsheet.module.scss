@@ -1,12 +1,12 @@
 .wrapper {
     display: flex;
     flex-direction: column;
-    text-align: center;
     gap: 20px;
     position: absolute;
     bottom: 0;
     width: 100%;
     max-height: 30%;
+    padding: 20px;
     border-radius: 20px 20px 0px 0px;
     background: #fff;
     z-index: 999;
@@ -21,10 +21,12 @@
 
 header {
     display: flex;
-    align-items: center;
     height: 10%;
-    margin-top: 20px;
     cursor: pointer;
+}
+
+h3 {
+    text-align: start;
 }
 
 .handle {

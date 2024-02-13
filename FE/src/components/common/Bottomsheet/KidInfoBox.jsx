@@ -1,6 +1,6 @@
 import styles from "./kidInfoBox.module.scss";
 
-export function KidInfo({ data: { name, time, start, goal } }) {
+export function KidInfo({ childData: { name, time, start, goal } }) {
     return (
         <>
             <div className={styles.content}>

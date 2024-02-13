@@ -7,11 +7,12 @@
         <title>Vite + React</title>
     </head>
     <body>
+        <div id="portal"></div>
         <div id="root"></div>
         <script type="module" src="/src/main.jsx"></script>
         <script
             type="text/javascript"
-            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=<%= naverApiKey %>"
+            src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=<%= naverApiKey %>&submodules=geocoder"
         ></script>
     </body>
 </html>

@@ -2,12 +2,14 @@ package ifive.idrop.websocket;
 
 import ifive.idrop.entity.PickUp;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Slf4j
 @Repository
@@ -21,18 +23,22 @@ public class PickUpInfoRepository {
      * @param driverId
      * @return PickUp
      */
-    public PickUp findPickUpByDriverIdWithCurrentTimeInReservedWindow(Long driverId) {
+    public Optional<PickUp> findPickUpByDriverIdWithCurrentTimeInReservedWindow(Long driverId) {
         LocalDateTime now = LocalDateTime.now();
 
         //현재 시간이 reservedTime ~ reservedTime+1시간 에 해당하는 PickUp 찾기
         String jpql = "SELECT p FROM PickUp p WHERE p.pickUpSubscribe.pickUpInfo.driver.id = :driverId " +
-                "AND p.reservedTime <= :now AND :now <= (p.reservedTime + 1 HOUR)";
+                "AND (p.reservedTime - 10 MINUTE) <= :now AND :now <= (p.reservedTime + 1 HOUR)";
 
         TypedQuery<PickUp> query = em.createQuery(jpql, PickUp.class);
         query.setParameter("driverId", driverId);
         query.setParameter("now", now);
 
-        return query.getSingleResult();
+        try {
+            return Optional.ofNullable(query.getSingleResult());
+        } catch (NoResultException e) {
+            return Optional.empty();
+        }
     }
 
     /**

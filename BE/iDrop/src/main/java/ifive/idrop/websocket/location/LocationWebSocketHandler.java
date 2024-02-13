@@ -21,7 +21,9 @@ import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
+import java.io.IOException;
 import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static ifive.idrop.entity.enums.Role.*;
@@ -58,7 +60,14 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         if (user.getRole() == DRIVER) {
             Long driverId = ((Driver) user).getId();
             drivers.put(sessionId, driverId);
-            setCurrentPickUps(driverId);
+
+            try {
+                setCurrentPickUps(driverId);
+            } catch (CommonException e) {
+                sendErrorMessage(session, e.getMessage());
+                session.close(CloseStatus.NORMAL); // 정상 종료 상태로 소켓 연결 종료
+                return; // 메소드 종료
+            }
 
             log.info("webSocket/location - DRIVER connected (session ID={}, driver ID={})", sessionId, driverId);
 
@@ -94,6 +103,11 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         }
     }
 
+    private void sendErrorMessage(WebSocketSession session, String message) throws IOException {
+        // 사용자 정의 오류 메시지 전송
+        session.sendMessage(new TextMessage(message));
+    }
+
     //엑세스 토큰으로 userId, role 구하기
     private AuthenticateUser getAuthenticateUser(String token) throws JsonProcessingException {
         Claims claims = jwtProvider.getClaims(token);
@@ -112,7 +126,9 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
 
     //웹소켓 driver가 연결 시 currentPickUp 만들어서 세팅
     private void setCurrentPickUps(Long driverId) {
-        PickUp pickup = pickUpInfoRepository.findPickUpByDriverIdWithCurrentTimeInReservedWindow(driverId);
+        PickUp pickup = pickUpInfoRepository.findPickUpByDriverIdWithCurrentTimeInReservedWindow(driverId)
+                .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
+
         Object[] childIdAndParentId = pickUpInfoRepository.findChildAndParentIdByPickUp(pickup.getId());
         CurrentPickUp currentPickUp = CurrentPickUp.builder()
                 .childId((Long) childIdAndParentId[0])

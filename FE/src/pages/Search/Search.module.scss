@@ -43,13 +43,14 @@
     .locationInput {
         width: 80%;
         height: 40px;
+        text-align: start;
         border: none;
+
+        background-color: #fff;
         outline: none;
         padding-left: 10px;
         @extend %M_14;
-        &::placeholder {
-            @extend %R_14;
-        }
+        color: $gray;
     }
 }
 

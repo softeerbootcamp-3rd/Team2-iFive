@@ -1,6 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./pages/Home";
 import Search from "./pages/Search/Search";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Login, { logout as logoutAction } from "./pages/Login/Login";
@@ -11,14 +10,12 @@ import { checkAuthLoader } from "./utils/auth";
 import { Locate } from "./pages/Locate/Locate";
 import { PickUpPage } from "./pages/PickUp/PickUp";
 
-
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {
     return (
         <Router>
             <Routes>
                 <Route path="/" element={<Menu />} />
-                <Route path="menu" element={<Menu />} />
                 <Route path="onboarding" element={<Onboarding />} />
                 <Route path="login" element={<Login />} />
                 <Route path="logout" action={logoutAction} />

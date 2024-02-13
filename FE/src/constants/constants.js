@@ -27,3 +27,5 @@ export const MENU_PAGE = (userName) => ({
         { icon: Success, text: "요청 목록" }
     ]
 });
+
+export const BASE_URL = import.meta.env.VITE_BASE_URL;

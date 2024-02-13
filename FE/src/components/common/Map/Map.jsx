@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { BottomSheet } from "../Bottomsheet/Bottomsheet";
 import styles from "../Map/map.module.scss";
 
 export const initMapOptions = {
@@ -16,7 +15,7 @@ export const initMapOptions = {
 
 const mockLocations = [
     { x: 37.56516609048783, y: 126.97715864963087 },
-    { x: 37.56516609048783, y: 126.97715864963087 },
+    { x: 37.54516609048783, y: 126.97715864963087 },
     { x: 37.53521629903182, y: 126.97422607517471 }
 ];
 
@@ -31,14 +30,16 @@ const createMarker = (locations, map) => {
 
 export default function Map({
     locations = mockLocations,
-    zoom = 16,
+    zoom = 13,
     width = "100%",
-    height = "100%"
+    height = "100%",
+    addOption = {}
 }) {
     const customMapOptions = {
         ...initMapOptions,
-        center: new naver.maps.LatLng(mockLocations[0].x, mockLocations[0].y),
-        zoom: zoom
+        center: new naver.maps.LatLng(mockLocations[1].x, mockLocations[1].y),
+        zoom: zoom,
+        ...addOption
     };
 
     useEffect(() => {

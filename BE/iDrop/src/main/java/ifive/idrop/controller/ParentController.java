@@ -18,8 +18,8 @@ import org.springframework.web.bind.annotation.RestController;
 public class ParentController {
     private final ParentService parentService;
 
-    @PostMapping("/subscrib")
-    public BaseResponse<String> subscribDriver(@Login Parent parent, @RequestBody SubscribeRequest request) {
+    @PostMapping("/subscribe")
+    public BaseResponse<String> subscribeDriver(@Login Parent parent, @RequestBody SubscribeRequest request) {
         return parentService.createSubscribe(parent, request);
     }
 }

@@ -7,6 +7,7 @@ const client = import.meta.env.VITE_NAVER_KEY;
 const start = [37.565166, 126.9771586];
 const end = [37.5352162, 126.974226];
 
+// 경로 api 요청 로직. 상의 후 제거 여부 결정
 // const getDirection = async () => {
 //     const response = await fetch(
 //         `${url}start=37.565166,126.9771586&goal=37.5352162,126.974226`,
@@ -20,7 +21,16 @@ const end = [37.5352162, 126.974226];
 //     console.log(response);
 // };
 
-export function Locate() {
+const userType = {
+    parent: 0,
+    driver: 1
+};
+
+export function Locate({ userRole = 1, userName = "육종호" }) {
+    // TO DO: 출발지, 목적지, 기사 데이터 받아와서 map에 넘겨주기
+    // useEffect로 기사 변경 감지 후
+    // 이러면 Locate 페이지 전체가 리렌더링 되는 문제가 생김
+
     // TO DO: 서버에서 데이터 받아와야함
     const childData = {
         name: "육 아들",
@@ -31,8 +41,11 @@ export function Locate() {
 
     return (
         <>
-            <Map></Map>
-            <BottomSheet childData={childData}></BottomSheet>
+            <Map />
+            <BottomSheet
+                childData={childData}
+                userRole={userType.driver}
+            ></BottomSheet>
         </>
     );
 }

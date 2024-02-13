@@ -32,16 +32,7 @@ public class ParentService {
         for (SubscribeLocationRequest locationData : subscribeRequest.getLocationDatas()) {
             PickUpLocation location = createPickUpLocation(locationData);
             createPickUpInfo(locationData, child, driver, location, subscribe);
-            createPickUp(locationData, subscribe);
         }
-    }
-
-    private void createPickUp(SubscribeLocationRequest locationData, PickUpSubscribe subscribe) {
-        PickUp pick = PickUp.builder()
-                .reservedTime(locationData.getCronDate())
-                .build();
-        pick.updatePickUpSubscribe(subscribe);
-        pickUpRepository.savePickUp(pick);
     }
 
     private PickUpSubscribe createPickUpSubscribe() {

@@ -2,6 +2,7 @@ package ifive.idrop.config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ifive.idrop.filter.CorsFilter;
 import ifive.idrop.filter.JwtAuthorizationFilter;
 import ifive.idrop.filter.JwtFilter;
 import ifive.idrop.filter.VerifyUserFilter;
@@ -9,6 +10,7 @@ import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
 import ifive.idrop.resolver.LoginUsersArgumentResolver;
 import ifive.idrop.service.UserService;
+import io.jsonwebtoken.lang.Arrays;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -30,6 +32,15 @@ public class WebConfig implements WebMvcConfigurer {
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
         resolvers.add(new LoginUsersArgumentResolver(provider, mapper, userRepository));
+    }
+
+    @Bean
+    public FilterRegistrationBean<CorsFilter> corsFilter() {
+        System.out.println("filter");
+        FilterRegistrationBean<CorsFilter> registrationBean = new FilterRegistrationBean<>(new CorsFilter());
+        registrationBean.setUrlPatterns(List.of("/**"));
+        registrationBean.setOrder(1);
+        return registrationBean;
     }
 
     @Bean

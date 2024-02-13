@@ -85,9 +85,6 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         String sessionId = session.getId();
         Long driverId = drivers.get(sessionId);
 
-        //TODO 1초마다 위치추적 되는데 로그로 남길 것인지 팀원들과 의논
-        log.info("webSocket/location - message by driverId {} - {}", driverId, textMessage.getPayload());
-
         DriverGeoLocation driverLocation = CustomObjectMapper.getObject(textMessage.getPayload(), DriverGeoLocation.class);
         CurrentPickUp currentPickUp = currentPickUps.get(driverId);
 

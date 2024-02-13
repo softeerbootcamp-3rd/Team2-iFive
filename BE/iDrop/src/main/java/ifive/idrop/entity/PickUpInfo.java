@@ -34,4 +34,8 @@ public class PickUpInfo {
         this.pickUpSubscribe = pickUpSubscribe;
         pickUpSubscribe.setPickUpInfo(this);
     }
+
+    public void updatePickUpLocation(PickUpLocation location) {
+        this.pickUpLocation = location;
+    }
 }

@@ -1,6 +1,6 @@
 package ifive.idrop.service;
 
-import ifive.idrop.dto.SubscribeLocationRequest;
+import ifive.idrop.dto.BaseResponse;
 import ifive.idrop.dto.SubscribeRequest;
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
@@ -22,17 +22,16 @@ public class ParentService {
     private final ParentRepository parentRepository;
     private final PickUpRepository pickUpRepository;
 
-    public void createSubscribe(Parent parent, SubscribeRequest subscribeRequest) {
+    public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) {
         Optional<Driver> driver = driverRepository.findById(subscribeRequest.getDriverId());
         checkDriverExist(driver);
         Optional<Child> child = parentRepository.findChild(parent.getId(), subscribeRequest.getChildName());
         checkChildExist(child);
 
         PickUpSubscribe subscribe = createPickUpSubscribe();
-        for (SubscribeLocationRequest locationData : subscribeRequest.getLocationDatas()) {
-            PickUpLocation location = createPickUpLocation(locationData);
-            createPickUpInfo(locationData, child, driver, location, subscribe);
-        }
+        PickUpLocation location = createPickUpLocation(subscribeRequest);
+        createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
+        return BaseResponse.success();
     }
 
     private PickUpSubscribe createPickUpSubscribe() {
@@ -45,25 +44,26 @@ public class ParentService {
         return subscribe;
     }
 
-    private void createPickUpInfo(SubscribeLocationRequest locationData, Optional<Child> child, Optional<Driver> driver, PickUpLocation location, PickUpSubscribe subscribe) {
+    private void createPickUpInfo(SubscribeRequest subscribeRequest, Optional<Child> child, Optional<Driver> driver, PickUpLocation location, PickUpSubscribe subscribe) {
         PickUpInfo pickUpInfo = PickUpInfo.builder()
                 .child(child.get())
                 .driver(driver.get())
-                .schedule(locationData.getCronDate())
+                .schedule(subscribeRequest.getRequestDate())
                 .pickUpLocation(location)
                 .build();
         pickUpInfo.updatePickUpSubscribe(subscribe);
+        pickUpInfo.updatePickUpLocation(location);
         pickUpRepository.savePickUpInfo(pickUpInfo);
     }
 
-    private PickUpLocation createPickUpLocation(SubscribeLocationRequest locationData) {
+    private PickUpLocation createPickUpLocation(SubscribeRequest subscribeRequest) {
         PickUpLocation location = PickUpLocation.builder()
-                .startAddress(locationData.getStartLocation())
-                .startLatitude(locationData.getStartLatitude())
-                .startLongitude(locationData.getStartLongitude())
-                .endAddress(locationData.getEndLocation())
-                .endLatitude(locationData.getEndLatitude())
-                .endLongitude(locationData.getEndLongitude())
+                .startAddress(subscribeRequest.getStartLocation())
+                .startLatitude(subscribeRequest.getStartLatitude())
+                .startLongitude(subscribeRequest.getStartLongitude())
+                .endAddress(subscribeRequest.getEndLocation())
+                .endLatitude(subscribeRequest.getEndLatitude())
+                .endLongitude(subscribeRequest.getEndLongitude())
                 .build();
         pickUpRepository.savePickUpLocation(location);
         return location;

@@ -9,5 +9,11 @@ import java.util.List;
 public class SubscribeRequest {
     private Long driverId;
     private String childName;
-    private List<SubscribeLocationRequest> locationDatas = new ArrayList<>();
+    private String startLocation;
+    private Double startLongitude;
+    private Double startLatitude;
+    private String endLocation;
+    private Double endLongitude;
+    private Double endLatitude;
+    private String requestDate;
 }

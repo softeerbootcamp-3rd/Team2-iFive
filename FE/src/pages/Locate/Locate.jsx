@@ -28,9 +28,8 @@ const userType = {
 
 export function Locate({ userRole = 1, userName = "육종호" }) {
     // TO DO: 출발지, 목적지, 기사 데이터 받아와서 map에 넘겨주기
-    // useEffect로 기사 변경 감지 후 props로 map에 넘겨주기
-    // 이러면 근데 Locate 페이지 전체가 리렌더링 되버림
-    // 어떡하지.........
+    // useEffect로 기사 변경 감지 후
+    // 이러면 Locate 페이지 전체가 리렌더링 되는 문제가 생김
 
     // TO DO: 서버에서 데이터 받아와야함
     const childData = {
@@ -42,7 +41,7 @@ export function Locate({ userRole = 1, userName = "육종호" }) {
 
     return (
         <>
-            <Map></Map>
+            <Map />
             <BottomSheet
                 childData={childData}
                 userRole={userType.driver}

@@ -16,8 +16,12 @@ const weekDays = [
     "토요일"
 ];
 
+const DEFAULT_TIME_LIST = weekDays.reduce((acc, cur) => {
+    return { ...acc, [cur]: false };
+}, {});
+
 export default function Search() {
-    const [timeList, setTimeList] = useState(["일요일"]);
+    const [timeList, setTimeList] = useState(DEFAULT_TIME_LIST);
     const [modalOpen, setModalOpen] = useState(false);
     const [mapType, setMapType] = useState("");
     const [searchParams] = useSearchParams();
@@ -34,17 +38,29 @@ export default function Search() {
     const handleCloseModal = () => {
         setModalOpen(false);
     };
+    const handleWeekClick = (day) => {
+        setTimeList((prevTimeList) => ({
+            ...prevTimeList,
+            [day]: !prevTimeList[day]
+        }));
+    };
 
     const dayListElement = weekDays.map((day) => (
-        <li key={day} className={styles.dayItem}>
+        <li
+            key={day}
+            className={styles.dayItem}
+            onClick={() => handleWeekClick(day)}
+        >
             {day[0]}
         </li>
     ));
 
-    const timeListElement = timeList.length ? (
-        timeList.map((day, index) => (
-            <TimeItem day={day} key={`day-${index}`} />
-        ))
+    const timeListElement = weekDays
+        .filter((day) => timeList[day] === true)
+        .map((day, index) => <TimeItem day={day} key={`day-${index}`} />);
+
+    const timeListElemen = timeListElement.length ? (
+        timeListElement
     ) : (
         <li className={styles.timeEmpty}>픽업 요일을 선택해주세요</li>
     );
@@ -79,7 +95,7 @@ export default function Search() {
                     </article>
                     <article className={styles.time}>
                         <label className={styles.timeLabel}>픽업 시간</label>
-                        <ul className={styles.timeList}>{timeListElement}</ul>
+                        <ul className={styles.timeList}>{timeListElemen}</ul>
                     </article>
                 </section>
                 <Footer text="확인" />

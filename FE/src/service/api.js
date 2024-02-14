@@ -10,6 +10,11 @@ import { getAccessToken, getRefreshToken } from "../utils/auth";
  * 로그인 성공 시 { success: true, data: Object },
  * 실패 시 { success: false, message: string } 반환
  */
+
+const url = "https://dev.win9.xyz/user/login";
+const url2 = "http://192.168.1.221:8080/user/login";
+const url3 = "http://0.tcp.jp.ngrok.io:11952/user/login";
+
 export async function login({ id, password }) {
     try {
         const response = await fetch(`${BASE_URL}/user/login`, {

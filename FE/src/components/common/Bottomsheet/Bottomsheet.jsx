@@ -34,7 +34,7 @@ export function BottomSheet({ childData, userRole }) {
             <h3>픽업 서비스 구독 중</h3>
             <div className={styles.list}>
                 <KidInfo childData={childData}></KidInfo>
-                <KidInfo childData={childData}></KidInfo>
+                {/* <KidInfo childData={childData}></KidInfo> */}
             </div>
             {renderButton()}
         </div>

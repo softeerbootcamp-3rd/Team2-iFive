@@ -46,7 +46,7 @@ const Modal = ({ type, isOpen, onClose }) => {
                     name="address"
                     className={styles.address}
                     type="text"
-                    value={newAddress}
+                    value={newAddress || "지도를 이동해 주세요"}
                     readOnly
                 />
             </div>

@@ -23,7 +23,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static ifive.idrop.entity.enums.Role.*;
@@ -54,6 +53,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
         String sessionId = session.getId();
         sessions.put(sessionId, session);
+
 
         Users user = getUserBySession(session);
 
@@ -115,7 +115,8 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     //웹소켓 세션에서 User 구하기
     private Users getUserBySession(WebSocketSession session) throws JsonProcessingException {
         // HTTP 헤더에서 엑세스 토큰을 꺼낸다.
-        String accessToken = String.valueOf(session.getHandshakeHeaders().get("authorization")).substring("Bearer ".length() + 1);
+        System.out.println(session.getHandshakeHeaders().get("Sec-Websocket-Protocol"));
+        String accessToken = String.valueOf(session.getHandshakeHeaders().get("Sec-Websocket-Protocol")).substring("Bearer ".length() + 1);
         AuthenticateUser authenticateUser = getAuthenticateUser(accessToken);
         return userRepository.findByUserId(authenticateUser.getUserId())
                 .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));

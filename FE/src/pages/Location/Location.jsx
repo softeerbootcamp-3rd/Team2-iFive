@@ -1,6 +1,7 @@
 import { useSearchParams } from "react-router-dom";
 import { BottomSheet } from "../../components/common/Bottomsheet/Bottomsheet";
 import Map from "../../components/Map/Map";
+import { DriverMap } from "../../components/Map/DriverMap";
 
 const url = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?";
 const clientId = import.meta.env.VITE_NAVER_KEY_ID;
@@ -34,7 +35,7 @@ export function Location({ userRole = 1, userName = "육종호" }) {
 
     const [query] = useSearchParams();
     const type = query.get("type");
-    const render = type == "driver" ? <Map /> : <Map />;
+    const render = type == "driver" ? <DriverMap /> : <DriverMap />;
 
     // TO DO: 서버에서 데이터 받아와야함
     const childData = {

@@ -9,10 +9,14 @@ import ifive.idrop.exception.ErrorCode;
 import ifive.idrop.repository.DriverRepository;
 import ifive.idrop.repository.ParentRepository;
 import ifive.idrop.repository.PickUpRepository;
+import ifive.idrop.util.Parser;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -22,7 +26,8 @@ public class ParentService {
     private final ParentRepository parentRepository;
     private final PickUpRepository pickUpRepository;
 
-    public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) {
+    @Transactional
+    public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) throws JSONException {
         Optional<Driver> driver = driverRepository.findById(subscribeRequest.getDriverId());
         checkDriverExist(driver);
         Optional<Child> child = parentRepository.findChild(parent.getId(), subscribeRequest.getChildName());
@@ -32,7 +37,22 @@ public class ParentService {
         PickUpLocation location = createPickUpLocation(subscribeRequest);
         createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
 
+        // JsonDate를 LocalDate로 파싱
+        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getRequestDate(), subscribe.getExpiredDate());
+
+        for (LocalDateTime localDateTime : scheduleList) {
+            createPickUp(localDateTime, subscribe);
+        }
+
         return BaseResponse.success();
+    }
+
+    private void createPickUp(LocalDateTime localDateTime, PickUpSubscribe subscribe) {
+        PickUp pickUp = PickUp.builder()
+                .reservedTime(localDateTime)
+                .build();
+        pickUp.updatePickUpSubscribe(subscribe);
+        pickUpRepository.savePickUp(pickUp);
     }
 
     private PickUpSubscribe createPickUpSubscribe() {

@@ -6,6 +6,7 @@ import ifive.idrop.dto.SubscribeRequest;
 import ifive.idrop.entity.Parent;
 import ifive.idrop.service.ParentService;
 import lombok.RequiredArgsConstructor;
+import org.json.JSONException;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +20,7 @@ public class ParentController {
     private final ParentService parentService;
 
     @PostMapping("/subscribe")
-    public BaseResponse<String> subscribeDriver(@Login Parent parent, @RequestBody SubscribeRequest request) {
+    public BaseResponse<String> subscribeDriver(@Login Parent parent, @RequestBody SubscribeRequest request) throws JSONException {
         return parentService.createSubscribe(parent, request);
     }
 }

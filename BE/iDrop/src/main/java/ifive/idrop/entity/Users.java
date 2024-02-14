@@ -11,16 +11,16 @@ public abstract class Users {
     private String userId;
     private String password;
     private String name;
-    private String phone;
+    private String phoneNumber;
     @Enumerated(EnumType.STRING)
     private Role role;
     private String refreshToken;
 
-    public void setUserInfo(String userId, String password, String name, String phone, Role role){
+    public void setUserInfo(String userId, String password, String name, String phoneNumber, Role role){
         this.userId = userId;
         this.password = password;
         this.name = name;
-        this.phone = phone;
+        this.phoneNumber = phoneNumber;
         this.role = role;
     }
 
@@ -30,5 +30,9 @@ public abstract class Users {
 
     public boolean verifyUser(LoginRequest loginRequest) {
         return this.userId.equals(loginRequest.getUserId()) && this.password.equals(loginRequest.getPassword());
+    }
+
+    public void updatePhoneNumber(String phoneNumber) {
+        this.phoneNumber = (phoneNumber != null) ? phoneNumber : this.phoneNumber;
     }
 }

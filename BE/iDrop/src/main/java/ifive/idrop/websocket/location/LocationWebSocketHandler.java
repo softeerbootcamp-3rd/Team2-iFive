@@ -11,7 +11,7 @@ import ifive.idrop.filter.AuthenticateUser;
 import ifive.idrop.filter.VerifyUserFilter;
 import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
-import ifive.idrop.util.CustomObjectMapper;
+import ifive.idrop.utils.CustomObjectMapper;
 import ifive.idrop.websocket.PickUpInfoRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +23,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static ifive.idrop.entity.enums.Role.*;

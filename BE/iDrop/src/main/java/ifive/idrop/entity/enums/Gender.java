@@ -1,5 +1,8 @@
 package ifive.idrop.entity.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum Gender {
     MALE("남성"),
     FEMALE("여성");
@@ -9,7 +12,13 @@ public enum Gender {
         this.gender = gender;
     }
 
-    public String getGender() {
-        return gender;
+    public static Gender of(String gender) {
+        if ("남성".equals(gender)) {
+            return Gender.MALE;
+        }
+        if ("여성".equals(gender)) {
+            return Gender.FEMALE;
+        }
+        throw new RuntimeException();
     }
 }

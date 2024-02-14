@@ -47,14 +47,4 @@ public class UserRepository {
 
         return result.stream().findAny();
     }
-
-    public List<Driver> findDrivers() {
-        return em.createQuery("select d from Driver d", Driver.class)
-                .getResultList();
-    }
-
-    public List<Parent> findParents() {
-        return em.createQuery("select p from Parent p", Parent.class)
-                .getResultList();
-    }
 }

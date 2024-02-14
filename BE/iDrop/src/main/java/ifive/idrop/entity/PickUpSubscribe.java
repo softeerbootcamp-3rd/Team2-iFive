@@ -2,12 +2,14 @@ package ifive.idrop.entity;
 
 import ifive.idrop.entity.enums.PickUpStatus;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class PickUpSubscribe {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

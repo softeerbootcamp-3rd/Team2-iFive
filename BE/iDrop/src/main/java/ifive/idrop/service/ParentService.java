@@ -57,7 +57,7 @@ public class ParentService {
 
     private PickUpSubscribe createPickUpSubscribe() {
         PickUpSubscribe subscribe = PickUpSubscribe.builder()
-                .status(PickUpStatus.WAIT)
+                .status(PickUpStatus.ACCEPT)
                 .requestDate(LocalDateTime.now().plusDays(1))
                 .expiredDate(LocalDateTime.now().plusDays(1).plusWeeks(4))
                 .build();

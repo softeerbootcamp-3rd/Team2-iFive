@@ -1,10 +1,10 @@
 import { useRef } from "react";
 import styles from "./AddressFinderMap.module.scss";
 import { Loader } from "../../common/Loader/Loader";
-import { useMap } from "../../../hooks/useMap";
-import { getLatLng } from "../../../utils/map";
-import { useMarker } from "../../../hooks/useMarker";
-import { useCoords } from "../../../hooks/useCoords";
+import { useMap } from "@/hooks/useMap";
+import { getLatLng } from "@/utils/map";
+import { useMarker } from "@/hooks/useMarker";
+import { useCoords } from "@/hooks/useCoords";
 
 function searchCoordinateToAddress(latLng, setNewAddress) {
     naver.maps.Service.reverseGeocode(

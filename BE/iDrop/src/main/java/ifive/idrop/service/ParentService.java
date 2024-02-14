@@ -31,14 +31,15 @@ public class ParentService {
         PickUpSubscribe subscribe = createPickUpSubscribe();
         PickUpLocation location = createPickUpLocation(subscribeRequest);
         createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
+
         return BaseResponse.success();
     }
 
     private PickUpSubscribe createPickUpSubscribe() {
         PickUpSubscribe subscribe = PickUpSubscribe.builder()
                 .status(PickUpStatus.WAIT)
-                .requestDate(LocalDateTime.now())
-                .expiredDate(LocalDateTime.now().plusDays(7))
+                .requestDate(LocalDateTime.now().plusDays(1))
+                .expiredDate(LocalDateTime.now().plusDays(1).plusWeeks(4))
                 .build();
         pickUpRepository.savePickUpSubscribe(subscribe);
         return subscribe;

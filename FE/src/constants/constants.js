@@ -37,3 +37,6 @@ export const MENU_PAGE = (userName, userRole) => ({
 });
 
 export const DEFAULT_COORDS = { latitude: 0, longitude: 0 };
+
+export const WEBSOCKET_URL =
+    "ws://0.tcp.jp.ngrok.io:11952/ws/location-tracking";

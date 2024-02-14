@@ -15,13 +15,11 @@ import { checkAuthLoader } from "./utils/auth";
 import { Locate } from "./pages/Locate/Locate";
 import { PickUpPage } from "./pages/PickUp/PickUp";
 import DriverDetail from "./pages/DriverDetail/DriverDetail";
-import LocationSender from "./test";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
             <Route path="/" element={<Menu />} />
-            <Route path="/test" element={<LocationSender />} />
             <Route path="onboarding" element={<Onboarding />} />
             <Route path="login" element={<Login />} />
             <Route path="logout" loader={logoutAction} />

@@ -1,3 +1,4 @@
+import { BASE_URL } from "../constants/constants";
 import { logout } from "../pages/Login/Login";
 import { getAccessToken, getRefreshToken } from "../utils/auth";
 
@@ -16,7 +17,7 @@ const url3 = "http://0.tcp.jp.ngrok.io:11952/user/login";
 
 export async function login({ id, password }) {
     try {
-        const response = await fetch(url3, {
+        const response = await fetch(`${BASE_URL}/user/login`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -41,7 +42,8 @@ export async function login({ id, password }) {
 }
 
 // TODO - 배포 주소로 변경
-async function refreshAccessToken(refreshToken) {
+async function refreshAccessToken() {
+    const refreshToken = getRefreshToken();
     const response = await fetch("/api/refresh_token", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -50,8 +52,8 @@ async function refreshAccessToken(refreshToken) {
 
     if (response.ok) {
         const data = await response.json();
-        localStorage.setItem("accessToken", data.accessToken);
-        localStorage.setItem("refreshToken", data.refreshToken);
+        setToken("accessToken", data.accessToken);
+        setToken("refreshToken", data.refreshToken);
         return data.accessToken;
     } else {
         throw new Error("Refresh token is invalid or expired.");

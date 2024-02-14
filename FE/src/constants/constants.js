@@ -19,7 +19,11 @@ export const MENU_PAGE = (userName, userRole) => ({
     MENU_LIST:
         userRole == userType.parent
             ? [
-                  { icon: Location, text: "실시간 위치", route: "/map" },
+                  {
+                      icon: Location,
+                      text: "실시간 위치",
+                      route: "/map?type=parent"
+                  },
                   { icon: Success, text: "구독 하기" },
                   { icon: User, text: "우리 아이" },
                   { icon: Star, text: "이용 내역" }

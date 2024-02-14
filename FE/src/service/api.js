@@ -22,7 +22,7 @@ export async function login({ id, password }) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: JSON.stringify({ id, password })
+            body: JSON.stringify({ userId: id, password })
         });
 
         if (response.ok) {

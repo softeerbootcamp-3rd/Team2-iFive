@@ -1,6 +1,7 @@
 package ifive.idrop.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Builder;
 import lombok.RequiredArgsConstructor;
@@ -10,6 +11,7 @@ import java.time.LocalDateTime;
 @Entity
 @Builder
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class PickUp {
     @Id

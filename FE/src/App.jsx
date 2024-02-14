@@ -10,7 +10,7 @@ import DriverList from "./pages/DriverList/DriverList";
 import { checkAuthLoader } from "./utils/auth";
 import { Locate } from "./pages/Locate/Locate";
 import { PickUpPage } from "./pages/PickUp/PickUp";
-
+import DriverDetail from "./pages/DriverDetail/DriverDetail";
 
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {
@@ -22,17 +22,16 @@ function App() {
                 <Route path="onboarding" element={<Onboarding />} />
                 <Route path="login" element={<Login />} />
                 <Route path="logout" action={logoutAction} />
-
                 {/* <Route path="join" element={<Join />} /> */}
 
                 {/* 로그인 필요한 페이지 예시
                 <Route path="subscription/form" loader={checkAuthLoader} element={<Subscribe />} /> */}
                 <Route path="subscription/search" element={<Search />} />
                 <Route path="subscription/drivers" element={<DriverList />} />
-                {/* <Route
+                <Route
                     path="subscription/driver/:id"
                     element={<DriverDetail />}
-                /> */}
+                />
 
                 {/*<Route path="kid" element={<Kid />} /> */}
                 <Route path="map" element={<Locate />} />

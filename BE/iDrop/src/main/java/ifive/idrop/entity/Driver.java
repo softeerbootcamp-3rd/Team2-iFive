@@ -31,4 +31,7 @@ public class Driver extends Users {
 
     @OneToMany(mappedBy = "driver")
     private List<PickUpInfo> pickUpInfoList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "driver")
+    private List<ReservedSchedule> reservedScheduleList = new ArrayList<>();
 }

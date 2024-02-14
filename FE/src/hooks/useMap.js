@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
+const DEFAULT_ZOOM = 15;
 
 const initMapOptions = {
+    zoom: DEFAULT_ZOOM,
     mapDataControl: false,
     scaleControl: true,
     scaleControlOptions: {
@@ -12,31 +14,24 @@ const initMapOptions = {
     }
 };
 
-const DEFAULT_ZOOM = 15;
-
-export function useMap(
-    mapRef,
-    options = {
-        center: new naver.maps.LatLng(options.center.lat, options.center.lng),
-        zoom: DEFAULT_ZOOM
-    }
-) {
+export function useMap(mapRef, options = {}, isLoading = false) {
     const [map, setMap] = useState(null);
 
     useEffect(() => {
-        if (mapRef.current && !map) {
-            const initializedMap = new naver.maps.Map(mapRef.current, {
-                ...initMapOptions,
-                ...options
-            });
-            setMap(initializedMap);
+        if (isLoading || !mapRef.current || map) {
+            return;
         }
 
+        const initializedMap = new naver.maps.Map(mapRef.current, {
+            ...initMapOptions,
+            ...options
+        });
+        setMap(initializedMap);
+
+        // TODO 지도 인스턴스 정리 로직 고민해보기
         return () => {
-            if (map) {
-                // TODO 지도 인스턴스를 명시적으로 정리 로직 고민해보기
-            }
+            setMap(null);
         };
-    }, [mapRef, options, map]);
+    }, [isLoading]);
     return map;
 }

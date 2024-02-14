@@ -1,4 +1,4 @@
-export const initMapOptions = {
+const initMapOptions = {
     mapDataControl: false,
     scaleControl: true,
     scaleControlOptions: {

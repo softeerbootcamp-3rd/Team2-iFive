@@ -32,4 +32,6 @@ export const MENU_PAGE = (userName, userRole) => ({
               ]
 });
 
+export const BASE_URL = import.meta.env.VITE_BASE_URL;
+
 export const DEFAULT_COORDS = { latitude: 0, longitude: 0 };

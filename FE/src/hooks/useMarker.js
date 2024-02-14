@@ -12,7 +12,6 @@ export function useMarker(map, position, options = {}) {
             ...options
         });
         setMarker(newMarker);
-        return () => marker.setMap(null);
     }, [map]);
 
     return marker;

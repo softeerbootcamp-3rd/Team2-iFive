@@ -15,14 +15,16 @@ import { checkAuthLoader } from "./utils/auth";
 import { Locate } from "./pages/Locate/Locate";
 import { PickUpPage } from "./pages/PickUp/PickUp";
 import DriverDetail from "./pages/DriverDetail/DriverDetail";
+import LocationSender from "./test";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
             <Route path="/" element={<Menu />} />
+            <Route path="/test" element={<LocationSender />} />
             <Route path="onboarding" element={<Onboarding />} />
             <Route path="login" element={<Login />} />
-            <Route path="logout" action={logoutAction} />
+            <Route path="logout" loader={logoutAction} />
             {/* <Route path="join" element={<Join />} /> */}
             {/* 로그인 필요한 페이지 예시   <Route path="subscription/form" loader={checkAuthLoader} element={<Subscribe />} /> */}
             <Route path="subscription/search" element={<Search />} />

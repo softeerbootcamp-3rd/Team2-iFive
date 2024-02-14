@@ -2,12 +2,14 @@ package ifive.idrop.entity;
 
 import ifive.idrop.entity.enums.Gender;
 import jakarta.persistence.*;
+import lombok.Getter;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
 @Entity
+@Getter
 public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

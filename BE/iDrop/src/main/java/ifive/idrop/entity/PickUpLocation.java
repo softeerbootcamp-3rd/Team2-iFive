@@ -1,8 +1,10 @@
 package ifive.idrop.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
 @Entity
+@Getter
 public class PickUpLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

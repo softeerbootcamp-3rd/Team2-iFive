@@ -35,3 +35,5 @@ export const MENU_PAGE = (userName, userRole) => ({
                   { icon: Success, text: "요청 목록" }
               ]
 });
+
+export const DEFAULT_COORDS = { latitude: 0, longitude: 0 };

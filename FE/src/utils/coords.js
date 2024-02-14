@@ -1,6 +1,6 @@
 const DEFAULT_COORDS = { latitude: 0, longitude: 0 };
 
-function getCurrentLocation() {
+export function getCurrentLocation() {
     return new Promise((resolve, reject) => {
         if (!navigator.geolocation) {
             reject(new Error("Geolocation is not supported!"));

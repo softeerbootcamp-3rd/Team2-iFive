@@ -17,20 +17,12 @@ const childData = {
 
 // 현재 test를 위해 props의 default 값 부여. 추후 삭제 필요
 export function Menu({ userRole = 1, userName = "육종호" }) {
-    const CONTENT = MENU_PAGE(userName);
+    const { HELLO_MSG, INTRO_TEXT, MENU_LIST } = MENU_PAGE(userName, userRole);
 
-    const introText =
-        userRole === userType.parent
-            ? `${CONTENT.INTRO_MSG_PARENT}`
-            : `${CONTENT.INTRO_MSG_PARENT}`;
-
-    const menuItems =
-        userRole === userType.parent
-            ? CONTENT.PARENT_MENU
-            : CONTENT.DRIVER_MENU;
+    //비동기 통신으로 userRole, userinfo 받아오기
 
     const renderMenuItems = () =>
-        menuItems.map(({ icon, text, route }, index) => (
+        MENU_LIST.map(({ icon, text, route }, index) => (
             <MenuButton key={index} imgUrl={icon} text={text} route={route} />
         ));
 
@@ -38,8 +30,8 @@ export function Menu({ userRole = 1, userName = "육종호" }) {
         <div className={styles.wrapper}>
             <img src={iDropGreen}></img>
             <div>
-                <h1>{CONTENT.HELLO_MSG} </h1>
-                <span>{introText}</span>
+                <h1>{HELLO_MSG} </h1>
+                <span>{INTRO_TEXT}</span>
             </div>
             <div className={styles.menuContainer}>{renderMenuItems()}</div>
             <BottomSheet childData={childData}></BottomSheet>

@@ -15,6 +15,7 @@ const Modal = ({ type, isOpen, onClose }) => {
             ...Object.fromEntries(searchParams),
             [searchParamKey]: newAddress
         });
+        setNewAddress("");
         setAnimate(false); // 모달 닫기 애니메이션 시작
     };
 

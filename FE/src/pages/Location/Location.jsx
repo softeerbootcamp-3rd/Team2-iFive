@@ -1,6 +1,5 @@
 import { useSearchParams } from "react-router-dom";
 import { BottomSheet } from "../../components/common/Bottomsheet/Bottomsheet";
-import Map from "../../components/Map/Map";
 import { DriverMap } from "../../components/Map/DriverMap";
 
 const url = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?";

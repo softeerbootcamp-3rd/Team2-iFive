@@ -103,3 +103,21 @@ async function submitReview(reviewData) {
         console.error("Error submitting review:", error);
     }
 }
+
+export async function getKidInfo() {
+    try {
+        const response = await fetch(url, {
+            headers: {}
+            // body:
+        });
+        if (response.ok) {
+            const kidInfo = await response.json();
+            return kidInfo;
+        } else {
+            console.error("Failed to GET kid information");
+        }
+    } catch (error) {
+        console.error(error);
+        throw new Error("Faild to GET request");
+    }
+}

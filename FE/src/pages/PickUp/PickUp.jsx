@@ -22,7 +22,7 @@ export function PickUpPage({ childData }) {
     };
 
     const handleClick = () => {
-        flag ? movePage("/publish") : movePage("/map");
+        flag ? movePage("/publish") : movePage("/map?type=driver");
     };
     return (
         <div className={styles.wrapper}>

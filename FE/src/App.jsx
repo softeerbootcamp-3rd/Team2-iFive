@@ -8,9 +8,8 @@ import { Menu } from "./pages/menu/Menu";
 import Publish from "./pages/Publish/Publish";
 import DriverList from "./pages/DriverList/DriverList";
 import { checkAuthLoader } from "./utils/auth";
-import { Locate } from "./pages/Locate/Locate";
+import { Location } from "./pages/Location/Location";
 import { PickUpPage } from "./pages/PickUp/PickUp";
-
 
 // 페이지 만들 때 마다 주석 제거할 예정
 function App() {
@@ -35,7 +34,7 @@ function App() {
                 /> */}
 
                 {/*<Route path="kid" element={<Kid />} /> */}
-                <Route path="map" element={<Locate />} />
+                <Route path="map" element={<Location />} />
                 {/* <Route path="feedback" element={<Feedback />} />
                 <Route path="pickup">
                     <Route path="start" element={<PickupStart />} />

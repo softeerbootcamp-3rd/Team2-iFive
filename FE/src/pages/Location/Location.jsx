@@ -1,5 +1,6 @@
+import { useSearchParams } from "react-router-dom";
 import { BottomSheet } from "../../components/common/Bottomsheet/Bottomsheet";
-import Map from "../../components/common/Map/Map";
+import Map from "../../components/Map/Map";
 
 const url = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving?";
 const clientId = import.meta.env.VITE_NAVER_KEY_ID;
@@ -26,10 +27,14 @@ const userType = {
     driver: 1
 };
 
-export function Locate({ userRole = 1, userName = "육종호" }) {
+export function Location({ userRole = 1, userName = "육종호" }) {
     // TO DO: 출발지, 목적지, 기사 데이터 받아와서 map에 넘겨주기
     // useEffect로 기사 변경 감지 후
     // 이러면 Locate 페이지 전체가 리렌더링 되는 문제가 생김
+
+    const [query] = useSearchParams();
+    const type = query.get("type");
+    const render = type == "driver" ? <Map /> : <Map />;
 
     // TO DO: 서버에서 데이터 받아와야함
     const childData = {
@@ -41,7 +46,7 @@ export function Locate({ userRole = 1, userName = "육종호" }) {
 
     return (
         <>
-            <Map />
+            {render}
             <BottomSheet
                 childData={childData}
                 userRole={userType.driver}

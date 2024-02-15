@@ -1,5 +1,14 @@
-@import "@/styles/fontStyle.scss";
 @import "@/styles/color.scss";
+@import "@/styles/fontStyle.scss";
+
+.timeEmpty {
+    @extend %SB_14;
+    width: 100%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
 
 .timeItem {
     width: 80%;

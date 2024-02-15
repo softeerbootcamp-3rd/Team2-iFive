@@ -1,8 +1,29 @@
-import { NumericSelector } from "../common/Input/NumericSelector";
-import styles from "./TimeItem.module.scss";
 import React from "react";
+import styles from "./TimeList.module.scss";
+import { LabelledList } from "../common/Layout/LabelledList";
+import { NumericSelector } from "../common/Input/NumericSelector";
+import { SEARCH_PAGE } from "@/constants/constants";
 
-export function TimeItem({ day }) {
+export function TimeList({ timeList, setTimeList }) {
+    const filteredTimeItems = SEARCH_PAGE.WEEK.filter(
+        (day) => timeList[day] === true
+    );
+
+    const timeListElement = filteredTimeItems.length ? (
+        filteredTimeItems.map((day, index) => (
+            <TimeItem day={day} key={`day-${index}`} />
+        ))
+    ) : (
+        <li className={styles.timeEmpty}>픽업 요일을 선택해주세요</li>
+    );
+    return (
+        <LabelledList articleStyle="time" label="픽업 시간">
+            {timeListElement}
+        </LabelledList>
+    );
+}
+
+function TimeItem({ day }) {
     return (
         <li className={styles.timeItem}>
             <h6 className={styles.timeDay}>{day}</h6>

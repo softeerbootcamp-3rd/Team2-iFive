@@ -28,10 +28,10 @@ public class ParentService {
 
     @Transactional
     public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) throws JSONException {
-        Optional<Driver> driver = driverRepository.findById(subscribeRequest.getDriverId());
-        checkDriverExist(driver);
-        Optional<Child> child = parentRepository.findChild(parent.getId(), subscribeRequest.getChildName());
-        checkChildExist(child);
+        Driver driver = driverRepository.findById(subscribeRequest.getDriverId())
+                .orElseThrow(() -> new CommonException(ErrorCode.DRIVER_NOT_EXIST));
+        Child child = parentRepository.findChild(parent.getId(), subscribeRequest.getChildName())
+                .orElseThrow(() -> new CommonException(ErrorCode.CHILD_NOT_EXIST));
 
         PickUpSubscribe subscribe = createPickUpSubscribe();
         PickUpLocation location = createPickUpLocation(subscribeRequest);
@@ -65,10 +65,10 @@ public class ParentService {
         return subscribe;
     }
 
-    private PickUpInfo createPickUpInfo(SubscribeRequest subscribeRequest, Optional<Child> child, Optional<Driver> driver, PickUpLocation location, PickUpSubscribe subscribe) {
+    private PickUpInfo createPickUpInfo(SubscribeRequest subscribeRequest, Child child, Driver driver, PickUpLocation location, PickUpSubscribe subscribe) {
         PickUpInfo pickUpInfo = PickUpInfo.builder()
-                .child(child.get())
-                .driver(driver.get())
+                .child(child)
+                .driver(driver)
                 .schedule(subscribeRequest.getRequestDate())
                 .pickUpLocation(location)
                 .build();
@@ -89,17 +89,5 @@ public class ParentService {
                 .build();
         pickUpRepository.savePickUpLocation(location);
         return location;
-    }
-
-    private void checkChildExist(Optional<Child> child) {
-        if (child.isEmpty()) {
-            throw new CommonException(ErrorCode.CHILD_NOT_EXIST);
-        }
-    }
-
-    private void checkDriverExist(Optional<Driver> driver) {
-        if (driver.isEmpty()) {
-            throw new CommonException(ErrorCode.DRIVER_NOT_EXIST);
-        }
     }
 }

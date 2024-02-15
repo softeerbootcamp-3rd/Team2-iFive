@@ -46,7 +46,6 @@ public class PickUpInfo {
         this.pickUpLocation = location;
     }
 
-    @OneToMany
-    @JoinColumn(name = "pickup_info")
+    @OneToMany(mappedBy = "pickUpInfo")
     private List<PickUp> pickUpList = new ArrayList<>();
 }

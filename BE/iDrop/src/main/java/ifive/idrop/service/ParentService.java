@@ -38,7 +38,7 @@ public class ParentService {
         PickUpInfo pickUpInfo = createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
 
         // JsonDate를 LocalDate로 파싱
-        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getRequestDate(), subscribe.getExpiredDate());
+        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getDateRequest(), subscribe.getExpiredDate());
 
         for (LocalDateTime localDateTime : scheduleList) {
             createPickUp(localDateTime, pickUpInfo);
@@ -47,13 +47,6 @@ public class ParentService {
         return BaseResponse.success();
     }
 
-    public BaseResponse<String> getChildRunningInfo(Parent parent) {
-        List<Child> runningChild = parentRepository.findRunningChild(parent.getId());
-        if (runningChild.isEmpty()) {
-            throw new CommonException(ErrorCode.ALL_CHILD_NOT_EXIST);
-        }
-
-    }
 
     private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
         PickUp pickUp = PickUp.builder()
@@ -77,7 +70,7 @@ public class ParentService {
         PickUpInfo pickUpInfo = PickUpInfo.builder()
                 .child(child.get())
                 .driver(driver.get())
-                .schedule(subscribeRequest.getRequestDate())
+                .schedule(subscribeRequest.getDateRequest().toJSONString())
                 .pickUpLocation(location)
                 .build();
         pickUpInfo.updatePickUpSubscribe(subscribe);

@@ -34,8 +34,9 @@ export function DriverMap() {
 
     const getKidData = async () => {
         try {
-            const kidData = await getKidInfo();
+            const getData = await getKidInfo();
             setApiRequest(initState.success);
+            setKidData(getData);
         } catch (error) {
             setApiRequest(initState.error);
             console.error(error);
@@ -50,9 +51,6 @@ export function DriverMap() {
     const center = !locationLoading && getLatLng(latitude, longitude);
     const map = useMap(mapElementRef, { center }, locationLoading);
 
-    const driverMarkerPosition =
-        !locationLoading && getLatLng(latitude, longitude);
-
     // const destinationMarker = useMarker(map, map?.);
     // const departureMarker = useMarker(map, map?.)
     const driverMarker = useMarker(map, center);
@@ -60,9 +58,9 @@ export function DriverMap() {
     const webSocketRef = useRef(null);
     const lastLocationRef = useRef({ latitude: null, longitude: null });
 
-    useEffect(() => {
-        getKidData();
-    }, []);
+    // useEffect(() => {
+    //     getKidData();
+    // }, []);
 
     useEffect(() => {
         if (!driverMarker) return;

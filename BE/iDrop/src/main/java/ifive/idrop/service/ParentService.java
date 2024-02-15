@@ -35,23 +35,23 @@ public class ParentService {
 
         PickUpSubscribe subscribe = createPickUpSubscribe();
         PickUpLocation location = createPickUpLocation(subscribeRequest);
-        createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
+        PickUpInfo pickUpInfo = createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
 
         // JsonDate를 LocalDate로 파싱
         List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getRequestDate(), subscribe.getExpiredDate());
 
         for (LocalDateTime localDateTime : scheduleList) {
-            createPickUp(localDateTime, subscribe);
+            createPickUp(localDateTime, pickUpInfo);
         }
 
         return BaseResponse.success();
     }
 
-    private void createPickUp(LocalDateTime localDateTime, PickUpSubscribe subscribe) {
+    private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
         PickUp pickUp = PickUp.builder()
                 .reservedTime(localDateTime)
                 .build();
-        pickUp.updatePickUpSubscribe(subscribe);
+        pickUp.updatePickUpInfo(pickUpInfo);
         pickUpRepository.savePickUp(pickUp);
     }
 
@@ -65,7 +65,7 @@ public class ParentService {
         return subscribe;
     }
 
-    private void createPickUpInfo(SubscribeRequest subscribeRequest, Optional<Child> child, Optional<Driver> driver, PickUpLocation location, PickUpSubscribe subscribe) {
+    private PickUpInfo createPickUpInfo(SubscribeRequest subscribeRequest, Optional<Child> child, Optional<Driver> driver, PickUpLocation location, PickUpSubscribe subscribe) {
         PickUpInfo pickUpInfo = PickUpInfo.builder()
                 .child(child.get())
                 .driver(driver.get())
@@ -75,6 +75,7 @@ public class ParentService {
         pickUpInfo.updatePickUpSubscribe(subscribe);
         pickUpInfo.updatePickUpLocation(location);
         pickUpRepository.savePickUpInfo(pickUpInfo);
+        return pickUpInfo;
     }
 
     private PickUpLocation createPickUpLocation(SubscribeRequest subscribeRequest) {

@@ -70,7 +70,6 @@ public class ParentService {
                 .child(child)
                 .driver(driver)
                 .schedule(subscribeRequest.getRequestDate())
-                .pickUpLocation(location)
                 .build();
         pickUpInfo.updatePickUpSubscribe(subscribe);
         pickUpInfo.updatePickUpLocation(location);

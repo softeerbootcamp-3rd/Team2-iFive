@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
 import styles from "./Modal.module.scss"; // CSS 모듈 import
-import { Footer } from "../Common/Footer/Footer";
+import { Footer } from "../common/Footer/Footer";
 import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
 import { useSearchParams } from "react-router-dom";
 

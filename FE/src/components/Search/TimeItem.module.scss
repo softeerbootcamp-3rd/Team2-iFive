@@ -1,4 +1,5 @@
 @import "@/styles/fontStyle.scss";
+@import "@/styles/color.scss";
 
 .timeItem {
     width: 80%;
@@ -16,9 +17,5 @@
 
     .timeForm {
         display: flex;
-    }
-    .timeInput {
-        width: 30px;
-        @extend %M_20;
     }
 }

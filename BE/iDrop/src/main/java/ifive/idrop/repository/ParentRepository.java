@@ -1,6 +1,7 @@
 package ifive.idrop.repository;
 
 import ifive.idrop.entity.Child;
+import ifive.idrop.entity.PickUpInfo;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -20,5 +21,16 @@ public class ParentRepository {
                 .getResultList()
                 .stream()
                 .findAny();
+    }
+
+    public List<PickUpInfo> findRunningPickInfo(Long parentId) {
+        String query = "SELECT pui\n" +
+                "FROM PickUpInfo pui\n" +
+                "JOIN Child c ON pui.id = c.id\n" +
+                "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +
+                "WHERE c.parent.id =: parentId AND pu.startTime IS NOT NULL";
+        return em.createQuery(query, PickUpInfo.class)
+                .setParameter("parentId", parentId)
+                .getResultList();
     }
 }

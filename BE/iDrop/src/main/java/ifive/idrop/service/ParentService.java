@@ -48,7 +48,7 @@ public class ParentService {
         return BaseResponse.success();
     }
     public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Parent parent) {
-        List<PickUpInfo> runningPickInfo = pickUpRepository.findRunningPickInfo(parent.getId());
+        List<PickUpInfo> runningPickInfo = parentRepository.findRunningPickInfo(parent.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
                         .map(CurrentPickUpResponse::of)

@@ -2,6 +2,7 @@ package ifive.idrop.controller;
 
 import ifive.idrop.annotation.Login;
 import ifive.idrop.dto.PickUpInfoResponse;
+import ifive.idrop.dto.TodayPickUpResponse;
 import ifive.idrop.entity.*;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
@@ -43,4 +44,28 @@ public class PickUpController {
                     .build();
         }).collect(Collectors.toList());
     }
+
+    @GetMapping("/driver/pickup/today")
+    public List<TodayPickUpResponse> getTodayPickUpInfos(@Login Users user) {
+        if (!(user instanceof Driver)) {
+            throw new CommonException(ErrorCode.INVALID_ROLE_OF_USER);
+        }
+        Driver driver = (Driver) user;
+        List<PickUp> pickUps = pickUpService.getTodayPickUpsByDriverId(driver.getId());
+
+        return pickUps.stream()
+                .map(p -> {
+                    Child child = p.getPickUpInfo().getChild();
+                    PickUpLocation pickUpLocation = p.getPickUpInfo().getPickUpLocation();
+                    return TodayPickUpResponse.builder()
+                            .startAddress(pickUpLocation.getStartAddress())
+                            .endAddress(pickUpLocation.getEndAddress())
+                            .childImage(child.getName())
+                            .childImage(child.getImage())
+                            .reservedTime(p.getReservedTime())
+                            .build();
+                })
+                .collect(Collectors.toList());
+    }
+
 }

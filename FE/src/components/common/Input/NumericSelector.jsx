@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { formatNumberDigit } from "../../../utils/number";
+import styles from "./NumericSelector.module.scss";
 
 export function NumericSelector({
     start,
@@ -8,7 +9,7 @@ export function NumericSelector({
     targetLength,
     padChar,
     unit,
-    defaultValue = 0
+    defaultValue = "00"
 }) {
     const [selectedValue, setSelectedValue] = useState(defaultValue);
     const handleChange = ({ target: { value } }) => {

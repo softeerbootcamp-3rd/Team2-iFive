@@ -40,5 +40,6 @@ export const BASE_URL = import.meta.env.VITE_BASE_URL;
 
 export const DEFAULT_COORDS = { latitude: 0, longitude: 0 };
 
-export const WEBSOCKET_URL =
-    "ws://0.tcp.jp.ngrok.io:11952/ws/location-tracking";
+export const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
+
+export const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;

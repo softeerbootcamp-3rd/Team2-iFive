@@ -5,8 +5,9 @@ import { useCoords } from "../../hooks/useCoords";
 import { getLatLng } from "../../utils/map";
 import { useMarker } from "../../hooks/useMarker";
 import { Loader } from "../common/Loader/Loader";
-import { WEBSOCKET_URL } from "../../constants/constants";
-import { getCurrentCoords, getCurrentLocation } from "../../utils/coords";
+import { WEBSOCKET_URL, ACCESS_TOKEN } from "../../constants/constants";
+import { getCurrentLocation } from "../../utils/coords";
+import { getAccessToken } from "../../utils/auth";
 
 export function DriverMap() {
     const mapElementRef = useRef();
@@ -22,7 +23,7 @@ export function DriverMap() {
 
     // const destinationMarker = useMarker(map, map?.);
     // const departureMarker = useMarker(map, map?.)
-    const driverMarker = useMarker(map, driverMarkerPosition);
+    const driverMarker = useMarker(map, center);
 
     const webSocketRef = useRef(null);
     const lastLocationRef = useRef({ latitude: null, longitude: null });
@@ -30,7 +31,7 @@ export function DriverMap() {
     useEffect(() => {
         if (!driverMarker) return;
         let increase = 0.0001;
-        webSocketRef.current = new WebSocket(WEBSOCKET_URL);
+        webSocketRef.current = new WebSocket(WEBSOCKET_URL, [ACCESS_TOKEN]);
         const sendLocation = (location) => {
             if (
                 webSocketRef.current &&

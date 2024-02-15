@@ -2,6 +2,9 @@ package ifive.idrop.entity;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Entity
 public class PickUpInfo {
     @Id
@@ -24,4 +27,8 @@ public class PickUpInfo {
 
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "pickUpInfo")
     private PickUpSubscribe pickUpSubscribe;
+
+    @OneToMany
+    @JoinColumn(name = "pickup_info")
+    private List<PickUp> pickUpList = new ArrayList<>();
 }

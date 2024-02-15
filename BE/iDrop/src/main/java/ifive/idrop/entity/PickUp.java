@@ -20,6 +20,6 @@ public class PickUp {
     private LocalDateTime reservedTime;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pickup_subscribe_id")
-    private PickUpSubscribe pickUpSubscribe;
+    @JoinColumn(name = "pickup_info_id")
+    private PickUpInfo pickUpInfo;
 }

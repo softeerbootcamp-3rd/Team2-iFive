@@ -29,6 +29,7 @@ public class WebSocketHandShakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         String accessToken = request.getHeaders().getFirst("Sec-WebSocket-Protocol");
+
         String subProtocol = new String(accessToken);
         response.getHeaders().set("Sec-WebSocket-Protocol", subProtocol);
 
@@ -43,8 +44,6 @@ public class WebSocketHandShakeInterceptor implements HandshakeInterceptor {
             response.setStatusCode(HttpStatus.UNAUTHORIZED);
             return false;
         }
-
-
     }
 
     @Override

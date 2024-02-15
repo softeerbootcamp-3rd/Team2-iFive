@@ -1,5 +1,6 @@
 package ifive.idrop.repository;
 
+import ifive.idrop.entity.PickUp;
 import ifive.idrop.entity.PickUpInfo;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -19,6 +20,15 @@ public class PickUpRepository {
                 "SELECT pi FROM PickUpInfo  pi " +
                         "WHERE pi.child.id = :childId ", PickUpInfo.class);
         query.setParameter("childId", childId);
+
+        return query.getResultList();
+    }
+
+    public List<PickUpInfo> findPickupInfosByDriverId(Long driverId) {
+        TypedQuery<PickUpInfo> query = em.createQuery(
+                "SELECT pi FROM PickUpInfo  pi " +
+                        "WHERE pi.driver.id = :driverId ", PickUpInfo.class);
+        query.setParameter("driverId", driverId);
 
         return query.getResultList();
     }

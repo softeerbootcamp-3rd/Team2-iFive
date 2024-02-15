@@ -47,5 +47,6 @@ public class PickUpInfo {
     }
 
     @OneToMany(mappedBy = "pickUpInfo")
+    @Builder.Default
     private List<PickUp> pickUpList = new ArrayList<>();
 }

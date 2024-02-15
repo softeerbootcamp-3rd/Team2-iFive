@@ -15,12 +15,14 @@ import { checkAuthLoader } from "./utils/auth";
 import { Location } from "./pages/Location/Location";
 import { PickUpPage } from "./pages/PickUp/PickUp";
 import DriverDetail from "./pages/DriverDetail/DriverDetail";
+import ParentSignUp from "./pages/SignUp/ParentSignUp";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
             <Route path="/" element={<Menu />} />
             <Route path="onboarding" element={<Onboarding />} />
+            <Route path="/signup" element={<ParentSignUp />} />
             <Route path="login" element={<Login />} />
             <Route path="logout" loader={logoutAction} />
             {/* <Route path="join" element={<Join />} /> */}

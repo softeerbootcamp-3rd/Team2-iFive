@@ -15,6 +15,7 @@ const Modal = ({ type, isOpen, onClose }) => {
             ...Object.fromEntries(searchParams),
             [searchParamKey]: newAddress
         });
+        setNewAddress("");
         setAnimate(false); // 모달 닫기 애니메이션 시작
     };
 
@@ -46,7 +47,7 @@ const Modal = ({ type, isOpen, onClose }) => {
                     name="address"
                     className={styles.address}
                     type="text"
-                    value={newAddress}
+                    value={newAddress || "지도를 이동해 주세요"}
                     readOnly
                 />
             </div>

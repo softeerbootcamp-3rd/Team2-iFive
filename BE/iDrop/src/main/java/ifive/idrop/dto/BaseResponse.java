@@ -1,5 +1,6 @@
 package ifive.idrop.dto;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 @RequiredArgsConstructor(access = AccessLevel.PROTECTED)
 public class BaseResponse<T> {
     private String message;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     private BaseResponse(String message) {

@@ -115,7 +115,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     private Users getUserBySession(WebSocketSession session) throws JsonProcessingException {
         // HTTP 헤더에서 엑세스 토큰을 꺼낸다.
 
-        String accessToken = String.valueOf(session.getHandshakeHeaders().get("Sec-Websocket-Protocol"));//.substring("Bearer ".length() + 1);
+        String accessToken = String.valueOf(session.getHandshakeHeaders().get("Sec-Websocket-Protocol"));
         accessToken = accessToken.substring(1,accessToken.length()-1);
         AuthenticateUser authenticateUser = getAuthenticateUser(accessToken);
         return userRepository.findByUserId(authenticateUser.getUserId())

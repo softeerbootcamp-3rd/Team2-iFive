@@ -43,3 +43,5 @@ export const DEFAULT_COORDS = { latitude: 0, longitude: 0 };
 export const WEBSOCKET_URL = import.meta.env.VITE_WEBSOCKET_URL;
 
 export const ACCESS_TOKEN = import.meta.env.VITE_ACCESS_TOKEN;
+
+export const PARENT_TOKEN = import.meta.env.VITE_PARENT_TOKEN;

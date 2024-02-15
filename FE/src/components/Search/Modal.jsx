@@ -5,7 +5,7 @@ import { Footer } from "../Common/Footer/Footer";
 import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
 import { useSearchParams } from "react-router-dom";
 
-const Modal = ({ type, isOpen, onClose }) => {
+export function Modal({ type, isOpen, onClose }) {
     const [animate, setAnimate] = useState(false);
     const [newAddress, setNewAddress] = useState("");
     const [searchParams, setSearchParams] = useSearchParams();
@@ -16,18 +16,18 @@ const Modal = ({ type, isOpen, onClose }) => {
             [searchParamKey]: newAddress
         });
         setNewAddress("");
-        setAnimate(false); // 모달 닫기 애니메이션 시작
+        setAnimate(false);
     };
 
     const handleAnimationEnd = () => {
         if (!animate) {
-            onClose(); // 애니메이션 종료 후 모달 닫기
+            onClose();
         }
     };
 
     useEffect(() => {
         if (isOpen) {
-            setAnimate(true); // 모달 열기 애니메이션 시작
+            setAnimate(true);
         }
     }, [isOpen]);
 
@@ -59,6 +59,4 @@ const Modal = ({ type, isOpen, onClose }) => {
         </div>,
         document.getElementById("portal")
     );
-};
-
-export default Modal;
+}

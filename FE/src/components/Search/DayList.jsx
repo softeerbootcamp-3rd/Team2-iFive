@@ -1,7 +1,8 @@
-import styles from "../DayList.module.scss";
+import styles from "./DayList.module.scss";
 import { LabelledList } from "../common/Layout/LabelledList";
+import { SEARCH_PAGE } from "../../constants/constants";
 
-export function DayList() {
+export function DayList({ timeList, setTimeList }) {
     const handleWeekClick = (day) => {
         setTimeList((prevTimeList) => {
             return {

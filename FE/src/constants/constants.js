@@ -42,3 +42,24 @@ export const DEFAULT_COORDS = { latitude: 0, longitude: 0 };
 
 export const WEBSOCKET_URL =
     "ws://0.tcp.jp.ngrok.io:11952/ws/location-tracking";
+
+export const SEARCH_PAGE = (function () {
+    const WEEK = [
+        "일요일",
+        "월요일",
+        "화요일",
+        "수요일",
+        "목요일",
+        "금요일",
+        "토요일"
+    ];
+
+    const DEFAULT_TIME_LIST = WEEK.reduce((acc, cur) => {
+        return { ...acc, [cur]: false };
+    }, {});
+
+    return {
+        WEEK,
+        DEFAULT_TIME_LIST
+    };
+})();

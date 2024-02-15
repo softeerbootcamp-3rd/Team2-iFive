@@ -30,7 +30,6 @@ public class PickUpInfo {
     @OneToOne(fetch = FetchType.LAZY, mappedBy = "pickUpInfo")
     private PickUpSubscribe pickUpSubscribe;
 
-    @OneToMany
-    @JoinColumn(name = "pickup_info")
+    @OneToMany(mappedBy = "pickUpInfo")
     private List<PickUp> pickUpList = new ArrayList<>();
 }

@@ -8,13 +8,24 @@ import { AddressForm } from "@/components/Search/AddressForm";
 import { DayList } from "../../components/Search/DayList";
 import { TimeList } from "../../components/Search/TimeList";
 
+const INITIAL_LOCATIION_STATE = {
+    address: "",
+    latitude: "",
+    longitude: ""
+};
+
 export default function Search() {
     const [timeList, setTimeList] = useState(SEARCH_PAGE.DEFAULT_TIME_LIST);
     const [modalOpen, setModalOpen] = useState(false);
-    const [mapType, setMapType] = useState("");
+    const [mapFor, setMapFor] = useState("");
+
+    const [location, setLocation] = useState({
+        departure: { ...INITIAL_LOCATIION_STATE },
+        destination: { ...INITIAL_LOCATIION_STATE }
+    });
 
     const handleOpenModal = ({ target: { name } }) => {
-        setMapType(name);
+        setMapFor(name);
         setModalOpen(true);
     };
 
@@ -22,20 +33,37 @@ export default function Search() {
         setModalOpen(false);
     };
 
+    const handleSubmit = () => {
+        navigate("/subscription/drivers");
+    };
+
+    // 상위에서 이렇게 함수를 만들어서 넘겨주는게 좋은지 set함수만 넘기고 사용하는 곳에서 함수로 만드는 것이 좋은지 모르겠음
+    const handleLocationSelect = (data) => {
+        setLocation((prevLocation) => ({
+            ...prevLocation,
+            [mapFor]: data
+        }));
+    };
+
     return (
         <>
             <main className={styles.container}>
-                <Header title="픽업 신청" />
+                <Header title="픽업 신청" to="/" />
                 <section className={styles.contents}>
-                    <AddressForm handleOpenModal={handleOpenModal} />
+                    <AddressForm
+                        handleOpenModal={handleOpenModal}
+                        location={location}
+                    />
                     <DayList {...{ timeList, setTimeList }} />
                     <TimeList {...{ timeList, setTimeList }} />
                 </section>
-                <Footer text="확인" />
+                <Footer text="확인" onClick={handleSubmit} />
                 <Modal
-                    type={mapType}
+                    mapFor={mapFor}
                     isOpen={modalOpen}
                     onClose={handleCloseModal}
+                    location={location}
+                    handleLocationSelect={handleLocationSelect}
                 />
             </main>
         </>

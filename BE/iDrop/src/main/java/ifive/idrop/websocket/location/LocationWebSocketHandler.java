@@ -148,10 +148,15 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
 
     private void sendChildLocationToParent(CurrentPickUp currentPickUp, DriverGeoLocation driverLocation) throws Exception {
         Long parentId = currentPickUp.getParentId();
-        WebSocketSession receiver = sessions.get(parents.get(parentId));
-        if (receiver != null && receiver.isOpen()) {
-            ChildGeoLocation childLocation = new ChildGeoLocation(driverLocation, currentPickUp.getChildId());
-            receiver.sendMessage(new TextMessage(CustomObjectMapper.getString(childLocation)));
+        try {
+            WebSocketSession receiver = sessions.get(parents.get(parentId));
+            if (receiver != null && receiver.isOpen()) {
+                ChildGeoLocation childLocation = new ChildGeoLocation(driverLocation, currentPickUp.getChildId());
+                receiver.sendMessage(new TextMessage(CustomObjectMapper.getString(childLocation)));
+            }
+        } catch (Exception e) { //driver는 정보를 보내는데 부모가 접속중이 아닌경우
+            e.printStackTrace();
         }
+
     }
 }

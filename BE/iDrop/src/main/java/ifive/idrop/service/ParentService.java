@@ -80,10 +80,10 @@ public class ParentService {
 
     private PickUpLocation createPickUpLocation(SubscribeRequest subscribeRequest) {
         PickUpLocation location = PickUpLocation.builder()
-                .startAddress(subscribeRequest.getStartLocation())
+                .startAddress(subscribeRequest.getStartAddress())
                 .startLatitude(subscribeRequest.getStartLatitude())
                 .startLongitude(subscribeRequest.getStartLongitude())
-                .endAddress(subscribeRequest.getEndLocation())
+                .endAddress(subscribeRequest.getEndAddress())
                 .endLatitude(subscribeRequest.getEndLatitude())
                 .endLongitude(subscribeRequest.getEndLongitude())
                 .build();

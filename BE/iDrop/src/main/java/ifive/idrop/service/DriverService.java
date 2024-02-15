@@ -18,13 +18,14 @@ import java.util.List;
 public class DriverService {
     private final DriverRepository driverRepository;
 
-    public List<Driver> driverList(DriverListRequest driverListRequest) {
+    @Transactional
+    public List<Driver> searchAvailableDrivers(DriverListRequest driverListRequest) {
         return driverRepository.findDriversBySchedule(driverListRequest);
     }
 
     @Transactional
-    public BaseResponse<String> registerInfo(DriverInformation driverInformation) {
-        Driver driver = driverRepository.findById(driverInformation.getDriverId())
+    public BaseResponse<String> registerInfo(Long driverId, DriverInformation driverInformation) {
+        Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
         driver.addAdditionalInfo(driverInformation);
         return BaseResponse.of("정보가 성공적으로 등록되었습니다.", driver.getName());

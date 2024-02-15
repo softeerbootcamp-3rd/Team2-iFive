@@ -10,5 +10,5 @@ public class DriverSummary {
     private String name;
     private String image;
     private String introduction;
-    private Double score;
+    private Double starRate;
 }

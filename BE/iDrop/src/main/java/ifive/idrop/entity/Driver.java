@@ -1,18 +1,19 @@
 package ifive.idrop.entity;
 
 import ifive.idrop.dto.DriverInformation;
+import ifive.idrop.dto.DriverSummary;
 import ifive.idrop.dto.WorkHoursDto;
 import ifive.idrop.entity.enums.Gender;
+import ifive.idrop.exception.CommonException;
+import ifive.idrop.exception.ErrorCode;
 import jakarta.persistence.*;
 import lombok.Getter;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
-import java.time.format.TextStyle;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Locale;
+
+import static ifive.idrop.utils.ScheduleUtils.*;
 
 @Entity
 @Getter
@@ -29,8 +30,8 @@ public class Driver extends Users {
     private String career;
     @Lob
     private String introduction;
-    private Double driverScore;
-    private Double score;
+    private Double drivingScore;
+    private Double starRate;
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "car_id")
     private Car car;
@@ -51,14 +52,22 @@ public class Driver extends Users {
         this.career = (info.getCareer() != null) ? info.getCareer() : this.career;
         this.introduction = (info.getIntroduction() != null) ? info.getIntroduction() : this.introduction;
 
-        List<String> dayOfWeeks = Arrays.stream(DayOfWeek.values()).map(d -> d.getDisplayName(TextStyle.SHORT, Locale.US)).toList();
-
         List<WorkHoursDto> availableTime = info.getAvailableTime();
         for (WorkHoursDto workHoursDto : availableTime) {
-            if (!dayOfWeeks.contains(workHoursDto.getDay())) {
-                throw new RuntimeException();
+            if (!DAY_OF_WEEKS.contains(workHoursDto.getDay())) {
+                throw new CommonException(ErrorCode.INVALID_DAY_OF_WEEK);
             }
             workHoursList.add(workHoursDto.toEntity(this));
         }
+    }
+
+    public DriverSummary getSummary() {
+        return DriverSummary.builder()
+                .driverId(this.getId())
+                .name(this.getName())
+                .image(this.getImage())
+                .introduction(this.getIntroduction())
+                .starRate(this.getStarRate())
+                .build();
     }
 }

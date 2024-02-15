@@ -1,13 +1,13 @@
 package ifive.idrop.controller;
 
+import ifive.idrop.annotation.Login;
 import ifive.idrop.dto.BaseResponse;
+import ifive.idrop.dto.NameResponse;
 import ifive.idrop.dto.SignUpRequest;
+import ifive.idrop.entity.Users;
 import ifive.idrop.service.UserService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
@@ -18,5 +18,10 @@ public class UserController {
     @PostMapping("/signup")
     public BaseResponse<String> signUp(@RequestBody SignUpRequest signUpRequest) {
         return userService.signUp(signUpRequest);
+    }
+
+    @GetMapping("/name")
+    public NameResponse getName(@Login Users user) {
+        return userService.getName(user);
     }
 }

@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,6 +17,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DriverRepository {
     private final EntityManager em;
+    private final PickUpRepository pickUpRepository;
 
     public Optional<Driver> findById(Long id) {
         return Optional.ofNullable(em.find(Driver.class, id));
@@ -29,17 +31,22 @@ public class DriverRepository {
     public List<Driver> findDriversBySchedule(DriverListRequest driverListRequest) {
         RequestSchedule requestSchedule = ScheduleUtils.parseToList(driverListRequest.getSchedule());
 
+        List<Driver> availableDrivers = new ArrayList<>();
         List<Driver> drivers = findAllDrivers();
         for (Driver driver : drivers) {
-            List<LocalDateTime> reservedSchedules = driver.getReservedScheduleList()
-                    .stream()
-                    .map(ReservedSchedule::getReservedTime)
+//            List<LocalDateTime> reservedSchedules = driver.getReservedScheduleList()
+//                    .stream()
+//                    .map(ReservedSchedule::getReservedTime)
+//                    .toList();
+            List<PickUp> pickUpList = pickUpRepository.findScheduledPickUpsByDriver(driver.getId());
+            List<LocalDateTime> reservedSchedule = pickUpList.stream()
+                    .map(PickUp::getReservedTime)
                     .toList();
             List<WorkHours> workHoursList = driver.getWorkHoursList();
-            if (!requestSchedule.isInWorkHours(workHoursList) || !requestSchedule.isAvailable(reservedSchedules)) {
-                drivers.remove(driver);
+            if (requestSchedule.isAvailable(workHoursList, reservedSchedule)) {
+                availableDrivers.add(driver);
             }
         }
-        return drivers;
+        return availableDrivers;
     }
 }

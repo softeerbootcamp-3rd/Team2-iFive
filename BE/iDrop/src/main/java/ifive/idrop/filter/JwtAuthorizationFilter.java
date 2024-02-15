@@ -85,10 +85,10 @@ public class JwtAuthorizationFilter implements Filter {
     }
 
     private void verifyAuthorization(String uri, AuthenticateUser user) {
-        if (PatternMatchUtils.simpleMatch("*/driver*",uri) && !user.getRole().equals(Role.DRIVER)){
+        if (PatternMatchUtils.simpleMatch("/driver/*",uri) && !user.getRole().equals(Role.DRIVER)){
             throw new CommonException(ErrorCode.UNAUTHORIZED_USER);
         }
-        if (PatternMatchUtils.simpleMatch("*/parent*",uri) && !user.getRole().equals(Role.PARENT)){
+        if (PatternMatchUtils.simpleMatch("/parent/*",uri) && !user.getRole().equals(Role.PARENT)){
             throw new CommonException(ErrorCode.UNAUTHORIZED_USER);
         }
     }

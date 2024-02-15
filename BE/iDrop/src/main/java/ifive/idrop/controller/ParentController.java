@@ -1,7 +1,6 @@
 package ifive.idrop.controller;
 
 import ifive.idrop.dto.DriverListRequest;
-import ifive.idrop.dto.DriverSummary;
 import ifive.idrop.dto.DriverListResponse;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.service.DriverService;
@@ -16,22 +15,14 @@ import java.util.List;
 public class ParentController {
     private final DriverService driverService;
 
-    @PostMapping("/search/drivers")
+    @GetMapping("/search/drivers")
     public DriverListResponse search(@RequestBody DriverListRequest driverListRequest) {
         DriverListResponse driverListResponse = new DriverListResponse();
-        List<DriverSummary> driverSummaryList = driverListResponse.getDrivers();
 
-        List<Driver> drivers = driverService.driverList(driverListRequest);
+        List<Driver> drivers = driverService.searchAvailableDrivers(driverListRequest);
 
         for (Driver driver : drivers) {
-            DriverSummary driverSummary = DriverSummary.builder()
-                    .driverId(driver.getId())
-                    .name(driver.getName())
-                    .image(driver.getImage())
-                    .introduction(driver.getIntroduction())
-                    .score(driver.getScore())
-                    .build();
-            driverSummaryList.add(driverSummary);
+            driverListResponse.addDriverSummary(driver.getSummary());
         }
         return driverListResponse;
     }

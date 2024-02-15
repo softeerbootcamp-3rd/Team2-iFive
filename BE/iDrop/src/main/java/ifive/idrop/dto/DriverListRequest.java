@@ -1,6 +1,7 @@
 package ifive.idrop.dto;
 
 import lombok.Getter;
+import org.json.simple.JSONObject;
 
 @Getter
 public class DriverListRequest {
@@ -10,5 +11,5 @@ public class DriverListRequest {
     String endAddress;
     Double endLongitude;
     Double endLatitude;
-    String schedule;
+    JSONObject schedule;
 }

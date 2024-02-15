@@ -54,7 +54,6 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         String sessionId = session.getId();
         sessions.put(sessionId, session);
 
-
         Users user = getUserBySession(session);
 
         if (user.getRole() == DRIVER) {
@@ -115,8 +114,8 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     //웹소켓 세션에서 User 구하기
     private Users getUserBySession(WebSocketSession session) throws JsonProcessingException {
         // HTTP 헤더에서 엑세스 토큰을 꺼낸다.
-        System.out.println(session.getHandshakeHeaders().get("Sec-Websocket-Protocol"));
-        String accessToken = String.valueOf(session.getHandshakeHeaders().get("Sec-Websocket-Protocol")).substring("Bearer ".length() + 1);
+        String accessToken = String.valueOf(session.getHandshakeHeaders().get("Sec-Websocket-Protocol"));//.substring("Bearer ".length() + 1);
+        accessToken = accessToken.substring(1,accessToken.length()-1);
         AuthenticateUser authenticateUser = getAuthenticateUser(accessToken);
         return userRepository.findByUserId(authenticateUser.getUserId())
                 .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));

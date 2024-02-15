@@ -3,8 +3,9 @@ package ifive.idrop.entity.enums;
 public enum Days {
     SUN("SUN", "SUNDAY"),
     MON("MON", "MONDAY"),
+    TUE("TUE", "THUESDAY"),
     WED("WED", "WEDNESDAY"),
-    THR("THR", "THURSDAY"),
+    THU("THU", "THURSDAY"),
     FRI("FRI", "FRIDAY"),
     SAT("SAT", "SATURDAY");
 

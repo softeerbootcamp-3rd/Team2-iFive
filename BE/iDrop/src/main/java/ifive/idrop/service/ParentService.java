@@ -47,6 +47,14 @@ public class ParentService {
         return BaseResponse.success();
     }
 
+    public BaseResponse<String> getChildRunningInfo(Parent parent) {
+        List<Child> runningChild = parentRepository.findRunningChild(parent.getId());
+        if (runningChild.isEmpty()) {
+            throw new CommonException(ErrorCode.ALL_CHILD_NOT_EXIST);
+        }
+
+    }
+
     private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
         PickUp pickUp = PickUp.builder()
                 .reservedTime(localDateTime)

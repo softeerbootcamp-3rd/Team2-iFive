@@ -1,9 +1,12 @@
 package ifive.idrop.service;
 
+import ifive.idrop.entity.Driver;
 import ifive.idrop.entity.Parent;
+import ifive.idrop.entity.PickUp;
 import ifive.idrop.entity.PickUpInfo;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
+import ifive.idrop.repository.DriverRepository;
 import ifive.idrop.repository.ParentRepository;
 import ifive.idrop.repository.PickUpRepository;
 import lombok.RequiredArgsConstructor;
@@ -20,6 +23,7 @@ import java.util.stream.Collectors;
 public class PickUpService {
 
     private final ParentRepository parentRepository;
+    private final DriverRepository driverRepository;
     private final PickUpRepository pickUpRepository;
 
     public List<PickUpInfo> getValidPickUpInfosByParentId(Long parentId) {
@@ -33,4 +37,15 @@ public class PickUpService {
                 .filter(pi -> pi.getPickUpSubscribe().getExpiredDate().isAfter(now))
                 .collect(Collectors.toList());
     }
+
+    public List<PickUp> getTodayPickUpsByDriverId(Long driverId) {
+        Driver driver = driverRepository.findByDriverId(driverId)
+                .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
+
+        return pickUpRepository.findPickupInfosByDriverId(driverId).stream()
+                .flatMap(pi -> pi.getPickUpList().stream())
+                .filter(PickUp::isToday)
+                .collect(Collectors.toList());
+    }
+
 }

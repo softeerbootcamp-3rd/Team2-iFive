@@ -8,10 +8,11 @@
     align-items: center;
     position: relative;
     background: #fff;
-    img {
+    a {
         position: absolute;
         left: 25px;
     }
+
     .title {
         @extend %B_20;
     }

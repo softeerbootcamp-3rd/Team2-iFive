@@ -3,6 +3,7 @@ package ifive.idrop.service;
 import ifive.idrop.dto.response.BaseResponse;
 import ifive.idrop.dto.request.DriverInformation;
 import ifive.idrop.dto.request.DriverListRequest;
+import ifive.idrop.dto.response.DriverDetailResponse;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
@@ -29,5 +30,13 @@ public class DriverService {
                 .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
         driver.addAdditionalInfo(driverInformation);
         return BaseResponse.of("정보가 성공적으로 등록되었습니다.", driver.getName());
+    }
+
+    @Transactional(readOnly = true)
+    public DriverDetailResponse detail(Long driverId) {
+        Driver driver = driverRepository.findById(driverId)
+                .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
+        System.out.println(driver.getCareer());
+        return driver.getDetail();
     }
 }

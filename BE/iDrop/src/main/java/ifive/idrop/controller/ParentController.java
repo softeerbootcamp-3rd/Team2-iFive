@@ -1,6 +1,7 @@
 package ifive.idrop.controller;
 
 import ifive.idrop.dto.request.DriverListRequest;
+import ifive.idrop.dto.response.DriverDetailResponse;
 import ifive.idrop.dto.response.DriverListResponse;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.service.DriverService;
@@ -16,7 +17,7 @@ public class ParentController {
     private final DriverService driverService;
 
     @GetMapping("/search/drivers")
-    public DriverListResponse search(@RequestBody DriverListRequest driverListRequest) {
+    public DriverListResponse searchDrivers(@RequestBody DriverListRequest driverListRequest) {
         DriverListResponse driverListResponse = new DriverListResponse();
 
         List<Driver> drivers = driverService.searchAvailableDrivers(driverListRequest);
@@ -27,8 +28,8 @@ public class ParentController {
         return driverListResponse;
     }
 
-    @GetMapping("/test")
-    public void test(@RequestBody DriverListRequest driverListRequest) {
-        System.out.println(driverListRequest.getSchedule());
+    @GetMapping("/detail/driver/{driverId}")
+    public DriverDetailResponse detailDriver(@PathVariable("driverId") Long driverId) {
+        return driverService.detail(driverId);
     }
 }

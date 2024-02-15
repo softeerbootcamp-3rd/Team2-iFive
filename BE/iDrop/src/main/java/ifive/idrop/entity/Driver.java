@@ -1,6 +1,7 @@
 package ifive.idrop.entity;
 
 import ifive.idrop.dto.request.DriverInformation;
+import ifive.idrop.dto.response.DriverDetailResponse;
 import ifive.idrop.dto.response.DriverSummary;
 import ifive.idrop.dto.request.WorkHoursDto;
 import ifive.idrop.entity.enums.Gender;
@@ -62,9 +63,25 @@ public class Driver extends Users {
         return DriverSummary.builder()
                 .driverId(this.getId())
                 .name(this.getName())
-                .gender(this.gender.getGender())
+                .gender((this.gender != null) ? this.gender.getGender() : null)
                 .image(this.getImage())
                 .introduction(this.getIntroduction())
+                .starRate(this.getStarRate())
+                .numberOfReviews(100) //후기 개수, 나중에 후기 테이블을 만들면 실제 개수로 수정 예정
+                .build();
+    }
+
+    public DriverDetailResponse getDetail() {
+        return DriverDetailResponse.builder()
+                .driverId(this.getId())
+                .name(this.getName())
+                .phoneNumber(this.getPhoneNumber())
+                .gender((this.gender != null) ? this.gender.getGender() : null)
+                .birth(this.getBirth())
+                .image(this.getImage())
+                .career(this.getCareer())
+                .introduction(this.getIntroduction())
+                .drivingScore(this.getDrivingScore())
                 .starRate(this.getStarRate())
                 .numberOfReviews(100) //후기 개수, 나중에 후기 테이블을 만들면 실제 개수로 수정 예정
                 .build();

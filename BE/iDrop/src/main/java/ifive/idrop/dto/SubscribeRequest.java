@@ -1,6 +1,7 @@
 package ifive.idrop.dto;
 
 import lombok.Getter;
+import org.json.simple.JSONObject;
 
 @Getter
 public class SubscribeRequest {
@@ -12,5 +13,5 @@ public class SubscribeRequest {
     private String endAddress;
     private Double endLongitude;
     private Double endLatitude;
-    private String requestDate;
+    private JSONObject dateRequest;
 }

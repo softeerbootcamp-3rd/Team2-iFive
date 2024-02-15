@@ -55,6 +55,7 @@ public class ParentService {
         pickUpRepository.savePickUp(pickUp);
     }
 
+    // todo: 데모 이후 구독 생성시 후에 모두 승인이 아닌 대기 상태로 변경
     private PickUpSubscribe createPickUpSubscribe() {
         PickUpSubscribe subscribe = PickUpSubscribe.builder()
                 .status(PickUpStatus.ACCEPT)

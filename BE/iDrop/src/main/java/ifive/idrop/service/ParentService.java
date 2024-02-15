@@ -38,7 +38,7 @@ public class ParentService {
         PickUpInfo pickUpInfo = createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
 
         // JsonDate를 LocalDate로 파싱
-        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getRequestDate(), subscribe.getExpiredDate());
+        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getDateRequest(), subscribe.getExpiredDate());
 
         for (LocalDateTime localDateTime : scheduleList) {
             createPickUp(localDateTime, pickUpInfo);

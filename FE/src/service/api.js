@@ -115,6 +115,7 @@ export async function getKidInfo() {
             return kidInfo;
         } else {
             console.error("Failed to GET kid information");
+            throw new Error("Failed to GET kid information");
         }
     } catch (error) {
         console.error(error);

@@ -1,5 +1,6 @@
 @import "@/styles/color.scss";
 @import "@/styles/fontStyle.scss";
+@import "@/styles/util";
 
 %label {
     width: 80%;
@@ -25,6 +26,8 @@
     justify-content: flex-start;
     align-items: center;
     gap: 20px;
+    overflow-y: scroll;
+    @extend %hideScrollBar;
 }
 
 .locationForm {
@@ -76,6 +79,13 @@
         border-radius: 5px;
         justify-content: space-around;
         align-items: center;
+
+        .dayItem {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
     }
 }
 
@@ -93,10 +103,13 @@
     .timeList {
         width: 100%;
         height: max-content;
+        padding: 10px 0;
         display: flex;
+        flex-direction: column;
         justify-content: center;
         align-items: center;
-        padding: 10px 0;
+        gap: 10px;
+        flex-shrink: 0;
     }
 
     .timeEmpty {

@@ -1,21 +1,19 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import styles from "./Modal.module.scss"; // CSS 모듈 import
+import styles from "./Modal.module.scss";
 import { Footer } from "../common/Footer/Footer";
-import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
-import { useSearchParams } from "react-router-dom";
+import { AddressFinderMap } from "./AddressFinderMap";
 
-export function Modal({ type, isOpen, onClose }) {
+export function Modal({
+    mapFor,
+    isOpen,
+    onClose,
+    location,
+    handleLocationSelect
+}) {
     const [animate, setAnimate] = useState(false);
-    const [newAddress, setNewAddress] = useState("");
-    const [searchParams, setSearchParams] = useSearchParams();
+
     const handleClose = () => {
-        const searchParamKey = type === "출발지" ? "departure" : "destination";
-        setSearchParams({
-            ...Object.fromEntries(searchParams),
-            [searchParamKey]: newAddress
-        });
-        setNewAddress("");
         setAnimate(false);
     };
 
@@ -40,14 +38,16 @@ export function Modal({ type, isOpen, onClose }) {
             }`}
             onAnimationEnd={handleAnimationEnd}
         >
-            <AddressFinderMap setNewAddress={setNewAddress} />
+            <AddressFinderMap handleLocationSelect={handleLocationSelect} />
             <div className={styles.addressWrapper}>
-                <label htmlFor="address">{type}</label>
+                <label htmlFor="address">
+                    {mapFor === "departure" ? "출발지" : "도착지"}
+                </label>
                 <input
                     name="address"
                     className={styles.address}
                     type="text"
-                    value={newAddress || "지도를 이동해 주세요"}
+                    value={location[mapFor].address || "지도를 이동해 주세요"}
                     readOnly
                 />
             </div>

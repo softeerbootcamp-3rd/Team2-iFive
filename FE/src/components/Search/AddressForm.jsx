@@ -1,27 +1,25 @@
 import styles from "./AddressForm.module.scss";
-import { useSearchParams } from "react-router-dom";
 
-export function AddressForm({ handleOpenModal }) {
-    const [searchParams] = useSearchParams();
-    const [departure, destination] = [
-        searchParams.get("departure") || "출발지",
-        searchParams.get("destination") || "도착지"
-    ];
+export function AddressForm({ handleOpenModal, location }) {
+    const { departure, destination } = location;
+
     return (
         <form className={styles.addressForm}>
             <label className={styles.addressLabel}>출발지/도착지</label>
             <input
+                required
                 type="button"
                 className={styles.addressInput}
-                name="출발지"
-                value={departure}
+                name="departure"
+                value={departure.address || "출발지"}
                 onClick={handleOpenModal}
             />
             <input
+                required
                 type="button"
                 className={styles.addressInput}
-                name="도착지"
-                value={destination}
+                name="destination"
+                value={destination.address || "도착지"}
                 onClick={handleOpenModal}
             />
         </form>

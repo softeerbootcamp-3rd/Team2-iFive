@@ -13,8 +13,9 @@ public class ParentRepository {
     private final EntityManager em;
 
     public Optional<Child> findChild(Long parentId, String childName) {
-        return em.createQuery("SELECT c FROM Child c where c.parent.id =: parentId", Child.class)
+        return em.createQuery("SELECT c FROM Child c where c.parent.id =: parentId AND c.name =: childName", Child.class)
                 .setParameter("parentId", parentId)
+                .setParameter("childName", childName)
                 .getResultList()
                 .stream()
                 .findAny();

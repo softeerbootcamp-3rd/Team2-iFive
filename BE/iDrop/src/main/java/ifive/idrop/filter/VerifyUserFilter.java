@@ -1,7 +1,7 @@
 package ifive.idrop.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ifive.idrop.dto.LoginRequest;
+import ifive.idrop.dto.request.LoginRequest;
 import ifive.idrop.entity.enums.Role;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorResponse;

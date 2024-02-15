@@ -1,6 +1,6 @@
 package ifive.idrop.controller;
 
-import ifive.idrop.dto.TokenRefreshRequest;
+import ifive.idrop.dto.request.TokenRefreshRequest;
 import ifive.idrop.jwt.Jwt;
 import ifive.idrop.service.UserService;
 import lombok.RequiredArgsConstructor;

@@ -8,6 +8,7 @@ import java.time.format.TextStyle;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class ScheduleUtils {
     public static List<String> DAY_OF_WEEKS; //["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"]
@@ -25,10 +26,10 @@ public class ScheduleUtils {
         int dayOfToday = now.getDayOfWeek().getValue();
 
         for (int i = 0; i < 7; i++) {
-            JSONObject dayObject = (JSONObject) schedule.get(DAY_OF_WEEKS.get(i));
+            Map<String, Integer> dayObject = (Map<String, Integer>) schedule.get(DAY_OF_WEEKS.get(i));
             if (dayObject != null) {
-                int hour = (Integer) dayObject.get("hour");
-                int minute = (Integer) dayObject.get("min");
+                int hour = dayObject.get("hour");
+                int minute = dayObject.get("min");
                 int difference = getDifferenceOfDayOfWeek(i + 1, dayOfToday);
                 for (int d = difference; d <= EXPIRATION; d += 7) {
                     if (d == 0)

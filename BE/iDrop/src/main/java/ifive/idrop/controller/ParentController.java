@@ -1,7 +1,7 @@
 package ifive.idrop.controller;
 
-import ifive.idrop.dto.DriverListRequest;
-import ifive.idrop.dto.DriverListResponse;
+import ifive.idrop.dto.request.DriverListRequest;
+import ifive.idrop.dto.response.DriverListResponse;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.service.DriverService;
 import lombok.RequiredArgsConstructor;
@@ -25,5 +25,10 @@ public class ParentController {
             driverListResponse.addDriverSummary(driver.getSummary());
         }
         return driverListResponse;
+    }
+
+    @GetMapping("/test")
+    public void test(@RequestBody DriverListRequest driverListRequest) {
+        System.out.println(driverListRequest.getSchedule());
     }
 }

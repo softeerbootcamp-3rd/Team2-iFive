@@ -1,4 +1,4 @@
-package ifive.idrop.dto;
+package ifive.idrop.dto.response;
 
 public class DriverDetailResponse {
 }

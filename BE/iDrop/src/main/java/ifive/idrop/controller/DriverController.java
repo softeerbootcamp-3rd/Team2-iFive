@@ -1,7 +1,8 @@
 package ifive.idrop.controller;
 
 import ifive.idrop.annotation.Login;
-import ifive.idrop.dto.*;
+import ifive.idrop.dto.request.DriverInformation;
+import ifive.idrop.dto.response.BaseResponse;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.service.DriverService;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
 package ifive.idrop.repository;
 
-import ifive.idrop.dto.DriverListRequest;
+import ifive.idrop.dto.request.DriverListRequest;
 import ifive.idrop.entity.*;
 import ifive.idrop.utils.RequestSchedule;
 import ifive.idrop.utils.ScheduleUtils;

@@ -1,8 +1,8 @@
 package ifive.idrop.service;
 
-import ifive.idrop.dto.BaseResponse;
-import ifive.idrop.dto.DriverInformation;
-import ifive.idrop.dto.DriverListRequest;
+import ifive.idrop.dto.response.BaseResponse;
+import ifive.idrop.dto.request.DriverInformation;
+import ifive.idrop.dto.request.DriverListRequest;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
@@ -18,7 +18,7 @@ import java.util.List;
 public class DriverService {
     private final DriverRepository driverRepository;
 
-    @Transactional
+    @Transactional(readOnly = true)
     public List<Driver> searchAvailableDrivers(DriverListRequest driverListRequest) {
         return driverRepository.findDriversBySchedule(driverListRequest);
     }

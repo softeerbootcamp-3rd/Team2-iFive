@@ -1,8 +1,8 @@
 package ifive.idrop.entity;
 
-import ifive.idrop.dto.DriverInformation;
-import ifive.idrop.dto.DriverSummary;
-import ifive.idrop.dto.WorkHoursDto;
+import ifive.idrop.dto.request.DriverInformation;
+import ifive.idrop.dto.response.DriverSummary;
+import ifive.idrop.dto.request.WorkHoursDto;
 import ifive.idrop.entity.enums.Gender;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
@@ -42,9 +42,6 @@ public class Driver extends Users {
     @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
     private List<WorkHours> workHoursList = new ArrayList<>();
 
-    @OneToMany(mappedBy = "driver", cascade = CascadeType.ALL)
-    private List<ReservedSchedule> reservedScheduleList = new ArrayList<>();
-
     public void addAdditionalInfo(DriverInformation info) {
         this.gender = (info.getGender() != null) ? Gender.of(info.getGender()) : this.gender;
         this.birth = (info.getBirth() != null) ? info.getBirth() : this.birth;
@@ -65,9 +62,11 @@ public class Driver extends Users {
         return DriverSummary.builder()
                 .driverId(this.getId())
                 .name(this.getName())
+                .gender(this.gender.getGender())
                 .image(this.getImage())
                 .introduction(this.getIntroduction())
                 .starRate(this.getStarRate())
+                .numberOfReviews(100) //후기 개수, 나중에 후기 테이블을 만들면 실제 개수로 수정 예정
                 .build();
     }
 }

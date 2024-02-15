@@ -1,6 +1,6 @@
 package ifive.idrop.entity;
 
-import ifive.idrop.dto.LoginRequest;
+import ifive.idrop.dto.request.LoginRequest;
 import ifive.idrop.entity.enums.Role;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -30,9 +30,5 @@ public abstract class Users {
 
     public boolean verifyUser(LoginRequest loginRequest) {
         return this.userId.equals(loginRequest.getUserId()) && this.password.equals(loginRequest.getPassword());
-    }
-
-    public void updatePhoneNumber(String phoneNumber) {
-        this.phoneNumber = (phoneNumber != null) ? phoneNumber : this.phoneNumber;
     }
 }

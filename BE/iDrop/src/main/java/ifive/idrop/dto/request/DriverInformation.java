@@ -1,4 +1,4 @@
-package ifive.idrop.dto;
+package ifive.idrop.dto.request;
 
 import lombok.Getter;
 

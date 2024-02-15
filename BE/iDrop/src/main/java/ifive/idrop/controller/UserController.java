@@ -1,9 +1,9 @@
 package ifive.idrop.controller;
 
 import ifive.idrop.annotation.Login;
-import ifive.idrop.dto.BaseResponse;
-import ifive.idrop.dto.NameResponse;
-import ifive.idrop.dto.SignUpRequest;
+import ifive.idrop.dto.response.BaseResponse;
+import ifive.idrop.dto.response.NameResponse;
+import ifive.idrop.dto.request.SignUpRequest;
 import ifive.idrop.entity.Users;
 import ifive.idrop.service.UserService;
 import lombok.RequiredArgsConstructor;

@@ -17,11 +17,11 @@ public class PickUpRepository {
     public List<PickUp> findScheduledPickUpsByDriver(Long driverId) {
         TypedQuery<PickUp> query = em.createQuery(
                 "SELECT p FROM PickUp p " +
-                        "JOIN p.pickUpSubscribe ps " +
-                        "JOIN ps.pickUpInfo pi " +
+                        "JOIN p.pickUpInfo pi " +
+                        "JOIN pi.pickUpSubscribe ps " +
                         "JOIN pi.driver d " +
                         "WHERE ps.status = :status " +
-                        "AND d.id >= :driverId " +
+                        "AND d.id = :driverId " +
                         "AND p.reservedTime >= CURRENT_TIMESTAMP", PickUp.class);
         query.setParameter("status", PickUpStatus.ACCEPT)
                 .setParameter("driverId", driverId);

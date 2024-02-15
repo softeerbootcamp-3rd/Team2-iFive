@@ -1,13 +1,10 @@
 package ifive.idrop.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ifive.idrop.annotation.Login;
-import ifive.idrop.dto.BaseResponse;
-import ifive.idrop.dto.LoginRequest;
-import ifive.idrop.dto.NameResponse;
-import ifive.idrop.dto.SignUpRequest;
-import ifive.idrop.entity.Child;
-import ifive.idrop.entity.Parent;
+import ifive.idrop.dto.response.BaseResponse;
+import ifive.idrop.dto.request.LoginRequest;
+import ifive.idrop.dto.response.NameResponse;
+import ifive.idrop.dto.request.SignUpRequest;
 import ifive.idrop.entity.Users;
 import ifive.idrop.entity.enums.Role;
 import ifive.idrop.exception.CommonException;
@@ -21,9 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor

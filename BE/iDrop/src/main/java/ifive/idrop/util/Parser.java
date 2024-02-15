@@ -21,8 +21,8 @@ public class Parser {
         Iterator<String> keys = scheduleJson.keys();
         while (keys.hasNext()) {
             String key = keys.next();
+            DayOfWeek dayOfWeek = DayOfWeek.valueOf(Days.getDayEnum(key));   // 날짜를 DayOfWeek 타입으로 변환
             JSONObject timeObj = scheduleJson.getJSONObject(key);
-            DayOfWeek dayOfWeek = DayOfWeek.valueOf(Days.getDayEnum(timeObj.toString()));   // 날짜를 DayOfWeek 타입으로 변환
             LocalDate date = findNearDateByday(dayOfWeek);  // 가장 인접한 날짜 탐색
 
             for (int i = 0; i < 4; i++) {

@@ -27,9 +27,6 @@ public class PickUpSubscribe {
     private LocalDateTime modifiedDate;
     private LocalDateTime expiredDate;
 
-    @OneToMany(mappedBy = "pickUpSubscribe")
-    private List<PickUp> pickUpList = new ArrayList<>();
-
     @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pickup_info_id")
     private PickUpInfo pickUpInfo;

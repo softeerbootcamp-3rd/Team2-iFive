@@ -3,12 +3,17 @@ package ifive.idrop.entity;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor
+@Getter
 public class PickUpInfo {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -40,4 +45,8 @@ public class PickUpInfo {
     public void updatePickUpLocation(PickUpLocation location) {
         this.pickUpLocation = location;
     }
+
+    @OneToMany
+    @JoinColumn(name = "pickup_info")
+    private List<PickUp> pickUpList = new ArrayList<>();
 }

@@ -1,10 +1,7 @@
 package ifive.idrop.entity;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.Builder;
-import lombok.RequiredArgsConstructor;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
@@ -25,12 +22,12 @@ public class PickUp {
     private LocalDateTime endTime;
     private LocalDateTime reservedTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pickup_subscribe_id")
-    private PickUpSubscribe pickUpSubscribe;
+    @ManyToOne
+    @JoinColumn(name = "pickup_info_id")
+    private PickUpInfo pickUpInfo;
 
-    public void updatePickUpSubscribe(PickUpSubscribe subscribe) {
-        this.pickUpSubscribe = subscribe;
-        subscribe.getPickUpList().add(this);
+    public void updatePickUpInfo(PickUpInfo pickUpInfo) {
+        this.pickUpInfo = pickUpInfo;
+        pickUpInfo.getPickUpList().add(this);
     }
 }

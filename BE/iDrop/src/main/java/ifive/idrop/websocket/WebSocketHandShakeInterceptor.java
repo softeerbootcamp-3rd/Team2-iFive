@@ -10,6 +10,7 @@ import ifive.idrop.util.CustomObjectMapper;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.server.ServerHttpRequest;
 import org.springframework.http.server.ServerHttpResponse;
 import org.springframework.web.socket.WebSocketHandler;
@@ -31,12 +32,19 @@ public class WebSocketHandShakeInterceptor implements HandshakeInterceptor {
         String subProtocol = new String(accessToken);
         response.getHeaders().set("Sec-WebSocket-Protocol", subProtocol);
 
-        AuthenticateUser authenticateUser = getAuthenticateUser(accessToken);
-        Optional<Users> user = userRepository.findByUserId(authenticateUser.getUserId());
-        if (user.isEmpty()) {
+        try {
+            AuthenticateUser authenticateUser = getAuthenticateUser(accessToken);
+            Optional<Users> user = userRepository.findByUserId(authenticateUser.getUserId());
+            if (user.isEmpty()) {
+                return false;
+            }
+            return true;
+        } catch (Exception e) {
+            response.setStatusCode(HttpStatus.UNAUTHORIZED);
             return false;
         }
-        return true;
+
+
     }
 
     @Override

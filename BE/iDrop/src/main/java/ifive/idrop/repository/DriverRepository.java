@@ -2,12 +2,12 @@ package ifive.idrop.repository;
 
 import ifive.idrop.dto.request.DriverListRequest;
 import ifive.idrop.entity.*;
-import ifive.idrop.utils.RequestSchedule;
-import ifive.idrop.utils.ScheduleUtils;
+import ifive.idrop.util.RequestSchedule;
+import ifive.idrop.util.ScheduleUtils;
+import ifive.idrop.entity.Driver;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,10 +34,6 @@ public class DriverRepository {
         List<Driver> availableDrivers = new ArrayList<>();
         List<Driver> drivers = findAllDrivers();
         for (Driver driver : drivers) {
-//            List<LocalDateTime> reservedSchedules = driver.getReservedScheduleList()
-//                    .stream()
-//                    .map(ReservedSchedule::getReservedTime)
-//                    .toList();
             List<PickUp> pickUpList = pickUpRepository.findScheduledPickUpsByDriver(driver.getId());
             List<LocalDateTime> reservedSchedule = pickUpList.stream()
                     .map(PickUp::getReservedTime)

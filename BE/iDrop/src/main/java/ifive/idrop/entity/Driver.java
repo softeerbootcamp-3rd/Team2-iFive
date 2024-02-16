@@ -14,7 +14,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-import static ifive.idrop.utils.ScheduleUtils.*;
+import static ifive.idrop.util.ScheduleUtils.*;
 
 @Entity
 @Getter

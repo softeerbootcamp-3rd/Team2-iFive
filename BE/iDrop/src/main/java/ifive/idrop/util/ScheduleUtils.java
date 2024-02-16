@@ -1,4 +1,4 @@
-package ifive.idrop.utils;
+package ifive.idrop.util;
 
 import org.json.simple.JSONObject;
 

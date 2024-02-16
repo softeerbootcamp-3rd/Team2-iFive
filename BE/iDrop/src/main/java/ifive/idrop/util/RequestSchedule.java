@@ -1,4 +1,4 @@
-package ifive.idrop.utils;
+package ifive.idrop.util;
 
 import ifive.idrop.entity.WorkHours;
 
@@ -9,7 +9,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Stream;
 
-import static ifive.idrop.utils.ScheduleUtils.*;
+import static ifive.idrop.util.ScheduleUtils.*;
 
 public class RequestSchedule {
     private List<LocalDateTime> requestSchedule = new ArrayList<>();

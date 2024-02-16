@@ -1,8 +1,14 @@
 package ifive.idrop.entity;
 
 import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.RequiredArgsConstructor;
 
 @Entity
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 public class PickUpLocation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

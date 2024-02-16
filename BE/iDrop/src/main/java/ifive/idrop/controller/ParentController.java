@@ -7,14 +7,25 @@ import ifive.idrop.entity.Driver;
 import ifive.idrop.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import ifive.idrop.annotation.Login;
+import ifive.idrop.dto.response.BaseResponse;
+import ifive.idrop.dto.request.SubscribeRequest;
+import ifive.idrop.entity.Parent;
+import ifive.idrop.service.ParentService;
+import org.json.JSONException;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/parent")
 public class ParentController {
     private final DriverService driverService;
+    private final ParentService parentService;
 
     @GetMapping("/search/drivers")
     public DriverListResponse searchDrivers(@RequestBody DriverListRequest driverListRequest) {
@@ -31,5 +42,10 @@ public class ParentController {
     @GetMapping("/detail/driver/{driverId}")
     public DriverDetailResponse detailDriver(@PathVariable("driverId") Long driverId) {
         return driverService.detail(driverId);
+    }
+
+    @PostMapping("/subscribe")
+    public BaseResponse<String> subscribeDriver(@Login Parent parent, @RequestBody SubscribeRequest request) throws JSONException {
+        return parentService.createSubscribe(parent, request);
     }
 }

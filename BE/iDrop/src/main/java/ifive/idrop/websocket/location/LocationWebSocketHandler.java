@@ -11,7 +11,7 @@ import ifive.idrop.filter.AuthenticateUser;
 import ifive.idrop.filter.VerifyUserFilter;
 import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
-import ifive.idrop.utils.CustomObjectMapper;
+import ifive.idrop.util.CustomObjectMapper;
 import ifive.idrop.websocket.PickUpInfoRepository;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;

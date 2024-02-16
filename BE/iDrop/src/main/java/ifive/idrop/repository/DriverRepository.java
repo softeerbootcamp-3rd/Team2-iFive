@@ -12,8 +12,7 @@ import java.util.Optional;
 public class DriverRepository {
     private final EntityManager em;
 
-    public Optional<Driver> findByDriverId(Long driverId) {
-        Driver driver = em.find(Driver.class, driverId);
-        return Optional.ofNullable(driver);
+    public Optional<Driver> findById(Long id) {
+        return Optional.ofNullable(em.find(Driver.class, id));
     }
 }

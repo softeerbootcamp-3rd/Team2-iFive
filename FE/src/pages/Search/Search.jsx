@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Search.module.scss";
 import { Header } from "@/components/common/Header/Header";
 import { Footer } from "@/components/common/Footer/Footer";
@@ -23,6 +24,8 @@ export default function Search() {
         destination: { ...INITIAL_LOCATIION_STATE }
     });
 
+    const navigate = useNavigate();
+
     const handleOpenModal = ({ target: { name } }) => {
         setMapFor(name);
         setModalOpen(true);
@@ -32,9 +35,22 @@ export default function Search() {
         setModalOpen(false);
     };
 
-    const handleSubmit = () => {
-        console.log(schedule);
-        navigate("/subscription/drivers");
+    function transformLocationData({ departure, destination }) {
+        return {
+            startAddress: departure.address,
+            startLatitude: departure.latitude,
+            startLongitude: departure.longitude,
+            endAddress: destination.address,
+            endLatitude: destination.latitude,
+            endLongitude: destination.longitude
+        };
+    }
+
+    // TODO - form을 따 채웠을 때 버튼 활성화
+    const handleSubmit = (location, schedule) => {
+        const locationData = transformLocationData(location);
+        console.log({ ...locationData, schedule });
+        navigate("/subscription/drivers", { ...locationData, schedule });
     };
 
     // 상위에서 이렇게 함수를 만들어서 넘겨주는게 좋은지 set함수만 넘기고 사용하는 곳에서 함수로 만드는 것이 좋은지 모르겠음
@@ -67,7 +83,10 @@ export default function Search() {
                         handleScheduleChange={handleScheduleChange}
                     />
                 </section>
-                <Footer text="확인" onClick={handleSubmit} />
+                <Footer
+                    text="확인"
+                    onClick={() => handleSubmit(location, schedule)}
+                />
                 <Modal
                     mapFor={mapFor}
                     isOpen={modalOpen}

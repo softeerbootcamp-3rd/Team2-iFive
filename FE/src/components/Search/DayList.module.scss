@@ -1,0 +1,24 @@
+@import "@/styles/color.scss";
+@import "@/styles/fontStyle.scss";
+
+.dayItem {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    p {
+        @extend %R_16;
+        width: 30px;
+        height: 30px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+    }
+}
+.dayItem.active {
+    p {
+        background-color: $primary;
+        color: #fff;
+    }
+}

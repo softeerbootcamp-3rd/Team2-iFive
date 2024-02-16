@@ -1,0 +1,19 @@
+@import "@/styles/color.scss";
+@import "@/styles/fontStyle.scss";
+
+.select {
+    width: 30px;
+    height: 30px;
+    border: none;
+    border-bottom: 2px solid $primary;
+    background-color: #fff;
+    outline: none;
+    @extend %M_20;
+
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    option {
+        text-align: center;
+    }
+}

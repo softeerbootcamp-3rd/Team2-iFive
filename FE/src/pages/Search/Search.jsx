@@ -1,108 +1,98 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import styles from "./Search.module.scss";
 import { Header } from "@/components/common/Header/Header";
 import { Footer } from "@/components/common/Footer/Footer";
-import { TimeItem } from "@/components/Search/TimeItem";
-import Modal from "../../components/Search/Modal";
-import { useSearchParams } from "react-router-dom";
+import { Modal } from "@/components/Search/Modal";
+import { AddressForm } from "@/components/Search/AddressForm";
+import { DayList } from "../../components/Search/DayList";
+import { TimeList } from "../../components/Search/TimeList";
 
-const weekDays = [
-    "일요일",
-    "월요일",
-    "화요일",
-    "수요일",
-    "목요일",
-    "금요일",
-    "토요일"
-];
-
-const DEFAULT_TIME_LIST = weekDays.reduce((acc, cur) => {
-    return { ...acc, [cur]: false };
-}, {});
+const INITIAL_LOCATIION_STATE = {
+    address: "",
+    latitude: "",
+    longitude: ""
+};
 
 export default function Search() {
-    const [timeList, setTimeList] = useState(DEFAULT_TIME_LIST);
+    const [schedule, setSchedule] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
-    const [mapType, setMapType] = useState("");
-    const [searchParams] = useSearchParams();
-    const [departure, destination] = [
-        searchParams.get("departure") || "출발지",
-        searchParams.get("destination") || "도착지"
-    ];
+    const [mapFor, setMapFor] = useState("");
+
+    const [location, setLocation] = useState({
+        departure: { ...INITIAL_LOCATIION_STATE },
+        destination: { ...INITIAL_LOCATIION_STATE }
+    });
+
+    setDrivers(data);
+    const navigate = useNavigate();
 
     const handleOpenModal = ({ target: { name } }) => {
-        setMapType(name);
+        setMapFor(name);
         setModalOpen(true);
     };
 
     const handleCloseModal = () => {
         setModalOpen(false);
     };
-    const handleWeekClick = (day) => {
-        setTimeList((prevTimeList) => ({
-            ...prevTimeList,
-            [day]: !prevTimeList[day]
+
+    function transformLocationData({ departure, destination }) {
+        return {
+            startAddress: departure.address,
+            startLatitude: departure.latitude,
+            startLongitude: departure.longitude,
+            endAddress: destination.address,
+            endLatitude: destination.latitude,
+            endLongitude: destination.longitude
+        };
+    }
+
+    // TODO - form을 따 채웠을 때 버튼 활성화
+    const handleSubmit = (location, schedule) => {
+        const locationData = transformLocationData(location);
+        navigate("/subscription/drivers", { ...locationData, schedule });
+    };
+
+    // 상위에서 이렇게 함수를 만들어서 넘겨주는게 좋은지 set함수만 넘기고 사용하는 곳에서 함수로 만드는 것이 좋은지 모르겠음
+    const handleLocationSelect = (data) => {
+        setLocation((prevLocation) => ({
+            ...prevLocation,
+            [mapFor]: data
         }));
     };
 
-    const dayListElement = weekDays.map((day) => (
-        <li
-            key={day}
-            className={styles.dayItem}
-            onClick={() => handleWeekClick(day)}
-        >
-            {day[0]}
-        </li>
-    ));
-
-    const timeListElement = weekDays
-        .filter((day) => timeList[day] === true)
-        .map((day, index) => <TimeItem day={day} key={`day-${index}`} />);
-
-    const timeListElemen = timeListElement.length ? (
-        timeListElement
-    ) : (
-        <li className={styles.timeEmpty}>픽업 요일을 선택해주세요</li>
-    );
+    const handleScheduleChange = (day, unit) => (value) => {
+        setSchedule((prevSchedule) => ({
+            ...prevSchedule,
+            [day]: { ...prevSchedule[day], [unit]: value }
+        }));
+    };
 
     return (
         <>
             <main className={styles.container}>
-                <Header title="픽업 신청" />
+                <Header title="픽업 신청" to="/" />
                 <section className={styles.contents}>
-                    <form className={styles.locationForm}>
-                        <label className={styles.locationLabel}>
-                            출발지/도착지
-                        </label>
-                        <input
-                            type="button"
-                            className={styles.locationInput}
-                            name="출발지"
-                            value={departure}
-                            onClick={handleOpenModal}
-                        />
-                        <input
-                            type="button"
-                            className={styles.locationInput}
-                            name="도착지"
-                            value={destination}
-                            onClick={handleOpenModal}
-                        />
-                    </form>
-                    <article className={styles.dayBox}>
-                        <label className={styles.dayLabel}>픽업 요일</label>
-                        <ul className={styles.dayList}>{dayListElement}</ul>
-                    </article>
-                    <article className={styles.time}>
-                        <label className={styles.timeLabel}>픽업 시간</label>
-                        <ul className={styles.timeList}>{timeListElemen}</ul>
-                    </article>
+                    <AddressForm
+                        handleOpenModal={handleOpenModal}
+                        location={location}
+                    />
+                    <DayList schedule={schedule} setSchedule={setSchedule} />
+                    <TimeList
+                        schedule={schedule}
+                        handleScheduleChange={handleScheduleChange}
+                    />
                 </section>
-                <Footer text="확인" />
+                <Footer
+                    text="확인"
+                    onClick={() => handleSubmit(location, schedule)}
+                />
                 <Modal
-                    type={mapType}
+                    mapFor={mapFor}
                     isOpen={modalOpen}
                     onClose={handleCloseModal}
+                    location={location}
+                    handleLocationSelect={handleLocationSelect}
                 />
             </main>
         </>

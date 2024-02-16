@@ -80,7 +80,34 @@ async function sendAuthRequest(url, options = {}) {
 
     return response;
 }
-// 위의 두 함수 사용 예시.
+
+export async function fetchDrivers(requestBody) {
+    if (!requestBody) return;
+
+    try {
+        const response = await sendAuthRequest(
+            `${BASE_URL}/parent/search/drivers`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(requestBody)
+            }
+        );
+
+        if (!response.ok) {
+            throw new Error("Network response was not ok");
+        }
+
+        const data = await response.json();
+
+        return data;
+    } catch (error) {
+        console.error("Fetching drivers failed:", error);
+    }
+}
+
 async function submitReview(reviewData) {
     try {
         const response = await sendAuthRequest("/api/reviews", {

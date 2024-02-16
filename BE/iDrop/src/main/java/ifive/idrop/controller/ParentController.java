@@ -7,10 +7,7 @@ import ifive.idrop.entity.Parent;
 import ifive.idrop.service.ParentService;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 
 @RequiredArgsConstructor
@@ -22,5 +19,10 @@ public class ParentController {
     @PostMapping("/subscribe")
     public BaseResponse<String> subscribeDriver(@Login Parent parent, @RequestBody SubscribeRequest request) throws JSONException {
         return parentService.createSubscribe(parent, request);
+    }
+
+    @GetMapping("/pickup/now")
+    public BaseResponse checkPickUpInfo(@Login Parent parent) {
+        return parentService.getChildRunningInfo(parent);
     }
 }

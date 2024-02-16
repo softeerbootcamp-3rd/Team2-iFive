@@ -1,6 +1,7 @@
 package ifive.idrop.service;
 
 import ifive.idrop.dto.BaseResponse;
+import ifive.idrop.dto.CurrentPickUpResponse;
 import ifive.idrop.dto.SubscribeRequest;
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
@@ -44,6 +45,13 @@ public class ParentService {
         }
 
         return BaseResponse.success();
+    }
+    public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Parent parent) {
+        List<PickUpInfo> runningPickInfo = parentRepository.findRunningPickInfo(parent.getId());
+        return BaseResponse.of("Data Successfully Proceed",
+                runningPickInfo.stream()
+                        .map(CurrentPickUpResponse::of)
+                        .toList());
     }
 
     private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {

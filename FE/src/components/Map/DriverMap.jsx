@@ -34,7 +34,7 @@ export function DriverMap() {
 
     const getKidData = async () => {
         try {
-            const getData = await getKidInfo();
+            const getData = await getKidInfo("parent/pickup/now");
             setApiRequest(initState.success);
             setKidData(getData);
         } catch (error) {
@@ -57,10 +57,6 @@ export function DriverMap() {
 
     const webSocketRef = useRef(null);
     const lastLocationRef = useRef({ latitude: null, longitude: null });
-
-    // useEffect(() => {
-    //     getKidData();
-    // }, []);
 
     useEffect(() => {
         if (!driverMarker) return;

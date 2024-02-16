@@ -4,9 +4,9 @@ import { LabelledList } from "../common/Layout/LabelledList";
 import { NumericSelector } from "../common/Input/NumericSelector";
 import { SEARCH_PAGE } from "@/constants/constants";
 
-export function TimeList({ timeList, setTimeList }) {
+export function TimeList({ schedule }) {
     const filteredTimeItems = SEARCH_PAGE.WEEK.filter(
-        (day) => timeList[day] === true
+        (day) => schedule[day] !== false
     );
 
     const timeListElement = filteredTimeItems.length ? (

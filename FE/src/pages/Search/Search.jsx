@@ -8,6 +8,10 @@ import { AddressForm } from "@/components/Search/AddressForm";
 import { DayList } from "../../components/Search/DayList";
 import { TimeList } from "../../components/Search/TimeList";
 
+const DEFAULT_SCHEDULE = SEARCH_PAGE.WEEK.reduce((acc, cur) => {
+    return { ...acc, [cur]: false };
+}, {});
+
 const INITIAL_LOCATIION_STATE = {
     address: "",
     latitude: "",
@@ -15,7 +19,7 @@ const INITIAL_LOCATIION_STATE = {
 };
 
 export default function Search() {
-    const [timeList, setTimeList] = useState(SEARCH_PAGE.DEFAULT_TIME_LIST);
+    const [schedule, setSchedule] = useState(DEFAULT_SCHEDULE);
     const [modalOpen, setModalOpen] = useState(false);
     const [mapFor, setMapFor] = useState("");
 
@@ -54,8 +58,8 @@ export default function Search() {
                         handleOpenModal={handleOpenModal}
                         location={location}
                     />
-                    <DayList {...{ timeList, setTimeList }} />
-                    <TimeList {...{ timeList, setTimeList }} />
+                    <DayList schedule={schedule} setSchedule={setSchedule} />
+                    <TimeList schedule={schedule} />
                 </section>
                 <Footer text="확인" onClick={handleSubmit} />
                 <Modal

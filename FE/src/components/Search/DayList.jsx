@@ -2,9 +2,9 @@ import styles from "./DayList.module.scss";
 import { LabelledList } from "../common/Layout/LabelledList";
 import { SEARCH_PAGE } from "../../constants/constants";
 
-export function DayList({ timeList, setTimeList }) {
+export function DayList({ schedule, setSchedule }) {
     const handleWeekClick = (day) => {
-        setTimeList((prevTimeList) => {
+        setSchedule((prevTimeList) => {
             return {
                 ...prevTimeList,
                 [day]: !prevTimeList[day]
@@ -15,7 +15,9 @@ export function DayList({ timeList, setTimeList }) {
     const dayListElement = SEARCH_PAGE.WEEK.map((day) => (
         <li
             key={day}
-            className={`${styles.dayItem} ${timeList[day] && styles.active}`}
+            className={`${styles.dayItem} ${
+                schedule[day] !== false && styles.active
+            }`}
             onClick={(event) => handleWeekClick(day, event)}
         >
             <p>{day[0]}</p>

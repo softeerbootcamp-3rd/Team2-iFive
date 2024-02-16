@@ -1,11 +1,14 @@
 package ifive.idrop.entity;
 
 import jakarta.persistence.*;
-import lombok.Getter;
+import lombok.*;
 
 import java.time.LocalDateTime;
 
 @Entity
+@Builder
+@RequiredArgsConstructor
+@AllArgsConstructor
 @Getter
 public class PickUp {
     @Id
@@ -19,7 +22,12 @@ public class PickUp {
     private LocalDateTime endTime;
     private LocalDateTime reservedTime;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "pickup_info_id")
     private PickUpInfo pickUpInfo;
+
+    public void updatePickUpInfo(PickUpInfo pickUpInfo) {
+        this.pickUpInfo = pickUpInfo;
+        pickUpInfo.getPickUpList().add(this);
+    }
 }

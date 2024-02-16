@@ -10,12 +10,12 @@ export function NumericSelector({
     padChar,
     unit,
     defaultValue = "00",
-    onChange = (value) => {}
+    handleSelect
 }) {
     const [selectedValue, setSelectedValue] = useState(defaultValue);
     const handleChange = ({ target: { value } }) => {
         setSelectedValue(value);
-        onChange(value);
+        handleSelect?.(value);
     };
 
     const optionLength = (end - start) / step + 1;

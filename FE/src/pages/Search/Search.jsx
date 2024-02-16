@@ -8,9 +8,10 @@ import { AddressForm } from "@/components/Search/AddressForm";
 import { DayList } from "../../components/Search/DayList";
 import { TimeList } from "../../components/Search/TimeList";
 
-const DEFAULT_SCHEDULE = SEARCH_PAGE.WEEK.reduce((acc, cur) => {
-    return { ...acc, [cur]: false };
-}, {});
+const DEFAULT_SCHEDULE = {};
+// SEARCH_PAGE.WEEK.reduce((acc, cur) => {
+//     return { ...acc, [cur]: false };
+// }, {});
 
 const INITIAL_LOCATIION_STATE = {
     address: "",
@@ -38,6 +39,7 @@ export default function Search() {
     };
 
     const handleSubmit = () => {
+        console.log(schedule);
         navigate("/subscription/drivers");
     };
 
@@ -46,6 +48,13 @@ export default function Search() {
         setLocation((prevLocation) => ({
             ...prevLocation,
             [mapFor]: data
+        }));
+    };
+
+    const handleScheduleChange = (day, unit) => (value) => {
+        setSchedule((prevSchedule) => ({
+            ...prevSchedule,
+            [day]: { ...prevSchedule[day], [unit]: value }
         }));
     };
 
@@ -59,7 +68,10 @@ export default function Search() {
                         location={location}
                     />
                     <DayList schedule={schedule} setSchedule={setSchedule} />
-                    <TimeList schedule={schedule} />
+                    <TimeList
+                        schedule={schedule}
+                        handleScheduleChange={handleScheduleChange}
+                    />
                 </section>
                 <Footer text="확인" onClick={handleSubmit} />
                 <Modal

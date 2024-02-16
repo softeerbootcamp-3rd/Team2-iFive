@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -38,7 +37,7 @@ public class ParentService {
         PickUpInfo pickUpInfo = createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
 
         // JsonDate를 LocalDate로 파싱
-        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getDateRequest(), subscribe.getExpiredDate());
+        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getSchedule(), subscribe.getExpiredDate());
 
         for (LocalDateTime localDateTime : scheduleList) {
             createPickUp(localDateTime, pickUpInfo);
@@ -70,7 +69,7 @@ public class ParentService {
         PickUpInfo pickUpInfo = PickUpInfo.builder()
                 .child(child)
                 .driver(driver)
-                .schedule(subscribeRequest.getDateRequest().toJSONString())
+                .schedule(subscribeRequest.getSchedule().toJSONString())
                 .build();
         pickUpInfo.updatePickUpSubscribe(subscribe);
         pickUpInfo.updatePickUpLocation(location);

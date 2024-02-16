@@ -1,13 +1,13 @@
 package ifive.idrop.entity.enums;
 
 public enum Days {
-    SUN("SUN", "SUNDAY"),
-    MON("MON", "MONDAY"),
-    TUE("TUE", "THUESDAY"),
-    WED("WED", "WEDNESDAY"),
-    THU("THU", "THURSDAY"),
-    FRI("FRI", "FRIDAY"),
-    SAT("SAT", "SATURDAY");
+    SUN("Sun", "SUNDAY"),
+    MON("Mon", "MONDAY"),
+    TUE("Tue", "THUESDAY"),
+    WED("Wed", "WEDNESDAY"),
+    THU("Thu", "THURSDAY"),
+    FRI("Fri", "FRIDAY"),
+    SAT("Sat", "SATURDAY");
 
     private final String day;
     private final String fullDate;

@@ -3,7 +3,6 @@ import styles from "./Search.module.scss";
 import { Header } from "@/components/common/Header/Header";
 import { Footer } from "@/components/common/Footer/Footer";
 import { Modal } from "@/components/Search/Modal";
-import { SEARCH_PAGE } from "@/constants/constants";
 import { AddressForm } from "@/components/Search/AddressForm";
 import { DayList } from "../../components/Search/DayList";
 import { TimeList } from "../../components/Search/TimeList";

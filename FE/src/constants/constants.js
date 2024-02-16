@@ -54,12 +54,7 @@ export const SEARCH_PAGE = (function () {
         "토요일"
     ];
 
-    const DEFAULT_TIME_LIST = WEEK.reduce((acc, cur) => {
-        return { ...acc, [cur]: false };
-    }, {});
-
     return {
-        WEEK,
-        DEFAULT_TIME_LIST
+        WEEK
     };
 })();

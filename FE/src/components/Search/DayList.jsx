@@ -23,7 +23,7 @@ export function DayList({ schedule, setSchedule }) {
             className={`${styles.dayItem} ${schedule[day] && styles.active}`}
             onClick={(event) => handleWeekClick(day, event)}
         >
-            <p>{day[0]}</p>
+            <p>{SEARCH_PAGE.WEEK_MAP[day][0]}</p>
         </li>
     ));
 

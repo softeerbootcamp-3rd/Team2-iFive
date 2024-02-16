@@ -44,17 +44,19 @@ export const WEBSOCKET_URL =
     "ws://0.tcp.jp.ngrok.io:11952/ws/location-tracking";
 
 export const SEARCH_PAGE = (function () {
-    const WEEK = [
-        "일요일",
-        "월요일",
-        "화요일",
-        "수요일",
-        "목요일",
-        "금요일",
-        "토요일"
-    ];
+    const WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+    const WEEK_MAP = {
+        Sun: "일요일",
+        Mon: "월요일",
+        Tue: "화요일",
+        Wed: "수요일",
+        Thu: "목요일",
+        Fri: "금요일",
+        Sat: "토요일"
+    };
 
     return {
-        WEEK
+        WEEK,
+        WEEK_MAP
     };
 })();

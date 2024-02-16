@@ -32,7 +32,7 @@ function TimeItem({ day, handleScheduleChange }) {
     const handleMinuteSelect = handleScheduleChange(day, "min");
     return (
         <li className={styles.timeItem}>
-            <h6 className={styles.timeDay}>{day}</h6>
+            <h6 className={styles.timeDay}>{SEARCH_PAGE.WEEK_MAP[day]}</h6>
             <form className={styles.timeForm}>
                 <div className={styles.timeWrapper}>
                     <NumericSelector

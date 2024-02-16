@@ -30,8 +30,11 @@ jobs:
         mkdir -p ./src/main/resources/env
         echo touch ./src/main/resources/env/mysql.yml
         echo touch ./src/main/resources/env/jwt.yml
+        echo touch ./src/main/resources/data.sql
+        
         echo "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
         echo "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
+        echo "${{ secrets.DATA }}" > ./src/main/resources/data.sql
 
     - name: gradlew 실행 권한 설정
       run: |

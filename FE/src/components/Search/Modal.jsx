@@ -1,33 +1,31 @@
 import React, { useState, useEffect } from "react";
 import ReactDOM from "react-dom";
-import styles from "./Modal.module.scss"; // CSS 모듈 import
-import { Footer } from "../Common/Footer/Footer";
-import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
-import { useSearchParams } from "react-router-dom";
+import styles from "./Modal.module.scss";
+import { Footer } from "../common/Footer/Footer";
+import { AddressFinderMap } from "./AddressFinderMap";
 
-const Modal = ({ type, isOpen, onClose }) => {
+export function Modal({
+    mapFor,
+    isOpen,
+    onClose,
+    location,
+    handleLocationSelect
+}) {
     const [animate, setAnimate] = useState(false);
-    const [newAddress, setNewAddress] = useState("");
-    const [searchParams, setSearchParams] = useSearchParams();
+
     const handleClose = () => {
-        const searchParamKey = type === "출발지" ? "departure" : "destination";
-        setSearchParams({
-            ...Object.fromEntries(searchParams),
-            [searchParamKey]: newAddress
-        });
-        setNewAddress("");
-        setAnimate(false); // 모달 닫기 애니메이션 시작
+        setAnimate(false);
     };
 
     const handleAnimationEnd = () => {
         if (!animate) {
-            onClose(); // 애니메이션 종료 후 모달 닫기
+            onClose();
         }
     };
 
     useEffect(() => {
         if (isOpen) {
-            setAnimate(true); // 모달 열기 애니메이션 시작
+            setAnimate(true);
         }
     }, [isOpen]);
 
@@ -40,14 +38,16 @@ const Modal = ({ type, isOpen, onClose }) => {
             }`}
             onAnimationEnd={handleAnimationEnd}
         >
-            <AddressFinderMap setNewAddress={setNewAddress} />
+            <AddressFinderMap handleLocationSelect={handleLocationSelect} />
             <div className={styles.addressWrapper}>
-                <label htmlFor="address">{type}</label>
+                <label htmlFor="address">
+                    {mapFor === "departure" ? "출발지" : "도착지"}
+                </label>
                 <input
                     name="address"
                     className={styles.address}
                     type="text"
-                    value={newAddress || "지도를 이동해 주세요"}
+                    value={location[mapFor].address || "지도를 이동해 주세요"}
                     readOnly
                 />
             </div>
@@ -59,6 +59,4 @@ const Modal = ({ type, isOpen, onClose }) => {
         </div>,
         document.getElementById("portal")
     );
-};
-
-export default Modal;
+}

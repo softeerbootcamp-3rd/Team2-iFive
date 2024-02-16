@@ -1,71 +1,30 @@
+import { useLocation } from "react-router-dom";
+import { useState } from "react";
 import { Header } from "@/components/common/Header/Header";
-import styles from "./DriverList.module.scss";
 import { DriverItem } from "@/components/DriverList/DriverItem";
-
-const mock = [
-    {
-        name: "육종호",
-        career: "무사고 30년",
-        rating: 5.0,
-        ratingCnt: 323,
-        imgSrc: "",
-        introduce:
-            "아이 셋을 잘 길러낸 아버지 입니다. 아이들을 좋아해서 은퇴하고 픽업 기사로 일하고 있습니다."
-    },
-    {
-        name: "육종호",
-        career: "무사고 30년",
-        rating: 5.0,
-        ratingCnt: 323,
-        imgSrc: "",
-        introduce:
-            "아이 셋을 잘 길러낸 아버지 입니다. 아이들을 좋아해서 은퇴하고 픽업 기사로 일하고 있습니다."
-    },
-    {
-        name: "육종호",
-        career: "무사고 30년",
-        rating: 5.0,
-        ratingCnt: 323,
-        imgSrc: "",
-        introduce:
-            "아이 셋을 잘 길러낸 아버지 입니다. 아이들을 좋아해서 은퇴하고 픽업 기사로 일하고 있습니다."
-    },
-    {
-        name: "육종호",
-        career: "무사고 30년",
-        rating: 5.0,
-        ratingCnt: 323,
-        imgSrc: "",
-        introduce:
-            "아이 셋을 잘 길러낸 아버지 입니다. 아이들을 좋아해서 은퇴하고 픽업 기사로 일하고 있습니다."
-    },
-    {
-        name: "육종호",
-        career: "무사고 30년",
-        rating: 5.0,
-        ratingCnt: 323,
-        imgSrc: "",
-        introduce:
-            "아이 셋을 잘 길러낸 아버지 입니다. 아이들을 좋아해서 은퇴하고 픽업 기사로 일하고 있습니다."
-    },
-    {
-        name: "육종호",
-        career: "무사고 30년",
-        rating: 5.0,
-        ratingCnt: 323,
-        imgSrc: "",
-        introduce:
-            "아이 셋을 잘 길러낸 아버지 입니다. 아이들을 좋아해서 은퇴하고 픽업 기사로 일하고 있습니다."
-    }
-];
+import styles from "./DriverList.module.scss";
+import { fetchDrivers } from "../../service/api";
 
 export default function DriverList() {
+    const [drivers, setDrivers] = useState([]); // API 응답을 저장할 상태
+    const location = useLocation();
+
+    useEffect(
+        (async () => {
+            // API 요청을 보내는 함수
+
+            const data = await fetchDrivers();
+            setDrivers(data);
+        })(),
+        [location.state]
+    );
+
     return (
         <main className={styles.container}>
             <Header title="기사님 목록" />
             <section className={styles.list}>
-                {mock.map((data, index) => (
-                    <DriverItem key={"driverDetail-" + index} {...data} />
+                {drivers.map((data) => (
+                    <DriverItem key={data.id} {...data} />
                 ))}
             </section>
         </main>

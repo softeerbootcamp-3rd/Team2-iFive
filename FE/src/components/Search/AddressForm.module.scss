@@ -1,0 +1,31 @@
+@import "@/styles/color";
+@import "@/styles/fontStyle";
+@import "@/styles/layout";
+
+.addressForm {
+    width: 100%;
+    height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    flex-shrink: 0;
+
+    .addressLabel {
+        @extend %label;
+    }
+
+    .addressInput {
+        width: 80%;
+        height: 40px;
+        text-align: start;
+        border: none;
+
+        background-color: #fff;
+        outline: none;
+        padding-left: 10px;
+        @extend %M_14;
+        color: $gray;
+    }
+}

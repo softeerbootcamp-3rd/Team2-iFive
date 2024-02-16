@@ -23,7 +23,6 @@ import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 import java.io.IOException;
 import java.util.Map;
-import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 
 import static ifive.idrop.entity.enums.Role.*;
@@ -115,7 +114,9 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     //웹소켓 세션에서 User 구하기
     private Users getUserBySession(WebSocketSession session) throws JsonProcessingException {
         // HTTP 헤더에서 엑세스 토큰을 꺼낸다.
-        String accessToken = String.valueOf(session.getHandshakeHeaders().get("authorization")).substring("Bearer ".length() + 1);
+
+        String accessToken = String.valueOf(session.getHandshakeHeaders().get("Sec-Websocket-Protocol"));
+        accessToken = accessToken.substring(1,accessToken.length()-1);
         AuthenticateUser authenticateUser = getAuthenticateUser(accessToken);
         return userRepository.findByUserId(authenticateUser.getUserId())
                 .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
@@ -147,10 +148,15 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
 
     private void sendChildLocationToParent(CurrentPickUp currentPickUp, DriverGeoLocation driverLocation) throws Exception {
         Long parentId = currentPickUp.getParentId();
-        WebSocketSession receiver = sessions.get(parents.get(parentId));
-        if (receiver != null && receiver.isOpen()) {
-            ChildGeoLocation childLocation = new ChildGeoLocation(driverLocation, currentPickUp.getChildId());
-            receiver.sendMessage(new TextMessage(CustomObjectMapper.getString(childLocation)));
+        try {
+            WebSocketSession receiver = sessions.get(parents.get(parentId));
+            if (receiver != null && receiver.isOpen()) {
+                ChildGeoLocation childLocation = new ChildGeoLocation(driverLocation, currentPickUp.getChildId());
+                receiver.sendMessage(new TextMessage(CustomObjectMapper.getString(childLocation)));
+            }
+        } catch (Exception e) { //driver는 정보를 보내는데 부모가 접속중이 아닌경우
+            e.printStackTrace();
         }
+
     }
 }

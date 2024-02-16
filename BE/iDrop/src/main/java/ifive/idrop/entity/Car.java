@@ -1,7 +1,9 @@
 package ifive.idrop.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 
+@Getter
 @Entity
 public class Car {
     @Id

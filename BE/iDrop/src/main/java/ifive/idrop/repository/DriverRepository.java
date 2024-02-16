@@ -26,7 +26,9 @@ public class DriverRepository {
         String query = "SELECT pui\n" +
                 "FROM PickUpInfo pui\n" +
                 "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +
-                "WHERE pui.driver.id =: driverId AND pu.startTime IS NOT NULL";
+                "WHERE pui.driver.id =: driverId\n" +
+                "AND pu.startTime IS NOT NULL\n" +
+                "AND pu.endTime IS NULL";
         return em.createQuery(query, PickUpInfo.class)
                 .setParameter("driverId", driverId)
                 .getResultList();

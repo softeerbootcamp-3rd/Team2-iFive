@@ -96,6 +96,12 @@ export function DriverMap() {
                                 newLocation.longitude
                             )
                         );
+                        map.setCenter(
+                            getLatLng(
+                                newLocation.latitude,
+                                newLocation.longitude
+                            )
+                        );
                     }
                 })
                 .catch((error) => {

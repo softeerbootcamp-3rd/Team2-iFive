@@ -14,6 +14,8 @@ public enum ErrorCode {
     INVALID_ROLE_OF_USER(HttpStatus.BAD_REQUEST, "회원의 역할이 정확하지 않습니다.", "역할은 '기사' 또는 '부모' 중 하나여야 합니다."),
     DUPLICATE_USERID(HttpStatus.BAD_REQUEST, "이미 존재하는 아이디입니다.", "다른 아이디를 입력해주세요."),
     USERID_NOT_EXIST(HttpStatus.BAD_REQUEST, "존재하지 않는 아이디입니다.", "아이디를 다시 확인해주세요."),
+    DRIVER_NOT_EXIST(HttpStatus.BAD_REQUEST, "존재하지 기사입니다.", "기사 정보를 다시 확인해주세요."),
+    CHILD_NOT_EXIST(HttpStatus.BAD_REQUEST, "등록되지 않은 아이입니다.", "아이 정보를 등록해주세요."),
     PASSWORD_NOT_MATCHED(HttpStatus.BAD_REQUEST, "비밀번호가 맞지 않습니다.", "비밀번호를 다시 확인해주세요."),
     PICKUP_NOT_FOUND(HttpStatus.NOT_FOUND, "현재 업무 시간인 픽업이 없습니다.", "업무 시간에 위치추적을 시작해주세요");
 

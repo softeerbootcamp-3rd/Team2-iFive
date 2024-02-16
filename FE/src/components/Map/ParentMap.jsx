@@ -52,29 +52,28 @@ export default function ParentMap() {
         latitude: null,
         longitude: null
     });
-    const driverPosition = getLatLng(
-        driverLocate.latitude,
-        driverLocate.longitude
-    );
+
+    const driverPosition = getLatLng(37.5142677, 127.0295545);
     const driverMarker = useMarker(map, driverPosition);
+    // console.log(driverMarker);
 
     useEffect(() => {
-        // getData();
+        if (!driverMarker) return;
         webSocketRef.current = new WebSocket(WEBSOCKET_URL, [PARENT_TOKEN]);
 
         webSocketRef.current.onopen = () => console.log("WebSocket Connected!");
         webSocketRef.current.onmessage = ({ data }) => {
             // 위치 정보 받고 지도에 업데이트
             const { latitude, longitude } = JSON.parse(data);
-            setDriverLocate((prev) => ({
-                latitute: (prev.latitude = latitude),
-                longitude: (prev.longitude = longitude)
-            }));
-            if (driverMarker) {
-                driverMarker.setPosition(latitude, longitude);
-                map.setCenter(latitude, longitude);
-            }
+            // setDriverLocate((prev) => ({
+            //     latitute: (prev.latitude = latitude),
+            //     longitude: (prev.longitude = longitude)
+            // }));
+            console.log(driverMarker);
             console.log(latitude, longitude);
+            driverMarker.setPosition(getLatLng(latitude, longitude));
+            map.setCenter(getLatLng(latitude, longitude));
+            // console.log(driverMarker);
         };
         webSocketRef.current.onerror = (error) =>
             console.error("WebSocket: ", error);
@@ -86,7 +85,7 @@ export default function ParentMap() {
                 webSocketRef.current.close();
             }
         };
-    }, []);
+    }, [driverMarker]);
 
     return (
         <div className={styles.wrapper}>

@@ -24,6 +24,7 @@ export default function Search() {
         destination: { ...INITIAL_LOCATIION_STATE }
     });
 
+    setDrivers(data);
     const navigate = useNavigate();
 
     const handleOpenModal = ({ target: { name } }) => {
@@ -49,7 +50,6 @@ export default function Search() {
     // TODO - form을 따 채웠을 때 버튼 활성화
     const handleSubmit = (location, schedule) => {
         const locationData = transformLocationData(location);
-        console.log({ ...locationData, schedule });
         navigate("/subscription/drivers", { ...locationData, schedule });
     };
 

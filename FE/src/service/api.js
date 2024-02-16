@@ -10,7 +10,6 @@ import { getAccessToken, getRefreshToken } from "../utils/auth";
  * 로그인 성공 시 { success: true, data: Object },
  * 실패 시 { success: false, message: string } 반환
  */
-
 export async function login({ id, password }) {
     try {
         const response = await fetch(`${BASE_URL}/user/login`, {
@@ -100,12 +99,9 @@ async function submitReview(reviewData) {
     }
 }
 
-export async function getKidInfo() {
+export async function getKidInfo(parameter) {
     try {
-        const response = await fetch("qerq", {
-            headers: {}
-            // body:
-        });
+        const response = await sendAuthRequest(`${BASE_URL}/${parameter}`);
         if (response.ok) {
             const kidInfo = await response.json();
             return kidInfo;

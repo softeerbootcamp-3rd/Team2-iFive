@@ -29,10 +29,10 @@ public class ParentService {
 
     @Transactional
     public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) throws JSONException {
-        Optional<Driver> driver = driverRepository.findById(subscribeRequest.getDriverId());
-        checkDriverExist(driver);
-        Optional<Child> child = parentRepository.findChild(parent.getId(), subscribeRequest.getChildName());
-        checkChildExist(child);
+        Driver driver = driverRepository.findById(subscribeRequest.getDriverId())
+                .orElseThrow(() -> new CommonException(ErrorCode.DRIVER_NOT_EXIST));
+        Child child = parentRepository.findChild(parent.getId(), subscribeRequest.getChildName())
+                .orElseThrow(() -> new CommonException(ErrorCode.CHILD_NOT_EXIST));
 
         PickUpSubscribe subscribe = createPickUpSubscribe();
         PickUpLocation location = createPickUpLocation(subscribeRequest);
@@ -63,22 +63,22 @@ public class ParentService {
         pickUpRepository.savePickUp(pickUp);
     }
 
+    // todo: 데모 이후 구독 생성시 후에 모두 승인이 아닌 대기 상태로 변경
     private PickUpSubscribe createPickUpSubscribe() {
         PickUpSubscribe subscribe = PickUpSubscribe.builder()
                 .status(PickUpStatus.ACCEPT)
-                .requestDate(LocalDateTime.now().plusDays(1))
+                .requestDate(LocalDateTime.now())
                 .expiredDate(LocalDateTime.now().plusDays(1).plusWeeks(4))
                 .build();
         pickUpRepository.savePickUpSubscribe(subscribe);
         return subscribe;
     }
 
-    private PickUpInfo createPickUpInfo(SubscribeRequest subscribeRequest, Optional<Child> child, Optional<Driver> driver, PickUpLocation location, PickUpSubscribe subscribe) {
+    private PickUpInfo createPickUpInfo(SubscribeRequest subscribeRequest, Child child, Driver driver, PickUpLocation location, PickUpSubscribe subscribe) {
         PickUpInfo pickUpInfo = PickUpInfo.builder()
-                .child(child.get())
-                .driver(driver.get())
+                .child(child)
+                .driver(driver)
                 .schedule(subscribeRequest.getDateRequest().toJSONString())
-                .pickUpLocation(location)
                 .build();
         pickUpInfo.updatePickUpSubscribe(subscribe);
         pickUpInfo.updatePickUpLocation(location);
@@ -98,17 +98,4 @@ public class ParentService {
         pickUpRepository.savePickUpLocation(location);
         return location;
     }
-
-    private void checkChildExist(Optional<Child> child) {
-        if (child.isEmpty()) {
-            throw new CommonException(ErrorCode.CHILD_NOT_EXIST);
-        }
-    }
-
-    private void checkDriverExist(Optional<Driver> driver) {
-        if (driver.isEmpty()) {
-            throw new CommonException(ErrorCode.DRIVER_NOT_EXIST);
-        }
-    }
-
 }

@@ -9,7 +9,6 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 @Entity
-@Getter
 @Builder
 @RequiredArgsConstructor
 @AllArgsConstructor

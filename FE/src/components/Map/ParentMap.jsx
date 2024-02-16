@@ -22,10 +22,6 @@ const state = {
     error: "error"
 };
 
-// 웹 소캣 안에서 마커의 포지션을 업데이트 하려면
-// useEffect 밖에서 마커 객체를 가지고 있어야 함
-// 부모의 경우 기사의 위치는 소켓으로 받음.
-
 export default function ParentMap() {
     const [pickUpData, setPickUpdata] = useState();
     const [apiState, setApiState] = useState(state.loading);
@@ -51,11 +47,11 @@ export default function ParentMap() {
     const map = useMap(mapElementRef, { center }, isLoading);
 
     const webSocketRef = useRef();
+
     const [driverLocate, setDriverLocate] = useState({
         latitude: null,
         longitude: null
     });
-
     const driverPosition = getLatLng(
         driverLocate.latitude,
         driverLocate.longitude
@@ -66,14 +62,17 @@ export default function ParentMap() {
         // getData();
         webSocketRef.current = new WebSocket(WEBSOCKET_URL, [PARENT_TOKEN]);
 
-        // 웹 소켓 기본 이벤트
         webSocketRef.current.onopen = () => console.log("WebSocket Connected!");
         webSocketRef.current.onmessage = ({ data }) => {
             // 위치 정보 받고 지도에 업데이트
             const { latitude, longitude } = JSON.parse(data);
-            setDriverLocate({ latitude, longitude });
+            setDriverLocate((prev) => ({
+                latitute: (prev.latitude = latitude),
+                longitude: (prev.longitude = longitude)
+            }));
             if (driverMarker) {
                 driverMarker.setPosition(latitude, longitude);
+                map.setCenter(latitude, longitude);
             }
             console.log(latitude, longitude);
         };
@@ -87,7 +86,7 @@ export default function ParentMap() {
                 webSocketRef.current.close();
             }
         };
-    }, [driverMarker]);
+    }, []);
 
     return (
         <div className={styles.wrapper}>

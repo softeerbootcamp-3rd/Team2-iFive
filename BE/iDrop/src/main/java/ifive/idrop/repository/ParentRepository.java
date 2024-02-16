@@ -26,7 +26,7 @@ public class ParentRepository {
     public List<PickUpInfo> findRunningPickInfo(Long parentId) {
         String query = "SELECT pui\n" +
                 "FROM PickUpInfo pui\n" +
-                "JOIN Child c ON pui.id = c.id\n" +
+                "JOIN Child c ON pui.child.id = c.id\n" +
                 "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +
                 "WHERE c.parent.id =: parentId AND pu.startTime IS NOT NULL";
         return em.createQuery(query, PickUpInfo.class)

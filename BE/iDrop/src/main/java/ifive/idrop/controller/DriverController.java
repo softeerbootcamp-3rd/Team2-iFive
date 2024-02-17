@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class DriverController {
     private final DriverService driverService;
     @PostMapping("/register/info")
-    public BaseResponse<String> search(@Login Driver driver, @RequestBody DriverInformation driverInformation) {
+    public BaseResponse<String> registerInfo(@Login Driver driver, @RequestBody DriverInformation driverInformation) {
         return driverService.registerInfo(driver.getId(), driverInformation);
     }
 }

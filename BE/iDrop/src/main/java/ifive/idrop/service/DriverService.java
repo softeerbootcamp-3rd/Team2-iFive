@@ -36,7 +36,6 @@ public class DriverService {
     public DriverDetailResponse detail(Long driverId) {
         Driver driver = driverRepository.findById(driverId)
                 .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
-        System.out.println(driver.getCareer());
         return driver.getDetail();
     }
 }

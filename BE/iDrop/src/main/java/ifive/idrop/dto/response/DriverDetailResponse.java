@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 @Builder
 @Getter
-public class DriverDetailResponse { //후에 차량 정보, 구체적인 리뷰 등 추가 예정
+public class DriverDetailResponse { //TODO 후에 차량 정보, 구체적인 리뷰 등 추가 예정
     private Long driverId;
     private String name;
     private String phoneNumber;

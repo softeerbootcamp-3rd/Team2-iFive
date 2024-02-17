@@ -55,7 +55,7 @@ async function refreshAccessToken() {
     }
 }
 
-async function sendAuthRequest(url, options = {}) {
+export async function sendAuthRequest(url, options = {}) {
     const accessToken = getAccessToken();
     if (accessToken) {
         options.headers = {

@@ -1,9 +1,10 @@
 package ifive.idrop.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ifive.idrop.dto.BaseResponse;
-import ifive.idrop.dto.LoginRequest;
-import ifive.idrop.dto.SignUpRequest;
+import ifive.idrop.dto.response.BaseResponse;
+import ifive.idrop.dto.request.LoginRequest;
+import ifive.idrop.dto.response.NameResponse;
+import ifive.idrop.dto.request.SignUpRequest;
 import ifive.idrop.entity.Users;
 import ifive.idrop.entity.enums.Role;
 import ifive.idrop.exception.CommonException;
@@ -79,5 +80,12 @@ public class UserService {
         } catch (Exception e){
             return null;
         }
+    }
+
+    @Transactional(readOnly = true)
+    public NameResponse getName(Users user) {
+        Users foundUser = userRepository.findByUserId(user.getUserId())
+                .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
+        return new NameResponse(foundUser);
     }
 }

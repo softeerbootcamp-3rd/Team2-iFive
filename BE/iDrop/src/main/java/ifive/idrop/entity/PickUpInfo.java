@@ -1,9 +1,9 @@
 package ifive.idrop.entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.util.ArrayList;
@@ -20,15 +20,15 @@ public class PickUpInfo {
     @Column(name = "pickup_info_id")
     private Long id;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "pickup_location_id")
     private PickUpLocation pickUpLocation;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "driver_id")
     private Driver driver;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "child_id")
     private Child child;
 

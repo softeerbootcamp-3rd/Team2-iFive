@@ -1,8 +1,10 @@
 package ifive.idrop.service;
 
-import ifive.idrop.dto.BaseResponse;
+
+import ifive.idrop.dto.response.BaseResponse;
+import ifive.idrop.dto.request.SubscribeRequest;
 import ifive.idrop.dto.CurrentPickUpResponse;
-import ifive.idrop.dto.SubscribeRequest;
+
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
 import ifive.idrop.exception.CommonException;

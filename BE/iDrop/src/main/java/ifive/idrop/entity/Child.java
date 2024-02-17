@@ -8,8 +8,8 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Entity
 @Getter
+@Entity
 public class Child {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

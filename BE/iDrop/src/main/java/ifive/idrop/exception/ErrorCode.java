@@ -18,6 +18,8 @@ public enum ErrorCode {
     CHILD_NOT_EXIST(HttpStatus.BAD_REQUEST, "등록되지 않은 아이입니다.", "아이 정보를 등록해주세요."),
     ALL_CHILD_NOT_EXIST(HttpStatus.BAD_REQUEST, "아이 정보가 없습니다", "아이 정보를 등록해주세요."),
     PASSWORD_NOT_MATCHED(HttpStatus.BAD_REQUEST, "비밀번호가 맞지 않습니다.", "비밀번호를 다시 확인해주세요."),
+    INVALID_GENDER(HttpStatus.BAD_REQUEST, "성별이 정확하지 않습니다.", "성별은 '남성' 또는 '여성' 중 하나여야 합니다."),
+    INVALID_DAY_OF_WEEK(HttpStatus.BAD_REQUEST, "요일이 정확하지 않습니다.", "요일은 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun' 중 하나입니다."),
     PICKUP_NOT_FOUND(HttpStatus.NOT_FOUND, "현재 업무 시간인 픽업이 없습니다.", "업무 시간에 위치추적을 시작해주세요");
 
     private final HttpStatus httpStatus;

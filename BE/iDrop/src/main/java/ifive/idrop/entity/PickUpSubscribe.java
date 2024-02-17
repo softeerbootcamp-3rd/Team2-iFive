@@ -2,15 +2,12 @@ package ifive.idrop.entity;
 
 import ifive.idrop.entity.enums.PickUpStatus;
 import jakarta.persistence.*;
-
+import lombok.Getter;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 
 @Entity
 @Builder

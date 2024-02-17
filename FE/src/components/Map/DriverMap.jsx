@@ -12,7 +12,6 @@ import {
 } from "../../constants/constants";
 import { getCurrentLocation } from "../../utils/coords";
 import { getAccessToken } from "../../utils/auth";
-import { getKidInfo } from "../../service/api";
 import { BottomSheet } from "../common/Bottomsheet/Bottomsheet";
 import { useFetchGet } from "../../hooks/useFetch";
 
@@ -25,12 +24,18 @@ export function DriverMap() {
         location: { latitude, longitude },
         isLoading: locationLoading
     } = useCoords();
+
     const center = !locationLoading && getLatLng(latitude, longitude);
     const map = useMap(mapElementRef, { center }, locationLoading);
 
-    // const destinationMarker = useMarker(map, map?.);
-    // const departureMarker = useMarker(map, map?.)
+    const departureMarker = useMarker(map, center);
     const driverMarker = useMarker(map, center);
+
+    const destinationPos = getLatLng(
+        exampleData[0].endLatitude,
+        exampleData[0].endLongitude
+    );
+    const destinationMarker = useMarker(map, destinationPos);
 
     const webSocketRef = useRef(null);
     const lastLocationRef = useRef({ latitude: null, longitude: null });
@@ -107,21 +112,27 @@ export function DriverMap() {
             {!map && <Loader />}
             <div ref={mapElementRef} id="map" className={styles.map} />
             <BottomSheet
-                childData={childData}
+                childData={exampleData}
                 userRole={userType.driver}
             ></BottomSheet>
         </div>
     );
 }
 
-const childData = {
-    name: "육 아들",
-    time: "7:00~8:00",
-    start: "서울 시청",
-    goal: "국민대"
-};
+const exampleData = [
+    {
+        childName: "김하나",
+        childImage: "String...",
+        startLatitude: 37.5138649,
+        startLongitude: 127.0295296,
+        startAddress: "에티버스러닝 학동캠퍼스",
+        endLatitude: 37.51559,
+        endLongitude: 127.0316161,
+        endAddress: "코마츠"
+    }
+];
 
-const query = "/driver/pickup/now";
+const query = "driver/pickup/now";
 const accessToken = getAccessToken();
 const header = {
     Bearer: accessToken

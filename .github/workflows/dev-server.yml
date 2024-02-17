@@ -35,6 +35,7 @@ jobs:
         echo "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
         echo "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
         echo "${{ secrets.DATA }}" > ./src/main/resources/data.sql
+        echo cat ./src/main/resources/data.sql
 
     - name: gradlew 실행 권한 설정
       run: |

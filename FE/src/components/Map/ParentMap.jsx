@@ -8,19 +8,20 @@ import { BottomSheet } from "../common/Bottomsheet/Bottomsheet";
 import { PARENT_TOKEN, WEBSOCKET_URL } from "../../constants/constants";
 import { useMarker } from "../../hooks/useMarker";
 import { useFetchGet } from "../../hooks/useFetch";
+import { getAccessToken } from "../../utils/auth";
 
 export default function ParentMap() {
-    const [kidData, setKidData] = useFetchGet(query);
+    const [kidData, setKidData] = useFetchGet(query, header);
     const { loading, error, data } = kidData;
 
     const mapElementRef = useRef();
     const {
         location: { latitude, longitude },
-        isLoading
+        isLoading: mapLoading
     } = useCoords();
 
-    const center = !isLoading && getLatLng(latitude, longitude);
-    const map = useMap(mapElementRef, { center }, isLoading);
+    const center = !mapLoading && getLatLng(latitude, longitude);
+    const map = useMap(mapElementRef, { center }, mapLoading);
 
     const webSocketRef = useRef();
 
@@ -67,4 +68,8 @@ const childData = {
     time: "7:00~8:00",
     start: "서울 시청",
     goal: "국민대"
+};
+const accessToken = getAccessToken();
+const header = {
+    Bearer: accessToken
 };

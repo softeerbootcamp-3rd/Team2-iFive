@@ -86,18 +86,18 @@ async function sendAuthRequest(url, options = {}) {
     return response;
 }
 
-export async function fetchDrivers(requestBody) {
-    if (!requestBody) return;
+export async function fetchDrivers(subscriptionOption) {
+    if (!subscriptionOption) return;
 
     try {
         const response = await sendAuthRequest(
             `${BASE_URL}/parent/search/drivers`,
             {
-                method: "GET",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(requestBody)
+                body: JSON.stringify(subscriptionOption)
             }
         );
 

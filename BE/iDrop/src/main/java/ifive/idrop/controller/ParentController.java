@@ -27,7 +27,7 @@ public class ParentController {
     private final DriverService driverService;
     private final ParentService parentService;
 
-    @GetMapping("/search/drivers")
+    @PostMapping("/search/drivers")
     public DriverListResponse searchDrivers(@RequestBody DriverListRequest driverListRequest) {
         DriverListResponse driverListResponse = new DriverListResponse();
 

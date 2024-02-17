@@ -67,7 +67,7 @@ public class Driver extends Users {
                 .image(this.getImage())
                 .introduction(this.getIntroduction())
                 .starRate(this.getStarRate())
-                .numberOfReviews(100) //후기 개수, 나중에 후기 테이블을 만들면 실제 개수로 수정 예정
+                .numberOfReviews(100) //TODO 후기 개수, 나중에 후기 테이블을 만들면 실제 개수로 수정 예정
                 .build();
     }
 
@@ -83,7 +83,7 @@ public class Driver extends Users {
                 .introduction(this.getIntroduction())
                 .drivingScore(this.getDrivingScore())
                 .starRate(this.getStarRate())
-                .numberOfReviews(100) //후기 개수, 나중에 후기 테이블을 만들면 실제 개수로 수정 예정
+                .numberOfReviews(100) //TODO 후기 개수, 나중에 후기 테이블을 만들면 실제 개수로 수정 예정
                 .build();
     }
 }

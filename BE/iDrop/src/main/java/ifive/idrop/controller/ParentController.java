@@ -39,11 +39,6 @@ public class ParentController {
         return driverListResponse;
     }
 
-    @GetMapping("/detail/driver/{driverId}")
-    public DriverDetailResponse detailDriver(@PathVariable("driverId") Long driverId) {
-        return driverService.detail(driverId);
-    }
-
     @PostMapping("/subscribe")
     public BaseResponse<String> subscribeDriver(@Login Parent parent, @RequestBody SubscribeRequest request) throws JSONException {
         return parentService.createSubscribe(parent, request);

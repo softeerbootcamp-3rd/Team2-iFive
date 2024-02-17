@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Footer } from "../../Components/Common/Footer/Footer";
+import { Footer } from "../../components/common/Footer/Footer";
 import { KidInfoComponent } from "../../components/common/Bottomsheet/KidInfoBox";
 import { Header } from "../../components/common/Header/Header";
 import styles from "./PickUp.module.scss";

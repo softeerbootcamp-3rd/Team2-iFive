@@ -127,7 +127,6 @@ async function submitReview(reviewData) {
     }
 }
 
-
 export async function getDriverDetail(driverId) {
     try {
         const response = await sendAuthRequest(
@@ -159,6 +158,8 @@ export async function postSubscribe(subscribeOption) {
         }
     } catch (error) {
         throw error;
+    }
+}
 
 export async function getKidInfo(parameter) {
     try {

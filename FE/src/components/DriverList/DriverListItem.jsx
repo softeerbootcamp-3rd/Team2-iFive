@@ -1,15 +1,19 @@
-import styles from "./DriverItem.module.scss";
+import styles from "./DriverListItem.module.scss";
 
-export function DriverItem({
-    name,
-    gender,
-    starRate,
-    numberOfReviews,
-    imgSrc,
-    introduction
+export function DriverListItem({
+    data: {
+        driverId,
+        name,
+        gender,
+        starRate,
+        numberOfReviews,
+        imgSrc,
+        introduction
+    },
+    handleClick
 }) {
     return (
-        <article className={styles.item}>
+        <article onClick={() => handleClick(driverId)} className={styles.item}>
             <div className={styles.info}>
                 <div className={styles.profile}>
                     <h4 className={styles.name}>

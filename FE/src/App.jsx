@@ -14,7 +14,9 @@ import DriverList from "./pages/DriverList/DriverList";
 import { checkAuthLoader } from "./utils/auth";
 import { Location } from "./pages/Location/Location";
 import { PickUpPage } from "./pages/PickUp/PickUp";
-import DriverDetail from "./pages/DriverDetail/DriverDetail";
+import DriverDetail, {
+    loader as driverDetailLoader
+} from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
 import { ParentMenu } from "./pages/Menu/Menu";
 
@@ -30,7 +32,11 @@ const router = createBrowserRouter(
             {/* 로그인 필요한 페이지 예시   <Route path="subscription/form" loader={checkAuthLoader} element={<Subscribe />} /> */}
             <Route path="subscription/search" element={<Search />} />
             <Route path="subscription/drivers" element={<DriverList />} />
-            <Route path="subscription/driver/:id" element={<DriverDetail />} />
+            <Route
+                path="subscription/driver/:driverId"
+                loader={driverDetailLoader}
+                element={<DriverDetail />}
+            />
 
             {/*<Route path="kid" element={<Kid />} /> */}
             <Route path="map" element={<Location />} />

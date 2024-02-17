@@ -13,5 +13,5 @@ public class SubscribeRequest {
     private String endAddress;
     private Double endLongitude;
     private Double endLatitude;
-    private JSONObject dateRequest;
+    private JSONObject schedule;
 }

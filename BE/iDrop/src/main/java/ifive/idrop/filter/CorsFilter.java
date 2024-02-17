@@ -15,12 +15,16 @@ import java.io.IOException;
 public class CorsFilter implements Filter {
 
     final static String requestOrigin = "http://localhost:5173";
+    final static String wsOrigin = "/ws";
 
     @Override
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain chain) throws IOException, ServletException {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         String origin = request.getHeader("Origin");
+        if (origin == null) {
+            origin = request.getHeader("Sec-WebSocket-Origin");
+        }
 
         log.info("request origin = {}", origin);
         if (requestOrigin.contains(origin)) {

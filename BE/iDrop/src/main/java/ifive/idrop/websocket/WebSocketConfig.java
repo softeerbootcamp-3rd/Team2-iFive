@@ -22,11 +22,17 @@ public class WebSocketConfig implements WebSocketConfigurer {
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
         registry.addHandler(locationWebSocketHandler(), "/ws/location-tracking")
+                .addInterceptors(webSocketHandShakeinterceptor())
                 .setAllowedOrigins("*"); //TODO 일단 모든 경로 허용 추후 설정 변경
     }
 
     @Bean
     public LocationWebSocketHandler locationWebSocketHandler() {
         return new LocationWebSocketHandler(jwtProvider, userRepository, pickUpInfoRepository);
+    }
+
+    @Bean
+    public WebSocketHandShakeInterceptor webSocketHandShakeinterceptor() {
+        return new WebSocketHandShakeInterceptor(jwtProvider, userRepository);
     }
 }

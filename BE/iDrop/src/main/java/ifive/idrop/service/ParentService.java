@@ -1,7 +1,10 @@
 package ifive.idrop.service;
 
+
 import ifive.idrop.dto.response.BaseResponse;
 import ifive.idrop.dto.request.SubscribeRequest;
+import ifive.idrop.dto.CurrentPickUpResponse;
+
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
 import ifive.idrop.exception.CommonException;
@@ -37,13 +40,20 @@ public class ParentService {
         PickUpInfo pickUpInfo = createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
 
         // JsonDate를 LocalDate로 파싱
-        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getDateRequest(), subscribe.getExpiredDate());
+        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getSchedule(), subscribe.getExpiredDate());
 
         for (LocalDateTime localDateTime : scheduleList) {
             createPickUp(localDateTime, pickUpInfo);
         }
 
         return BaseResponse.success();
+    }
+    public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Parent parent) {
+        List<PickUpInfo> runningPickInfo = parentRepository.findRunningPickInfo(parent.getId());
+        return BaseResponse.of("Data Successfully Proceed",
+                runningPickInfo.stream()
+                        .map(CurrentPickUpResponse::of)
+                        .toList());
     }
 
     private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
@@ -69,7 +79,7 @@ public class ParentService {
         PickUpInfo pickUpInfo = PickUpInfo.builder()
                 .child(child)
                 .driver(driver)
-                .schedule(subscribeRequest.getDateRequest().toJSONString())
+                .schedule(subscribeRequest.getSchedule().toJSONString())
                 .build();
         pickUpInfo.updatePickUpSubscribe(subscribe);
         pickUpInfo.updatePickUpLocation(location);

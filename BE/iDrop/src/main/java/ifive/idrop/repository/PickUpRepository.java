@@ -12,12 +12,13 @@ import ifive.idrop.entity.PickUpInfo;
 import ifive.idrop.entity.PickUpLocation;
 import ifive.idrop.entity.PickUpSubscribe;
 
+
 @Repository
 @RequiredArgsConstructor
 public class PickUpRepository {
     private final EntityManager em;
 
-    public List<PickUp> findScheduledPickUpsByDriver(Long driverId) {
+    public List<PickUp> findReservedPickUpsByDriver(Long driverId) {
         TypedQuery<PickUp> query = em.createQuery(
                 "SELECT p FROM PickUp p " +
                         "JOIN p.pickUpInfo pi " +

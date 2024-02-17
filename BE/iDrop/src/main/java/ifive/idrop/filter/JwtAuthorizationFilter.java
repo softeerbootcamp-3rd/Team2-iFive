@@ -26,7 +26,7 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter implements Filter {
-    private final String[] whiteListUris = {"/user/signup", "/user/login", "/auth/refresh/token"};
+    private final String[] whiteListUris = {"/user/signup", "/user/login", "/auth/refresh/token", "/ws/**"};
     private final JwtProvider jwtProvider;
     private final ObjectMapper objectMapper;
 

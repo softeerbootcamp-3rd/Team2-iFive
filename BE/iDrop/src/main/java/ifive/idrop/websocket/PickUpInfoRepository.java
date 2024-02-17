@@ -27,7 +27,7 @@ public class PickUpInfoRepository {
         LocalDateTime now = LocalDateTime.now();
 
         //현재 시간이 reservedTime ~ reservedTime+1시간 에 해당하는 PickUp 찾기
-        String jpql = "SELECT p FROM PickUp p WHERE p.pickUpSubscribe.pickUpInfo.driver.id = :driverId " +
+        String jpql = "SELECT p FROM PickUp p WHERE p.pickUpInfo.driver.id = :driverId " +
                 "AND (p.reservedTime - 10 MINUTE) <= :now AND :now <= (p.reservedTime + 1 HOUR)";
 
         TypedQuery<PickUp> query = em.createQuery(jpql, PickUp.class);
@@ -48,7 +48,7 @@ public class PickUpInfoRepository {
      */
     public Object[] findChildAndParentIdByPickUp(Long pickUpId) {
         String jpql = "SELECT c.id, p.id FROM PickUp pu " +
-                "JOIN pu.pickUpSubscribe.pickUpInfo.child c " +
+                "JOIN pu.pickUpInfo.child c " +
                 "JOIN c.parent p " +
                 "WHERE pu.id = :pickUpId";
 

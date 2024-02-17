@@ -2,8 +2,6 @@ import styles from "./DayList.module.scss";
 import { LabelledList } from "../common/Layout/LabelledList";
 import { SEARCH_PAGE } from "../../constants/constants";
 
-const DEFAULT_TIME = { hour: 8, min: 10 };
-
 export function DayList({ schedule, setSchedule }) {
     const handleWeekClick = (day) => {
         setSchedule((prevTimeList) => {
@@ -33,3 +31,5 @@ export function DayList({ schedule, setSchedule }) {
         </LabelledList>
     );
 }
+
+const DEFAULT_TIME = { hour: 8, min: 10 };

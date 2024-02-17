@@ -7,6 +7,7 @@ import { Modal } from "@/components/Search/Modal";
 import { AddressForm } from "@/components/Search/AddressForm";
 import { DayList } from "../../components/Search/DayList";
 import { TimeList } from "../../components/Search/TimeList";
+import { fetchDrivers } from "../../service/api";
 
 const INITIAL_LOCATIION_STATE = {
     address: "",
@@ -24,7 +25,6 @@ export default function Search() {
         destination: { ...INITIAL_LOCATIION_STATE }
     });
 
-    setDrivers(data);
     const navigate = useNavigate();
 
     const handleOpenModal = ({ target: { name } }) => {
@@ -34,6 +34,21 @@ export default function Search() {
 
     const handleCloseModal = () => {
         setModalOpen(false);
+    };
+
+    // 상위에서 이렇게 함수를 만들어서 넘겨주는게 좋은지 set함수만 넘기고 사용하는 곳에서 함수로 만드는 것이 좋은지 모르겠음
+    const handleLocationSelect = (data) => {
+        setLocation((prevLocation) => ({
+            ...prevLocation,
+            [mapFor]: data
+        }));
+    };
+
+    const handleScheduleChange = (day, unit) => (value) => {
+        setSchedule((prevSchedule) => ({
+            ...prevSchedule,
+            [day]: { ...prevSchedule[day], [unit]: value }
+        }));
     };
 
     function transformLocationData({ departure, destination }) {
@@ -50,22 +65,9 @@ export default function Search() {
     // TODO - form을 따 채웠을 때 버튼 활성화
     const handleSubmit = (location, schedule) => {
         const locationData = transformLocationData(location);
-        navigate("/subscription/drivers", { ...locationData, schedule });
-    };
-
-    // 상위에서 이렇게 함수를 만들어서 넘겨주는게 좋은지 set함수만 넘기고 사용하는 곳에서 함수로 만드는 것이 좋은지 모르겠음
-    const handleLocationSelect = (data) => {
-        setLocation((prevLocation) => ({
-            ...prevLocation,
-            [mapFor]: data
-        }));
-    };
-
-    const handleScheduleChange = (day, unit) => (value) => {
-        setSchedule((prevSchedule) => ({
-            ...prevSchedule,
-            [day]: { ...prevSchedule[day], [unit]: value }
-        }));
+        navigate("/subscription/drivers", {
+            state: { ...locationData, schedule }
+        });
     };
 
     return (

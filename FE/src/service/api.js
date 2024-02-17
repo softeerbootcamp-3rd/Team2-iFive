@@ -81,18 +81,18 @@ async function sendAuthRequest(url, options = {}) {
     return response;
 }
 
-export async function fetchDrivers(requestBody) {
-    if (!requestBody) return;
+export async function fetchDrivers(subscriptionOption) {
+    if (!subscriptionOption) return;
 
     try {
         const response = await sendAuthRequest(
             `${BASE_URL}/parent/search/drivers`,
             {
-                method: "GET",
+                method: "POST",
                 headers: {
                     "Content-Type": "application/json"
                 },
-                body: JSON.stringify(requestBody)
+                body: JSON.stringify(subscriptionOption)
             }
         );
 
@@ -108,6 +108,7 @@ export async function fetchDrivers(requestBody) {
     }
 }
 
+// 예시
 async function submitReview(reviewData) {
     try {
         const response = await sendAuthRequest("/api/reviews", {
@@ -125,6 +126,39 @@ async function submitReview(reviewData) {
         console.error("Error submitting review:", error);
     }
 }
+
+
+export async function getDriverDetail(driverId) {
+    try {
+        const response = await sendAuthRequest(
+            `${BASE_URL}/parent/detail/driver/${driverId}`
+        );
+
+        if (response.ok) {
+            console.log("Review submitted successfully.");
+        } else {
+            console.error("기사 상세정보 가져오기 실패.");
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function postSubscribe(subscribeOption) {
+    try {
+        const response = await sendAuthRequest(`${BASE_URL}/parent/subscribe`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(subscribeOption)
+        });
+
+        if (response.ok) {
+            console.log("Review submitted successfully.");
+        } else {
+            console.error("구독 요청 실패.");
+        }
+    } catch (error) {
+        throw error;
 
 export async function getKidInfo(parameter) {
     try {

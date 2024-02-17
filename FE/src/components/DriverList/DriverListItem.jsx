@@ -1,6 +1,6 @@
-import styles from "./DriverItem.module.scss";
+import styles from "./DriverListItem.module.scss";
 
-export function DriverItem({
+export function DriverListItem({
     data: {
         driverId,
         name,

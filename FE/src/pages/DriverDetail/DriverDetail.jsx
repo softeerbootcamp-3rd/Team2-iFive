@@ -1,13 +1,9 @@
-import { useParams } from "react-router-dom";
 import { Footer } from "../../components/common/Footer/Footer";
 import { Header } from "../../components/common/Header/Header";
 import { getDriverDetail } from "../../service/api";
 import styles from "./DriverDetail.module.scss";
-import { useState } from "react";
 
 export default function DriverDetail() {
-    const { driverId } = useParams();
-
     const detailInfoList = DRIVER_DETAIL_LIST.map((title) => (
         <DriverInfo key={title} title={title} content="" />
     ));
@@ -39,7 +35,7 @@ function DriverInfo({ title, content }) {
     );
 }
 
-export async function driverDetailLoader({ params }) {
+export async function loader({ params }) {
     const driverInfoData = await getDriverDetail(params.driverId);
     return driverInfoData;
 }

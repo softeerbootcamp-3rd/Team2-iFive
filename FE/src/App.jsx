@@ -15,7 +15,7 @@ import { checkAuthLoader } from "./utils/auth";
 import { Location } from "./pages/Location/Location";
 import { PickUpPage } from "./pages/PickUp/PickUp";
 import DriverDetail, {
-    driverDetailLoader
+    loader as driverDetailLoader
 } from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
 

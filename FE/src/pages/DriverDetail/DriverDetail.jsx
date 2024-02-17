@@ -1,20 +1,15 @@
-import { Footer } from "../../components/Common/Footer/Footer";
+import { useParams } from "react-router-dom";
+import { Footer } from "../../components/common/Footer/Footer";
 import { Header } from "../../components/common/Header/Header";
+import { getDriverDetail } from "../../service/api";
 import styles from "./DriverDetail.module.scss";
-
-const DRIVER_DETAIL_LIST = ["자기소개", "경력", "연락처", "별점", "후기"];
+import { useState } from "react";
 
 export default function DriverDetail() {
+    const { driverId } = useParams();
+
     const detailInfoList = DRIVER_DETAIL_LIST.map((title) => (
-        <article className={styles.info}>
-            <span className={styles.infoTitle}>{title}</span>
-            <p className={styles.infoContent}>
-                Lorem ipsum dolor sit amet consectetur, adipisicing elit. Enim
-                saepe ut libero pariatur. Et dolorum ut delectus maiores magnam
-                distinctio impedit in accusantium placeat mollitia hic iusto,
-                minima molestias quidem!
-            </p>
-        </article>
+        <DriverInfo key={title} title={title} content="" />
     ));
 
     return (
@@ -34,3 +29,19 @@ export default function DriverDetail() {
         </div>
     );
 }
+
+function DriverInfo({ title, content }) {
+    return (
+        <article className={styles.info}>
+            <span className={styles.infoTitle}>{title}</span>
+            <p className={styles.infoContent}>{content}</p>
+        </article>
+    );
+}
+
+export async function driverDetailLoader({ params }) {
+    const driverInfoData = await getDriverDetail(params.driverId);
+    return driverInfoData;
+}
+
+const DRIVER_DETAIL_LIST = ["자기소개", "경력", "연락처", "별점", "후기"];

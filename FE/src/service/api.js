@@ -130,3 +130,19 @@ async function submitReview(reviewData) {
         console.error("Error submitting review:", error);
     }
 }
+
+export async function getDriverDetail(driverId) {
+    try {
+        const response = await sendAuthRequest(
+            `${BASE_URL}/parent/detail/driver/${driverId}`
+        );
+
+        if (response.ok) {
+            console.log("Review submitted successfully.");
+        } else {
+            console.error("Failed to submit review.");
+        }
+    } catch (error) {
+        throw error;
+    }
+}

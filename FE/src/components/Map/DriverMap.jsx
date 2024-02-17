@@ -14,34 +14,11 @@ import { getCurrentLocation } from "../../utils/coords";
 import { getAccessToken } from "../../utils/auth";
 import { getKidInfo } from "../../service/api";
 import { BottomSheet } from "../common/Bottomsheet/Bottomsheet";
-
-const initState = {
-    loading: "loading",
-    success: "success",
-    error: "error"
-};
-
-const childData = {
-    name: "육 아들",
-    time: "7:00~8:00",
-    start: "서울 시청",
-    goal: "국민대"
-};
+import { useFetchGet } from "../../hooks/useFetch";
 
 export function DriverMap() {
-    const [kidData, setKidData] = useState([]);
-    const [apiRequest, setApiRequest] = useState(initState.loading);
-
-    const getKidData = async () => {
-        try {
-            const getData = await getKidInfo("parent/pickup/now");
-            setApiRequest(initState.success);
-            setKidData(getData);
-        } catch (error) {
-            setApiRequest(initState.error);
-            console.error(error);
-        }
-    };
+    const [kidData, setKidData] = useFetchGet(query, header);
+    const { loading, error, data } = kidData;
 
     const mapElementRef = useRef();
     const {
@@ -136,3 +113,16 @@ export function DriverMap() {
         </div>
     );
 }
+
+const childData = {
+    name: "육 아들",
+    time: "7:00~8:00",
+    start: "서울 시청",
+    goal: "국민대"
+};
+
+const query = "/driver/pickup/now";
+const accessToken = getAccessToken();
+const header = {
+    Bearer: accessToken
+};

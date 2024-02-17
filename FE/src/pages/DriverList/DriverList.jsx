@@ -7,18 +7,18 @@ import { fetchDrivers } from "../../service/api";
 
 export default function DriverList() {
     const [drivers, setDrivers] = useState([]);
+    const { state: subscriptionOption } = useLocation();
     const navigate = useNavigate();
-    const location = useLocation();
     const handleItemClick = (id) => {
-        navigate(`/subscription/driver/${id}`);
+        navigate(`/subscription/driver/${id}`, {});
     };
 
     useEffect(() => {
         (async () => {
-            const data = await fetchDrivers(location.state);
+            const data = await fetchDrivers(subscriptionOption);
             setDrivers(data.drivers);
         })();
-    }, [location.state]);
+    }, [subscriptionOption]);
 
     return (
         <main className={styles.container}>

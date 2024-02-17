@@ -8,7 +8,7 @@ import {
 import Search from "./pages/Search/Search";
 import Onboarding from "./pages/Onboarding/Onboarding";
 import Login, { logout as logoutAction } from "./pages/Login/Login";
-import { Menu } from "./pages/menu/Menu";
+
 import Publish from "./pages/Publish/Publish";
 import DriverList from "./pages/DriverList/DriverList";
 import { checkAuthLoader } from "./utils/auth";
@@ -16,11 +16,12 @@ import { Location } from "./pages/Location/Location";
 import { PickUpPage } from "./pages/PickUp/PickUp";
 import DriverDetail from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
+import { ParentMenu } from "./pages/Menu/Menu";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
-            <Route path="/" element={<Menu />} />
+            <Route path="/" element={<ParentMenu />} />
             <Route path="onboarding" element={<Onboarding />} />
             <Route path="/signup" element={<ParentSignUp />} />
             <Route path="login" element={<Login />} />

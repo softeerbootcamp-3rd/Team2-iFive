@@ -1,14 +1,48 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import styles from "./map.module.scss";
 import { useMap } from "../../hooks/useMap";
 import { useCoords } from "../../hooks/useCoords";
 import { getLatLng } from "../../utils/map";
 import { useMarker } from "../../hooks/useMarker";
 import { Loader } from "../common/Loader/Loader";
-import { WEBSOCKET_URL } from "../../constants/constants";
-import { getCurrentCoords, getCurrentLocation } from "../../utils/coords";
+import {
+    WEBSOCKET_URL,
+    ACCESS_TOKEN,
+    userType
+} from "../../constants/constants";
+import { getCurrentLocation } from "../../utils/coords";
+import { getAccessToken } from "../../utils/auth";
+import { getKidInfo } from "../../service/api";
+import { BottomSheet } from "../common/Bottomsheet/Bottomsheet";
+
+const initState = {
+    loading: "loading",
+    success: "success",
+    error: "error"
+};
+
+const childData = {
+    name: "육 아들",
+    time: "7:00~8:00",
+    start: "서울 시청",
+    goal: "국민대"
+};
 
 export function DriverMap() {
+    const [kidData, setKidData] = useState([]);
+    const [apiRequest, setApiRequest] = useState(initState.loading);
+
+    const getKidData = async () => {
+        try {
+            const getData = await getKidInfo("parent/pickup/now");
+            setApiRequest(initState.success);
+            setKidData(getData);
+        } catch (error) {
+            setApiRequest(initState.error);
+            console.error(error);
+        }
+    };
+
     const mapElementRef = useRef();
     const {
         location: { latitude, longitude },
@@ -17,12 +51,9 @@ export function DriverMap() {
     const center = !locationLoading && getLatLng(latitude, longitude);
     const map = useMap(mapElementRef, { center }, locationLoading);
 
-    const driverMarkerPosition =
-        !locationLoading && getLatLng(latitude, longitude);
-
     // const destinationMarker = useMarker(map, map?.);
     // const departureMarker = useMarker(map, map?.)
-    const driverMarker = useMarker(map, driverMarkerPosition);
+    const driverMarker = useMarker(map, center);
 
     const webSocketRef = useRef(null);
     const lastLocationRef = useRef({ latitude: null, longitude: null });
@@ -30,7 +61,7 @@ export function DriverMap() {
     useEffect(() => {
         if (!driverMarker) return;
         let increase = 0.0001;
-        webSocketRef.current = new WebSocket(WEBSOCKET_URL);
+        webSocketRef.current = new WebSocket(WEBSOCKET_URL, [ACCESS_TOKEN]);
         const sendLocation = (location) => {
             if (
                 webSocketRef.current &&
@@ -56,6 +87,12 @@ export function DriverMap() {
                     sendLocation(newLocation);
                     if (driverMarker) {
                         driverMarker.setPosition(
+                            getLatLng(
+                                newLocation.latitude,
+                                newLocation.longitude
+                            )
+                        );
+                        map.setCenter(
                             getLatLng(
                                 newLocation.latitude,
                                 newLocation.longitude
@@ -92,6 +129,10 @@ export function DriverMap() {
         <div className={styles.wrapper}>
             {!map && <Loader />}
             <div ref={mapElementRef} id="map" className={styles.map} />
+            <BottomSheet
+                childData={childData}
+                userRole={userType.driver}
+            ></BottomSheet>
         </div>
     );
 }

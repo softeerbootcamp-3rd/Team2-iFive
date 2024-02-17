@@ -1,9 +1,28 @@
+import { redirect, useLocation, useParams } from "react-router-dom";
 import { Footer } from "../../components/common/Footer/Footer";
 import { Header } from "../../components/common/Header/Header";
 import { getDriverDetail } from "../../service/api";
 import styles from "./DriverDetail.module.scss";
 
 export default function DriverDetail() {
+    const { driverId } = useParams();
+    const { subscriptionOption } = useLocation();
+
+    const handleSubscriptionRequest = async () => {
+        try {
+            await postSubscribe({
+                driverId,
+                childName: "강승구",
+                ...subscriptionOption
+            });
+            // TODO - 요청 완료 페이지로 이동
+        } catch (error) {
+            console.error(error);
+            alert("구독 요청 처리 중 오류가 발생했습니다.");
+            redirect("/subscription/search");
+        }
+    };
+
     const detailInfoList = DRIVER_DETAIL_LIST.map((title) => (
         <DriverInfo key={title} title={title} content="" />
     ));
@@ -21,7 +40,7 @@ export default function DriverDetail() {
                 </section>
                 <section className={styles.infoList}>{detailInfoList}</section>
             </section>
-            <Footer text="확인" />
+            <Footer text="확인" onClick={handleSubscriptionRequest} />
         </div>
     );
 }

@@ -113,6 +113,7 @@ export async function fetchDrivers(subscriptionOption) {
     }
 }
 
+// 예시
 async function submitReview(reviewData) {
     try {
         const response = await sendAuthRequest("/api/reviews", {
@@ -140,7 +141,25 @@ export async function getDriverDetail(driverId) {
         if (response.ok) {
             console.log("Review submitted successfully.");
         } else {
-            console.error("Failed to submit review.");
+            console.error("기사 상세정보 가져오기 실패.");
+        }
+    } catch (error) {
+        throw error;
+    }
+}
+
+export async function postSubscribe(subscribeOption) {
+    try {
+        const response = await sendAuthRequest(`${BASE_URL}/parent/subscribe`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify(subscribeOption)
+        });
+
+        if (response.ok) {
+            console.log("Review submitted successfully.");
+        } else {
+            console.error("구독 요청 실패.");
         }
     } catch (error) {
         throw error;

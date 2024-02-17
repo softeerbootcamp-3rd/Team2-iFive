@@ -23,6 +23,7 @@ function reducer(action) {
 /**
  *
  * @param {string} query
+ * @param {boolean} skip
  * @returns {[Object, function]}
  */
 export function useFetchGet(query, skip = false) {

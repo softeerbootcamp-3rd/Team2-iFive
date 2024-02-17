@@ -1,18 +1,22 @@
 import { useEffect, useState } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Footer } from "../../Components/Common/Footer/Footer";
-import { KidInfo } from "../../components/common/Bottomsheet/KidInfoBox";
+import { KidInfoComponent } from "../../components/common/Bottomsheet/KidInfoBox";
 import { Header } from "../../components/common/Header/Header";
 import styles from "./PickUp.module.scss";
 
-const mockChildData = {
-    name: "육 아들",
-    time: "7:00~8:00",
-    start: "서울 시청",
-    goal: "국민대"
+const exampleData = {
+    childName: "김하나",
+    childImage: "String...",
+    startAddress: "에티버스러닝 학동캠퍼스",
+    endAddress: "코마츠",
+    startDate: "9:00",
+    endDate: "10:00"
 };
 
 export function PickUpPage({ childData }) {
+    // TO DO: 지금 픽업할 아이 정보 받아오기
+
     const { state } = useLocation();
     const flag = state?.flag;
 
@@ -28,7 +32,7 @@ export function PickUpPage({ childData }) {
         <div className={styles.wrapper}>
             <Header title={flag ? "픽업 종료" : "픽업 시작"}></Header>
             <div className={styles.contents}>
-                <KidInfo childData={mockChildData}></KidInfo>
+                <KidInfoComponent {...exampleData} />
                 <div className={styles.imgContainer}>사진 등록</div>
                 <div className={styles.textarea}>
                     <label htmlFor="significant">특이사항</label>

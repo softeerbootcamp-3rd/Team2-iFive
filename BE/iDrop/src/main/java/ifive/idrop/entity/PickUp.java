@@ -2,9 +2,11 @@ package ifive.idrop.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 
+@Slf4j
 @Entity
 @Builder
 @RequiredArgsConstructor
@@ -30,5 +32,14 @@ public class PickUp {
     public void updatePickUpInfo(PickUpInfo pickUpInfo) {
         this.pickUpInfo = pickUpInfo;
         pickUpInfo.getPickUpList().add(this);
+    }
+
+    public void updateStartPickUpInfo(String startImage, LocalDateTime startTime) {
+        this.startImage = startImage;
+        this.startTime = startTime;
+    }
+
+    public boolean isDriver(Driver driver) {
+        return pickUpInfo.getDriver().getId().equals(driver.getId());
     }
 }

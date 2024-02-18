@@ -2,11 +2,14 @@ package ifive.idrop.repository;
 
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
+import ifive.idrop.exception.CommonException;
+import ifive.idrop.exception.ErrorCode;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -48,5 +51,13 @@ public class PickUpRepository {
 
     public Optional<PickUp> findById(Long pickUpId) {
         return Optional.ofNullable(em.find(PickUp.class, pickUpId));
+    }
+
+    public void savePickUpStartInfo(Long pickupId, String startImage, LocalDateTime startTime) {
+        PickUp pickUp = Optional.ofNullable(em.find(PickUp.class, pickupId))
+                .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
+
+        pickUp.updateStartPickUpInfo(startImage, startTime);
+        em.merge(pickUp);
     }
 }

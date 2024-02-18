@@ -23,12 +23,9 @@ import DriverDetail, {
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
 import { DriverMenu, ParentMenu } from "./pages/Menu/Menu";
 
-// 페이지 만들 때 마다 주석 제거할 예정
-function App() {
+export default function App() {
     return <RouterProvider router={router} />;
 }
-
-export default App;
 
 const router = createBrowserRouter(
     createRoutesFromElements(

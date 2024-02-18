@@ -62,8 +62,15 @@ export default function Search() {
         };
     }
 
-    // TODO - form을 따 채웠을 때 버튼 활성화
-    const handleSubmit = (location, schedule) => {
+    const isButtonActive =
+        location.departure.address &&
+        location.destination.address &&
+        Object.keys(schedule).length > 0;
+
+    const handleSubmit = (isButtonActive, location, schedule) => {
+        if (!isButtonActive) {
+            return;
+        }
         const locationData = transformLocationData(location);
         navigate("/subscription/drivers", {
             state: { ...locationData, schedule }
@@ -87,7 +94,10 @@ export default function Search() {
                 </section>
                 <Footer
                     text="확인"
-                    onClick={() => handleSubmit(location, schedule)}
+                    onClick={() =>
+                        handleSubmit(isButtonActive, location, schedule)
+                    }
+                    isButtonDisabled={!isButtonActive}
                 />
                 <Modal
                     mapFor={mapFor}

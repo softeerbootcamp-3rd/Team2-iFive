@@ -9,6 +9,7 @@ import { PARENT_TOKEN, WEBSOCKET_URL } from "../../constants/constants";
 import { useMarker } from "../../hooks/useMarker";
 import { useFetchGet } from "../../hooks/useFetch";
 import { getAccessToken } from "../../utils/auth";
+import Car from "@/assets/car.svg";
 
 export default function ParentMap() {
     const [kidData, setKidData] = useFetchGet(query, header);
@@ -28,7 +29,7 @@ export default function ParentMap() {
     const map = useMap(mapElementRef, { center }, locationLoading);
 
     const departureMarker = useMarker(map, center);
-    const driverMarker = useMarker(map, center);
+    const driverMarker = useMarker(map, center, markerIcon);
 
     const destinationPos = getLatLng(
         exampleData.endLatitude,
@@ -91,4 +92,18 @@ const exampleData = {
     startLongitude: 127.0295296,
     endLatitude: 37.51559,
     endLongitude: 127.0316161
+};
+
+const content = [
+    "<div>",
+    `       <img src="${Car}" width="40" height="40" alt="현재 위치"/>`,
+    "</div>"
+].join("");
+const markerIcon = {
+    icon: {
+        content,
+        size: new naver.maps.Size(20, 20),
+        origin: new naver.maps.Point(16, 16)
+        // anchor: new naver.maps.Point(25, 26)
+    }
 };

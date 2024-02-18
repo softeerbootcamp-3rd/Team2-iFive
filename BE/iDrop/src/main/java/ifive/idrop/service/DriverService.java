@@ -46,6 +46,14 @@ public class DriverService {
     }
 
 
+    public BaseResponse<List<CurrentPickUpResponse>> getAllChildRunningInfo(Driver driver) {
+        List<Object[]> runningPickInfo = driverRepository.findAllRunningPickInfo(driver.getId());
+        return BaseResponse.of("Data Successfully Proceed",
+                runningPickInfo.stream()
+                        .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
+                        .toList());
+    }
+
     public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Driver driver) {
         List<Object[]> runningPickInfo = driverRepository.findRunningPickInfo(driver.getId());
         return BaseResponse.of("Data Successfully Proceed",

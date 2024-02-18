@@ -29,8 +29,12 @@ public class DriverController {
     }
 
     @GetMapping("/pickup/now")
+    public BaseResponse<List<CurrentPickUpResponse>> checkAllPickUpInfo(@Login Driver driver) {
+        return driverService.getAllChildRunningInfo(driver);
+    }
+
+    @GetMapping("/pickup/now/child")
     public BaseResponse<List<CurrentPickUpResponse>> checkPickUpInfo(@Login Driver driver) {
         return driverService.getChildRunningInfo(driver);
-
     }
 }

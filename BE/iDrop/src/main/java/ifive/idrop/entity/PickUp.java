@@ -21,6 +21,7 @@ public class PickUp {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDateTime reservedTime;
+    private String message;
 
     @ManyToOne
     @JoinColumn(name = "pickup_info_id")

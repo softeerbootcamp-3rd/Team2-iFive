@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ifive.idrop.dto.CurrentPickUpResponse;
+import ifive.idrop.dto.response.CurrentPickUpResponse;
 import ifive.idrop.entity.PickUpInfo;
 
 import java.util.List;

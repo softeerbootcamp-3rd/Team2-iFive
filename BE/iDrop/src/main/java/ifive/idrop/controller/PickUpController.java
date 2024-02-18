@@ -53,7 +53,7 @@ public class PickUpController {
                     return TodayPickUpResponse.builder()
                             .startAddress(pickUpLocation.getStartAddress())
                             .endAddress(pickUpLocation.getEndAddress())
-                            .childImage(child.getName())
+                            .childName(child.getName())
                             .childImage(child.getImage())
                             .reservedTime(p.getReservedTime())
                             .build();

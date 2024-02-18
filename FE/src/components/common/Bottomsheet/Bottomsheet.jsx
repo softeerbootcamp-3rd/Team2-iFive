@@ -1,29 +1,41 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./bottomsheet.module.scss";
-import { KidInfoComponent } from "./kidInfoBox";
-import { userType } from "../../../constants/constants";
+import { DriverContents, KidInfoComponent, ParentContents } from "./kidInfoBox";
 import { Footer } from "../Footer/Footer";
 
-export function BottomSheet({ childData, userRole }) {
-    const msg =
-        userRole === userType.driver ? "오늘의 픽업" : "픽업 서비스 구독 중";
+export function ParentBottomSheet({ data }) {
+    return (
+        <BttmSheetTemplate>
+            <ParentContents {...data} />
+        </BttmSheetTemplate>
+    );
+}
 
-    const [isExpanded, setIsExpanded] = useState(false);
-
-    const toggleBottomSheet = () => {
-        setIsExpanded(!isExpanded);
-    };
+export function DriverBottomSheet({ data }) {
+    const { pathname } = useLocation();
 
     const navigate = useNavigate();
     const movePage = () => {
         navigate("/pickup", { state: { flag: true } });
     };
+    return (
+        <BttmSheetTemplate>
+            <DriverContents {...data}></DriverContents>
+            {pathname === "/map" ? (
+                <Footer text={"운행종료"} onClick={movePage} />
+            ) : (
+                ""
+            )}
+        </BttmSheetTemplate>
+    );
+}
 
-    const renderButton = () => {
-        if (userRole == userType.driver) {
-            return <Footer text={"운행 종료"} onClick={movePage} />;
-        }
+function BttmSheetTemplate({ children }) {
+    const [isExpanded, setIsExpanded] = useState(false);
+
+    const toggleBottomSheet = () => {
+        setIsExpanded(!isExpanded);
     };
 
     return (
@@ -34,13 +46,7 @@ export function BottomSheet({ childData, userRole }) {
             <header>
                 <div className={styles.handle}></div>
             </header>
-            <h3>{msg}</h3>
-            <div className={styles.list}>
-                {childData.map((data, index) => (
-                    <KidInfoComponent {...data} key={index} />
-                ))}
-            </div>
-            {renderButton()}
+            {children}
         </div>
     );
 }

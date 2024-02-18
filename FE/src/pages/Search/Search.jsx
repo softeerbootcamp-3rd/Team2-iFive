@@ -7,7 +7,6 @@ import { Modal } from "@/components/Search/Modal";
 import { AddressForm } from "@/components/Search/AddressForm";
 import { DayList } from "../../components/Search/DayList";
 import { TimeList } from "../../components/Search/TimeList";
-import { fetchDrivers } from "../../service/api";
 
 const INITIAL_LOCATIION_STATE = {
     address: "",

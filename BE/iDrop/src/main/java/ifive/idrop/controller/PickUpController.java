@@ -1,6 +1,7 @@
 package ifive.idrop.controller;
 
 import ifive.idrop.annotation.Login;
+import ifive.idrop.dto.BaseResponse;
 import ifive.idrop.dto.PickUpInfoResponse;
 import ifive.idrop.dto.TodayPickUpResponse;
 import ifive.idrop.entity.*;
@@ -23,14 +24,10 @@ public class PickUpController {
     private final PickUpService pickUpService;
 
     @GetMapping("/parent/pickup/valid")
-    public List<PickUpInfoResponse> getValidPickUpInfos(@Login Users user) {
-        if (!(user instanceof Parent)) {
-            throw new CommonException(ErrorCode.INVALID_ROLE_OF_USER);
-        }
-        Parent parent = (Parent) user;
+    public BaseResponse<List<PickUpInfoResponse>> getValidPickUpInfos(@Login Parent parent) {
         List<PickUpInfo> pickUpInfos = pickUpService.getValidPickUpInfosByParentId(parent.getId());
 
-        return pickUpInfos.stream().map(pi -> {
+        return BaseResponse.of("Data Successfully Proceed",pickUpInfos.stream().map(pi -> {
             Child child = pi.getChild();
             PickUpSubscribe ps = pi.getPickUpSubscribe();
 
@@ -42,18 +39,14 @@ public class PickUpController {
                     .startDate(ps.getModifiedDate())
                     .endDate(ps.getExpiredDate())
                     .build();
-        }).collect(Collectors.toList());
+        }).collect(Collectors.toList()));
     }
 
     @GetMapping("/driver/pickup/today")
-    public List<TodayPickUpResponse> getTodayPickUpInfos(@Login Users user) {
-        if (!(user instanceof Driver)) {
-            throw new CommonException(ErrorCode.INVALID_ROLE_OF_USER);
-        }
-        Driver driver = (Driver) user;
+    public BaseResponse<List<TodayPickUpResponse>> getTodayPickUpInfos(@Login Driver driver) {
         List<PickUp> pickUps = pickUpService.getTodayPickUpsByDriverId(driver.getId());
 
-        return pickUps.stream()
+        return BaseResponse.of("Data Successfully Proceed",pickUps.stream()
                 .map(p -> {
                     Child child = p.getPickUpInfo().getChild();
                     PickUpLocation pickUpLocation = p.getPickUpInfo().getPickUpLocation();
@@ -65,7 +58,7 @@ public class PickUpController {
                             .reservedTime(p.getReservedTime())
                             .build();
                 })
-                .collect(Collectors.toList());
+                .collect(Collectors.toList()));
     }
 
 }

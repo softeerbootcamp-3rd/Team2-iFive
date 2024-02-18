@@ -1,8 +1,10 @@
 import styles from "./Menu.module.scss";
 import { MenuButton } from "./menuButton";
 import iDropGreen from "@/assets/iDropGreen.svg";
-import { BottomSheet } from "../../components/common/Bottomsheet/Bottomsheet";
-import { MENU_PAGE } from "../../constants/constants";
+import {
+    DriverBottomSheet,
+    ParentBottomSheet
+} from "../../components/common/Bottomsheet/Bottomsheet";
 import Location from "@/assets/Location.svg";
 import Star from "@/assets/Star.svg";
 import Success from "@/assets/Success.svg";
@@ -26,7 +28,7 @@ export function DriverMenu() {
                 <span>{INTRO_TEXT}</span>
             </div>
             <div className={styles.menuContainer}>{renderMenuItems()}</div>
-            <BottomSheet childData={exampleData}></BottomSheet>
+            <DriverBottomSheet data={exampleData} />
         </div>
     );
 }
@@ -47,21 +49,21 @@ export function ParentMenu() {
                 <span>{INTRO_TEXT}</span>
             </div>
             <div className={styles.menuContainer}>{renderMenuItems()}</div>
-            <BottomSheet childData={exampleData}></BottomSheet>
+            <ParentBottomSheet data={exampleData}></ParentBottomSheet>
         </div>
     );
 }
 
-const exampleData = [
-    {
-        childName: "김하나",
-        childImage: "String...",
-        startAddress: "에티버스러닝 학동캠퍼스",
-        endAddress: "코마츠",
-        startDate: "2024.02.01",
-        endDate: "2024.02.29"
-    }
-];
+const exampleData = {
+    childName: "김하나",
+    childImage: "String...",
+    startAddress: "에티버스러닝 학동캠퍼스",
+    endAddress: "코마츠",
+    startDate: "2024.02.01",
+    endDate: "2024.02.29",
+    startTime: "09:00",
+    endTime: "10:00"
+};
 
 const DRIVER_MENU_PAGE = (userName) => ({
     HELLO_MSG: `안녕하세요, ${userName}님`,

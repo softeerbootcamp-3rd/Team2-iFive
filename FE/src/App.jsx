@@ -18,12 +18,13 @@ import DriverDetail, {
     loader as driverDetailLoader
 } from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
-import { ParentMenu } from "./pages/Menu/Menu";
+import { DriverMenu, ParentMenu } from "./pages/Menu/Menu";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
-            <Route path="/" element={<ParentMenu />} />
+            <Route path="/" element={<DriverMenu />} />
+            {/* <Route path="/" element={<ParentMenu />} /> */}
             <Route path="onboarding" element={<Onboarding />} />
             <Route path="/signup" element={<ParentSignUp />} />
             <Route path="login" element={<Login />} />

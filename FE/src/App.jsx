@@ -3,7 +3,8 @@ import {
     Route,
     RouterProvider,
     createBrowserRouter,
-    createRoutesFromElements
+    createRoutesFromElements,
+    useRouteLoaderData
 } from "react-router-dom";
 import Search from "./pages/Search/Search";
 import Onboarding from "./pages/Onboarding/Onboarding";

@@ -16,4 +16,7 @@
         @extend %B_20;
         color: #fff;
     }
+    .disabled {
+        opacity: 0.4;
+    }
 }

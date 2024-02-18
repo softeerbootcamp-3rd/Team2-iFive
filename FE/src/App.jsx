@@ -13,7 +13,6 @@ import Login, {
     logout as logoutLoader
 } from "./pages/Login/Login";
 
-import Publish from "./pages/Publish/Publish";
 import DriverList from "./pages/DriverList/DriverList";
 import { checkAuthLoader } from "./utils/auth";
 import { Location } from "./pages/Location/Location";
@@ -23,6 +22,7 @@ import DriverDetail, {
 } from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
 import { DriverMenu, ParentMenu } from "./pages/Menu/Menu";
+import SubscriptionConfirmation from "./pages/Confirmation/Confirmation";
 
 export default function App() {
     return <RouterProvider router={router} />;
@@ -73,6 +73,16 @@ const router = createBrowserRouter(
                     }
                 />
                 <Route
+                    path="subscription/confirmation"
+                    element={
+                        <RoleProvider>
+                            {(isParent) =>
+                                isParent && <SubscriptionConfirmation />
+                            }
+                        </RoleProvider>
+                    }
+                />
+                <Route
                     path="pickup"
                     element={
                         <RoleProvider>
@@ -80,7 +90,6 @@ const router = createBrowserRouter(
                         </RoleProvider>
                     }
                 />
-                <Route path="publish" element={<Publish />} />
             </Route>
         </Route>
     )

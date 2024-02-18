@@ -32,7 +32,7 @@ public class ParentService {
     public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) throws JSONException {
         Driver driver = driverRepository.findById(subscribeRequest.getDriverId())
                 .orElseThrow(() -> new CommonException(ErrorCode.DRIVER_NOT_EXIST));
-        Child child = parentRepository.findChild(parent.getId(), subscribeRequest.getChildName())
+        Child child = parentRepository.findChild(parent.getId())
                 .orElseThrow(() -> new CommonException(ErrorCode.CHILD_NOT_EXIST));
 
         PickUpSubscribe subscribe = createPickUpSubscribe();

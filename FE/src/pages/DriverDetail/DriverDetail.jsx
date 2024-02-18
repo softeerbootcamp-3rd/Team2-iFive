@@ -1,4 +1,4 @@
-import { redirect, useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Footer } from "../../components/common/Footer/Footer";
 import { Header } from "../../components/common/Header/Header";
 import { getDriverDetail } from "../../service/api";
@@ -7,6 +7,7 @@ import styles from "./DriverDetail.module.scss";
 export default function DriverDetail() {
     const { driverId } = useParams();
     const { subscriptionOption } = useLocation();
+    const navigate = useNavigate();
 
     const handleSubscriptionRequest = async () => {
         try {
@@ -15,11 +16,11 @@ export default function DriverDetail() {
                 childName: "강승구",
                 ...subscriptionOption
             });
-            // TODO - 요청 완료 페이지로 이동
+            navigate("/subscription/confirmation");
         } catch (error) {
             console.error(error);
             alert("구독 요청 처리 중 오류가 발생했습니다.");
-            redirect("/subscription/search");
+            navigate("/subscription/search");
         }
     };
 

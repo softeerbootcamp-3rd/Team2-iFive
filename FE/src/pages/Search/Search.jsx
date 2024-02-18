@@ -7,7 +7,6 @@ import { Modal } from "@/components/Search/Modal";
 import { AddressForm } from "@/components/Search/AddressForm";
 import { DayList } from "../../components/Search/DayList";
 import { TimeList } from "../../components/Search/TimeList";
-import { fetchDrivers } from "../../service/api";
 
 const INITIAL_LOCATIION_STATE = {
     address: "",
@@ -19,6 +18,10 @@ export default function Search() {
     const [schedule, setSchedule] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
     const [mapFor, setMapFor] = useState("");
+    const [detailAddress, setDetailAddress] = useState({
+        departure: "",
+        destination: ""
+    });
 
     const [location, setLocation] = useState({
         departure: { ...INITIAL_LOCATIION_STATE },
@@ -29,6 +32,7 @@ export default function Search() {
 
     const handleOpenModal = ({ target: { name } }) => {
         setMapFor(name);
+
         setModalOpen(true);
     };
 
@@ -62,8 +66,15 @@ export default function Search() {
         };
     }
 
-    // TODO - form을 따 채웠을 때 버튼 활성화
-    const handleSubmit = (location, schedule) => {
+    const isButtonActive =
+        location.departure.address &&
+        location.destination.address &&
+        Object.keys(schedule).length > 0;
+
+    const handleSubmit = (isButtonActive, location, schedule) => {
+        if (!isButtonActive) {
+            return;
+        }
         const locationData = transformLocationData(location);
         navigate("/subscription/drivers", {
             state: { ...locationData, schedule }
@@ -78,6 +89,7 @@ export default function Search() {
                     <AddressForm
                         handleOpenModal={handleOpenModal}
                         location={location}
+                        detailAddress={detailAddress}
                     />
                     <DayList schedule={schedule} setSchedule={setSchedule} />
                     <TimeList
@@ -87,7 +99,10 @@ export default function Search() {
                 </section>
                 <Footer
                     text="확인"
-                    onClick={() => handleSubmit(location, schedule)}
+                    onClick={() =>
+                        handleSubmit(isButtonActive, location, schedule)
+                    }
+                    isButtonDisabled={!isButtonActive}
                 />
                 <Modal
                     mapFor={mapFor}
@@ -95,6 +110,8 @@ export default function Search() {
                     onClose={handleCloseModal}
                     location={location}
                     handleLocationSelect={handleLocationSelect}
+                    detailAddress={detailAddress}
+                    setDetailAddress={setDetailAddress}
                 />
             </main>
         </>

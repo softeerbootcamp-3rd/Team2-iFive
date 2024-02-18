@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 import styles from "./Modal.module.scss";
 import { Footer } from "../common/Footer/Footer";
@@ -9,9 +9,18 @@ export function Modal({
     isOpen,
     onClose,
     location,
-    handleLocationSelect
+    handleLocationSelect,
+    detailAddress,
+    setDetailAddress
 }) {
     const [animate, setAnimate] = useState(false);
+
+    const handleDetailAddressChange = ({ target: { value } }) => {
+        setDetailAddress((prev) => ({
+            ...prev,
+            [mapFor]: value
+        }));
+    };
 
     const handleClose = () => {
         setAnimate(false);
@@ -47,10 +56,21 @@ export function Modal({
                     name="address"
                     className={styles.address}
                     type="text"
-                    value={location[mapFor].address || "지도를 이동해 주세요"}
+                    value={location[mapFor].address}
+                    placeholder="지도를 이동해 주세요"
                     readOnly
                 />
+                <label htmlFor="detailAddress">상세주소</label>
+                <input
+                    name="detailAddress"
+                    className={styles.address}
+                    type="text"
+                    value={detailAddress[mapFor]}
+                    onChange={handleDetailAddressChange}
+                    placeholder="상세 주소가 있다면 적어주세요"
+                />
             </div>
+
             <Footer
                 className={styles.closeButton}
                 onClick={handleClose}

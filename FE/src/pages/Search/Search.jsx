@@ -19,6 +19,10 @@ export default function Search() {
     const [schedule, setSchedule] = useState({});
     const [modalOpen, setModalOpen] = useState(false);
     const [mapFor, setMapFor] = useState("");
+    const [detailAddress, setDetailAddress] = useState({
+        departure: "",
+        destination: ""
+    });
 
     const [location, setLocation] = useState({
         departure: { ...INITIAL_LOCATIION_STATE },
@@ -29,6 +33,7 @@ export default function Search() {
 
     const handleOpenModal = ({ target: { name } }) => {
         setMapFor(name);
+
         setModalOpen(true);
     };
 
@@ -85,6 +90,7 @@ export default function Search() {
                     <AddressForm
                         handleOpenModal={handleOpenModal}
                         location={location}
+                        detailAddress={detailAddress}
                     />
                     <DayList schedule={schedule} setSchedule={setSchedule} />
                     <TimeList
@@ -105,6 +111,8 @@ export default function Search() {
                     onClose={handleCloseModal}
                     location={location}
                     handleLocationSelect={handleLocationSelect}
+                    detailAddress={detailAddress}
+                    setDetailAddress={setDetailAddress}
                 />
             </main>
         </>

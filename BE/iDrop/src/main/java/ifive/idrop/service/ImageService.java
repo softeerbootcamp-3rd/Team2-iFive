@@ -23,15 +23,15 @@ public class ImageService {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
-    public String getImageUrl(String uploadString) {
-        return "" + amazonS3.getUrl(bucket, uploadString);
-    }
-
     public String upload(MultipartFile multipartFile, String folderPath) throws IOException {
         String s3FileName = folderPath + UUID.randomUUID() + "-" + multipartFile.getOriginalFilename();
         ObjectMetadata objMeta = new ObjectMetadata();
         objMeta.setContentLength(multipartFile.getInputStream().available());
         amazonS3.putObject(bucket, s3FileName, multipartFile.getInputStream(), objMeta);
-        return s3FileName;
+        return getImageUrl(s3FileName);
+    }
+
+    private String getImageUrl(String uploadString) {
+        return "" + amazonS3.getUrl(bucket, uploadString);
     }
 }

@@ -21,8 +21,9 @@ import DriverDetail, {
     loader as driverDetailLoader
 } from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
-import { DriverMenu, ParentMenu } from "./pages/menu/Menu";
+import { DriverMenu, ParentMenu } from "./pages/Menu/Menu";
 
+// 페이지 만들 때 마다 주석 제거할 예정
 function App() {
     return <RouterProvider router={router} />;
 }

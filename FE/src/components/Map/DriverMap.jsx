@@ -12,7 +12,7 @@ import {
 } from "../../constants/constants";
 import { getCurrentLocation } from "../../utils/coords";
 import { getAccessToken } from "../../utils/auth";
-import { BottomSheet } from "../common/Bottomsheet/Bottomsheet";
+import { DriverBottomSheet } from "../common/Bottomsheet/Bottomsheet";
 import { useFetchGet } from "../../hooks/useFetch";
 
 export function DriverMap() {
@@ -27,13 +27,17 @@ export function DriverMap() {
 
     const center = !locationLoading && getLatLng(latitude, longitude);
     const map = useMap(mapElementRef, { center }, locationLoading);
-
-    const departureMarker = useMarker(map, center);
     const driverMarker = useMarker(map, center);
 
+    const departurePos = getLatLng(
+        exampleData.startLatitude,
+        exampleData.startLongitude
+    );
+    const departureMarker = useMarker(map, departurePos);
+
     const destinationPos = getLatLng(
-        exampleData[0].endLatitude,
-        exampleData[0].endLongitude
+        exampleData.endLatitude,
+        exampleData.endLongitude
     );
     const destinationMarker = useMarker(map, destinationPos);
 
@@ -111,26 +115,25 @@ export function DriverMap() {
         <div className={styles.wrapper}>
             {!map && <Loader />}
             <div ref={mapElementRef} id="map" className={styles.map} />
-            <BottomSheet
-                childData={exampleData}
-                userRole={userType.driver}
-            ></BottomSheet>
+            <DriverBottomSheet data={exampleData} />
         </div>
     );
 }
 
-const exampleData = [
-    {
-        childName: "김하나",
-        childImage: "String...",
-        startLatitude: 37.5138649,
-        startLongitude: 127.0295296,
-        startAddress: "에티버스러닝 학동캠퍼스",
-        endLatitude: 37.51559,
-        endLongitude: 127.0316161,
-        endAddress: "코마츠"
-    }
-];
+const exampleData = {
+    childName: "김하나",
+    childImage: "String...",
+    startAddress: "에티버스러닝 학동캠퍼스",
+    endAddress: "코마츠",
+    startDate: "2024.02.01",
+    endDate: "2024.02.29",
+    startTime: "09:00",
+    endTime: "10:00",
+    startLatitude: 37.5138649,
+    startLongitude: 127.0295296,
+    endLatitude: 37.51559,
+    endLongitude: 127.0316161
+};
 
 const query = "driver/pickup/now";
 const accessToken = getAccessToken();

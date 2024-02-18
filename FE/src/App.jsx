@@ -7,7 +7,10 @@ import {
 } from "react-router-dom";
 import Search from "./pages/Search/Search";
 import Onboarding from "./pages/Onboarding/Onboarding";
-import Login, { logout as logoutAction } from "./pages/Login/Login";
+import Login, {
+    loginLoader,
+    logout as logoutLoader
+} from "./pages/Login/Login";
 
 import Publish from "./pages/Publish/Publish";
 import DriverList from "./pages/DriverList/DriverList";
@@ -18,34 +21,79 @@ import DriverDetail, {
     loader as driverDetailLoader
 } from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
+import { DriverMenu, ParentMenu } from "./pages/menu/Menu";
+
+function App() {
+    return <RouterProvider router={router} />;
+}
+
+export default App;
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
             <Route path="onboarding" element={<Onboarding />} />
             <Route path="signup" element={<ParentSignUp />} />
-            <Route path="login" element={<Login />} />
-            <Route loader={checkAuthLoader}>
-                <Route path="logout" loader={logoutAction} />
-                {/* <Route path="/" element={<Menu />} /> */}
+            <Route path="login" loader={loginLoader} element={<Login />} />
+            <Route id="auth" loader={checkAuthLoader}>
+                <Route path="logout" loader={logoutLoader} />
                 <Route path="map" element={<Location />} />
-                <Route path="subscription/search" element={<Search />} />
-                <Route path="subscription/drivers" element={<DriverList />} />
+                <Route
+                    path="/"
+                    element={
+                        <RoleProvider>
+                            {(isParent) =>
+                                isParent ? <ParentMenu /> : <DriverMenu />
+                            }
+                        </RoleProvider>
+                    }
+                />
+                <Route
+                    path="subscription/search"
+                    element={
+                        <RoleProvider>
+                            {(isParent) => isParent && <Search />}
+                        </RoleProvider>
+                    }
+                />
+                <Route
+                    path="subscription/drivers"
+                    element={
+                        <RoleProvider>
+                            {(isParent) => isParent && <DriverList />}
+                        </RoleProvider>
+                    }
+                />
                 <Route
                     path="subscription/driver/:driverId"
                     loader={driverDetailLoader}
-                    element={<DriverDetail />}
+                    element={
+                        <RoleProvider>
+                            {(isParent) => isParent && <DriverDetail />}
+                        </RoleProvider>
+                    }
                 />
-                <Route path="pickup" element={<PickUpPage />} />
+                <Route
+                    path="pickup"
+                    element={
+                        <RoleProvider>
+                            {(isParent) => !isParent && <PickUpPage />}
+                        </RoleProvider>
+                    }
+                />
                 <Route path="publish" element={<Publish />} />
             </Route>
         </Route>
     )
 );
 
-// 페이지 만들 때 마다 주석 제거할 예정
-function App() {
-    return <RouterProvider router={router} />;
+function RoleProvider({ children }) {
+    const role = useRouteLoaderData("auth");
+    return (
+        <>
+            {typeof children === "function"
+                ? children(role === "PARENT")
+                : children}
+        </>
+    );
 }
-
-export default App;

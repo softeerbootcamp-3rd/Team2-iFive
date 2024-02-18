@@ -1,6 +1,6 @@
 package ifive.idrop.repository;
 
-import ifive.idrop.entity.PickUp;
+import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.TypedQuery;
@@ -8,9 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-import ifive.idrop.entity.PickUpInfo;
-import ifive.idrop.entity.PickUpLocation;
-import ifive.idrop.entity.PickUpSubscribe;
+import java.util.Optional;
 
 
 @Repository
@@ -46,5 +44,9 @@ public class PickUpRepository {
 
     public void savePickUp(PickUp pick) {
         em.persist(pick);
+    }
+
+    public Optional<PickUp> findById(Long pickUpId) {
+        return Optional.ofNullable(em.find(PickUp.class, pickUpId));
     }
 }

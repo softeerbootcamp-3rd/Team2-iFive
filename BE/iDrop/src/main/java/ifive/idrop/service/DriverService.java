@@ -15,6 +15,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ifive.idrop.dto.response.CurrentPickUpResponse;
 import ifive.idrop.entity.PickUpInfo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -44,12 +45,12 @@ public class DriverService {
         return driver.getDetail();
     }
 
+
     public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Driver driver) {
-        List<PickUpInfo> runningPickInfo = driverRepository.findRunningPickInfo(driver.getId());
+        List<Object[]> runningPickInfo = driverRepository.findRunningPickInfo(driver.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
-                        .map(CurrentPickUpResponse::of)
+                        .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
                         .toList());
     }
-
 }

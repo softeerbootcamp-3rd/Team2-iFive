@@ -1,55 +1,46 @@
 import styles from "./map.module.scss";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useCoords } from "../../hooks/useCoords";
 import { getLatLng } from "../../utils/map";
 import { useMap } from "../../hooks/useMap";
 import { Loader } from "../common/Loader/Loader";
 import { BottomSheet } from "../common/Bottomsheet/Bottomsheet";
-import { PARENT_TOKEN, WEBSOCKET_URL } from "../../constants/constants";
-import { getKidInfo } from "../../service/api";
+import {
+    PARENT_TOKEN,
+    WEBSOCKET_URL,
+    userType
+} from "../../constants/constants";
 import { useMarker } from "../../hooks/useMarker";
-
-const childData = {
-    name: "육 아들",
-    time: "7:00~8:00",
-    start: "서울 시청",
-    goal: "국민대"
-};
-
-const state = {
-    loading: "loading",
-    success: "success",
-    error: "error"
-};
+import { useFetchGet } from "../../hooks/useFetch";
+import { getAccessToken } from "../../utils/auth";
 
 export default function ParentMap() {
-    const [pickUpData, setPickUpdata] = useState();
-    const [apiState, setApiState] = useState(state.loading);
-
-    const getData = async () => {
-        try {
-            const response = await getKidInfo();
-            setApiState(state.success);
-            setPickUpdata(response);
-        } catch (error) {
-            setApiState(state.error);
-            console.error(error);
-        }
-    };
+    const [kidData, setKidData] = useFetchGet(query, header);
+    const { loading, error, data } = kidData;
 
     const mapElementRef = useRef();
+
     const {
         location: { latitude, longitude },
-        isLoading
+        isLoading: locationLoading
     } = useCoords();
 
-    const center = !isLoading && getLatLng(latitude, longitude);
-    const map = useMap(mapElementRef, { center }, isLoading);
+    const center =
+        !locationLoading &&
+        getLatLng(exampleData[0].startLatitude, exampleData[0].startLongitude);
+
+    const map = useMap(mapElementRef, { center }, locationLoading);
+
+    const departureMarker = useMarker(map, center);
+    const driverMarker = useMarker(map, center);
+
+    const destinationPos = getLatLng(
+        exampleData[0].endLatitude,
+        exampleData[0].endLongitude
+    );
+    const destinationMarker = useMarker(map, destinationPos);
 
     const webSocketRef = useRef();
-
-    const driverPosition = getLatLng(37.5142677, 127.0295545);
-    const driverMarker = useMarker(map, driverPosition);
 
     useEffect(() => {
         if (!driverMarker) return;
@@ -80,7 +71,43 @@ export default function ParentMap() {
         <div className={styles.wrapper}>
             {!map && <Loader />}
             <div ref={mapElementRef} id="map" className={styles.map} />
-            <BottomSheet childData={childData}></BottomSheet>
+            {loading ? (
+                <Loader />
+            ) : (
+                <BottomSheet
+                    childData={exampleData}
+                    userRole={userType.parent}
+                />
+            )}
         </div>
     );
 }
+
+const query = "parent/pickup/now";
+const accessToken = getAccessToken();
+const header = {
+    Bearer: accessToken
+};
+
+const exampleData = [
+    {
+        childName: "김하나",
+        childImage: "String...",
+        startLatitude: 37.5138649,
+        startLongitude: 127.0295296,
+        startAddress: "에티버스러닝 학동캠퍼스",
+        endLatitude: 37.51559,
+        endLongitude: 127.0316161,
+        endAddress: "코마츠"
+    },
+    {
+        childName: "이하나",
+        childImage: "String...",
+        startLatitude: 37.5138649,
+        startLongitude: 127.0295296,
+        startAddress: "에티버스러닝 학동캠퍼스",
+        endLatitude: 37.51559,
+        endLongitude: 127.0316161,
+        endAddress: "코마츠"
+    }
+];

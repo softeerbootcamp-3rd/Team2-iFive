@@ -1,18 +1,26 @@
 import styles from "./kidInfoBox.module.scss";
+import iDrop from "@/assets/iDropGreen.svg";
 
-export function KidInfo({ childData: { name, time, start, goal } }) {
+export function KidInfoComponent({
+    childName,
+    childImage,
+    startAddress,
+    endAddress,
+    startDate,
+    endDate
+}) {
     return (
-        <>
-            <div className={styles.content}>
-                <div className={styles.kidImg}>아이사진</div>
-                <div className={styles.infoBox}>
-                    <span>{name}</span>
-                    <span>{time}</span>
-                    <span>
-                        {start} {"→"} {goal}
-                    </span>
-                </div>
+        <div className={styles.content}>
+            <img className={styles.kidImg} src={childImage || iDrop}></img>
+            <div className={styles.infoBox}>
+                <span>{childName}</span>
+                <span>
+                    {startDate || "7:00"} ~ {endDate || "8:00"}
+                </span>
+                <span>
+                    {startAddress} {"→"} {endAddress}
+                </span>
             </div>
-        </>
+        </div>
     );
 }

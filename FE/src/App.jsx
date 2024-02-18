@@ -18,37 +18,27 @@ import DriverDetail, {
     loader as driverDetailLoader
 } from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
-import { ParentMenu } from "./pages/Menu/Menu";
 
 const router = createBrowserRouter(
     createRoutesFromElements(
         <Route>
-            <Route path="/" element={<ParentMenu />} />
             <Route path="onboarding" element={<Onboarding />} />
-            <Route path="/signup" element={<ParentSignUp />} />
+            <Route path="signup" element={<ParentSignUp />} />
             <Route path="login" element={<Login />} />
-            <Route path="logout" loader={logoutAction} />
-            {/* <Route path="join" element={<Join />} /> */}
-            {/* 로그인 필요한 페이지 예시   <Route path="subscription/form" loader={checkAuthLoader} element={<Subscribe />} /> */}
-            <Route path="subscription/search" element={<Search />} />
-            <Route path="subscription/drivers" element={<DriverList />} />
-            <Route
-                path="subscription/driver/:driverId"
-                loader={driverDetailLoader}
-                element={<DriverDetail />}
-            />
-
-            {/*<Route path="kid" element={<Kid />} /> */}
-            <Route path="map" element={<Location />} />
-            {/* <Route path="feedback" element={<Feedback />} />
-        <Route path="pickup">
-            <Route path="start" element={<PickupStart />} />
-            <Route path="end" element={<PickupEnd />} />
-        </Route>
-        <Route path="driver-profile" element={<DriverProfile />} />
-        <Route path="call-list" element={<CallList />} /> */}
-            <Route path="publish" element={<Publish />}></Route>
-            <Route path="pickup" element={<PickUpPage />}></Route>
+            <Route loader={checkAuthLoader}>
+                <Route path="logout" loader={logoutAction} />
+                {/* <Route path="/" element={<Menu />} /> */}
+                <Route path="map" element={<Location />} />
+                <Route path="subscription/search" element={<Search />} />
+                <Route path="subscription/drivers" element={<DriverList />} />
+                <Route
+                    path="subscription/driver/:driverId"
+                    loader={driverDetailLoader}
+                    element={<DriverDetail />}
+                />
+                <Route path="pickup" element={<PickUpPage />} />
+                <Route path="publish" element={<Publish />} />
+            </Route>
         </Route>
     )
 );

@@ -48,7 +48,7 @@ public class DriverRepository {
         return availableDrivers;
     }
     public List<Object[]> findAllRunningPickInfo(Long driverId) {
-        String query = "SELECT pui\n" +
+        String query = "SELECT pui, pu.reservedTime\n" +
                 "FROM PickUpInfo pui\n" +
                 "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +
                 "WHERE pui.driver.id =: driverId\n" +

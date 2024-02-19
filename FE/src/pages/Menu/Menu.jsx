@@ -36,11 +36,12 @@ export function DriverMenu() {
                     imgUrl={Truck}
                     text={"픽업하기"}
                     route={"/pickup"}
+                    data={newExampleData}
                 />
                 <MenuButton imgUrl={User} text={"프로필"} route={""} />
                 <MenuButton imgUrl={Success} text={"요청 목록"} route={""} />
             </div>
-            <DriverBottomSheet data={exampleData} />
+            <DriverBottomSheet data={newExampleData} />
         </div>
     );
 }
@@ -68,18 +69,33 @@ export function ParentMenu() {
                 <MenuButton imgUrl={User} text={"프로필"} route={""} />
                 <MenuButton imgUrl={Star} text={"이용내역"} route={""} />
             </div>
-            <ParentBottomSheet data={exampleData}></ParentBottomSheet>
+            <ParentBottomSheet data={newExampleData}></ParentBottomSheet>
         </div>
     );
 }
 
 const exampleData = {
+    childId: 1,
     childName: "김하나",
-    childImage: "String...",
-    startAddress: "에티버스러닝 학동캠퍼스",
-    endAddress: "코마츠",
-    startDate: "2024.02.01",
-    endDate: "2024.02.29",
-    startTime: "09:00",
-    endTime: "10:00"
+    childImage: "image",
+    startDate: "2024-02-19T09:30:00",
+    endDate: "2024-02-19T09:30:00",
+    startLatitude: 37.5138649,
+    startLongitude: 127.0295296,
+    startAddress: "서울특별시 강남구 논현동 58-3 에티버스러닝 학동캠퍼스",
+    endLatitude: 37.51559,
+    endLongitude: 127.0316161,
+    endAddress: "서울특별시 강남구 학동로31길 15 코마츠",
+    startTime: "2024-02-19T08:30:00",
+    endTime: "2024-02-19T09:30:00"
+};
+
+const newExampleData = {
+    ...exampleData,
+    startAddress: exampleData.startAddress.replace("서울특별시 ", ""),
+    endAddress: exampleData.endAddress.replace("서울특별시 ", ""),
+    startDate: exampleData.startDate.split("T")[0],
+    endDate: exampleData.endDate.split("T")[0],
+    startTime: exampleData.startTime.split("T")[1].slice(0, 5), // 시간 부분만 추출
+    endTime: exampleData.endTime.split("T")[1].slice(0, 5) // 시간 부분만 추출
 };

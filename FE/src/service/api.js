@@ -176,3 +176,21 @@ export async function getKidInfo(parameter) {
         throw new Error("Faild to GET request");
     }
 }
+
+export async function postKidInfo(kidInfo) {
+    try {
+        const response = await sendAuthRequest(`${BASE_URL}/pickup`, {
+            method: "POST",
+            headers: { "Content-Type": "multipart/form-data" },
+            body: kidInfo
+        });
+
+        if (response.ok) {
+            console.log("이미지 업로드 성공");
+        } else {
+            console.error("이미지 업로드 실패.");
+        }
+    } catch (error) {
+        throw error;
+    }
+}

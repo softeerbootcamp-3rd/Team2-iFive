@@ -1,7 +1,7 @@
 import styles from "./Complete.module.scss";
-import { Footer } from "../Footer/Footer";
+import { Footer } from "../../../components/common/Footer/Footer";
 
-function Container({ header, imgSrc, date, text }) {
+function Container({ header, imgSrc, date = "", text }) {
     return (
         <div className={styles.container}>
             <div className={styles.info}>
@@ -18,7 +18,7 @@ export function CompleteComponent(props) {
     return (
         <div className={styles.wrapper}>
             <Container {...props}></Container>
-            <Footer text={"확인"}></Footer>
+            <Footer text={"확인"} onClick={props.onClick || null}></Footer>
         </div>
     );
 }

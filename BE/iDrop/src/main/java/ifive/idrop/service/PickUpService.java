@@ -30,9 +30,11 @@ public class PickUpService {
         if (pickUp.getStartImage() == null) {
             String imageUrl = imageService.upload(image, "image/pickup/");
             pickUpRepository.savePickUpStartInfo(pickUpId, imageUrl, message);
+            log.info("pickUp Start - driverId = {}, pickUpId = {}", pickUp.getDriver().getId(), pickUp.getId());
         } else if (pickUp.getEndImage() == null) {
             String imageUrl = imageService.upload(image, "image/pickup/");
             pickUpRepository.savePickUpEndInfo(pickUpId, imageUrl, message);
+            log.info("pickUp End - driverId = {}, pickUpId = {}", pickUp.getDriver().getId(), pickUp.getId());
         } else {
             throw new CommonException(ErrorCode.PICKUP_ALREADY_END);
         }

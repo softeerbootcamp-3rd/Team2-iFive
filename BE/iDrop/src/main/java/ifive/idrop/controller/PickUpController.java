@@ -33,7 +33,6 @@ public class PickUpController {
         } catch (IOException e) {
             new CommonException(ErrorCode.IMAGE_UPLOAD_ERROR);
         }
-        //log.info("pickUp Start - driverId = {}, pickUpId = {}", driver.getId(), pickUp.getId());
         return BaseResponse.success();
     }
 }

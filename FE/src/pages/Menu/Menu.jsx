@@ -31,14 +31,10 @@ export function DriverMenu() {
                 <span>오늘도 안전한 픽업 부탁드려요</span>
             </div>
             <div className={styles.menuContainer}>
-                <MenuButton imgUrl={Calender} text={"픽업 일정"} route={""} />
-                <MenuButton
-                    imgUrl={Truck}
-                    text={"픽업하기"}
-                    route={"/pickup"}
-                />
-                <MenuButton imgUrl={User} text={"프로필"} route={""} />
-                <MenuButton imgUrl={Success} text={"요청 목록"} route={""} />
+                <MenuButton imgUrl={Calender} text="픽업 일정" route="" />
+                <MenuButton imgUrl={Truck} text="픽업하기" route="/pickup" />
+                <MenuButton imgUrl={User} text="프로필" route="" />
+                <MenuButton imgUrl={Success} text="요청 목록" route="" />
             </div>
             <DriverBottomSheet data={exampleData} />
         </div>
@@ -61,12 +57,16 @@ export function ParentMenu() {
             <div className={styles.menuContainer}>
                 <MenuButton
                     imgUrl={Location}
-                    text={"실시간 픽업"}
-                    route={"/map?type=parent"}
+                    text="실시간 픽업"
+                    route="/map?type=parent"
                 />
-                <MenuButton imgUrl={Success} text={"구독하기"} route={""} />
-                <MenuButton imgUrl={User} text={"프로필"} route={""} />
-                <MenuButton imgUrl={Star} text={"이용내역"} route={""} />
+                <MenuButton
+                    imgUrl={Success}
+                    text="구독하기"
+                    route="/subscription/search"
+                />
+                <MenuButton imgUrl={User} text="프로필" route="" />
+                <MenuButton imgUrl={Star} text="이용내역" route="" />
             </div>
             <ParentBottomSheet data={exampleData}></ParentBottomSheet>
         </div>

@@ -44,7 +44,7 @@ const router = createBrowserRouter(
                 <Route path="logout" loader={logoutLoader} />
                 <Route path="map" element={<Location />} />
                 <Route
-                    path="/"
+                    path="menu"
                     element={
                         <RoleProvider>
                             {(isParent) =>

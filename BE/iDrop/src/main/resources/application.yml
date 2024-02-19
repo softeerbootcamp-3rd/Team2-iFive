@@ -1,0 +1,37 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  config:
+    import:
+      - "env/mysql.yml"
+      - "env/jwt.yml"
+      - "env/s3.yml"
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: ${mysql_endpoint}
+    username: ${mysql_username}
+    password: ${mysql_password}
+  sql:
+    init:
+      mode: always #data.sql 실행 시 필요
+
+  # spring data jpa
+  jpa:
+    database-platform: org.hibernate.dialect.MySQL8Dialect
+    open-in-view: false
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    defer-datasource-initialization: true #data.sql 실행 시 필요
+
+cloud:
+  aws:
+    s3:
+      bucket: ${aws_bucket}
+    credentials:
+      access-key: ${aws_accessKey}
+      secret-key: ${aws_secretKey}
+    region:
+      static: ${aws_region}
+    stack:
+      auto: false

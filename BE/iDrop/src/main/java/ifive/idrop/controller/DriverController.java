@@ -2,7 +2,7 @@ package ifive.idrop.controller;
 
 import ifive.idrop.annotation.Login;
 
-import ifive.idrop.dto.CurrentPickUpResponse;
+import ifive.idrop.dto.response.CurrentPickUpResponse;
 import ifive.idrop.dto.request.DriverInformation;
 import ifive.idrop.dto.response.BaseResponse;
 import ifive.idrop.entity.Driver;
@@ -33,4 +33,10 @@ public class DriverController {
         return driverService.getChildRunningInfo(driver);
 
     }
+
+    @GetMapping("/subscribe/list")
+    public void subscribeList(@Login Driver driver) {
+        driverService.subscribeList(driver.getId());
+    }
+
 }

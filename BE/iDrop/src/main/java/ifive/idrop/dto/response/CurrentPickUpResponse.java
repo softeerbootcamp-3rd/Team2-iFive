@@ -1,4 +1,4 @@
-package ifive.idrop.dto;
+package ifive.idrop.dto.response;
 
 import ifive.idrop.entity.PickUpInfo;
 import ifive.idrop.entity.PickUpLocation;

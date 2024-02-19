@@ -1,10 +1,10 @@
 import styles from "./menuButton.module.scss";
 import { useNavigate } from "react-router-dom";
 
-export function MenuButton({ imgUrl, text, route }) {
+export function MenuButton({ imgUrl, text, route, data = {} }) {
     const navigate = useNavigate();
     const movePage = () => {
-        navigate(`${route}`);
+        navigate(`${route}`, { state: { kidData: data } });
     };
     return (
         <div className={styles.wrapper} onClick={movePage}>

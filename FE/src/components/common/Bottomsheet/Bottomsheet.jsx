@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./bottomsheet.module.scss";
-import { DriverContents, KidInfoComponent, ParentContents } from "./KidInfoBox";
+import { DriverContents, ParentContents } from "./KidInfoBox";
 import { Footer } from "../Footer/Footer";
 
 export function ParentBottomSheet({ data }) {
@@ -17,7 +17,7 @@ export function DriverBottomSheet({ data }) {
 
     const navigate = useNavigate();
     const movePage = () => {
-        navigate("/pickup", { state: { flag: true } });
+        navigate("/pickup", { state: { flag: true, kidData: data } });
     };
     return (
         <BttmSheetTemplate>

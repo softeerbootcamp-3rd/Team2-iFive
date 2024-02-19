@@ -53,11 +53,11 @@ public class PickUpRepository {
         return Optional.ofNullable(em.find(PickUp.class, pickUpId));
     }
 
-    public void savePickUpStartInfo(Long pickupId, String startImage, LocalDateTime startTime, String startMessage) {
+    public void savePickUpStartInfo(Long pickupId, String startImage, String startMessage) {
         PickUp pickUp = Optional.ofNullable(em.find(PickUp.class, pickupId))
                 .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
 
-        pickUp.updateStartPickUpInfo(startImage, startTime, startMessage);
+        pickUp.updateStartPickUpInfo(startImage, startMessage);
         em.merge(pickUp);
     }
 

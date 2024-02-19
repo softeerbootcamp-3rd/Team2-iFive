@@ -35,9 +35,9 @@ public class PickUp {
         pickUpInfo.getPickUpList().add(this);
     }
 
-    public void updateStartPickUpInfo(String startImage, LocalDateTime startTime, String startMessage) {
+    public void updateStartPickUpInfo(String startImage, String startMessage) {
         this.startImage = startImage;
-        this.startTime = startTime;
+        this.startTime = LocalDateTime.now();
         this.startMessage = startMessage;
     }
 

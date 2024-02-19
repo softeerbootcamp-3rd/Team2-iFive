@@ -29,7 +29,7 @@ public class PickUpService {
                 .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
         if (pickUp.getStartImage() == null) {
             String imageUrl = imageService.upload(image, "image/pickup/");
-            pickUpRepository.savePickUpStartInfo(pickUpId, imageUrl, LocalDateTime.now(), startMessage);
+            pickUpRepository.savePickUpStartInfo(pickUpId, imageUrl, startMessage);
         } else {
             throw new CommonException(ErrorCode.PICKUP_ALREADY_STARTED);
         }

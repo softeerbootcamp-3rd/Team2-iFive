@@ -45,4 +45,9 @@ public class ParentController {
     public BaseResponse checkPickUpInfo(@Login Parent parent) {
         return parentService.getChildRunningInfo(parent);
     }
+
+    @GetMapping("/history/{pickup-info-id}")
+    public BaseResponse checkHistoryInfo(@Login Parent parent, @PathVariable(value = "pickup-info-id") long pickInfoId) {
+        return parentService.getPickUpHistoryInfo(parent, pickInfoId);
+    }
 }

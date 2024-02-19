@@ -47,4 +47,16 @@ public class PickUpRepository {
     public void savePickUp(PickUp pick) {
         em.persist(pick);
     }
+
+    public List<PickUp> findPickUpInfoByPickUpInfoIdAndParentId(Long parentId, long pickInfoId) {
+        String query = "SELECT p FROM PickUp p\n" +
+                "WHERE p.pickUpInfo.id =: pickInfoId\n" +
+                "AND p.pickUpInfo.child.parent.id =: parentId\n" +
+                "AND p.startTime IS NOT NULL\n" +
+                "ORDER BY p.reservedTime DESC";
+        return em.createQuery(query, PickUp.class)
+                .setParameter("pickInfoId", pickInfoId)
+                .setParameter("parentId", parentId)
+                .getResultList();
+    }
 }

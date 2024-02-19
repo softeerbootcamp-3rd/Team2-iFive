@@ -1,4 +1,4 @@
-import { Footer } from "../../components/Common/Footer/Footer";
+import { Footer } from "../../components/common/Footer/Footer";
 import styles from "./ParentSignUp.module.scss";
 export default function ParentSignUp() {
     const handleChange = (e) => {

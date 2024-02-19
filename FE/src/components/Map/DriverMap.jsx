@@ -5,15 +5,12 @@ import { useCoords } from "../../hooks/useCoords";
 import { getLatLng } from "../../utils/map";
 import { useMarker } from "../../hooks/useMarker";
 import { Loader } from "../common/Loader/Loader";
-import {
-    WEBSOCKET_URL,
-    ACCESS_TOKEN,
-    userType
-} from "../../constants/constants";
+import { WEBSOCKET_URL, ACCESS_TOKEN } from "../../constants/constants";
 import { getCurrentLocation } from "../../utils/coords";
 import { getAccessToken } from "../../utils/auth";
 import { DriverBottomSheet } from "../common/Bottomsheet/Bottomsheet";
 import { useFetchGet } from "../../hooks/useFetch";
+import Car from "@/assets/car.svg";
 
 export function DriverMap() {
     const [kidData, setKidData] = useFetchGet(query, header);
@@ -27,7 +24,7 @@ export function DriverMap() {
 
     const center = !locationLoading && getLatLng(latitude, longitude);
     const map = useMap(mapElementRef, { center }, locationLoading);
-    const driverMarker = useMarker(map, center);
+    const driverMarker = useMarker(map, center, markerIcon);
 
     const departurePos = getLatLng(
         exampleData.startLatitude,
@@ -139,4 +136,18 @@ const query = "driver/pickup/now";
 const accessToken = getAccessToken();
 const header = {
     Bearer: accessToken
+};
+
+const content = [
+    "<div>",
+    `       <img src="${Car}" width="35" height="35" alt="현재 위치"/>`,
+    "</div>"
+].join("");
+const markerIcon = {
+    icon: {
+        content,
+        size: new naver.maps.Size(20, 20),
+        origin: new naver.maps.Point(16, 16)
+        // anchor: new naver.maps.Point(25, 26)
+    }
 };

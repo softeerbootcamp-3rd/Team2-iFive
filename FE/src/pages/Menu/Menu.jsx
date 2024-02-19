@@ -11,44 +11,63 @@ import Success from "@/assets/Success.svg";
 import User from "@/assets/user_icon.svg";
 import Calender from "@/assets/calender.svg";
 import Truck from "@/assets/truck.png";
+import { useFetchGet } from "../../hooks/useFetch";
+import { Loader } from "../../components/common/Loader/Loader";
 
+const userName = null;
+const queryString = "/driver/~";
 export function DriverMenu() {
-    const { HELLO_MSG, INTRO_TEXT, MENU_LIST } = DRIVER_MENU_PAGE("육종호");
-    const renderMenuItems = () =>
-        MENU_LIST.map(({ icon, text, route }, index) => (
-            <MenuButton key={index} imgUrl={icon} text={text} route={route} />
-        ));
+    // get 요청 api
+    // const [getFetchData, getFetchFunc] = useFetchGet(queryString);
+    // const {loading, error, data} = getFetchData;
+
+    // if(loading) return (<Loader />)
 
     return (
-        // TODO: 컴포넌트 쪼개기
         <div className={styles.wrapper}>
             <img src={iDropGreen}></img>
             <div>
-                <h1>{HELLO_MSG} </h1>
-                <span>{INTRO_TEXT}</span>
+                <h1>안녕하세요, {userName || "육종호"}님 </h1>
+                <span>오늘도 안전한 픽업 부탁드려요</span>
             </div>
-            <div className={styles.menuContainer}>{renderMenuItems()}</div>
+            <div className={styles.menuContainer}>
+                <MenuButton imgUrl={Calender} text={"픽업 일정"} route={""} />
+                <MenuButton
+                    imgUrl={Truck}
+                    text={"픽업하기"}
+                    route={"/pickup"}
+                />
+                <MenuButton imgUrl={User} text={"프로필"} route={""} />
+                <MenuButton imgUrl={Success} text={"요청 목록"} route={""} />
+            </div>
             <DriverBottomSheet data={exampleData} />
         </div>
     );
 }
 
 export function ParentMenu() {
-    const { HELLO_MSG, INTRO_TEXT, MENU_LIST } = PARENT_MENU_PAGE("육종호");
-    const renderMenuItems = () =>
-        MENU_LIST.map(({ icon, text, route }, index) => (
-            <MenuButton key={index} imgUrl={icon} text={text} route={route} />
-        ));
+    // get 요청 api
+    // const [getFetchData, getFetchFunc] = useFetchGet(queryString);
+    // const {loading, error, data} = getFetchData;
 
+    // if(loading) return (<Loader />)
     return (
-        // TODO: 컴포넌트 쪼개기
         <div className={styles.wrapper}>
             <img src={iDropGreen}></img>
             <div>
-                <h1>{HELLO_MSG} </h1>
-                <span>{INTRO_TEXT}</span>
+                <h1>안녕하세요, {userName || "육종호"}님 </h1>
+                <span>오늘도 안전하게 픽업할게요</span>
             </div>
-            <div className={styles.menuContainer}>{renderMenuItems()}</div>
+            <div className={styles.menuContainer}>
+                <MenuButton
+                    imgUrl={Location}
+                    text={"실시간 픽업"}
+                    route={"/map?type=parent"}
+                />
+                <MenuButton imgUrl={Success} text={"구독하기"} route={""} />
+                <MenuButton imgUrl={User} text={"프로필"} route={""} />
+                <MenuButton imgUrl={Star} text={"이용내역"} route={""} />
+            </div>
             <ParentBottomSheet data={exampleData}></ParentBottomSheet>
         </div>
     );
@@ -64,29 +83,3 @@ const exampleData = {
     startTime: "09:00",
     endTime: "10:00"
 };
-
-const DRIVER_MENU_PAGE = (userName) => ({
-    HELLO_MSG: `안녕하세요, ${userName}님`,
-    INTRO_TEXT: `오늘도 안전한 픽업 부탁드려요`,
-    MENU_LIST: [
-        { icon: Calender, text: "픽업 일정" },
-        { icon: Truck, text: "픽업 시작", route: "/pickup" },
-        { icon: User, text: "프로필" },
-        { icon: Success, text: "요청 목록" }
-    ]
-});
-
-const PARENT_MENU_PAGE = (userName) => ({
-    HELLO_MSG: `안녕하세요, ${userName}님`,
-    INTRO_TEXT: `오늘도 안전하게 픽업할게요`,
-    MENU_LIST: [
-        {
-            icon: Location,
-            text: "실시간 위치",
-            route: "/map?type=parent"
-        },
-        { icon: Success, text: "구독 하기" },
-        { icon: User, text: "우리 아이" },
-        { icon: Star, text: "이용 내역" }
-    ]
-});

@@ -5,6 +5,7 @@ spring:
     import:
       - "env/mysql.yml"
       - "env/jwt.yml"
+      - "env/s3.yml"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${mysql_endpoint}
@@ -22,3 +23,15 @@ spring:
     hibernate:
       ddl-auto: create
     defer-datasource-initialization: true #data.sql 실행 시 필요
+
+cloud:
+  aws:
+    s3:
+      bucket: ${aws_bucket}
+    credentials:
+      access-key: ${aws_accessKey}
+      secret-key: ${aws_secretKey}
+    region:
+      static: ${aws_region}
+    stack:
+      auto: false

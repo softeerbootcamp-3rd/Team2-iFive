@@ -23,7 +23,8 @@ public class PickUp {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private LocalDateTime reservedTime;
-    private String message;
+    private String startMessage;
+    private String endMessage;
 
     @ManyToOne
     @JoinColumn(name = "pickup_info_id")
@@ -34,9 +35,10 @@ public class PickUp {
         pickUpInfo.getPickUpList().add(this);
     }
 
-    public void updateStartPickUpInfo(String startImage, LocalDateTime startTime) {
+    public void updateStartPickUpInfo(String startImage, LocalDateTime startTime, String startMessage) {
         this.startImage = startImage;
         this.startTime = startTime;
+        this.startMessage = startMessage;
     }
 
     public boolean isDriver(Driver driver) {

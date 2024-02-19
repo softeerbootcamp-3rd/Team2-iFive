@@ -44,4 +44,8 @@ public class PickUp {
     public boolean isDriver(Driver driver) {
         return pickUpInfo.getDriver().getId().equals(driver.getId());
     }
+
+    public Child getChild() {
+        return pickUpInfo.getChild();
+    }
 }

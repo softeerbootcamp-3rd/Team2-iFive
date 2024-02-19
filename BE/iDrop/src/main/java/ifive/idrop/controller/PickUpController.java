@@ -6,7 +6,6 @@ import ifive.idrop.entity.Driver;
 import ifive.idrop.entity.PickUp;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
-import ifive.idrop.exception.ErrorResponse;
 import ifive.idrop.service.PickUpService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,15 +24,13 @@ public class PickUpController {
     private final PickUpService pickUpService;
 
     @PostMapping("/pickup")
-    public BaseResponse<String> getStartPickUpInfoFromDriver(@Login Driver driver, Long pickUpId, @ModelAttribute MultipartFile image, String startMessage) {
-        PickUp pickUp = pickUpService.findByPickUpId(pickUpId);
-        if (!pickUp.isDriver(driver)) { //해당 기사의 픽업이 아님
-            throw new CommonException(ErrorCode.DRIVER_NOT_MATCHED);
-        }
+    public BaseResponse<String> getStartPickUpInfoFromDriver(@Login Driver driver, Long childId, @ModelAttribute MultipartFile image, String startMessage) {
+        PickUp pickUp = pickUpService.findCurrentPickUp(driver.getId(), childId)
+                .orElseThrow(() -> new CommonException(ErrorCode.CURRENT_PICKUP_NOT_FOUND));
         try {
             pickUpService.pickUpStart(pickUp.getId(), image, startMessage);
         } catch (IOException e) {
-            //TODO 에러 핸들링 고민
+            new CommonException(ErrorCode.IMAGE_UPLOAD_ERROR);
         }
         log.info("pickUp Start - driverId = {}, pickUpId = {}", driver.getId(), pickUp.getId());
         return BaseResponse.success();

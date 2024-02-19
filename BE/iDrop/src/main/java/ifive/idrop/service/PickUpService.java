@@ -12,6 +12,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Slf4j
 @Service
@@ -36,6 +38,14 @@ public class PickUpService {
     public PickUp findByPickUpId(Long pickUpId) {
         return pickUpRepository.findById(pickUpId)
                 .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
+    }
+
+    public Optional<PickUp> findCurrentPickUp(Long driverId, Long childId) {
+        List<PickUp> pickUps = pickUpRepository.findPickUpsByDriverIdWithCurrentTimeInReservedWindow(driverId);
+        Optional<PickUp> result = pickUps.stream()
+                .filter(p -> p.getChild().getId().equals(childId))
+                .findFirst();
+        return result;
     }
 
 }

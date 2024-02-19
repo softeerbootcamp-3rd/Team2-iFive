@@ -60,4 +60,23 @@ public class PickUpRepository {
         pickUp.updateStartPickUpInfo(startImage, startTime, startMessage);
         em.merge(pickUp);
     }
+
+    /**
+     * driverId로 현재 해당 기사의 업무 시간에 해당하는 PickUp들 찾기
+     * @param driverId
+     * @return List<PickUp>
+     */
+    public List<PickUp> findPickUpsByDriverIdWithCurrentTimeInReservedWindow(Long driverId) {
+        LocalDateTime now = LocalDateTime.now();
+
+        // 현재 시간이 reservedTime ~ reservedTime+1시간에 해당하는 PickUp들 찾기
+        String jpql = "SELECT p FROM PickUp p WHERE p.pickUpInfo.driver.id = :driverId " +
+                "AND (p.reservedTime - 10 MINUTE) <= :now AND :now <= (p.reservedTime + 1 HOUR)";
+
+        TypedQuery<PickUp> query = em.createQuery(jpql, PickUp.class);
+        query.setParameter("driverId", driverId);
+        query.setParameter("now", now);
+
+        return query.getResultList();
+    }
 }

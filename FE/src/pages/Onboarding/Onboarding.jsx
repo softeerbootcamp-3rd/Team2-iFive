@@ -20,3 +20,12 @@ export default function Onboarding() {
         </main>
     );
 }
+
+export function loader() {
+    const token = getAccessToken();
+
+    if (token) {
+        return redirect("/menu");
+    }
+    return null;
+}

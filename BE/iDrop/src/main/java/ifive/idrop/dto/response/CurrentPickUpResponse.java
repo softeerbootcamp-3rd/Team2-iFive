@@ -11,6 +11,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 public class CurrentPickUpResponse {
+    private Long childId;
     private String childName;
     private String childImage;
     private LocalDateTime startDate;
@@ -24,6 +25,7 @@ public class CurrentPickUpResponse {
 
     static public CurrentPickUpResponse of(PickUpInfo pickUpInfo, LocalDateTime reservedTime) {
         return CurrentPickUpResponse.builder()
+                .childId(pickUpInfo.getChild().getId())
                 .childName(pickUpInfo.getChild().getName())
                 .childImage(pickUpInfo.getChild().getImage())
                 .startDate(pickUpInfo.getPickUpSubscribe().getModifiedDate())

@@ -109,6 +109,7 @@ export default function Search() {
                     isOpen={modalOpen}
                     onClose={handleCloseModal}
                     location={location}
+                    setLocation={setLocation}
                     handleLocationSelect={handleLocationSelect}
                     detailAddress={detailAddress}
                     setDetailAddress={setDetailAddress}

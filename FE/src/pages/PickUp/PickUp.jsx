@@ -13,7 +13,6 @@ export default function PickUpPage() {
     const [validLocation, setCrntLocation] = useState(false);
 
     const kidData = getKidData();
-    console.log(kidData);
 
     const {
         location: { latitude, longitude },
@@ -31,8 +30,8 @@ export default function PickUpPage() {
             checkLocation = isWithinRadius(
                 kidData.startLatitude,
                 kidData.startLongitude,
-                37.5138649,
-                127.0295296
+                latitude,
+                longitude
             );
         } else {
             checkLocation = isWithinRadius(
@@ -44,7 +43,6 @@ export default function PickUpPage() {
         }
         setCrntLocation(checkLocation);
     };
-    console.log(validLocation);
 
     const { state } = useLocation();
     const flag = state?.flag;
@@ -65,7 +63,7 @@ export default function PickUpPage() {
         formData.append("message", notes.current.value);
         await postKidInfo(formData);
 
-        flag ? movePage("/publish") : movePage("/map?type=driver");
+        flag ? movePage("/endpickup") : movePage("/map?type=driver");
     };
 
     return (

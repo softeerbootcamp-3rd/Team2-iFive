@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { useLocation } from "react-router-dom";
 import styles from "./map.module.scss";
 import { useMap } from "../../hooks/useMap";
@@ -15,7 +15,7 @@ import Car from "@/assets/car.svg";
 
 export default function DriverMap() {
     const kidData = getKidData();
-    console.log(kidData);
+
     const mapElementRef = useRef();
     const {
         location: { latitude, longitude },

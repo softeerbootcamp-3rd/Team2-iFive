@@ -24,7 +24,7 @@ public class PickUpController {
     private final PickUpService pickUpService;
 
     @PostMapping("/pickup")
-    public BaseResponse<String> getStartPickUpInfoFromDriver(@Login Driver driver, Long childId, @ModelAttribute MultipartFile image, String startMessage) {
+    public BaseResponse<String> startPickUp(@Login Driver driver, Long childId, @ModelAttribute MultipartFile image, String startMessage) {
         PickUp pickUp = pickUpService.findCurrentPickUp(driver.getId(), childId)
                 .orElseThrow(() -> new CommonException(ErrorCode.CURRENT_PICKUP_NOT_FOUND));
         try {

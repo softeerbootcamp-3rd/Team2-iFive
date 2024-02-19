@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocation } from "react-router-dom";
 import styles from "./map.module.scss";
 import { useMap } from "../../hooks/useMap";
 import { useCoords } from "../../hooks/useCoords";
@@ -12,10 +13,9 @@ import { DriverBottomSheet } from "../common/Bottomsheet/Bottomsheet";
 import { useFetchGet } from "../../hooks/useFetch";
 import Car from "@/assets/car.svg";
 
-export function DriverMap() {
-    const [kidData, setKidData] = useFetchGet(query, header);
-    const { loading, error, data } = kidData;
-
+export default function DriverMap() {
+    const kidData = getKidData();
+    console.log(kidData);
     const mapElementRef = useRef();
     const {
         location: { latitude, longitude },
@@ -27,15 +27,12 @@ export function DriverMap() {
     const driverMarker = useMarker(map, center, markerIcon);
 
     const departurePos = getLatLng(
-        exampleData.startLatitude,
-        exampleData.startLongitude
+        kidData.startLatitude,
+        kidData.startLongitude
     );
     const departureMarker = useMarker(map, departurePos);
 
-    const destinationPos = getLatLng(
-        exampleData.endLatitude,
-        exampleData.endLongitude
-    );
+    const destinationPos = getLatLng(kidData.endLatitude, kidData.endLongitude);
     const destinationMarker = useMarker(map, destinationPos);
 
     const webSocketRef = useRef(null);
@@ -112,25 +109,10 @@ export function DriverMap() {
         <div className={styles.wrapper}>
             {!map && <Loader />}
             <div ref={mapElementRef} id="map" className={styles.map} />
-            <DriverBottomSheet data={exampleData} />
+            <DriverBottomSheet data={kidData} />
         </div>
     );
 }
-
-const exampleData = {
-    childName: "김하나",
-    childImage: "String...",
-    startAddress: "에티버스러닝 학동캠퍼스",
-    endAddress: "코마츠",
-    startDate: "2024.02.01",
-    endDate: "2024.02.29",
-    startTime: "09:00",
-    endTime: "10:00",
-    startLatitude: 37.5138649,
-    startLongitude: 127.0295296,
-    endLatitude: 37.51559,
-    endLongitude: 127.0316161
-};
 
 const query = "driver/pickup/now";
 const accessToken = getAccessToken();
@@ -151,3 +133,8 @@ const markerIcon = {
         // anchor: new naver.maps.Point(25, 26)
     }
 };
+
+function getKidData() {
+    const location = useLocation();
+    return location.state.kidData;
+}

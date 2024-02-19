@@ -24,14 +24,14 @@ public class PickUpController {
 
     private final PickUpService pickUpService;
 
-    @PostMapping("/pickUp")
-    public BaseResponse<String> getStartPickUpInfoFromDriver(@Login Driver driver, Long pickUpId, @ModelAttribute MultipartFile image) {
+    @PostMapping("/pickup")
+    public BaseResponse<String> getStartPickUpInfoFromDriver(@Login Driver driver, Long pickUpId, @ModelAttribute MultipartFile image, String startMessage) {
         PickUp pickUp = pickUpService.findByPickUpId(pickUpId);
         if (!pickUp.isDriver(driver)) { //해당 기사의 픽업이 아님
             throw new CommonException(ErrorCode.DRIVER_NOT_MATCHED);
         }
         try {
-            pickUpService.pickUpStart(pickUp.getId(), image);
+            pickUpService.pickUpStart(pickUp.getId(), image, startMessage);
         } catch (IOException e) {
             //TODO 에러 핸들링 고민
         }

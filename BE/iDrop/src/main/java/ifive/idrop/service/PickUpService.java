@@ -22,12 +22,12 @@ public class PickUpService {
     private final PickUpRepository pickUpRepository;
 
     @Transactional
-    public void pickUpStart(Long pickUpId, MultipartFile image) throws IOException {
+    public void pickUpStart(Long pickUpId, MultipartFile image, String startMessage) throws IOException {
         PickUp pickUp = pickUpRepository.findById(pickUpId)
                 .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
         if (pickUp.getStartImage() == null) {
             String imageUrl = imageService.upload(image, "image/pickup/");
-            pickUpRepository.savePickUpStartInfo(pickUpId, imageUrl, LocalDateTime.now());
+            pickUpRepository.savePickUpStartInfo(pickUpId, imageUrl, LocalDateTime.now(), startMessage);
         } else {
             throw new CommonException(ErrorCode.PICKUP_ALREADY_STARTED);
         }

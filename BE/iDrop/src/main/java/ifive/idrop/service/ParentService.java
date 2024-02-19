@@ -5,6 +5,7 @@ import ifive.idrop.dto.response.BaseResponse;
 import ifive.idrop.dto.request.SubscribeRequest;
 import ifive.idrop.dto.response.CurrentPickUpResponse;
 
+import ifive.idrop.dto.response.SubscribeInfoResponse;
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
 import ifive.idrop.exception.CommonException;
@@ -13,12 +14,15 @@ import ifive.idrop.repository.DriverRepository;
 import ifive.idrop.repository.ParentRepository;
 import ifive.idrop.repository.PickUpRepository;
 import ifive.idrop.util.Parser;
-import jakarta.transaction.Transactional;
+import ifive.idrop.util.ScheduleUtils;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
+import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -98,5 +102,31 @@ public class ParentService {
                 .build();
         pickUpRepository.savePickUpLocation(location);
         return location;
+    }
+
+    @Transactional(readOnly = true)
+    public List<SubscribeInfoResponse> subscribeList(Long parentId) {
+        List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByParentId(parentId);
+
+        List<SubscribeInfoResponse> subscribeInfoResponseList = new ArrayList<>();
+        for (PickUpInfo pickUpInfo : pickUpInfoList) {
+            Driver driver = pickUpInfo.getDriver();
+            PickUpSubscribe pickUpSubscribe = pickUpInfo.getPickUpSubscribe();
+            PickUpLocation pickUpLocation = pickUpInfo.getPickUpLocation();
+
+            SubscribeInfoResponse subscribeInfoResponse = SubscribeInfoResponse.builder()
+                    .pickupInfoId(pickUpInfo.getId())
+                    .driverName(driver.getName())
+                    .driverImage(driver.getImage())
+                    .startDate(pickUpSubscribe.getModifiedDate())
+                    .expiryDate(pickUpSubscribe.getExpiredDate())
+                    .startAddress(pickUpLocation.getStartAddress())
+                    .endAddress(pickUpLocation.getEndAddress())
+                    .status(pickUpSubscribe.getStatus().getStatus())
+                    .schedule(ScheduleUtils.toJSONObject(pickUpInfo.getSchedule()))
+                    .build();
+            subscribeInfoResponseList.add(subscribeInfoResponse);
+        }
+        return subscribeInfoResponseList;
     }
 }

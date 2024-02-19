@@ -1,6 +1,10 @@
 package ifive.idrop.util;
 
+import ifive.idrop.exception.CommonException;
 import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import org.springframework.http.HttpStatus;
 
 import java.time.DayOfWeek;
 import java.time.LocalDateTime;
@@ -39,6 +43,17 @@ public class ScheduleUtils {
             }
         }
         return requestSchedule;
+    }
+
+    public static JSONObject toJSONObject(String schedule) {
+        JSONParser parser = new JSONParser();
+        JSONObject scheduleJSON = null;
+        try {
+            scheduleJSON = (JSONObject)parser.parse(schedule);
+        } catch (ParseException e) {
+            throw new CommonException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage(), "");
+        }
+        return scheduleJSON;
     }
 
     private static int getDifferenceOfDayOfWeek(int from, int to) {

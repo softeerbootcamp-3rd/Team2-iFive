@@ -47,4 +47,17 @@ public class PickUpRepository {
     public void savePickUp(PickUp pick) {
         em.persist(pick);
     }
+
+    public List<PickUpInfo> findPickUpInfoByParentId(Long parentId) {
+        TypedQuery<PickUpInfo> query = em.createQuery(
+                "SELECT pui FROM PickUpInfo pui " +
+                        "JOIN pui.pickUpSubscribe ps " +
+                        "JOIN pui.child c " +
+                        "JOIN c.parent p " +
+                        "WHERE p.id = :parentId " +
+                        "ORDER BY CASE WHEN ps.expiredDate IS NULL THEN 1 ELSE 0 END, " +
+                        "ps.expiredDate DESC", PickUpInfo.class);
+        query.setParameter("parentId", parentId);
+        return query.getResultList();
+    }
 }

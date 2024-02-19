@@ -41,6 +41,12 @@ public class PickUp {
         this.startMessage = startMessage;
     }
 
+    public void updateEndPickUpInfo(String endImage, String endMessage) {
+        this.endImage = endImage;
+        this.endTime = LocalDateTime.now();
+        this.endMessage = endMessage;
+    }
+
     public boolean isDriver(Driver driver) {
         return pickUpInfo.getDriver().getId().equals(driver.getId());
     }

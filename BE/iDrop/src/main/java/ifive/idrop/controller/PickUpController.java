@@ -25,15 +25,15 @@ public class PickUpController {
     private final PickUpService pickUpService;
 
     @PostMapping("/pickup")
-    public BaseResponse<String> startPickUp(@Login Driver driver, Long childId, @ModelAttribute MultipartFile image, String startMessage) {
+    public BaseResponse<String> startPickUp(@Login Driver driver, Long childId, @ModelAttribute MultipartFile image, String message) {
         PickUp pickUp = pickUpService.findCurrentPickUp(driver.getId(), childId)
                 .orElseThrow(() -> new CommonException(ErrorCode.CURRENT_PICKUP_NOT_FOUND));
         try {
-            pickUpService.pickUpStart(pickUp.getId(), image, startMessage);
+            pickUpService.saveStartOrEndPickUp(pickUp.getId(), image, message);
         } catch (IOException e) {
             new CommonException(ErrorCode.IMAGE_UPLOAD_ERROR);
         }
-        log.info("pickUp Start - driverId = {}, pickUpId = {}", driver.getId(), pickUp.getId());
+        //log.info("pickUp Start - driverId = {}, pickUpId = {}", driver.getId(), pickUp.getId());
         return BaseResponse.success();
     }
 }

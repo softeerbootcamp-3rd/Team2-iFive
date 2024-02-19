@@ -24,14 +24,17 @@ public class PickUpService {
     private final PickUpRepository pickUpRepository;
 
     @Transactional
-    public void pickUpStart(Long pickUpId, MultipartFile image, String startMessage) throws IOException {
+    public void saveStartOrEndPickUp(Long pickUpId, MultipartFile image, String message) throws IOException {
         PickUp pickUp = pickUpRepository.findById(pickUpId)
                 .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
         if (pickUp.getStartImage() == null) {
             String imageUrl = imageService.upload(image, "image/pickup/");
-            pickUpRepository.savePickUpStartInfo(pickUpId, imageUrl, startMessage);
+            pickUpRepository.savePickUpStartInfo(pickUpId, imageUrl, message);
+        } else if (pickUp.getEndImage() == null) {
+            String imageUrl = imageService.upload(image, "image/pickup/");
+            pickUpRepository.savePickUpEndInfo(pickUpId, imageUrl, message);
         } else {
-            throw new CommonException(ErrorCode.PICKUP_ALREADY_STARTED);
+            throw new CommonException(ErrorCode.PICKUP_ALREADY_END);
         }
     }
 

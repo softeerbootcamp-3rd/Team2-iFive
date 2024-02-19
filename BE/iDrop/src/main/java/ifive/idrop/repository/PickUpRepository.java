@@ -61,6 +61,14 @@ public class PickUpRepository {
         em.merge(pickUp);
     }
 
+    public void savePickUpEndInfo(Long pickupId, String endImage, String endMessage) {
+        PickUp pickUp = Optional.ofNullable(em.find(PickUp.class, pickupId))
+                .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
+
+        pickUp.updateEndPickUpInfo(endImage, endMessage);
+        em.merge(pickUp);
+    }
+
     /**
      * driverId로 현재 해당 기사의 업무 시간에 해당하는 PickUp들 찾기
      * @param driverId

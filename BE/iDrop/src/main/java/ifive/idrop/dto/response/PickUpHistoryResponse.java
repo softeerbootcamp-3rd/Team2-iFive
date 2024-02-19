@@ -28,7 +28,7 @@ public class PickUpHistoryResponse {
     }
     @Builder
     @Getter
-    static class Info {// 요일 시간 붙히기
+    static class Info {
         private PickUpInfoStatus status;
         private LocalDateTime startTime;
         private String startImage;

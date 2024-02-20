@@ -3,8 +3,6 @@ name: Java CI with Gradle
 on:
   push:
     branches: [ "be" ]
-  pull_request:
-    branches: [ "be" ]
 
 env:
   AWS_REGION: ap-northeast-2
@@ -30,10 +28,12 @@ jobs:
         mkdir -p ./src/main/resources/env
         echo touch ./src/main/resources/env/mysql.yml
         echo touch ./src/main/resources/env/jwt.yml
+        echo touch ./src/main/resources/env/s3.yml
         echo touch ./src/main/resources/data.sql
         
         echo "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
         echo "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
+        echo "${{ secrets.S3_INFO }}" > ./src/main/resources/env/s3.yml
         echo "${{ secrets.DATA }}" > ./src/main/resources/data.sql
         cat ./src/main/resources/data.sql
 

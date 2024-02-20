@@ -14,8 +14,8 @@ public class CurrentPickUpResponse {
     private Long childId;
     private String childName;
     private String childImage;
-    private LocalDateTime startDate;
-    private LocalDateTime endDate;
+    private LocalDateTime startDate;    // 구독 승인 날짜
+    private LocalDateTime endDate;      // 구독 마감 날짜
 
     @JsonUnwrapped
     private Destination destination;
@@ -39,13 +39,13 @@ public class CurrentPickUpResponse {
     @AllArgsConstructor
     @Getter
     static class TimeInfo {
-        private LocalDateTime startTime;
-        private LocalDateTime endTime;
+        private LocalDateTime pickUpStartTime;  // 실제 픽업 시작 시간
+        private LocalDateTime pickUpEndTime;    // 실제 픽업 마감 시간
 
         static public TimeInfo of(LocalDateTime reservedTime) {
             return TimeInfo.builder()
-                    .startTime(reservedTime)
-                    .endTime(reservedTime.plusHours(1))
+                    .pickUpStartTime(reservedTime)
+                    .pickUpEndTime(reservedTime.plusHours(1))
                     .build();
         }
     }

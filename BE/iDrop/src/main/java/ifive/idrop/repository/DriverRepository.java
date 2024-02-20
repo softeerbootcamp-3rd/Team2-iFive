@@ -69,7 +69,7 @@ public class DriverRepository {
                 "WHERE pui.driver.id =: driverId\n" +
                 "AND pu.startTime IS NOT NULL\n" +
                 "AND pu.endTime IS NULL\n" +
-                "AND pu.reservedTime >= CURRENT_TIMESTAMP";
+                "AND pu.reservedTime <= CURRENT_TIMESTAMP";
 
         return em.createQuery(query)
                 .setParameter("driverId", driverId)

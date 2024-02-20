@@ -117,10 +117,10 @@ async function submitReview(reviewData) {
             body: JSON.stringify(reviewData)
         });
 
-        if (response.ok) {
-            console.log("Review submitted successfully.");
-        } else {
+        if (!response.ok) {
             console.error("Failed to submit review.");
+        } else {
+            console.log("Review submitted successfully.");
         }
     } catch (error) {
         console.error("Error submitting review:", error);
@@ -130,14 +130,13 @@ async function submitReview(reviewData) {
 export async function getDriverDetail(driverId) {
     try {
         const response = await sendAuthRequest(
-            `${BASE_URL}/parent/detail/driver/${driverId}`
+            `${BASE_URL}/detail/driver/${driverId}`
         );
 
-        if (response.ok) {
-            console.log("Review submitted successfully.");
-        } else {
+        if (!response.ok) {
             console.error("기사 상세정보 가져오기 실패.");
         }
+        return await response.json();
     } catch (error) {
         throw error;
     }

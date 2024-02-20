@@ -7,7 +7,9 @@ import {
     useRouteLoaderData
 } from "react-router-dom";
 import Search from "./pages/Search/Search";
-import Onboarding from "./pages/Onboarding/Onboarding";
+import Onboarding, {
+    loader as onboardingLoader
+} from "./pages/Onboarding/Onboarding";
 import Login, {
     loginLoader,
     logout as logoutLoader
@@ -32,11 +34,15 @@ export default function App() {
 
 const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route>
-            <Route path="onboarding" element={<Onboarding />} />
+        <>
+            <Route
+                path="/"
+                loader={onboardingLoader}
+                element={<Onboarding />}
+            />
             <Route path="signup" element={<ParentSignUp />} />
             <Route path="login" loader={loginLoader} element={<Login />} />
-            <Route id="auth" loader={checkAuthLoader}>
+            <Route id="auth" loader={checkAuthLoader} errorElement={<Login />}>
                 <Route path="logout" loader={logoutLoader} />
                 <Route
                     path="map"
@@ -49,7 +55,7 @@ const router = createBrowserRouter(
                     }
                 />
                 <Route
-                    path="/"
+                    path="menu"
                     element={
                         <RoleProvider>
                             {(isParent) =>
@@ -110,7 +116,7 @@ const router = createBrowserRouter(
                     }
                 />
             </Route>
-        </Route>
+        </>
     )
 );
 

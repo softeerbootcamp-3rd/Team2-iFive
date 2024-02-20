@@ -3,6 +3,8 @@ import logoIcon from "@/assets/logo.svg";
 import truckIcon from "@/assets/truck.png";
 import userIcon from "@/assets/user_icon.svg";
 import { Type } from "@/components/Onboarding/Type";
+import { getAccessToken } from "../../utils/auth";
+import { redirect } from "react-router-dom";
 
 export default function Onboarding() {
     return (
@@ -19,4 +21,13 @@ export default function Onboarding() {
             </section>
         </main>
     );
+}
+
+export function loader() {
+    const token = getAccessToken();
+
+    if (token) {
+        return redirect("/menu");
+    }
+    return null;
 }

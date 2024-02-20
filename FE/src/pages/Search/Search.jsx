@@ -51,7 +51,7 @@ export default function Search() {
     const handleScheduleChange = (day, unit) => (value) => {
         setSchedule((prevSchedule) => ({
             ...prevSchedule,
-            [day]: { ...prevSchedule[day], [unit]: value }
+            [day]: { ...prevSchedule[day], [unit]: Number(value) }
         }));
     };
 
@@ -109,6 +109,7 @@ export default function Search() {
                     isOpen={modalOpen}
                     onClose={handleCloseModal}
                     location={location}
+                    setLocation={setLocation}
                     handleLocationSelect={handleLocationSelect}
                     detailAddress={detailAddress}
                     setDetailAddress={setDetailAddress}

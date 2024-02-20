@@ -7,34 +7,23 @@ import { Loader } from "../common/Loader/Loader";
 import { ParentBottomSheet } from "../common/Bottomsheet/Bottomsheet";
 import { PARENT_TOKEN, WEBSOCKET_URL } from "../../constants/constants";
 import { useMarker } from "../../hooks/useMarker";
-import { useFetchGet } from "../../hooks/useFetch";
 import { getAccessToken } from "../../utils/auth";
 import Car from "@/assets/car.svg";
+import { useLocation } from "react-router-dom";
 
 export default function ParentMap() {
-    const [kidData, setKidData] = useFetchGet(query, header);
-    const { loading, error, data } = kidData;
-
     const mapElementRef = useRef();
+    const childrenData = getKidData();
+    const kidData = childrenData[0];
 
-    const {
-        location: { latitude, longitude },
-        isLoading: locationLoading
-    } = useCoords();
+    const center = getLatLng(kidData.startLatitude, kidData.startLongitude);
 
-    const center =
-        !locationLoading &&
-        getLatLng(exampleData.startLatitude, exampleData.startLongitude);
-
-    const map = useMap(mapElementRef, { center }, locationLoading);
+    const map = useMap(mapElementRef, { center });
 
     const departureMarker = useMarker(map, center);
     const driverMarker = useMarker(map, center, markerIcon);
 
-    const destinationPos = getLatLng(
-        exampleData.endLatitude,
-        exampleData.endLongitude
-    );
+    const destinationPos = getLatLng(kidData.endLatitude, kidData.endLongitude);
     const destinationMarker = useMarker(map, destinationPos);
 
     const webSocketRef = useRef();
@@ -68,7 +57,7 @@ export default function ParentMap() {
         <div className={styles.wrapper}>
             {!map && <Loader />}
             <div ref={mapElementRef} id="map" className={styles.map} />
-            {loading ? <Loader /> : <ParentBottomSheet data={exampleData} />}
+            <ParentBottomSheet kidData={childrenData} />
         </div>
     );
 }
@@ -77,21 +66,6 @@ const query = "parent/pickup/now";
 const accessToken = getAccessToken();
 const header = {
     Bearer: accessToken
-};
-
-const exampleData = {
-    childName: "김하나",
-    childImage: "String...",
-    startAddress: "에티버스러닝 학동캠퍼스",
-    endAddress: "코마츠",
-    startDate: "2024.02.01",
-    endDate: "2024.02.29",
-    startTime: "09:00",
-    endTime: "10:00",
-    startLatitude: 37.5138649,
-    startLongitude: 127.0295296,
-    endLatitude: 37.51559,
-    endLongitude: 127.0316161
 };
 
 const content = [
@@ -107,3 +81,8 @@ const markerIcon = {
         // anchor: new naver.maps.Point(25, 26)
     }
 };
+
+function getKidData() {
+    const location = useLocation();
+    return location.state.kidData;
+}

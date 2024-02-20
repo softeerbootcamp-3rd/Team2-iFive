@@ -9,7 +9,6 @@ import ifive.idrop.exception.ErrorCode;
 import ifive.idrop.repository.DriverRepository;
 import ifive.idrop.repository.PickUpRepository;
 import ifive.idrop.util.RequestSchedule;
-import ifive.idrop.util.ScheduleUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +16,9 @@ import org.springframework.transaction.annotation.Transactional;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import ifive.idrop.dto.response.CurrentPickUpResponse;
+import ifive.idrop.entity.PickUpInfo;
+
 import java.util.List;
 
 import static ifive.idrop.util.ScheduleUtils.*;
@@ -62,11 +64,13 @@ public class DriverService {
         return driver.getDetail();
     }
 
-    public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Driver driver) {
-        List<PickUpInfo> runningPickInfo = driverRepository.findRunningPickInfo(driver.getId());
+
+    @Transactional(readOnly = true)
+    public BaseResponse<List<CurrentPickUpResponse>> getAllChildRunningInfo(Driver driver) {
+        List<Object[]> runningPickInfo = driverRepository.findAllRunningPickInfo(driver.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
-                        .map(CurrentPickUpResponse::of)
+                        .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
                         .toList());
     }
 
@@ -102,5 +106,14 @@ public class DriverService {
             driverSubscribeInfoResponseList.add(driverSubscribeInfoResponse);
         }
         return driverSubscribeInfoResponseList;
+    }
+
+    @Transactional(readOnly = true)
+    public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Driver driver) {
+        List<Object[]> runningPickInfo = driverRepository.findRunningPickInfo(driver.getId());
+        return BaseResponse.of("Data Successfully Proceed",
+                runningPickInfo.stream()
+                        .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
+                        .toList());
     }
 }

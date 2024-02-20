@@ -35,11 +35,10 @@ public class ParentService {
     private final ParentRepository parentRepository;
     private final PickUpRepository pickUpRepository;
 
-    @Transactional
     public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) throws JSONException {
         Driver driver = driverRepository.findById(subscribeRequest.getDriverId())
                 .orElseThrow(() -> new CommonException(ErrorCode.DRIVER_NOT_EXIST));
-        Child child = parentRepository.findChild(parent.getId(), subscribeRequest.getChildName())
+        Child child = parentRepository.findChild(parent.getId())
                 .orElseThrow(() -> new CommonException(ErrorCode.CHILD_NOT_EXIST));
 
         PickUpSubscribe subscribe = createPickUpSubscribe();
@@ -55,11 +54,13 @@ public class ParentService {
 
         return BaseResponse.success();
     }
+
+    @Transactional(readOnly = true)
     public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Parent parent) {
-        List<PickUpInfo> runningPickInfo = parentRepository.findRunningPickInfo(parent.getId());
+        List<Object[]> runningPickInfo = parentRepository.findRunningPickInfo(parent.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
-                        .map(CurrentPickUpResponse::of)
+                        .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
                         .toList());
     }
 

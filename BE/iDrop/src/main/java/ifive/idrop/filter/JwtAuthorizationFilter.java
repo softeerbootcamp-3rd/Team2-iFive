@@ -34,7 +34,7 @@ public class JwtAuthorizationFilter implements Filter {
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
         HttpServletRequest httpServletRequest = (HttpServletRequest) request;
         HttpServletResponse httpServletResponse = (HttpServletResponse) response;
-        if (whiteListCheck(httpServletRequest.getRequestURI())){
+        if (whiteListCheck(httpServletRequest.getRequestURI()) || httpServletRequest.getMethod().equals("OPTIONS")){
             chain.doFilter(request, response);
             return;
         }

@@ -9,6 +9,8 @@ import ifive.idrop.entity.PickUpInfo;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -52,10 +54,11 @@ public class DriverRepository {
                 "FROM PickUpInfo pui\n" +
                 "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +
                 "WHERE pui.driver.id =: driverId\n" +
-                "AND pu.startTime IS NOT NULL\n" +
+                "AND FUNCTION('DATE', pu.reservedTime) = :currentDate\n"+
                 "AND pu.endTime IS NULL";
         return em.createQuery(query)
                 .setParameter("driverId", driverId)
+                .setParameter("currentDate", LocalDate.now())
                 .getResultList();
     }
 
@@ -66,7 +69,7 @@ public class DriverRepository {
                 "WHERE pui.driver.id =: driverId\n" +
                 "AND pu.startTime IS NOT NULL\n" +
                 "AND pu.endTime IS NULL\n" +
-                "AND pu.reservedTime >= CURRENT_TIMESTAMP";
+                "AND pu.reservedTime <= CURRENT_TIMESTAMP";
 
         return em.createQuery(query)
                 .setParameter("driverId", driverId)

@@ -15,4 +15,11 @@ public class Parent extends Users {
     private Long id;
     @OneToMany(mappedBy = "parent")
     private List<Child> childList = new ArrayList<>();
+
+    @OneToOne(mappedBy = "parent")
+    private Notification notification;
+
+    public void updateNotification(Notification notification) {
+        this.notification = notification;
+    }
 }

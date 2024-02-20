@@ -6,6 +6,7 @@ spring:
       - "env/mysql.yml"
       - "env/jwt.yml"
       - "env/s3.yml"
+      - "env/naver_api.yml"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${mysql_endpoint}
@@ -35,3 +36,11 @@ cloud:
       static: ${aws_region}
     stack:
       auto: false
+
+logging:
+  level:
+    org:
+      springframework:
+        web:
+          client:
+            RestTemplate: DEBUG

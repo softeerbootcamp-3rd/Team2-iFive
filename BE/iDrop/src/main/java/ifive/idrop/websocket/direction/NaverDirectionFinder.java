@@ -1,7 +1,5 @@
 package ifive.idrop.websocket.direction;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import ifive.idrop.util.CustomObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,6 +13,8 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class NaverDirectionFinder {
 
+    private final String NAVER_DIRECTION_URL = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving";
+
     @Value("${naver_client_id}")
     private String clientId;
 
@@ -23,9 +23,10 @@ public class NaverDirectionFinder {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public NaverDirectionResponse getDirection(String start, String goal) throws Exception {
-        String url = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving";
-        url += "?start=" + start + "&goal=" + goal;
+    public Direction getDirection(String start, String goal) throws Exception {
+        StringBuilder sb = new StringBuilder(NAVER_DIRECTION_URL);
+        sb.append("?start=").append(start).append("&goal=").append(goal);
+        String url = sb.toString();
 
         HttpHeaders headers = new HttpHeaders();
         headers.setContentType(MediaType.APPLICATION_JSON);
@@ -37,15 +38,8 @@ public class NaverDirectionFinder {
                 .headers(headers)
                 .build();
 
-        ResponseEntity<String> result = restTemplate.exchange(req, String.class);
-
-        NaverDirectionResponse response = CustomObjectMapper.getObject(result.getBody(), NaverDirectionResponse.class );
+        NaverDirectionResponse response = restTemplate.exchange(req, NaverDirectionResponse.class).getBody();
         Direction direction = new Direction(response.getPath());
-
-        String directionString = CustomObjectMapper.getMapper().writeValueAsString(direction);
-
-        log.info("DIRECTION {}", directionString);
-
-        return response;
+        return direction;
     }
 }

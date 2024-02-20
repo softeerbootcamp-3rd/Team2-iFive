@@ -8,6 +8,5 @@ import java.util.List;
 @Getter
 @AllArgsConstructor
 public class Direction {
-
     List<List<Double>> path;
 }

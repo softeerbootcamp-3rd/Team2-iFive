@@ -6,7 +6,6 @@ import {
     createRoutesFromElements,
     useRouteLoaderData
 } from "react-router-dom";
-import "./firebase-messaging-sw.js";
 import Search from "./pages/Search/Search";
 import Onboarding, {
     loader as onboardingLoader

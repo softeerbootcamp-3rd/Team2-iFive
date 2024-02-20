@@ -47,7 +47,7 @@ public class PickUpService {
     }
 
     public Optional<PickUp> findCurrentPickUp(Long driverId, Long childId) {
-        List<PickUp> pickUps = pickUpRepository.findPickUpsByDriverIdWithCurrentTimeInReservedWindow(driverId);
+        List<PickUp> pickUps = pickUpRepository.findPickUpsByDriverIdWithCurrentTimeInReservedRange(driverId);
         Optional<PickUp> result = pickUps.stream()
                 .filter(p -> p.getChild().getId().equals(childId))
                 .findFirst();

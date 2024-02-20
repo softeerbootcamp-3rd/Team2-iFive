@@ -74,7 +74,7 @@ public class PickUpRepository {
      * @param driverId
      * @return List<PickUp>
      */
-    public List<PickUp> findPickUpsByDriverIdWithCurrentTimeInReservedWindow(Long driverId) {
+    public List<PickUp> findPickUpsByDriverIdWithCurrentTimeInReservedRange(Long driverId) {
         LocalDateTime now = LocalDateTime.now();
 
         // 현재 시간이 reservedTime ~ reservedTime+1시간에 해당하는 PickUp들 찾기

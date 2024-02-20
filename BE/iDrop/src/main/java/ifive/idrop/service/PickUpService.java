@@ -22,17 +22,18 @@ public class PickUpService {
 
     private final ImageService imageService;
     private final PickUpRepository pickUpRepository;
+    private final String PICKUP_IMAGE_PATH = "image/pickup/";
 
     @Transactional
     public void saveStartOrEndPickUp(Long pickUpId, MultipartFile image, String message) throws IOException {
         PickUp pickUp = pickUpRepository.findById(pickUpId)
                 .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
         if (pickUp.getStartImage() == null) {
-            String imageUrl = imageService.upload(image, "image/pickup/");
+            String imageUrl = imageService.upload(image, PICKUP_IMAGE_PATH);
             pickUpRepository.savePickUpStartInfo(pickUpId, imageUrl, message);
             log.info("pickUp Start - driverId = {}, pickUpId = {}", pickUp.getDriver().getId(), pickUp.getId());
         } else if (pickUp.getEndImage() == null) {
-            String imageUrl = imageService.upload(image, "image/pickup/");
+            String imageUrl = imageService.upload(image, PICKUP_IMAGE_PATH);
             pickUpRepository.savePickUpEndInfo(pickUpId, imageUrl, message);
             log.info("pickUp End - driverId = {}, pickUpId = {}", pickUp.getDriver().getId(), pickUp.getId());
         } else {

@@ -48,7 +48,7 @@ public class PickUpRepository {
         em.persist(pick);
     }
 
-    public List<PickUp> findPickUpInfoByPickUpInfoIdAndParentId(Long parentId, long pickInfoId) {
+    public List<PickUp> findPickUpInfoByPickUpInfoIdAndParentIdOrderByReservedTime(Long parentId, Long pickInfoId) {
         String query = "SELECT p FROM PickUp p\n" +
                 "WHERE p.pickUpInfo.id =: pickInfoId\n" +
                 "AND p.pickUpInfo.child.parent.id =: parentId\n" +

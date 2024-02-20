@@ -5,7 +5,7 @@ function degreesToRadians(degrees) {
 
 // 두 지점 간의 거리를 계산하는 함수 (단위: 미터)
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const earthRadiusKm = 6371; // 지구의 반지름 (단위: 킬로미터)
+    const EARTHRADIUSKM = 6371; // 지구의 반지름 (단위: 킬로미터)
 
     // 위도와 경도를 라디안으로 변환
     const dLat = degreesToRadians(lat2 - lat1);

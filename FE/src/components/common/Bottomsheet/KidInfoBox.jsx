@@ -2,38 +2,28 @@ import { useLocation } from "react-router-dom";
 import styles from "./kidInfoBox.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
 
-export function DriverContents({
-    childName,
-    childImage,
-    startAddress,
-    endAddress,
-    pickUpStartTime,
-    pickUpEndtime
-}) {
+export function DriverContents({ kidData }) {
     return (
         <>
             <h3>오늘의 픽업</h3>
-            <div className={styles.content}>
-                <img className={styles.kidImg} src={childImage || iDrop}></img>
-                <div className={styles.infoBox}>
-                    <span>{childName}</span>
-                    <span>
-                        {pickUpStartTime || "2024.02.01"} ~{" "}
-                        {pickUpEndtime || "2024.02.28"}
-                    </span>
-                    <span>
-                        {startAddress} {"→"} {endAddress}
-                    </span>
-                </div>
-            </div>
+            {renderContents(kidData, "driver")}
         </>
     );
 }
 
 export function ParentContents({ kidData }) {
+    return (
+        <>
+            <h3>픽업 서비스 구독 중</h3>
+            {renderContents(kidData, "parent")}
+        </>
+    );
+}
+
+function renderContents(kidData, type) {
     const { pathname } = useLocation();
 
-    const renderContents = kidData.map(
+    const render = kidData.map(
         ({
             childId,
             childImage,
@@ -46,9 +36,11 @@ export function ParentContents({ kidData }) {
             endDate
         }) => {
             let MSG =
-                pathname === "/map"
-                    ? `${pickUpStartTime} ~ ${pickUpEndTime}`
-                    : `${startDate} ~ ${endDate}`;
+                type === "parent"
+                    ? pathname === "/map"
+                        ? `${pickUpStartTime} ~ ${pickUpEndTime}`
+                        : `${startDate} ~ ${endDate}`
+                    : `${pickUpStartTime} ~ ${pickUpEndTime}`;
             return (
                 <div key={childId} className={styles.content}>
                     <img
@@ -66,10 +58,5 @@ export function ParentContents({ kidData }) {
             );
         }
     );
-    return (
-        <>
-            <h3>픽업 서비스 구독 중</h3>
-            {renderContents}
-        </>
-    );
+    return render;
 }

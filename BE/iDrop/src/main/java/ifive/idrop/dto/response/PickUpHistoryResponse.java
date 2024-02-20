@@ -3,11 +3,9 @@ package ifive.idrop.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ifive.idrop.entity.PickUp;
 import ifive.idrop.entity.enums.PickUpInfoStatus;
-import ifive.idrop.util.Parser;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 

@@ -48,7 +48,7 @@ public class DriverService {
 
     @Transactional(readOnly = true)
     public BaseResponse<List<CurrentPickUpResponse>> getAllChildRunningInfo(Driver driver) {
-        List<Object[]> runningPickInfo = driverRepository.findAllRunningPickInfo(driver.getId());
+        List<Object[]> runningPickInfo = driverRepository.findAllRunningPickUpInfo(driver.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
                         .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
@@ -57,7 +57,7 @@ public class DriverService {
 
     @Transactional(readOnly = true)
     public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Driver driver) {
-        List<Object[]> runningPickInfo = driverRepository.findRunningPickInfo(driver.getId());
+        List<Object[]> runningPickInfo = driverRepository.findRunningPickUpInfo(driver.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
                         .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))

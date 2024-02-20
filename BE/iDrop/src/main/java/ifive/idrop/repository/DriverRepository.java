@@ -5,7 +5,6 @@ import ifive.idrop.entity.*;
 import ifive.idrop.util.RequestSchedule;
 import ifive.idrop.util.ScheduleUtils;
 import ifive.idrop.entity.Driver;
-import ifive.idrop.entity.PickUpInfo;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
@@ -47,7 +46,7 @@ public class DriverRepository {
         }
         return availableDrivers;
     }
-    public List<Object[]> findAllRunningPickInfo(Long driverId) {
+    public List<Object[]> findAllRunningPickUpInfo(Long driverId) {
         String query = "SELECT pui, pu.reservedTime\n" +
                 "FROM PickUpInfo pui\n" +
                 "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +
@@ -59,7 +58,7 @@ public class DriverRepository {
                 .getResultList();
     }
 
-    public List<Object[]> findRunningPickInfo(Long driverId) {
+    public List<Object[]> findRunningPickUpInfo(Long driverId) {
         String query = "SELECT pui, pu.reservedTime\n" +
                 "FROM PickUpInfo pui\n" +
                 "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +

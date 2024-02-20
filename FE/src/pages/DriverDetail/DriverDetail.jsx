@@ -1,19 +1,30 @@
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLoaderData, useLocation, useNavigate } from "react-router-dom";
 import { Footer } from "../../components/common/Footer/Footer";
 import { Header } from "../../components/common/Header/Header";
-import { getDriverDetail } from "../../service/api";
+import { getDriverDetail, postSubscribe } from "../../service/api";
 import styles from "./DriverDetail.module.scss";
 
 export default function DriverDetail() {
-    const { driverId } = useParams();
     const { subscriptionOption } = useLocation();
     const navigate = useNavigate();
+    const {
+        driverId,
+        name,
+        phoneNumber,
+        gender,
+        birth,
+        image,
+        career,
+        introduction,
+        drivingScore,
+        starRate,
+        numberOfReviews
+    } = useLoaderData();
 
     const handleSubscriptionRequest = async () => {
         try {
             await postSubscribe({
                 driverId,
-                childName: "강승구",
                 ...subscriptionOption
             });
             navigate("/subscription/confirmation");
@@ -24,8 +35,27 @@ export default function DriverDetail() {
         }
     };
 
+    function getContentForTitle(title) {
+        switch (title) {
+            case "자기소개":
+                return introduction;
+            case "경력":
+                return career;
+            case "연락처":
+                return phoneNumber;
+            case "별점":
+                return `${starRate} (${numberOfReviews} 리뷰)`;
+            default:
+                return ""; // 기본값, 해당하는 title이 없는 경우
+        }
+    }
+
     const detailInfoList = DRIVER_DETAIL_LIST.map((title) => (
-        <DriverInfo key={title} title={title} content="" />
+        <DriverInfo
+            key={title}
+            title={title}
+            content={getContentForTitle(title)}
+        />
     ));
 
     return (
@@ -35,8 +65,8 @@ export default function DriverDetail() {
                 <section className={styles.profile}>
                     <div className={styles.profileImg}></div>
                     <article className={styles.profileTextWrapper}>
-                        <h3 className={styles.name}>육종호</h3>
-                        <h4 className={styles.age}>60세 (남)</h4>
+                        <h3 className={styles.name}>{name}</h3>
+                        <h4 className={styles.age}>{`${birth} (${gender})`}</h4>
                     </article>
                 </section>
                 <section className={styles.infoList}>{detailInfoList}</section>

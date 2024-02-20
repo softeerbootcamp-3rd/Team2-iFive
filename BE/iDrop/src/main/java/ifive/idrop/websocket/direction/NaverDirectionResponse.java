@@ -18,12 +18,12 @@ public class NaverDirectionResponse {
     }
 }
 
-@Data
+@Getter
 class Route {
     private List<TraOptimal> traoptimal;
 }
 
-@Data
+@Getter
 class TraOptimal {
     private Summary summary;
     private List<List<Double>> path;
@@ -31,7 +31,6 @@ class TraOptimal {
     private List<Guide> guide;
 }
 
-@Data
 class Summary {
     private Location start;
     private Goal goal;
@@ -45,17 +44,14 @@ class Summary {
     private int fuelPrice;
 }
 
-@Data
 class Location {
     private List<Double> location;
 }
 
-@Data
 class Goal extends Location {
     private int dir;
 }
 
-@Data
 class Section {
     private int pointIndex;
     private int pointCount;
@@ -65,7 +61,6 @@ class Section {
     private int speed;
 }
 
-@Data
 class Guide {
     private int pointIndex;
     private int type;

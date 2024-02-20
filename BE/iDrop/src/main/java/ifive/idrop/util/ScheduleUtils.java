@@ -33,13 +33,13 @@ public class ScheduleUtils {
         for (int i = 0; i < 7; i++) {
             Map<String, Integer> dayObject = (Map<String, Integer>) schedule.get(DAY_OF_WEEKS.get(i));
             if (dayObject != null) {
-                int hour = dayObject.get("hour");
-                int minute = dayObject.get("min");
+                Number hour = dayObject.get("hour");
+                Number minute = dayObject.get("min");
                 int difference = getDifferenceOfDayOfWeek(i + 1, dayOfToday);
                 for (int d = difference; d <= EXPIRATION; d += 7) {
                     if (d == 0)
                         continue; //당일은 제외
-                    requestSchedule.addSchedule(now.plusDays(d).withHour(hour).withMinute(minute));
+                    requestSchedule.addSchedule(now.plusDays(d).withHour(hour.intValue()).withMinute(minute.intValue()));
                 }
             }
         }
@@ -72,6 +72,6 @@ public class ScheduleUtils {
         if (modifiedDate == null) {
             return calculateStartDate(null).plusDays(EXPIRATION - 1);
         }
-        return modifiedDate.toLocalDate().plusDays(1);
+        return modifiedDate.toLocalDate().plusDays(EXPIRATION);
     }
 }

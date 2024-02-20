@@ -9,7 +9,7 @@ import java.time.LocalDate;
 @Builder
 @Getter
 public class DriverSubscribeInfoResponse {
-    private Long pickupInfoId;
+    private Long pickUpInfoId;
     private String parentName;
     private String parentPhoneNumber;
     private String childName;

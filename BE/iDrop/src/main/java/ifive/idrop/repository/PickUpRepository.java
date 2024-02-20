@@ -19,6 +19,14 @@ import java.util.Optional;
 public class PickUpRepository {
     private final EntityManager em;
 
+    public Optional<PickUp> findPickUpById(Long pickUpId) {
+        return Optional.ofNullable(em.find(PickUp.class, pickUpId));
+    }
+
+    public Optional<PickUpInfo> findPickUpInfoById(Long pickUpInfoId) {
+        return Optional.ofNullable(em.find(PickUpInfo.class, pickUpInfoId));
+    }
+
     public List<PickUp> findReservedPickUpsByDriver(Long driverId) {
         TypedQuery<PickUp> query = em.createQuery(
                 "SELECT p FROM PickUp p " +
@@ -75,10 +83,6 @@ public class PickUpRepository {
                 .setParameter("cancel", PickUpStatus.CANCEL)
                 .setParameter("decline", PickUpStatus.DECLINE);
         return query.getResultList();
-    }
-
-    public Optional<PickUp> findById(Long pickUpId) {
-        return Optional.ofNullable(em.find(PickUp.class, pickUpId));
     }
 
     public void savePickUpStartInfo(Long pickupId, String startImage, String startMessage) {

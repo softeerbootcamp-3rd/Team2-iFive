@@ -2,6 +2,7 @@ package ifive.idrop.controller;
 
 import ifive.idrop.annotation.Login;
 
+import ifive.idrop.dto.request.SubscribeCheckRequest;
 import ifive.idrop.dto.response.CurrentPickUpResponse;
 import ifive.idrop.dto.request.DriverInformation;
 import ifive.idrop.dto.response.BaseResponse;
@@ -45,4 +46,8 @@ public class DriverController {
         return driverService.subscribeList(driver.getId());
     }
 
+    @PostMapping("/subscribe/check")
+    public BaseResponse subscribeCheck(@Login Driver driver, @RequestBody SubscribeCheckRequest subscribeCheckRequest) {
+        return driverService.subscribeCheck(driver.getId(), subscribeCheckRequest);
+    }
 }

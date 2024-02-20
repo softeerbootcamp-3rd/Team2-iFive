@@ -35,6 +35,7 @@ public class ParentService {
     private final ParentRepository parentRepository;
     private final PickUpRepository pickUpRepository;
 
+    @Transactional
     public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) throws JSONException {
         Driver driver = driverRepository.findById(subscribeRequest.getDriverId())
                 .orElseThrow(() -> new CommonException(ErrorCode.DRIVER_NOT_EXIST));
@@ -44,13 +45,6 @@ public class ParentService {
         PickUpSubscribe subscribe = createPickUpSubscribe();
         PickUpLocation location = createPickUpLocation(subscribeRequest);
         PickUpInfo pickUpInfo = createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
-
-        // JsonDate를 LocalDate로 파싱
-        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getSchedule(), subscribe.getExpiredDate());
-
-        for (LocalDateTime localDateTime : scheduleList) {
-            createPickUp(localDateTime, pickUpInfo);
-        }
 
         return BaseResponse.success();
     }
@@ -64,20 +58,10 @@ public class ParentService {
                         .toList());
     }
 
-    private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
-        PickUp pickUp = PickUp.builder()
-                .reservedTime(localDateTime)
-                .build();
-        pickUp.updatePickUpInfo(pickUpInfo);
-        pickUpRepository.savePickUp(pickUp);
-    }
-
-    // todo: 데모 이후 구독 생성시 후에 모두 승인이 아닌 대기 상태로 변경
     private PickUpSubscribe createPickUpSubscribe() {
         PickUpSubscribe subscribe = PickUpSubscribe.builder()
-                .status(PickUpStatus.ACCEPT)
+                .status(PickUpStatus.WAIT)
                 .requestDate(LocalDateTime.now())
-                .expiredDate(LocalDateTime.now().plusDays(1).plusWeeks(4))
                 .build();
         pickUpRepository.savePickUpSubscribe(subscribe);
         return subscribe;
@@ -122,7 +106,7 @@ public class ParentService {
             LocalDate endDate = calculateEndDate(pickUpSubscribe.getModifiedDate());
 
             ParentSubscribeInfoResponse parentSubscribeInfoResponse = ParentSubscribeInfoResponse.builder()
-                    .pickupInfoId(pickUpInfo.getId())
+                    .pickUpInfoId(pickUpInfo.getId())
                     .driverName(driver.getName())
                     .driverImage(driver.getImage())
                     .startDate(startDate)

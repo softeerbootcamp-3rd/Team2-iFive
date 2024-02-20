@@ -60,4 +60,19 @@ public class PickUpRepository {
         query.setParameter("parentId", parentId);
         return query.getResultList();
     }
+
+    public List<PickUpInfo> findPickUpInfoByDriverId(Long driverId) {
+        TypedQuery<PickUpInfo> query = em.createQuery(
+                "SELECT pui FROM PickUpInfo pui " +
+                        "JOIN pui.pickUpSubscribe ps " +
+                        "JOIN pui.driver d " +
+                        "WHERE d.id = :driverId " +
+                        "AND ps.status <> :cancel " +
+                        "AND ps.status <> :decline " +
+                        "ORDER BY ps.requestDate DESC", PickUpInfo.class);
+        query.setParameter("driverId", driverId)
+                .setParameter("cancel", PickUpStatus.CANCEL)
+                .setParameter("decline", PickUpStatus.DECLINE);
+        return query.getResultList();
+    }
 }

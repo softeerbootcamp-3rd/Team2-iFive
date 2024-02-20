@@ -1,13 +1,9 @@
 package ifive.idrop.service;
 
-import ifive.idrop.annotation.Login;
-import ifive.idrop.dto.response.BaseResponse;
+import ifive.idrop.dto.response.*;
 import ifive.idrop.dto.request.DriverInformation;
 import ifive.idrop.dto.request.DriverListRequest;
-import ifive.idrop.dto.response.DriverDetailResponse;
-import ifive.idrop.entity.Driver;
-import ifive.idrop.entity.PickUp;
-import ifive.idrop.entity.WorkHours;
+import ifive.idrop.entity.*;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
 import ifive.idrop.repository.DriverRepository;
@@ -18,13 +14,12 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ifive.idrop.dto.response.CurrentPickUpResponse;
-import ifive.idrop.entity.PickUpInfo;
-
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
+import static ifive.idrop.util.ScheduleUtils.*;
 
 
 @RequiredArgsConstructor
@@ -35,7 +30,7 @@ public class DriverService {
 
     @Transactional(readOnly = true)
     public List<Driver> searchAvailableDrivers(DriverListRequest driverListRequest) {
-        RequestSchedule requestSchedule = ScheduleUtils.parseToList(driverListRequest.getSchedule());
+        RequestSchedule requestSchedule = parseToList(driverListRequest.getSchedule());
 
         List<Driver> availableDrivers = new ArrayList<>();
         List<Driver> drivers = driverRepository.findAllDrivers();
@@ -76,7 +71,36 @@ public class DriverService {
     }
 
     @Transactional(readOnly = true)
-    public void subscribeList(Long driverId) {
-    }
+    public List<DriverSubscribeInfoResponse> subscribeList(Long driverId) {
+        List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByDriverId(driverId);
 
+        List<DriverSubscribeInfoResponse> driverSubscribeInfoResponseList = new ArrayList<>();
+        for (PickUpInfo pickUpInfo : pickUpInfoList) {
+            Child child = pickUpInfo.getChild();
+            Parent parent = child.getParent();
+            PickUpSubscribe pickUpSubscribe = pickUpInfo.getPickUpSubscribe();
+            PickUpLocation pickUpLocation = pickUpInfo.getPickUpLocation();
+
+            LocalDate startDate = calculateStartDate(pickUpSubscribe.getModifiedDate());
+            LocalDate endDate = calculateEndDate(pickUpSubscribe.getModifiedDate());
+
+            DriverSubscribeInfoResponse driverSubscribeInfoResponse = DriverSubscribeInfoResponse.builder()
+                    .pickupInfoId(pickUpInfo.getId())
+                    .parentName(parent.getName())
+                    .parentPhoneNumber(parent.getPhoneNumber())
+                    .childName(child.getName())
+                    .childBirth(child.getBirth())
+                    .childGender(child.getGender().getGender())
+                    .childImage(child.getImage())
+                    .startDate(startDate)
+                    .endDate(endDate)
+                    .startAddress(pickUpLocation.getStartAddress())
+                    .endAddress(pickUpLocation.getEndAddress())
+                    .status(pickUpSubscribe.getStatus().getStatus())
+                    .schedule(toJSONObject(pickUpInfo.getSchedule()))
+                    .build();
+            driverSubscribeInfoResponseList.add(driverSubscribeInfoResponse);
+        }
+        return driverSubscribeInfoResponseList;
+    }
 }

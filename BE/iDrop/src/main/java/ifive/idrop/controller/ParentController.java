@@ -3,7 +3,7 @@ package ifive.idrop.controller;
 import ifive.idrop.dto.request.DriverListRequest;
 import ifive.idrop.dto.response.CurrentPickUpResponse;
 import ifive.idrop.dto.response.DriverListResponse;
-import ifive.idrop.dto.response.SubscribeInfoResponse;
+import ifive.idrop.dto.response.ParentSubscribeInfoResponse;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.service.DriverService;
 import lombok.RequiredArgsConstructor;
@@ -47,7 +47,7 @@ public class ParentController {
     }
 
     @GetMapping("/subscribe/list")
-    public List<SubscribeInfoResponse> subscribeList(@Login Parent parent) {
+    public List<ParentSubscribeInfoResponse> subscribeList(@Login Parent parent) {
         return parentService.subscribeList(parent.getId());
     }
 }

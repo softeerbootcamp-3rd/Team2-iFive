@@ -5,6 +5,8 @@ import ifive.idrop.annotation.Login;
 import ifive.idrop.dto.response.CurrentPickUpResponse;
 import ifive.idrop.dto.request.DriverInformation;
 import ifive.idrop.dto.response.BaseResponse;
+import ifive.idrop.dto.response.DriverSubscribeInfoResponse;
+import ifive.idrop.dto.response.ParentSubscribeInfoResponse;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.service.DriverService;
 import lombok.RequiredArgsConstructor;
@@ -35,8 +37,8 @@ public class DriverController {
     }
 
     @GetMapping("/subscribe/list")
-    public void subscribeList(@Login Driver driver) {
-        driverService.subscribeList(driver.getId());
+    public List<DriverSubscribeInfoResponse> subscribeList(@Login Driver driver) {
+        return driverService.subscribeList(driver.getId());
     }
 
 }

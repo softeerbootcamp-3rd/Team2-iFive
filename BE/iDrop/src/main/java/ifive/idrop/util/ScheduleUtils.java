@@ -7,6 +7,7 @@ import org.json.simple.parser.ParseException;
 import org.springframework.http.HttpStatus;
 
 import java.time.DayOfWeek;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.TextStyle;
 import java.util.Arrays;
@@ -58,5 +59,19 @@ public class ScheduleUtils {
 
     private static int getDifferenceOfDayOfWeek(int from, int to) {
         return (from - to >= 0) ? from - to : from - to + 7;
+    }
+
+    public static LocalDate calculateStartDate(LocalDateTime modifiedDate) {
+        if (modifiedDate == null) {
+            return LocalDate.now().plusDays(1);
+        }
+        return modifiedDate.toLocalDate().plusDays(1);
+    }
+
+    public static LocalDate calculateEndDate(LocalDateTime modifiedDate) {
+        if (modifiedDate == null) {
+            return calculateStartDate(null).plusDays(EXPIRATION - 1);
+        }
+        return modifiedDate.toLocalDate().plusDays(1);
     }
 }

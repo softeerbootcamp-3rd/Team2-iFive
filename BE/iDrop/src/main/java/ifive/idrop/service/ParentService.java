@@ -5,7 +5,7 @@ import ifive.idrop.dto.response.BaseResponse;
 import ifive.idrop.dto.request.SubscribeRequest;
 import ifive.idrop.dto.response.CurrentPickUpResponse;
 
-import ifive.idrop.dto.response.SubscribeInfoResponse;
+import ifive.idrop.dto.response.ParentSubscribeInfoResponse;
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
 import ifive.idrop.exception.CommonException;
@@ -17,13 +17,16 @@ import ifive.idrop.util.Parser;
 import ifive.idrop.util.ScheduleUtils;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
-import org.json.simple.JSONObject;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static ifive.idrop.util.ScheduleUtils.calculateEndDate;
+import static ifive.idrop.util.ScheduleUtils.calculateStartDate;
 
 @Service
 @RequiredArgsConstructor
@@ -105,28 +108,31 @@ public class ParentService {
     }
 
     @Transactional(readOnly = true)
-    public List<SubscribeInfoResponse> subscribeList(Long parentId) {
+    public List<ParentSubscribeInfoResponse> subscribeList(Long parentId) {
         List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByParentId(parentId);
 
-        List<SubscribeInfoResponse> subscribeInfoResponseList = new ArrayList<>();
+        List<ParentSubscribeInfoResponse> parentSubscribeInfoResponseList = new ArrayList<>();
         for (PickUpInfo pickUpInfo : pickUpInfoList) {
             Driver driver = pickUpInfo.getDriver();
             PickUpSubscribe pickUpSubscribe = pickUpInfo.getPickUpSubscribe();
             PickUpLocation pickUpLocation = pickUpInfo.getPickUpLocation();
 
-            SubscribeInfoResponse subscribeInfoResponse = SubscribeInfoResponse.builder()
+            LocalDate startDate = calculateStartDate(pickUpSubscribe.getModifiedDate());
+            LocalDate endDate = calculateEndDate(pickUpSubscribe.getModifiedDate());
+
+            ParentSubscribeInfoResponse parentSubscribeInfoResponse = ParentSubscribeInfoResponse.builder()
                     .pickupInfoId(pickUpInfo.getId())
                     .driverName(driver.getName())
                     .driverImage(driver.getImage())
-                    .startDate(pickUpSubscribe.getModifiedDate())
-                    .expiryDate(pickUpSubscribe.getExpiredDate())
+                    .startDate(startDate)
+                    .endDate(endDate)
                     .startAddress(pickUpLocation.getStartAddress())
                     .endAddress(pickUpLocation.getEndAddress())
                     .status(pickUpSubscribe.getStatus().getStatus())
                     .schedule(ScheduleUtils.toJSONObject(pickUpInfo.getSchedule()))
                     .build();
-            subscribeInfoResponseList.add(subscribeInfoResponse);
+            parentSubscribeInfoResponseList.add(parentSubscribeInfoResponse);
         }
-        return subscribeInfoResponseList;
+        return parentSubscribeInfoResponseList;
     }
 }

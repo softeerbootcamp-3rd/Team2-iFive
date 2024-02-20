@@ -9,6 +9,8 @@ import ifive.idrop.entity.PickUpInfo;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -47,14 +49,29 @@ public class DriverRepository {
         }
         return availableDrivers;
     }
-    public List<PickUpInfo> findRunningPickInfo(Long driverId) {
-        String query = "SELECT pui\n" +
+    public List<Object[]> findAllRunningPickInfo(Long driverId) {
+        String query = "SELECT pui, pu.reservedTime\n" +
+                "FROM PickUpInfo pui\n" +
+                "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +
+                "WHERE pui.driver.id =: driverId\n" +
+                "AND FUNCTION('DATE', pu.reservedTime) = :currentDate\n"+
+                "AND pu.endTime IS NULL";
+        return em.createQuery(query)
+                .setParameter("driverId", driverId)
+                .setParameter("currentDate", LocalDate.now())
+                .getResultList();
+    }
+
+    public List<Object[]> findRunningPickInfo(Long driverId) {
+        String query = "SELECT pui, pu.reservedTime\n" +
                 "FROM PickUpInfo pui\n" +
                 "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +
                 "WHERE pui.driver.id =: driverId\n" +
                 "AND pu.startTime IS NOT NULL\n" +
-                "AND pu.endTime IS NULL";
-        return em.createQuery(query, PickUpInfo.class)
+                "AND pu.endTime IS NULL\n" +
+                "AND pu.reservedTime <= CURRENT_TIMESTAMP";
+
+        return em.createQuery(query)
                 .setParameter("driverId", driverId)
                 .getResultList();
     }

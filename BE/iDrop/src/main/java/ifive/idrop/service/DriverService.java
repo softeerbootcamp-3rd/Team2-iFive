@@ -12,9 +12,10 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import ifive.idrop.dto.CurrentPickUpResponse;
+import ifive.idrop.dto.response.CurrentPickUpResponse;
 import ifive.idrop.entity.PickUpInfo;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -44,12 +45,22 @@ public class DriverService {
         return driver.getDetail();
     }
 
-    public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Driver driver) {
-        List<PickUpInfo> runningPickInfo = driverRepository.findRunningPickInfo(driver.getId());
+
+    @Transactional(readOnly = true)
+    public BaseResponse<List<CurrentPickUpResponse>> getAllChildRunningInfo(Driver driver) {
+        List<Object[]> runningPickInfo = driverRepository.findAllRunningPickInfo(driver.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
-                        .map(CurrentPickUpResponse::of)
+                        .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
                         .toList());
     }
 
+    @Transactional(readOnly = true)
+    public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Driver driver) {
+        List<Object[]> runningPickInfo = driverRepository.findRunningPickInfo(driver.getId());
+        return BaseResponse.of("Data Successfully Proceed",
+                runningPickInfo.stream()
+                        .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
+                        .toList());
+    }
 }

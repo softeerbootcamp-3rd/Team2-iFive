@@ -3,7 +3,7 @@ package ifive.idrop.service;
 
 import ifive.idrop.dto.response.BaseResponse;
 import ifive.idrop.dto.request.SubscribeRequest;
-import ifive.idrop.dto.CurrentPickUpResponse;
+import ifive.idrop.dto.response.CurrentPickUpResponse;
 
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
@@ -13,10 +13,10 @@ import ifive.idrop.repository.DriverRepository;
 import ifive.idrop.repository.ParentRepository;
 import ifive.idrop.repository.PickUpRepository;
 import ifive.idrop.util.Parser;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -28,11 +28,10 @@ public class ParentService {
     private final ParentRepository parentRepository;
     private final PickUpRepository pickUpRepository;
 
-    @Transactional
     public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) throws JSONException {
         Driver driver = driverRepository.findById(subscribeRequest.getDriverId())
                 .orElseThrow(() -> new CommonException(ErrorCode.DRIVER_NOT_EXIST));
-        Child child = parentRepository.findChild(parent.getId(), subscribeRequest.getChildName())
+        Child child = parentRepository.findChild(parent.getId())
                 .orElseThrow(() -> new CommonException(ErrorCode.CHILD_NOT_EXIST));
 
         PickUpSubscribe subscribe = createPickUpSubscribe();
@@ -48,11 +47,13 @@ public class ParentService {
 
         return BaseResponse.success();
     }
+
+    @Transactional(readOnly = true)
     public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Parent parent) {
-        List<PickUpInfo> runningPickInfo = parentRepository.findRunningPickInfo(parent.getId());
+        List<Object[]> runningPickInfo = parentRepository.findRunningPickInfo(parent.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
-                        .map(CurrentPickUpResponse::of)
+                        .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
                         .toList());
     }
 

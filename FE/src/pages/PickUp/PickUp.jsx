@@ -12,14 +12,15 @@ import { useCoords } from "../../hooks/useCoords";
 export default function PickUpPage() {
     const [validLocation, setCrntLocation] = useState(false);
 
-    const kidData = getKidData();
+    const childrenData = getChildrenData();
+    const kidData = childrenData[0];
 
     const {
         location: { latitude, longitude },
         isLoading
     } = useCoords();
 
-    const notes = useRef();
+    const notesRef = useRef();
 
     const [image, setImage] = useState();
 
@@ -49,7 +50,7 @@ export default function PickUpPage() {
 
     const navigate = useNavigate();
     const movePage = (route) => {
-        navigate(`${route}`, { state: { kidData: kidData } });
+        navigate(`${route}`, { state: { childrenData: childrenData } });
     };
 
     const handleClick = async () => {
@@ -60,22 +61,23 @@ export default function PickUpPage() {
         const formData = new FormData();
         formData.append("childId", kidData.childId);
         formData.append("image", image);
-        formData.append("message", notes.current.value);
-        await postKidInfo(formData);
+        formData.append("message", notesRef.current.value);
 
-        flag ? movePage("/endpickup") : movePage("/map?type=driver");
+        const result = await postKidInfo(formData);
+        result &&
+            (flag ? movePage("/endpickup") : movePage("/map?type=driver"));
     };
 
     return (
         <div className={styles.wrapper}>
             <Header title={flag ? "픽업 종료" : "픽업 시작"}></Header>
             <div className={styles.contents}>
-                <DriverContents {...kidData} />
+                <DriverContents childrenData={childrenData} />
                 <CameraCapture onSetImage={onSetImage} />
                 <div className={styles.textarea}>
                     <label htmlFor="significant">특이사항</label>
                     <textarea
-                        ref={notes}
+                        ref={notesRef}
                         id="significant"
                         name="significant"
                         rows={5}
@@ -83,10 +85,6 @@ export default function PickUpPage() {
                     ></textarea>
                 </div>
             </div>
-            {/* <Footer
-                text={flag ? "픽업 종료" : "픽업 시작"}
-                onClick={handleClick}
-            ></Footer> */}
             {validLocation ? (
                 <Footer
                     text={flag ? "픽업 종료" : "픽업 시작"}
@@ -103,7 +101,7 @@ export default function PickUpPage() {
     );
 }
 
-function getKidData() {
+function getChildrenData() {
     const location = useLocation();
-    return location.state.kidData;
+    return location.state.childrenData;
 }

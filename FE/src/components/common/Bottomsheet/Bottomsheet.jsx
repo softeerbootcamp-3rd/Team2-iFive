@@ -4,24 +4,26 @@ import styles from "./bottomsheet.module.scss";
 import { DriverContents, ParentContents } from "./KidInfoBox";
 import { Footer } from "../Footer/Footer";
 
-export function ParentBottomSheet({ kidData }) {
+export function ParentBottomSheet({ childrenData }) {
     return (
         <BttmSheetTemplate>
-            <ParentContents kidData={kidData} />
+            <ParentContents childrenData={childrenData} />
         </BttmSheetTemplate>
     );
 }
 
-export function DriverBottomSheet({ data }) {
+export function DriverBottomSheet({ childrenData }) {
     const { pathname } = useLocation();
 
     const navigate = useNavigate();
     const movePage = () => {
-        navigate("/pickup", { state: { flag: true, kidData: data } });
+        navigate("/pickup", {
+            state: { flag: true, childrenData: childrenData }
+        });
     };
     return (
         <BttmSheetTemplate>
-            <DriverContents {...data}></DriverContents>
+            <DriverContents childrenData={childrenData}></DriverContents>
             {pathname === "/map" ? (
                 <Footer text={"운행종료"} onClick={movePage} />
             ) : (

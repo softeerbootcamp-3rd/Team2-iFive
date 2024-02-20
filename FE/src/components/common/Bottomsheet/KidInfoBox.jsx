@@ -2,28 +2,28 @@ import { useLocation } from "react-router-dom";
 import styles from "./kidInfoBox.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
 
-export function DriverContents({ kidData }) {
+export function DriverContents({ childrenData }) {
     return (
         <>
             <h3>오늘의 픽업</h3>
-            {renderContents(kidData, "driver")}
+            {renderContents(childrenData, "driver")}
         </>
     );
 }
 
-export function ParentContents({ kidData }) {
+export function ParentContents({ childrenData }) {
     return (
         <>
             <h3>픽업 서비스 구독 중</h3>
-            {renderContents(kidData, "parent")}
+            {renderContents(childrenData, "parent")}
         </>
     );
 }
 
-function renderContents(kidData, type) {
+function renderContents(childrenData, type) {
     const { pathname } = useLocation();
 
-    const render = kidData.map(
+    const render = childrenData.map(
         ({
             childId,
             childImage,
@@ -35,7 +35,7 @@ function renderContents(kidData, type) {
             startDate,
             endDate
         }) => {
-            let MSG =
+            let timeMsg =
                 type === "parent"
                     ? pathname === "/map"
                         ? `${pickUpStartTime} ~ ${pickUpEndTime}`
@@ -49,7 +49,7 @@ function renderContents(kidData, type) {
                     ></img>
                     <div className={styles.infoBox}>
                         <span>{childName}</span>
-                        <span>{MSG}</span>
+                        <span>{timeMsg}</span>
                         <span>
                             {startAddress} {"→"} {endAddress}
                         </span>

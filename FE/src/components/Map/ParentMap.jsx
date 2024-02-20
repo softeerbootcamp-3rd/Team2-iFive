@@ -13,7 +13,7 @@ import { useLocation } from "react-router-dom";
 
 export default function ParentMap() {
     const mapElementRef = useRef();
-    const childrenData = getKidData();
+    const childrenData = getChildrenData();
     const kidData = childrenData[0];
 
     const center = getLatLng(kidData.startLatitude, kidData.startLongitude);
@@ -57,7 +57,7 @@ export default function ParentMap() {
         <div className={styles.wrapper}>
             {!map && <Loader />}
             <div ref={mapElementRef} id="map" className={styles.map} />
-            <ParentBottomSheet kidData={childrenData} />
+            <ParentBottomSheet childrenData={childrenData} />
         </div>
     );
 }
@@ -82,7 +82,7 @@ const markerIcon = {
     }
 };
 
-function getKidData() {
+function getChildrenData() {
     const location = useLocation();
-    return location.state.kidData;
+    return location.state.childrenData;
 }

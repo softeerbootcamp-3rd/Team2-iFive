@@ -1,5 +1,5 @@
 import styles from "./Menu.module.scss";
-import { MenuButton } from "./menuButton";
+import { MenuButton } from "./MenuButton";
 import iDropGreen from "@/assets/iDropGreen.svg";
 import {
     DriverBottomSheet,
@@ -11,12 +11,11 @@ import Success from "@/assets/Success.svg";
 import User from "@/assets/user_icon.svg";
 import Calender from "@/assets/calender.svg";
 import Truck from "@/assets/truck.png";
-import { getKidInfo } from "../../service/api";
 import { useLoaderData } from "react-router-dom";
 
 const userName = null;
 export function DriverMenu() {
-    const kidData = useLoaderData();
+    const childrenData = useLoaderData();
 
     return (
         <div className={styles.wrapper}>
@@ -31,20 +30,18 @@ export function DriverMenu() {
                     imgUrl={Truck}
                     text="픽업하기"
                     route="/pickup"
-                    data={kidData}
+                    data={childrenData}
                 />
                 <MenuButton imgUrl={User} text="프로필" route="" />
                 <MenuButton imgUrl={Success} text="요청 목록" route="" />
             </div>
-            <DriverBottomSheet data={kidData} />
+            <DriverBottomSheet childrenData={childrenData} />
         </div>
     );
 }
 
 export function ParentMenu() {
-    const kidData = useLoaderData();
-
-    console.log(kidData);
+    const childrenData = useLoaderData();
 
     return (
         <div className={styles.wrapper}>
@@ -58,7 +55,7 @@ export function ParentMenu() {
                     imgUrl={Location}
                     text="실시간 픽업"
                     route="/map?type=parent"
-                    data={kidData}
+                    data={childrenData}
                 />
                 <MenuButton
                     imgUrl={Success}
@@ -68,7 +65,7 @@ export function ParentMenu() {
                 <MenuButton imgUrl={User} text="프로필" route="" />
                 <MenuButton imgUrl={Star} text="이용내역" route="" />
             </div>
-            <ParentBottomSheet kidData={kidData}></ParentBottomSheet>
+            <ParentBottomSheet childrenData={childrenData}></ParentBottomSheet>
         </div>
     );
 }
@@ -103,8 +100,8 @@ export async function fetchDriverChildData() {
     return result;
 }
 
-function parseData(kidData) {
-    return kidData.map((element) => {
+function parseData(childrenData) {
+    return childrenData.map((element) => {
         return {
             ...element,
             startAddress: removeCityPrefix(element.startAddress),

@@ -14,7 +14,8 @@ import { useFetchGet } from "../../hooks/useFetch";
 import Car from "@/assets/car.svg";
 
 export default function DriverMap() {
-    const kidData = getKidData();
+    const childrenData = getChildrenData();
+    const kidData = childrenData[0];
 
     const mapElementRef = useRef();
     const {
@@ -109,7 +110,7 @@ export default function DriverMap() {
         <div className={styles.wrapper}>
             {!map && <Loader />}
             <div ref={mapElementRef} id="map" className={styles.map} />
-            <DriverBottomSheet data={kidData} />
+            <DriverBottomSheet childrenData={childrenData} />
         </div>
     );
 }
@@ -122,19 +123,19 @@ const header = {
 
 const content = [
     "<div>",
-    `       <img src="${Car}" width="35" height="35" alt="현재 위치"/>`,
+    `       <img src="${Car}" width="40" height="40" alt="현재 위치"/>`,
     "</div>"
 ].join("");
 const markerIcon = {
     icon: {
-        content,
-        size: new naver.maps.Size(20, 20),
-        origin: new naver.maps.Point(16, 16)
+        content
+        // size: new naver.maps.Size(40, 40),
+        // origin: new naver.maps.Point(16, 16)
         // anchor: new naver.maps.Point(25, 26)
     }
 };
 
-function getKidData() {
+function getChildrenData() {
     const location = useLocation();
-    return location.state.kidData;
+    return location.state.childrenData;
 }

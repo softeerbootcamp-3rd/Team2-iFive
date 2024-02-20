@@ -1,7 +1,7 @@
 import styles from "./menuButton.module.scss";
 import { useNavigate } from "react-router-dom";
 
-export function MenuButton({ imgUrl, text, route, data = {} }) {
+export function MenuButton({ imgUrl, text, route, data = null }) {
     const navigate = useNavigate();
     const movePage = () => {
         navigate(`${route}`, { state: { kidData: data } });

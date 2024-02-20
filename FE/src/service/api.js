@@ -165,7 +165,7 @@ export async function getKidInfo(parameter) {
         const response = await sendAuthRequest(`${BASE_URL}/${parameter}`);
         if (response.ok) {
             const kidInfo = await response.json();
-            return kidInfo;
+            return kidInfo.data;
         } else {
             console.error("Failed to GET kid information");
             throw new Error("Failed to GET kid information");

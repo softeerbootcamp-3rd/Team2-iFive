@@ -4,10 +4,10 @@ import styles from "./bottomsheet.module.scss";
 import { DriverContents, ParentContents } from "./KidInfoBox";
 import { Footer } from "../Footer/Footer";
 
-export function ParentBottomSheet({ data }) {
+export function ParentBottomSheet({ kidData }) {
     return (
         <BttmSheetTemplate>
-            <ParentContents {...data} />
+            <ParentContents kidData={kidData} />
         </BttmSheetTemplate>
     );
 }

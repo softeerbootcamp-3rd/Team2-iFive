@@ -22,7 +22,12 @@ import DriverDetail, {
     loader as driverDetailLoader
 } from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
-import { DriverMenu, ParentMenu } from "./pages/Menu/Menu";
+import {
+    DriverMenu,
+    ParentMenu,
+    fetchDriverChildData,
+    fetchParentChildData
+} from "./pages/Menu/Menu";
 import SubscriptionConfirmation from "./pages/Confirmation/Confirmation";
 import ParentMap from "./components/Map/ParentMap";
 import DriverMap from "./components/Map/DriverMap";
@@ -56,6 +61,12 @@ const router = createBrowserRouter(
                 />
                 <Route
                     path="menu"
+                    loader={({ isParent }) => {
+                        const fetchData = isParent
+                            ? fetchParentChildData()
+                            : fetchDriverChildData();
+                        return fetchData;
+                    }}
                     element={
                         <RoleProvider>
                             {(isParent) =>

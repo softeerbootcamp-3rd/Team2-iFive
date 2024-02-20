@@ -14,6 +14,7 @@
     flex-direction: column;
     justify-content: space-between;
     text-align: left;
+    width: 80%;
     span:first-child {
         @extend %M_24;
     }

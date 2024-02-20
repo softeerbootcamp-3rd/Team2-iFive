@@ -17,14 +17,16 @@ import Login, {
 
 import DriverList from "./pages/DriverList/DriverList";
 import { checkAuthLoader } from "./utils/auth";
-import { Location } from "./pages/Location/Location";
-import { PickUpPage } from "./pages/PickUp/PickUp";
+import PickUpPage from "./pages/PickUp/PickUp";
 import DriverDetail, {
     loader as driverDetailLoader
 } from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
 import { DriverMenu, ParentMenu } from "./pages/Menu/Menu";
 import SubscriptionConfirmation from "./pages/Confirmation/Confirmation";
+import ParentMap from "./components/Map/ParentMap";
+import DriverMap from "./components/Map/DriverMap";
+import EndPickUp from "./pages/EndPickUp/EndPickUp";
 
 export default function App() {
     return <RouterProvider router={router} />;
@@ -42,7 +44,16 @@ const router = createBrowserRouter(
             <Route path="login" loader={loginLoader} element={<Login />} />
             <Route id="auth" loader={checkAuthLoader} errorElement={<Login />}>
                 <Route path="logout" loader={logoutLoader} />
-                <Route path="map" element={<Location />} />
+                <Route
+                    path="map"
+                    element={
+                        <RoleProvider>
+                            {(isParent) =>
+                                isParent ? <ParentMap /> : <DriverMap />
+                            }
+                        </RoleProvider>
+                    }
+                />
                 <Route
                     path="menu"
                     element={
@@ -93,6 +104,14 @@ const router = createBrowserRouter(
                     element={
                         <RoleProvider>
                             {(isParent) => !isParent && <PickUpPage />}
+                        </RoleProvider>
+                    }
+                />
+                <Route
+                    path="endpickup"
+                    element={
+                        <RoleProvider>
+                            {(isParent) => !isParent && <EndPickUp />}
                         </RoleProvider>
                     }
                 />

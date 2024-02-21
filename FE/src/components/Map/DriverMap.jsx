@@ -96,6 +96,20 @@ export default function DriverMap() {
         }, 1000);
 
         webSocketRef.current.onopen = () => console.log("WebSocket connected");
+        webSocketRef.current.onmessage = ({ data }) => {
+            const { path } = JSON.parse(data);
+            let pathList = [];
+            path.forEach((element) => {
+                pathList.push({
+                    latitude: element.latitude,
+                    longitude: element.longitude
+                });
+            });
+            new naver.maps.Polyline({
+                map: map,
+                path: pathList
+            });
+        };
         webSocketRef.current.onerror = (error) =>
             console.error("WebSocket error: ", error);
         webSocketRef.current.onclose = () =>

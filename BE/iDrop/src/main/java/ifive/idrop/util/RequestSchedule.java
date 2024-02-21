@@ -1,6 +1,7 @@
 package ifive.idrop.util;
 
 import ifive.idrop.entity.WorkHours;
+import lombok.Getter;
 
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -11,6 +12,7 @@ import java.util.stream.Stream;
 
 import static ifive.idrop.util.ScheduleUtils.*;
 
+@Getter
 public class RequestSchedule {
     private List<LocalDateTime> requestSchedule = new ArrayList<>();
 

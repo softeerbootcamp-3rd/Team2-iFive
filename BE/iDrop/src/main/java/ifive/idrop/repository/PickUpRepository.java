@@ -19,6 +19,14 @@ import java.util.Optional;
 public class PickUpRepository {
     private final EntityManager em;
 
+    public Optional<PickUp> findPickUpById(Long pickUpId) {
+        return Optional.ofNullable(em.find(PickUp.class, pickUpId));
+    }
+
+    public Optional<PickUpInfo> findPickUpInfoById(Long pickUpInfoId) {
+        return Optional.ofNullable(em.find(PickUpInfo.class, pickUpInfoId));
+    }
+
     public List<PickUp> findReservedPickUpsByDriver(Long driverId) {
         TypedQuery<PickUp> query = em.createQuery(
                 "SELECT p FROM PickUp p " +
@@ -59,9 +67,50 @@ public class PickUpRepository {
                 .setParameter("pickInfoId", pickInfoId)
                 .setParameter("parentId", parentId)
                 .getResultList();
+    }
 
     public Optional<PickUp> findById(Long pickUpId) {
         return Optional.ofNullable(em.find(PickUp.class, pickUpId));
+    }
+    
+    public List<PickUpInfo> findWaitingPickUpInfoByDriverId(Long driverId) {
+        TypedQuery<PickUpInfo> query = em.createQuery(
+                "SELECT pui FROM PickUpInfo pui " +
+                        "JOIN pui.pickUpSubscribe ps " +
+                        "JOIN pui.driver d " +
+                        "WHERE d.id = :driverId " +
+                        "AND ps.status = :status", PickUpInfo.class);
+        query.setParameter("driverId", driverId)
+                .setParameter("status", PickUpStatus.WAIT);
+        return query.getResultList();
+    }
+
+    public List<PickUpInfo> findPickUpInfoByParentIdInTheLatestOrder(Long parentId) {
+        TypedQuery<PickUpInfo> query = em.createQuery(
+                "SELECT pui FROM PickUpInfo pui " +
+                        "JOIN pui.pickUpSubscribe ps " +
+                        "JOIN pui.child c " +
+                        "JOIN c.parent p " +
+                        "WHERE p.id = :parentId " +
+                        "ORDER BY CASE WHEN ps.expiredDate IS NULL THEN 1 ELSE 0 END, " +
+                        "ps.expiredDate DESC", PickUpInfo.class);
+        query.setParameter("parentId", parentId);
+        return query.getResultList();
+    }
+
+    public List<PickUpInfo> findPickUpInfoByDriverIdTheLatestOrder(Long driverId) {
+        TypedQuery<PickUpInfo> query = em.createQuery(
+                "SELECT pui FROM PickUpInfo pui " +
+                        "JOIN pui.pickUpSubscribe ps " +
+                        "JOIN pui.driver d " +
+                        "WHERE d.id = :driverId " +
+                        "AND ps.status <> :cancel " +
+                        "AND ps.status <> :decline " +
+                        "ORDER BY ps.requestDate DESC", PickUpInfo.class);
+        query.setParameter("driverId", driverId)
+                .setParameter("cancel", PickUpStatus.CANCEL)
+                .setParameter("decline", PickUpStatus.DECLINE);
+        return query.getResultList();
     }
 
     public void savePickUpStartInfo(Long pickupId, String startImage, String startMessage) {

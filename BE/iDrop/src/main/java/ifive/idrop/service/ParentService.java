@@ -6,6 +6,7 @@ import ifive.idrop.dto.request.SubscribeRequest;
 import ifive.idrop.dto.response.CurrentPickUpResponse;
 
 import ifive.idrop.dto.response.PickUpHistoryResponse;
+import ifive.idrop.dto.response.ParentSubscribeInfoResponse;
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
 import ifive.idrop.exception.CommonException;
@@ -14,13 +15,19 @@ import ifive.idrop.repository.DriverRepository;
 import ifive.idrop.repository.ParentRepository;
 import ifive.idrop.repository.PickUpRepository;
 import ifive.idrop.util.Parser;
+import ifive.idrop.util.ScheduleUtils;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import static ifive.idrop.util.ScheduleUtils.calculateEndDate;
+import static ifive.idrop.util.ScheduleUtils.calculateStartDate;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +36,7 @@ public class ParentService {
     private final ParentRepository parentRepository;
     private final PickUpRepository pickUpRepository;
 
+    @Transactional
     public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) throws JSONException {
         Driver driver = driverRepository.findById(subscribeRequest.getDriverId())
                 .orElseThrow(() -> new CommonException(ErrorCode.DRIVER_NOT_EXIST));
@@ -39,13 +47,7 @@ public class ParentService {
         PickUpLocation location = createPickUpLocation(subscribeRequest);
         PickUpInfo pickUpInfo = createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
 
-        // JsonDate를 LocalDate로 파싱
-        List<LocalDateTime> scheduleList = Parser.parseSchedule(subscribeRequest.getSchedule(), subscribe.getExpiredDate());
-
-        for (LocalDateTime localDateTime : scheduleList) {
-            createPickUp(localDateTime, pickUpInfo);
-        }
-
+        //TODO Alarm to Driver
         return BaseResponse.success();
     }
 
@@ -58,20 +60,10 @@ public class ParentService {
                         .toList());
     }
 
-    private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
-        PickUp pickUp = PickUp.builder()
-                .reservedTime(localDateTime)
-                .build();
-        pickUp.updatePickUpInfo(pickUpInfo);
-        pickUpRepository.savePickUp(pickUp);
-    }
-
-    // todo: 데모 이후 구독 생성시 후에 모두 승인이 아닌 대기 상태로 변경
     private PickUpSubscribe createPickUpSubscribe() {
         PickUpSubscribe subscribe = PickUpSubscribe.builder()
-                .status(PickUpStatus.ACCEPT)
+                .status(PickUpStatus.WAIT)
                 .requestDate(LocalDateTime.now())
-                .expiredDate(LocalDateTime.now().plusDays(1).plusWeeks(4))
                 .build();
         pickUpRepository.savePickUpSubscribe(subscribe);
         return subscribe;
@@ -107,5 +99,11 @@ public class ParentService {
         return BaseResponse.of("Data Successfully Proceed",
                 pickUpList.stream().map(PickUpHistoryResponse::toEntity)
                         .toList());
+    }
+  
+    @Transactional(readOnly = true)
+    public List<ParentSubscribeInfoResponse> subscribeList(Long parentId) {
+        List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByParentIdInTheLatestOrder(parentId);
+        return pickUpInfoList.stream().map(ParentSubscribeInfoResponse::of).toList();
     }
 }

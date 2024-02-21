@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +25,7 @@ public class PickUpService {
 
     @Transactional
     public void saveStartOrEndPickUp(Long pickUpId, MultipartFile image, String message) throws IOException {
-        PickUp pickUp = pickUpRepository.findById(pickUpId)
+        PickUp pickUp = pickUpRepository.findPickUpById(pickUpId)
                 .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
         if (pickUp.getStartImage() == null) {
             String imageUrl = imageService.upload(image, PICKUP_IMAGE_PATH);
@@ -42,7 +41,7 @@ public class PickUpService {
     }
 
     public PickUp findByPickUpId(Long pickUpId) {
-        return pickUpRepository.findById(pickUpId)
+        return pickUpRepository.findPickUpById(pickUpId)
                 .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
     }
 

@@ -32,4 +32,17 @@ public class PickUpSubscribe {
     public void setPickUpInfo(PickUpInfo pickUpInfo) {
         this.pickUpInfo = pickUpInfo;
     }
+
+    public PickUpStatus modify(PickUpStatus newStatus) {
+        this.status = newStatus;
+        //상태가 변경된 시간
+        this.modifiedDate = LocalDateTime.now();
+
+        if (this.status.equals(PickUpStatus.ACCEPT)) {
+            //modifiedDate로부터 29일 후 자정
+            this.expiredDate = this.modifiedDate.plusDays(29)
+                    .withHour(0).withMinute(0).withSecond(0).withNano(0);
+        }
+        return this.status;
+    }
 }

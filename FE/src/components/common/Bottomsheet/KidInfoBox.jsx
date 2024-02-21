@@ -3,18 +3,24 @@ import styles from "./kidInfoBox.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
 
 export function DriverContents({ childrenData }) {
+    const headerMsg = childrenData
+        ? "현재 매칭된 픽업이 없습니다"
+        : "오늘의 픽업";
     return (
         <>
-            <h3>오늘의 픽업</h3>
+            <span className={styles.headMessage}>{headerMsg}</span>
             {renderContents(childrenData, "driver")}
         </>
     );
 }
 
 export function ParentContents({ childrenData }) {
+    const headerMsg = childrenData
+        ? "현재 매칭된 픽업이 없습니다"
+        : "픽업 서비스 구독 중";
     return (
         <>
-            <h3>픽업 서비스 구독 중</h3>
+            <span className={styles.headMessage}>{headerMsg}</span>
             {renderContents(childrenData, "parent")}
         </>
     );

@@ -14,7 +14,11 @@ export function HistoryItem({ historyData }) {
     } = formatHistoryData(historyData);
 
     const scheduleListElement = schedule.map((scheduleData) => (
-        <ScheduleItem key={scheduleData.day} scheduleData={scheduleData} />
+        <ScheduleItem
+            key={scheduleData.day}
+            scheduleData={scheduleData}
+            status={status}
+        />
     ));
 
     return (
@@ -23,7 +27,13 @@ export function HistoryItem({ historyData }) {
                 <div className={styles.driverInfoText}>
                     <div className={styles.driverNameWrapper}>
                         <span className={styles.driverName}>{driverName}</span>
-                        <div className={styles.pickupStatus}>{status}</div>
+                        <div
+                            className={`${styles.pickupStatus} ${
+                                styles[PICKUP_STATUS_MAP[status]]
+                            }`}
+                        >
+                            {status}
+                        </div>
                     </div>
                     <span
                         className={styles.period}
@@ -45,10 +55,12 @@ export function HistoryItem({ historyData }) {
     );
 }
 
-function ScheduleItem({ scheduleData }) {
+function ScheduleItem({ scheduleData, status }) {
     return (
         <li
-            className={styles.scheduleItem}
+            className={`${styles.scheduleItem} ${
+                styles[PICKUP_STATUS_MAP[status]]
+            }`}
         >{`${scheduleData.day} ${scheduleData.hour}:${scheduleData.min}`}</li>
     );
 }
@@ -87,3 +99,10 @@ function transformSchedule(schedule) {
 function formatHistoryData(data) {
     return { ...data, schedule: transformSchedule(data.schedule) };
 }
+
+const PICKUP_STATUS_MAP = {
+    픽업중: "proceeding",
+    대기중: "pending",
+    만료됨: "expired",
+    취소됨: "canceled"
+};

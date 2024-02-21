@@ -1,7 +1,7 @@
 import { Header } from "../../components/common/Header/Header";
 import styles from "./History.module.scss";
 import { fakeHistoryData } from "../../service/mockdata";
-import { HistoryItem } from "./components/HistoryItem/HistoryItem";
+import { HistoryItem } from "./HistoryItem/HistoryItem";
 
 export default function History() {
     const contentElement = fakeHistoryData.map((historyData) => (

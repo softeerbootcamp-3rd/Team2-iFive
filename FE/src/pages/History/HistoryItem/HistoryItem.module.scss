@@ -52,22 +52,9 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            background-color: $primary;
             border-radius: 5px;
             @extend %R_14;
             color: #fff;
-        }
-        .expired {
-            background-color: $orange;
-        }
-        .canceled {
-            background-color: $purple;
-        }
-        .pending {
-            background-color: $blue;
-        }
-        .proceeding {
-            background-color: $primary;
         }
     }
     .period,
@@ -105,8 +92,20 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    background-color: $primary;
     border-radius: 5px;
     @extend %R_14;
     color: #fff;
+}
+
+.expired {
+    background-color: $orange;
+}
+.canceled {
+    background-color: $purple;
+}
+.pending {
+    background-color: $blue;
+}
+.proceeding {
+    background-color: $primary;
 }

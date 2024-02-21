@@ -42,7 +42,7 @@ public class PickUpHistoryResponse {
                     .startTime(pickUp.getStartTime())
                     .startImage(pickUp.getStartImage())
                     .endTime(pickUp.getEndTime())
-                    .endImage(pickUp.getStartImage())
+                    .endImage(pickUp.getEndImage())
                     .status(pickUp.getEndTime() != null ? PickUpInfoStatus.DONE : PickUpInfoStatus.START)
                     .build();
         }

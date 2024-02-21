@@ -22,7 +22,7 @@ public class ParentRepository {
                 .findAny();
     }
 
-    public List<Object[]> findRunningPickInfo(Long parentId) {
+    public List<Object[]> findRunningPickUpInfo(Long parentId) {
         String query = "SELECT pui, pu.reservedTime\n" +
                 "FROM PickUpInfo pui\n" +
                 "JOIN Child c ON pui.child.id = c.id\n" +

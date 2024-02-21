@@ -11,12 +11,10 @@ import ifive.idrop.exception.ErrorCode;
 import ifive.idrop.repository.DriverRepository;
 import ifive.idrop.repository.PickUpRepository;
 import ifive.idrop.util.RequestSchedule;
-import ifive.idrop.util.ScheduleUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import ifive.idrop.dto.response.CurrentPickUpResponse;

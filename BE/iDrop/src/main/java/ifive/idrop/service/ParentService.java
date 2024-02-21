@@ -53,7 +53,7 @@ public class ParentService {
 
     @Transactional(readOnly = true)
     public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Parent parent) {
-        List<Object[]> runningPickInfo = parentRepository.findRunningPickInfo(parent.getId());
+        List<Object[]> runningPickInfo = parentRepository.findRunningPickUpInfo(parent.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
                         .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))

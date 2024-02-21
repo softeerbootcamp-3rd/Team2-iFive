@@ -26,16 +26,15 @@ jobs:
       run: |
         cd BE/iDrop
         mkdir -p ./src/main/resources/env
-        echo touch ./src/main/resources/env/mysql.yml
-        echo touch ./src/main/resources/env/jwt.yml
-        echo touch ./src/main/resources/env/s3.yml
-        echo touch ./src/main/resources/data.sql
+        touch ./src/main/resources/env/mysql.yml
+        touch ./src/main/resources/env/jwt.yml
+        touch ./src/main/resources/env/s3.yml
+        touch ./src/main/resources/data.sql
         
-        echo "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
-        echo "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
-        echo "${{ secrets.S3_INFO }}" > ./src/main/resources/env/s3.yml
-        echo "${{ secrets.DATA }}" > ./src/main/resources/data.sql
-        cat ./src/main/resources/data.sql
+        "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
+        "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
+        "${{ secrets.S3_INFO }}" > ./src/main/resources/env/s3.yml
+        "${{ secrets.DATA }}" > ./src/main/resources/data.sql
 
     - name: gradlew 실행 권한 설정
       run: |

@@ -29,14 +29,14 @@ jobs:
         echo touch ./src/main/resources/env/mysql.yml
         echo touch ./src/main/resources/env/jwt.yml
         echo touch ./src/main/resources/env/s3.yml
+        echo touch ./src/main/resources/env/naver_api.yml
         echo touch ./src/main/resources/data.sql
-        echo touch ./src/main/resources/naver_api.yml
         
         echo "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
         echo "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
         echo "${{ secrets.S3_INFO }}" > ./src/main/resources/env/s3.yml
-        echo "${{ secrets.DATA }}" > ./src/main/resources/data.sql
         echo "${{ secrets.NAVER_API_INFO }}" > ./src/main/resources/env/naver_api.yml
+        echo "${{ secrets.DATA }}" > ./src/main/resources/data.sql
         cat ./src/main/resources/data.sql
 
     - name: gradlew 실행 권한 설정

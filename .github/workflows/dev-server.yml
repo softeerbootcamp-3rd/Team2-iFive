@@ -35,6 +35,7 @@ jobs:
         echo "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
         echo "${{ secrets.S3_INFO }}" > ./src/main/resources/env/s3.yml
         echo "${{ secrets.DATA }}" > ./src/main/resources/data.sql
+        echo "${{ secrets.NAVER_API_INFO }}" > ./src/main/resources/env/naver_api.yml
         cat ./src/main/resources/data.sql
 
     - name: gradlew 실행 권한 설정

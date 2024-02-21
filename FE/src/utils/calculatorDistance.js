@@ -19,7 +19,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
             Math.sin(dLon / 2) *
             Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = earthRadiusKm * c;
+    const distance = EARTHRADIUSKM * c;
 
     return distance * 1000; // 거리를 미터로 반환
 }

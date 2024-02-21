@@ -32,11 +32,11 @@ jobs:
         touch ./src/main/resources/env/naver_api.yml
         touch ./src/main/resources/data.sql
         
-        "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
-        "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
-        "${{ secrets.S3_INFO }}" > ./src/main/resources/env/s3.yml
-        "${{ secrets.NAVER_API_INFO }}" > ./src/main/resources/env/naver_api.yml
-        "${{ secrets.DATA }}" > ./src/main/resources/data.sql
+        printf "%s" "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
+        printf "%s" "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
+        printf "%s" "${{ secrets.S3_INFO }}" > ./src/main/resources/env/s3.yml
+        printf "%s" "${{ secrets.NAVER_API_INFO }}" > ./src/main/resources/env/naver_api.yml
+        printf "%s" "${{ secrets.DATA }}" > ./src/main/resources/data.sql
 
     - name: gradlew 실행 권한 설정
       run: |

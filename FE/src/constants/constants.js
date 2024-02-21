@@ -37,3 +37,10 @@ export const SEARCH_PAGE = (function () {
         WEEK_MAP
     };
 })();
+
+export const PICKUP_STATUS_MAP = {
+    픽업중: "proceeding",
+    대기중: "pending",
+    만료됨: "expired",
+    취소됨: "canceled"
+};

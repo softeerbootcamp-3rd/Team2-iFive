@@ -103,7 +103,7 @@ public class ParentService {
     }
 
     public BaseResponse<List<PickUpHistoryResponse>> getPickUpHistoryInfo(Parent parent, long pickInfoId) {
-        List<PickUp> pickUpList = pickUpRepository.findPickUpInfoByPickUpInfoIdAndParentIdOrderByReservedTime(parent.getId(), pickInfoId);
+        List<PickUp> pickUpList = pickUpRepository.findPickUpByPickUpInfoIdAndParentIdOrderByReservedTime(parent.getId(), pickInfoId);
         return BaseResponse.of("Data Successfully Proceed",
                 pickUpList.stream().map(PickUpHistoryResponse::toEntity)
                         .toList());

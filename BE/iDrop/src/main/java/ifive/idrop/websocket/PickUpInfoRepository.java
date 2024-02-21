@@ -1,6 +1,7 @@
 package ifive.idrop.websocket;
 
 import ifive.idrop.entity.PickUp;
+import ifive.idrop.entity.PickUpLocation;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -57,4 +58,21 @@ public class PickUpInfoRepository {
 
         return query.getSingleResult();
     }
+
+    public PickUpLocation getPickUpLocation(Long pickUpId) {
+        String jpql = "SELECT pi.pickUpLocation FROM PickUp p " +
+                "JOIN p.pickUpInfo pi " +
+                "WHERE p.id = :pickUpId";
+
+        TypedQuery<PickUpLocation> query = em.createQuery(jpql, PickUpLocation.class);
+        query.setParameter("pickUpId", pickUpId);
+
+        try {
+            return query.getSingleResult();
+        } catch (NoResultException e) {
+            log.error("No PickUpLocation found for pickUpId: {}", pickUpId, e);
+            return null;
+        }
+    }
+
 }

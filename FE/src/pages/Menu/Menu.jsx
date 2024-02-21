@@ -92,13 +92,16 @@ function parseData(childrenData) {
 }
 
 function removeCityPrefix(address) {
-    return address.replace("서울특별시 ", "");
+    return address !== null ? address.replace("서울특별시 ", "") : "null";
 }
 
 function formatDate(dateString) {
-    return dateString.split("T")[0];
+    return dateString !== null ? dateString.split("T")[0] : "null";
 }
 
 function formatTime(timeString) {
-    return timeString.split("T")[1].slice(0, 5);
+    console.log(timeString);
+    return timeString !== undefined
+        ? timeString.split("T")[1].slice(0, 5)
+        : "null";
 }

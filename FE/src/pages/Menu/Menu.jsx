@@ -34,7 +34,11 @@ export function DriverMenu() {
                     data={childrenData}
                 />
                 <MenuButton imgUrl={User} text="프로필" route="" />
-                <MenuButton imgUrl={Success} text="요청 목록" route="" />
+                <MenuButton
+                    imgUrl={Success}
+                    text="요청 목록"
+                    route="/pickup/request"
+                />
             </div>
             <DriverBottomSheet childrenData={childrenData} />
         </div>
@@ -100,7 +104,6 @@ function formatDate(dateString) {
 }
 
 function formatTime(timeString) {
-    console.log(timeString);
     return timeString !== undefined
         ? timeString.split("T")[1].slice(0, 5)
         : "null";

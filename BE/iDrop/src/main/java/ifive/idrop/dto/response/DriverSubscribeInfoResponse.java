@@ -1,7 +1,6 @@
 package ifive.idrop.dto.response;
 
 import ifive.idrop.entity.*;
-import ifive.idrop.util.ScheduleUtils;
 import lombok.Builder;
 import lombok.Getter;
 import org.json.simple.JSONObject;

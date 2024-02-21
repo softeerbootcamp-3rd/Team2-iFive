@@ -57,6 +57,18 @@ public class PickUpRepository {
         em.persist(pick);
     }
 
+    public List<PickUpInfo> findWaitingPickUpInfoByDriverId(Long driverId) {
+        TypedQuery<PickUpInfo> query = em.createQuery(
+                "SELECT pui FROM PickUpInfo pui " +
+                        "JOIN pui.pickUpSubscribe ps " +
+                        "JOIN pui.driver d " +
+                        "WHERE d.id = :driverId " +
+                        "AND ps.status = :status", PickUpInfo.class);
+        query.setParameter("driverId", driverId)
+                .setParameter("status", PickUpStatus.WAIT);
+        return query.getResultList();
+    }
+
     public List<PickUpInfo> findPickUpInfoByParentIdInTheLatestOrder(Long parentId) {
         TypedQuery<PickUpInfo> query = em.createQuery(
                 "SELECT pui FROM PickUpInfo pui " +

@@ -4,14 +4,13 @@ import ifive.idrop.entity.Driver;
 import ifive.idrop.entity.PickUpInfo;
 import ifive.idrop.entity.PickUpLocation;
 import ifive.idrop.entity.PickUpSubscribe;
-import ifive.idrop.util.ScheduleUtils;
 import lombok.Builder;
 import lombok.Getter;
 import org.json.simple.JSONObject;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
+import static ifive.idrop.util.ScheduleUtils.*;
 import static ifive.idrop.util.ScheduleUtils.calculateEndDate;
 import static ifive.idrop.util.ScheduleUtils.calculateStartDate;
 
@@ -45,7 +44,7 @@ public class ParentSubscribeInfoResponse {
                 .startAddress(pickUpLocation.getStartAddress())
                 .endAddress(pickUpLocation.getEndAddress())
                 .status(pickUpSubscribe.getStatus().getStatus())
-                .schedule(ScheduleUtils.toJSONObject(pickUpInfo.getSchedule()))
+                .schedule(toJSONObject(pickUpInfo.getSchedule()))
                 .build();
     }
 }

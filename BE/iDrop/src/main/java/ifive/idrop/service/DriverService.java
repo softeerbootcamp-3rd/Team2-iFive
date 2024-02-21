@@ -108,7 +108,7 @@ public class DriverService {
         }
 
         PickUpSubscribe pickUpSubscribe = pickUpInfo.getPickUpSubscribe();
-        PickUpStatus pickUpStatus = pickUpSubscribe.modify(statusCode);
+        PickUpStatus pickUpStatus = pickUpSubscribe.modify(PickUpStatus.of(statusCode));
 
         if (pickUpStatus.equals(PickUpStatus.ACCEPT)) {
             RequestSchedule requestSchedule = parseToList(toJSONObject(pickUpInfo.getSchedule()));
@@ -116,11 +116,12 @@ public class DriverService {
             for (LocalDateTime reservedTime : requestScheduleList) {
                 createPickUp(reservedTime, pickUpInfo);
             }
-            //TODO 승인한 구독 요청과 시간이 겹치는 다른 구독 요청을 없애야 함
+            removeOverlappedSubscribe(driverId, pickUpInfo); //승인한 구독 요청과 시간이 겹치는 다른 구독 요청을 거절로 처리함
             return BaseResponse.from("요청을 성공적으로 승인했습니다.");
         } else {
             return BaseResponse.from("요청을 성공적으로 거절했습니다.");
         }
+        //TODO Alarm to Parent
     }
 
     private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
@@ -129,5 +130,14 @@ public class DriverService {
                 .build();
         pickUp.updatePickUpInfo(pickUpInfo);
         pickUpRepository.savePickUp(pickUp);
+    }
+
+    private void removeOverlappedSubscribe(Long driverId, PickUpInfo pickUpInfo) {
+        List<PickUpInfo> waitingPickUpInfoList = pickUpRepository.findWaitingPickUpInfoByDriverId(driverId);
+        for (PickUpInfo waitingPickUpInfo : waitingPickUpInfoList) {
+            if (isOverlapped(pickUpInfo.getSchedule(), waitingPickUpInfo.getSchedule())) {
+                waitingPickUpInfo.getPickUpSubscribe().modify(PickUpStatus.DECLINE); //TODO Alarm to Parent
+            }
+        }
     }
 }

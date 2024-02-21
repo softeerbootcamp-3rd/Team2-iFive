@@ -41,7 +41,6 @@ export function HistoryItem({ historyData }) {
                 />
             </div>
             <ul className={styles.scheduleList}>{scheduleListElement}</ul>
-            <img src={downArrowIcon} alt="아래 화살표" />
         </section>
     );
 }

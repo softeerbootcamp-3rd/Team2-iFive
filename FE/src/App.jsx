@@ -27,6 +27,7 @@ import SubscriptionConfirmation from "./pages/Confirmation/Confirmation";
 import ParentMap from "./components/Map/ParentMap";
 import DriverMap, { fetchNowPickUpData } from "./components/Map/DriverMap";
 import EndPickUp from "./pages/EndPickUp/EndPickUp";
+import ManagementSubscription from "./pages/DriverSubsPage/Management";
 
 export default function App() {
     return <RouterProvider router={router} />;
@@ -113,6 +114,17 @@ const router = createBrowserRouter(
                     element={
                         <RoleProvider>
                             {(isParent) => !isParent && <EndPickUp />}
+                        </RoleProvider>
+                    }
+                />
+
+                <Route
+                    path="pickup/request"
+                    element={
+                        <RoleProvider>
+                            {(isParent) =>
+                                !isParent && <ManagementSubscription />
+                            }
                         </RoleProvider>
                     }
                 />

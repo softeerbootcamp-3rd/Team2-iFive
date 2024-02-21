@@ -81,35 +81,7 @@ public class DriverService {
     @Transactional(readOnly = true)
     public List<DriverSubscribeInfoResponse> subscribeList(Long driverId) {
         List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByDriverId(driverId);
-
-        List<DriverSubscribeInfoResponse> driverSubscribeInfoResponseList = new ArrayList<>();
-        for (PickUpInfo pickUpInfo : pickUpInfoList) {
-            Child child = pickUpInfo.getChild();
-            Parent parent = child.getParent();
-            PickUpSubscribe pickUpSubscribe = pickUpInfo.getPickUpSubscribe();
-            PickUpLocation pickUpLocation = pickUpInfo.getPickUpLocation();
-
-            LocalDate startDate = calculateStartDate(pickUpSubscribe.getModifiedDate());
-            LocalDate endDate = calculateEndDate(pickUpSubscribe.getModifiedDate());
-
-            DriverSubscribeInfoResponse driverSubscribeInfoResponse = DriverSubscribeInfoResponse.builder()
-                    .pickUpInfoId(pickUpInfo.getId())
-                    .parentName(parent.getName())
-                    .parentPhoneNumber(parent.getPhoneNumber())
-                    .childName(child.getName())
-                    .childBirth(child.getBirth())
-                    .childGender(child.getGender().getGender())
-                    .childImage(child.getImage())
-                    .startDate(startDate)
-                    .endDate(endDate)
-                    .startAddress(pickUpLocation.getStartAddress())
-                    .endAddress(pickUpLocation.getEndAddress())
-                    .status(pickUpSubscribe.getStatus().getStatus())
-                    .schedule(toJSONObject(pickUpInfo.getSchedule()))
-                    .build();
-            driverSubscribeInfoResponseList.add(driverSubscribeInfoResponse);
-        }
-        return driverSubscribeInfoResponseList;
+        return pickUpInfoList.stream().map(DriverSubscribeInfoResponse::of).toList();
     }
 
     @Transactional(readOnly = true)

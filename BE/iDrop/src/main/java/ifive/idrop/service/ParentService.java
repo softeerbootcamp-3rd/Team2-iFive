@@ -95,29 +95,6 @@ public class ParentService {
     @Transactional(readOnly = true)
     public List<ParentSubscribeInfoResponse> subscribeList(Long parentId) {
         List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByParentId(parentId);
-
-        List<ParentSubscribeInfoResponse> parentSubscribeInfoResponseList = new ArrayList<>();
-        for (PickUpInfo pickUpInfo : pickUpInfoList) {
-            Driver driver = pickUpInfo.getDriver();
-            PickUpSubscribe pickUpSubscribe = pickUpInfo.getPickUpSubscribe();
-            PickUpLocation pickUpLocation = pickUpInfo.getPickUpLocation();
-
-            LocalDate startDate = calculateStartDate(pickUpSubscribe.getModifiedDate());
-            LocalDate endDate = calculateEndDate(pickUpSubscribe.getModifiedDate());
-
-            ParentSubscribeInfoResponse parentSubscribeInfoResponse = ParentSubscribeInfoResponse.builder()
-                    .pickUpInfoId(pickUpInfo.getId())
-                    .driverName(driver.getName())
-                    .driverImage(driver.getImage())
-                    .startDate(startDate)
-                    .endDate(endDate)
-                    .startAddress(pickUpLocation.getStartAddress())
-                    .endAddress(pickUpLocation.getEndAddress())
-                    .status(pickUpSubscribe.getStatus().getStatus())
-                    .schedule(ScheduleUtils.toJSONObject(pickUpInfo.getSchedule()))
-                    .build();
-            parentSubscribeInfoResponseList.add(parentSubscribeInfoResponse);
-        }
-        return parentSubscribeInfoResponseList;
+        return pickUpInfoList.stream().map(ParentSubscribeInfoResponse::of).toList();
     }
 }

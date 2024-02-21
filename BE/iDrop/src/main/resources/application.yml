@@ -36,11 +36,3 @@ cloud:
       static: ${aws_region}
     stack:
       auto: false
-
-logging:
-  level:
-    org:
-      springframework:
-        web:
-          client:
-            RestTemplate: DEBUG

@@ -1,13 +1,11 @@
 import { Header } from "../../components/common/Header/Header";
 import styles from "./History.module.scss";
-import { fakeHistoryData } from "../../service/mockdata";
 import { HistoryItem } from "./HistoryItem/HistoryItem";
 import { getSubscriptionHistoryList } from "./api";
-import { useLocation } from "react-router-dom";
+import { useLoaderData } from "react-router-dom";
 
 export default function History() {
-    const historyListData = useLocation();
-
+    const historyListData = useLoaderData();
     const contentElement = historyListData.map((historyData) => (
         <HistoryItem key={historyData.pickUpInfoId} historyData={historyData} />
     ));

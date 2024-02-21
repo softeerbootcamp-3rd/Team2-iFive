@@ -1,0 +1,75 @@
+@import "@/styles/fontStyle.scss";
+
+.content {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    writing-mode: horizontal-tb;
+    margin-bottom: 10px;
+    padding: 20px;
+    border: 1px solid #c0c1c2;
+    border-radius: 10px;
+    // box-shadow: 5px 11px 14px -7px rgba(0, 0, 0, 0.75);
+}
+
+.kidInfo {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.infoBox {
+    display: flex;
+    flex-direction: column;
+    // justify-content: space-between;
+    text-align: left;
+    gap: 10px;
+    width: 80%;
+    span:first-child {
+        @extend %M_24;
+    }
+    span:last-child {
+        @extend %R_16;
+    }
+}
+
+.kidImg {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    background-color: #c0c1c2;
+}
+
+.headMessage {
+    text-align: center;
+    @extend %B_20;
+}
+
+.birthDay {
+    @extend %M_16;
+    color: #656363;
+}
+
+.btnBox {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+}
+
+.denyButton {
+    background-color: #ca6e6e;
+    width: 40%;
+    height: 50px;
+    border-radius: 10px;
+    color: white;
+    @extend %M_20;
+}
+
+.acceptButton {
+    background-color: #6eca95;
+    width: 40%;
+    height: 50px;
+    border-radius: 10px;
+    color: white;
+    @extend %M_20;
+}

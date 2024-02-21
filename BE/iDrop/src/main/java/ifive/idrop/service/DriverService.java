@@ -80,7 +80,7 @@ public class DriverService {
 
     @Transactional(readOnly = true)
     public List<DriverSubscribeInfoResponse> subscribeList(Long driverId) {
-        List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByDriverId(driverId);
+        List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByDriverIdTheLatestOrder(driverId);
         return pickUpInfoList.stream().map(DriverSubscribeInfoResponse::of).toList();
     }
 

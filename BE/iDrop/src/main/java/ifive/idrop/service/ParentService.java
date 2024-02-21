@@ -94,7 +94,7 @@ public class ParentService {
 
     @Transactional(readOnly = true)
     public List<ParentSubscribeInfoResponse> subscribeList(Long parentId) {
-        List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByParentId(parentId);
+        List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByParentIdInTheLatestOrder(parentId);
         return pickUpInfoList.stream().map(ParentSubscribeInfoResponse::of).toList();
     }
 }

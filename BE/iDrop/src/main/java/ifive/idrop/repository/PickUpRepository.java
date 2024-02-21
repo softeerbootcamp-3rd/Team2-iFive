@@ -57,7 +57,7 @@ public class PickUpRepository {
         em.persist(pick);
     }
 
-    public List<PickUpInfo> findPickUpInfoByParentId(Long parentId) {
+    public List<PickUpInfo> findPickUpInfoByParentIdInTheLatestOrder(Long parentId) {
         TypedQuery<PickUpInfo> query = em.createQuery(
                 "SELECT pui FROM PickUpInfo pui " +
                         "JOIN pui.pickUpSubscribe ps " +
@@ -70,7 +70,7 @@ public class PickUpRepository {
         return query.getResultList();
     }
 
-    public List<PickUpInfo> findPickUpInfoByDriverId(Long driverId) {
+    public List<PickUpInfo> findPickUpInfoByDriverIdTheLatestOrder(Long driverId) {
         TypedQuery<PickUpInfo> query = em.createQuery(
                 "SELECT pui FROM PickUpInfo pui " +
                         "JOIN pui.pickUpSubscribe ps " +

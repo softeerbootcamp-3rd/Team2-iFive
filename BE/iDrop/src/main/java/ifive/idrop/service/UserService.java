@@ -88,4 +88,13 @@ public class UserService {
                 .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
         return new NameResponse(foundUser);
     }
+
+    @Transactional
+    public void updateFCMToken(String userId, String fcmToken) {
+        Optional<Users> optional = userRepository.findByUserId(userId);
+        if (optional.isEmpty())
+            return;
+        Users user = optional.get();
+        user.updateFcmToken(fcmToken);
+    }
 }

@@ -25,12 +25,14 @@ public class JwtFilter implements Filter {
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException {
         Object attribute = request.getAttribute(VerifyUserFilter.AUTHENTICATE_USER);
+        String fcmToken = (String) request.getAttribute(VerifyUserFilter.FCM_TOKE);
         if (attribute instanceof AuthenticateUser authenticateUser) {
             Map<String, Object> claims = new HashMap<>();
             String authenticateUserJson = objectMapper.writeValueAsString(authenticateUser);
             claims.put(VerifyUserFilter.AUTHENTICATE_USER, authenticateUserJson);
             Jwt jwt = jwtProvider.createJwt(claims);
             userService.updateRefreshToken(authenticateUser.getUserId(), jwt.getRefreshToken());
+            userService.updateFCMToken(authenticateUser.getUserId(), fcmToken);
             String json = objectMapper.writeValueAsString(jwt);
             response.setContentType("application/json");
             response.setCharacterEncoding("UTF-8");

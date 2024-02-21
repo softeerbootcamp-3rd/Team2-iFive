@@ -29,6 +29,7 @@ public class JwtAuthorizationFilter implements Filter {
     private final String[] whiteListUris = {"/user/signup", "/user/login", "/auth/refresh/token", "/ws/**"};
     private final JwtProvider jwtProvider;
     private final ObjectMapper objectMapper;
+    public static final String USER_ID = "userId";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
@@ -47,6 +48,7 @@ public class JwtAuthorizationFilter implements Filter {
             String token = getToken(httpServletRequest);
             AuthenticateUser authenticateUser = getAuthenticateUser(token);
             verifyAuthorization(httpServletRequest.getRequestURI(), authenticateUser);
+            request.setAttribute(USER_ID, authenticateUser.getUserId());
             log.info("userId : {}", authenticateUser.getUserId());
             chain.doFilter(request, response);
         } catch (JsonParseException e){

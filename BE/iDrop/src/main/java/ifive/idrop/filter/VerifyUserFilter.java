@@ -20,7 +20,6 @@ import java.io.IOException;
 @Component
 public class VerifyUserFilter implements Filter {
     public static final String AUTHENTICATE_USER = "authenticateUser";
-    public static final String FCM_TOKE  = "fcmToken";
     private final ObjectMapper objectMapper;
     private final UserService userService;
 
@@ -32,7 +31,6 @@ public class VerifyUserFilter implements Filter {
                 LoginRequest loginRequest = objectMapper.readValue(request.getReader(), LoginRequest.class);
                 Role role = userService.verifyUser(loginRequest);
                 request.setAttribute(AUTHENTICATE_USER, new AuthenticateUser(loginRequest.getUserId(), role));
-                request.setAttribute(FCM_TOKE, loginRequest.getFcmToken());
                 chain.doFilter(request, response);
             } catch (CommonException e) {
                 log.error("user verify failed");

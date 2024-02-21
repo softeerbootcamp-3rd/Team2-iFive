@@ -90,11 +90,10 @@ public class UserService {
     }
 
     @Transactional
-    public void updateFCMToken(String userId, String fcmToken) {
-        Optional<Users> optional = userRepository.findByUserId(userId);
-        if (optional.isEmpty())
-            return;
-        Users user = optional.get();
-        user.updateFcmToken(fcmToken);
+    public BaseResponse<String> updateFCMToken(String userId, String fcmToken) {
+        Users foundUser = userRepository.findByUserId(userId)
+                .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
+        foundUser.updateFcmToken(fcmToken);
+        return BaseResponse.success();
     }
 }

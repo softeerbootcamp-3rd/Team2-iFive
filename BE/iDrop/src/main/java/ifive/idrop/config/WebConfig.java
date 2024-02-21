@@ -2,10 +2,7 @@ package ifive.idrop.config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ifive.idrop.filter.CorsFilter;
-import ifive.idrop.filter.JwtAuthorizationFilter;
-import ifive.idrop.filter.JwtFilter;
-import ifive.idrop.filter.VerifyUserFilter;
+import ifive.idrop.filter.*;
 import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
 import ifive.idrop.resolver.LoginUsersArgumentResolver;
@@ -65,6 +62,14 @@ public class WebConfig implements WebMvcConfigurer {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new JwtAuthorizationFilter(provider, mapper));
         filterRegistrationBean.setOrder(2);
+        return filterRegistrationBean;
+    }
+
+    @Bean
+    public FilterRegistrationBean<Filter> fcmTokenFilter() {
+        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
+        filterRegistrationBean.setFilter(new FcmFilter(mapper, userService));
+        filterRegistrationBean.setOrder(3);
         return filterRegistrationBean;
     }
 }

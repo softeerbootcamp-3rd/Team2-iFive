@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useLoaderData } from "react-router-dom";
 import styles from "./map.module.scss";
 import { useMap } from "../../hooks/useMap";
 import { useCoords } from "../../hooks/useCoords";
@@ -10,12 +10,14 @@ import { WEBSOCKET_URL, ACCESS_TOKEN } from "../../constants/constants";
 import { getCurrentLocation } from "../../utils/coords";
 import { getAccessToken } from "../../utils/auth";
 import { DriverBottomSheet } from "../common/Bottomsheet/Bottomsheet";
-import { useFetchGet } from "../../hooks/useFetch";
 import Car from "@/assets/car.svg";
+import { getKidInfo } from "../../service/api";
 
 export default function DriverMap() {
     const childrenData = getChildrenData();
     const kidData = childrenData[0];
+
+    const fetchData = useLoaderData();
 
     const mapElementRef = useRef();
     const {
@@ -138,4 +140,9 @@ const markerIcon = {
 function getChildrenData() {
     const location = useLocation();
     return location.state.childrenData;
+}
+
+export async function fetchNowPickUpData() {
+    const fetchData = await getKidInfo("driver/pickup/now/child");
+    return fetchData;
 }

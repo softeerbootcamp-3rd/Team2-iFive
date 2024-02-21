@@ -1,3 +1,5 @@
+import { useLoaderData } from "react-router-dom";
+import { getKidInfo } from "../../service/api";
 import styles from "./Menu.module.scss";
 import { MenuButton } from "./MenuButton";
 import iDropGreen from "@/assets/iDropGreen.svg";
@@ -11,7 +13,6 @@ import Success from "@/assets/Success.svg";
 import User from "@/assets/user_icon.svg";
 import Calender from "@/assets/calender.svg";
 import Truck from "@/assets/truck.png";
-import { useLoaderData } from "react-router-dom";
 
 const userName = null;
 export function DriverMenu() {
@@ -70,33 +71,9 @@ export function ParentMenu() {
     );
 }
 
-const exampleData = [
-    {
-        childId: 1,
-        childName: "김하나",
-        childImage: "image",
-        startDate: "2024-02-19T09:30:00",
-        endDate: "2024-02-19T09:30:00",
-        startLatitude: 37.5138649,
-        startLongitude: 127.0295296,
-        startAddress: "서울특별시 강남구 논현동 58-3 에티버스러닝 학동캠퍼스",
-        endLatitude: 37.51559,
-        endLongitude: 127.0316161,
-        endAddress: "서울특별시 강남구 학동로31길 15 코마츠",
-        pickUpStartTime: "2024-02-19T08:30:00",
-        pickUpEndTime: "2024-02-19T09:30:00"
-    }
-];
-
-export async function fetchParentChildData() {
-    // const kidData = await getKidInfo("parent/pickup/now");
-    const result = parseData(exampleData);
-    return result;
-}
-
-export async function fetchDriverChildData() {
-    // const kidData = await getKidInfo("driver/pickup/now");
-    const result = parseData(exampleData);
+export async function fetchMenuData() {
+    const childrenData = await getKidInfo("user/pickup/now");
+    const result = parseData(childrenData.data);
     return result;
 }
 

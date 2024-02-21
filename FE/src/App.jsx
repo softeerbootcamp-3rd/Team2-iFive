@@ -32,7 +32,7 @@ import SubscriptionConfirmation from "./pages/Confirmation/Confirmation";
 import ParentMap from "./components/Map/ParentMap";
 import DriverMap from "./components/Map/DriverMap";
 import EndPickUp from "./pages/EndPickUp/EndPickUp";
-import History from "./pages/History/History";
+import History, { loader as historyLoader } from "./pages/History/History";
 
 export default function App() {
     return <RouterProvider router={router} />;
@@ -48,7 +48,7 @@ const router = createBrowserRouter(
             />
             <Route path="signup" element={<ParentSignUp />} />
             <Route path="login" loader={loginLoader} element={<Login />} />
-            <Route id="auth" loader={checkAuthLoader} errorElement={<Login />}>
+            <Route id="auth" loader={checkAuthLoader}>
                 <Route path="logout" loader={logoutLoader} />
                 <Route
                     path="map"
@@ -113,6 +113,7 @@ const router = createBrowserRouter(
                 />
                 <Route
                     path="history"
+                    loader={historyLoader}
                     element={
                         <RoleProvider>
                             {(isParent) => isParent && <History />}

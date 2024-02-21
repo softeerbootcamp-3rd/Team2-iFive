@@ -57,6 +57,22 @@ public class PickUpRepository {
         em.persist(pick);
     }
 
+    public List<PickUp> findPickUpByPickUpInfoIdAndParentIdOrderByReservedTime(Long parentId, Long pickInfoId) {
+        String query = "SELECT p FROM PickUp p\n" +
+                "WHERE p.pickUpInfo.id =: pickInfoId\n" +
+                "AND p.pickUpInfo.child.parent.id =: parentId\n" +
+                "AND p.startTime IS NOT NULL\n" +
+                "ORDER BY p.reservedTime DESC";
+        return em.createQuery(query, PickUp.class)
+                .setParameter("pickInfoId", pickInfoId)
+                .setParameter("parentId", parentId)
+                .getResultList();
+    }
+
+    public Optional<PickUp> findById(Long pickUpId) {
+        return Optional.ofNullable(em.find(PickUp.class, pickUpId));
+    }
+    
     public List<PickUpInfo> findWaitingPickUpInfoByDriverId(Long driverId) {
         TypedQuery<PickUpInfo> query = em.createQuery(
                 "SELECT pui FROM PickUpInfo pui " +

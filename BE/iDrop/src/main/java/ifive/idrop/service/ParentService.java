@@ -5,6 +5,7 @@ import ifive.idrop.dto.response.BaseResponse;
 import ifive.idrop.dto.request.SubscribeRequest;
 import ifive.idrop.dto.response.CurrentPickUpResponse;
 
+import ifive.idrop.dto.response.PickUpHistoryResponse;
 import ifive.idrop.dto.response.ParentSubscribeInfoResponse;
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
@@ -93,6 +94,13 @@ public class ParentService {
         return location;
     }
 
+    public BaseResponse<List<PickUpHistoryResponse>> getPickUpHistoryInfo(Parent parent, long pickInfoId) {
+        List<PickUp> pickUpList = pickUpRepository.findPickUpByPickUpInfoIdAndParentIdOrderByReservedTime(parent.getId(), pickInfoId);
+        return BaseResponse.of("Data Successfully Proceed",
+                pickUpList.stream().map(PickUpHistoryResponse::toEntity)
+                        .toList());
+    }
+  
     @Transactional(readOnly = true)
     public List<ParentSubscribeInfoResponse> subscribeList(Long parentId) {
         List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByParentIdInTheLatestOrder(parentId);

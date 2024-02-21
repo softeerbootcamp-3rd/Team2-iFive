@@ -46,6 +46,11 @@ public class ParentController {
         return parentService.getChildRunningInfo(parent);
     }
 
+    @GetMapping("/history/{pickup-info-id}")
+    public BaseResponse checkHistoryInfo(@Login Parent parent, @PathVariable(value = "pickup-info-id") long pickInfoId) {
+        return parentService.getPickUpHistoryInfo(parent, pickInfoId);
+    }
+      
     @GetMapping("/subscribe/list")
     public List<ParentSubscribeInfoResponse> subscribeList(@Login Parent parent) {
         return parentService.subscribeList(parent.getId());

@@ -24,26 +24,7 @@ public class DriverRepository {
                 .getResultList();
     }
 
-    public List<Driver> findDriversBySchedule(DriverListRequest driverListRequest) {
-        RequestSchedule requestSchedule = ScheduleUtils.parseToList(driverListRequest.getSchedule());
-
-        List<Driver> availableDrivers = new ArrayList<>();
-        List<Driver> drivers = findAllDrivers();
-        for (Driver driver : drivers) {
-            List<PickUp> pickUpList = pickUpRepository.findReservedPickUpsByDriver(driver.getId());
-            List<LocalDateTime> reservedSchedule = pickUpList.stream()
-                    .map(PickUp::getReservedTime)
-                    .toList();
-            List<WorkHours> workHoursList = driver.getWorkHoursList();
-            if (requestSchedule.isAvailable(workHoursList, reservedSchedule)) {
-                availableDrivers.add(driver);
-            }
-        }
-        return availableDrivers;
-    }
-
-  
-    public List<Object[]> findAllRunningPickInfo(Long driverId) {
+    public List<Object[]> findAllRunningPickUpInfo(Long driverId) {
         String query = "SELECT pui, pu.reservedTime\n" +
                 "FROM PickUpInfo pui\n" +
                 "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +

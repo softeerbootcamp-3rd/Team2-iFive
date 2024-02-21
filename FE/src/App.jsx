@@ -32,6 +32,7 @@ import SubscriptionConfirmation from "./pages/Confirmation/Confirmation";
 import ParentMap from "./components/Map/ParentMap";
 import DriverMap from "./components/Map/DriverMap";
 import EndPickUp from "./pages/EndPickUp/EndPickUp";
+import History from "./pages/History/History";
 
 export default function App() {
     return <RouterProvider router={router} />;
@@ -107,6 +108,14 @@ const router = createBrowserRouter(
                             {(isParent) =>
                                 isParent && <SubscriptionConfirmation />
                             }
+                        </RoleProvider>
+                    }
+                />
+                <Route
+                    path="history"
+                    element={
+                        <RoleProvider>
+                            {(isParent) => isParent && <History />}
                         </RoleProvider>
                     }
                 />

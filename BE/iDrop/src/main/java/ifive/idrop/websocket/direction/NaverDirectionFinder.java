@@ -1,5 +1,6 @@
 package ifive.idrop.websocket.direction;
 
+import ifive.idrop.entity.PickUpLocation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -41,5 +42,13 @@ public class NaverDirectionFinder {
         NaverDirectionResponse response = restTemplate.exchange(req, NaverDirectionResponse.class).getBody();
         Direction direction = new Direction(response.getPath());
         return direction;
+    }
+
+    public String getStartLocationForApi(PickUpLocation pickUpLocation) {
+        return pickUpLocation.getStartLongitude() + "," + pickUpLocation.getStartLatitude();
+    }
+
+    public String getEndLocationForApi(PickUpLocation pickUpLocation) {
+        return pickUpLocation.getEndLongitude() + "," + pickUpLocation.getEndLatitude();
     }
 }

@@ -16,7 +16,7 @@ public class PickUpHistoryResponse {
     private String day;
     private Info info;
 
-    static public PickUpHistoryResponse toEntity(PickUp pickUp) {
+    public static PickUpHistoryResponse toEntity(PickUp pickUp) {
         String time = pickUp.getReservedTime().toLocalTime().toString();
         return PickUpHistoryResponse.builder()
                 .date(pickUp.getReservedTime().toLocalDate())

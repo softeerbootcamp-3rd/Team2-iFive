@@ -5,7 +5,7 @@ function degreesToRadians(degrees) {
 
 // 두 지점 간의 거리를 계산하는 함수 (단위: 미터)
 function calculateDistance(lat1, lon1, lat2, lon2) {
-    const EARTHRADIUSKM = 6371; // 지구의 반지름 (단위: 킬로미터)
+    const EARTH_RADIUS_KM = 6371; // 지구의 반지름 (단위: 킬로미터)
 
     // 위도와 경도를 라디안으로 변환
     const dLat = degreesToRadians(lat2 - lat1);
@@ -19,7 +19,7 @@ function calculateDistance(lat1, lon1, lat2, lon2) {
             Math.sin(dLon / 2) *
             Math.sin(dLon / 2);
     const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    const distance = EARTHRADIUSKM * c;
+    const distance = EARTH_RADIUS_KM * c;
 
     return distance * 1000; // 거리를 미터로 반환
 }

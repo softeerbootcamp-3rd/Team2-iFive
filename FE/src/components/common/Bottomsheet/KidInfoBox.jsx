@@ -3,21 +3,23 @@ import styles from "./kidInfoBox.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
 
 export function DriverContents({ childrenData }) {
-    const headerMsg = childrenData
-        ? "현재 매칭된 픽업이 없습니다"
-        : "오늘의 픽업";
+    const isHaveData = childrenData.length > 0 ? true : false;
+    const headerMsg = isHaveData
+        ? "오늘의 픽업"
+        : "현재 매칭된 픽업이 없습니다";
     return (
         <>
             <span className={styles.headMessage}>{headerMsg}</span>
-            {renderContents(childrenData, "driver")}
+            {isHaveData && renderContents(childrenData, "driver")}
         </>
     );
 }
 
 export function ParentContents({ childrenData }) {
-    const headerMsg = childrenData
-        ? "현재 매칭된 픽업이 없습니다"
-        : "픽업 서비스 구독 중";
+    const isHaveData = childrenData.length > 0 ? true : false;
+    const headerMsg = isHaveData
+        ? "픽업 서비스 구독 중"
+        : "현재 매칭된 픽업이 없습니다";
     return (
         <>
             <span className={styles.headMessage}>{headerMsg}</span>

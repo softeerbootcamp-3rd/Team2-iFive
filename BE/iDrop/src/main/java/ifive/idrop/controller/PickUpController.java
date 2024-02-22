@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.concurrent.ExecutionException;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -25,7 +26,7 @@ public class PickUpController {
     private final PickUpService pickUpService;
 
     @PostMapping("/driver/pickup")
-    public BaseResponse<String> startPickUp(@Login Driver driver, Long childId, @ModelAttribute MultipartFile image, String message) {
+    public BaseResponse<String> startPickUp(@Login Driver driver, Long childId, @ModelAttribute MultipartFile image, String message) throws ExecutionException, InterruptedException {
         PickUp pickUp = pickUpService.findCurrentPickUp(driver.getId(), childId)
                 .orElseThrow(() -> new CommonException(ErrorCode.CURRENT_PICKUP_NOT_FOUND));
         try {

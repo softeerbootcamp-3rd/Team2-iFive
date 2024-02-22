@@ -7,6 +7,11 @@ import {
     DriverBottomSheet,
     ParentBottomSheet
 } from "@/components/Bottomsheet/Bottomsheet";
+import {
+    removeCityPrefix,
+    formatDate,
+    formatTime
+} from "../../utils/parseData";
 import Location from "@/assets/Location.svg";
 import Star from "@/assets/Star.svg";
 import Success from "@/assets/Success.svg";
@@ -94,18 +99,4 @@ function parseData(childrenData) {
             pickUpEndTime: formatTime(element.pickUpEndTime)
         };
     });
-}
-
-function removeCityPrefix(address) {
-    return address !== null ? address.replace("서울특별시 ", "") : "null";
-}
-
-function formatDate(dateString) {
-    return dateString !== null ? dateString.split("T")[0] : "null";
-}
-
-function formatTime(timeString) {
-    return timeString !== undefined
-        ? timeString.split("T")[1].slice(0, 5)
-        : "null";
 }

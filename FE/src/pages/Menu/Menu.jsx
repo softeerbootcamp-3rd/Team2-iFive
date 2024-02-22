@@ -30,7 +30,7 @@ export function DriverMenu() {
                 <MenuButton
                     imgUrl={Truck}
                     text="픽업하기"
-                    route="/pickup"
+                    route="/select"
                     data={childrenData}
                 />
                 <MenuButton imgUrl={User} text="프로필" route="" />

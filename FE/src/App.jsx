@@ -120,7 +120,7 @@ const router = createBrowserRouter(
                 />
                 <Route
                     path="select"
-                    //loader={fetchSelectChild}
+                    //loader={fetchPickUpList}
                     element={
                         <RoleProvider>
                             {(isParent) => !isParent && <SelectChild />}

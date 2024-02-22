@@ -1,5 +1,5 @@
 import styles from "./Complete.module.scss";
-import { Footer } from "../../../components/common/Footer/Footer";
+import { Footer } from "@/components/Footer/Footer";
 
 function Container({ header, imgSrc, date = "", text }) {
     return (

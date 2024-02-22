@@ -1,13 +1,13 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Search.module.scss";
-import { Header } from "@/components/common/Header/Header";
-import { Footer } from "@/components/common/Footer/Footer";
+import { Header } from "@/components/Header/Header";
+import { Footer } from "@/components/Footer/Footer";
 import { AddressForm } from "./AddressForm/AddressForm";
 import { DayList } from "./DayList/DayList";
 import { TimeList } from "./TimeList/TimeList";
-import { Modal } from "../../components/common/Modal/Modal";
-import { useModal } from "../../hooks/useModal";
+import { Modal } from "@/components/Modal/Modal";
+import { useModal } from "@/hooks/useModal";
 import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
 
 const INITIAL_LOCATIION_STATE = {

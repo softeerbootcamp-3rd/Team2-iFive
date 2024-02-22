@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { formatNumberDigit } from "../../../utils/number";
+import { formatNumberDigit } from "@/utils/number";
 import styles from "./NumericSelector.module.scss";
 
 export function NumericSelector({

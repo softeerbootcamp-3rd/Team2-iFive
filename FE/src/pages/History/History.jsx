@@ -1,4 +1,4 @@
-import { Header } from "../../components/common/Header/Header";
+import { Header } from "@/components/Header/Header";
 import styles from "./History.module.scss";
 import { HistoryItem } from "./HistoryItem/HistoryItem";
 import { getSubscriptionHistoryList } from "./api";

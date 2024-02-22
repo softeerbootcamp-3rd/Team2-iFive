@@ -1,17 +1,17 @@
 import { useEffect, useRef } from "react";
 import { useLocation, useLoaderData } from "react-router-dom";
 import styles from "./map.module.scss";
-import { useMap } from "../../hooks/useMap";
-import { useCoords } from "../../hooks/useCoords";
-import { getLatLng } from "../../utils/map";
-import { useMarker } from "../../hooks/useMarker";
-import { Loader } from "../common/Loader/Loader";
-import { WEBSOCKET_URL } from "../../constants/constants";
-import { getCurrentLocation } from "../../utils/coords";
-import { getAccessToken } from "../../utils/auth";
-import { DriverBottomSheet } from "../common/Bottomsheet/Bottomsheet";
+import { useMap } from "@/hooks/useMap";
+import { useCoords } from "@/hooks/useCoords";
+import { getLatLng } from "@/utils/map";
+import { useMarker } from "@/hooks/useMarker";
+import { Loader } from "@/components/Loader/Loader";
+import { WEBSOCKET_URL } from "@/constants/constants";
+import { getCurrentLocation } from "@/utils/coords";
+import { getAccessToken } from "@/utils/auth";
+import { DriverBottomSheet } from "@/components/Bottomsheet/Bottomsheet";
 import Car from "@/assets/car.svg";
-import { getKidInfo } from "../../service/api";
+import { getKidInfo } from "@/service/api";
 
 export default function DriverMap() {
     const ACCESS_TOKEN = getAccessToken();

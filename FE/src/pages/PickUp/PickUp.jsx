@@ -1,13 +1,13 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
-import { Footer } from "../../components/common/Footer/Footer";
-import { DriverContents } from "../../components/common/Bottomsheet/KidInfoBox";
-import { Header } from "../../components/common/Header/Header";
+import { Footer } from "@/components/Footer/Footer";
+import { DriverContents } from "@/components/Bottomsheet/KidInfoBox";
+import { Header } from "@/components/Header/Header";
 import styles from "./PickUp.module.scss";
 import { CameraCapture } from "./cameraCapture";
-import { postKidInfo } from "../../service/api";
-import { isWithinRadius } from "../../utils/calculatorDistance";
-import { useCoords } from "../../hooks/useCoords";
+import { postKidInfo } from "@/service/api";
+import { isWithinRadius } from "@/utils/calculatorDistance";
+import { useCoords } from "@/hooks/useCoords";
 
 export default function PickUpPage() {
     const [validLocation, setCrntLocation] = useState(false);

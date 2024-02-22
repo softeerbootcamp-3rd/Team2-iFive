@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useReducer } from "react";
-import { sendAuthRequest } from "../service/api";
-import { BASE_URL } from "../constants/constants";
+import { sendAuthRequest } from "@/service/api";
+import { BASE_URL } from "@/constants/constants";
 
 const actionType = {
     loading: "loading",

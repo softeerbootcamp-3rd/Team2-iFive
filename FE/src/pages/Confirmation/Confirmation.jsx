@@ -1,4 +1,4 @@
-import { CompleteComponent } from "../../Components/Common/Complete/Complete";
+import { CompleteComponent } from "@/components/Complete/Complete";
 import contact from "@/assets/contact.svg";
 
 export default function SubscriptionConfirmation() {

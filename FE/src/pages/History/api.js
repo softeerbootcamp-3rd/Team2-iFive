@@ -1,5 +1,5 @@
-import { BASE_URL } from "../../constants/constants";
-import { sendAuthRequest } from "../../service/api";
+import { BASE_URL } from "@/constants/constants";
+import { sendAuthRequest } from "@/service/api";
 
 export async function getSubscriptionHistoryList() {
     try {

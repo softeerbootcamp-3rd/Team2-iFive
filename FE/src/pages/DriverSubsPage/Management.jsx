@@ -1,8 +1,8 @@
 import React from "react";
 import styles from "./Management.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
-import { Header } from "../../components/common/Header/Header";
-import { getKidInfo } from "../../service/api";
+import { Header } from "@/components/Header/Header";
+import { getKidInfo } from "@/service/api";
 import { useLoaderData } from "react-router-dom";
 
 export default function ManagementSubscription() {

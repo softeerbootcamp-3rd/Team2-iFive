@@ -1,8 +1,8 @@
 import { useState } from "react";
 import styles from "./Login.module.scss";
 import { redirect, useNavigate } from "react-router-dom";
-import { login } from "../../service/api";
-import { getAccessToken, setToken } from "../../utils/auth";
+import { login } from "@/service/api";
+import { getAccessToken, setToken } from "@/utils/auth";
 
 export default function Login() {
     const [userId, setUserId] = useState("");

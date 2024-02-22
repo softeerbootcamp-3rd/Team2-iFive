@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import styles from "./AddressFinderMap.module.scss";
-import { Loader } from "../../../components/common/Loader/Loader";
+import { Loader } from "@/components/Loader/Loader";
 import { useMap } from "@/hooks/useMap";
 import { getLatLng } from "@/utils/map";
 import { useMarker } from "@/hooks/useMarker";

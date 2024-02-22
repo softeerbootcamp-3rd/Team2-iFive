@@ -1,5 +1,5 @@
 import { useNavigate } from "react-router-dom";
-import { CompleteComponent } from "../../Components/Common/Complete/Complete";
+import { CompleteComponent } from "@/components/Complete/Complete";
 import truck from "@/assets/truck.png";
 
 export default function EndPickUp() {

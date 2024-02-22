@@ -1,13 +1,13 @@
 import styles from "./map.module.scss";
 import { useEffect, useRef } from "react";
-import { useCoords } from "../../hooks/useCoords";
-import { getLatLng } from "../../utils/map";
-import { useMap } from "../../hooks/useMap";
-import { Loader } from "../common/Loader/Loader";
-import { ParentBottomSheet } from "../common/Bottomsheet/Bottomsheet";
-import { PARENT_TOKEN, WEBSOCKET_URL } from "../../constants/constants";
-import { useMarker } from "../../hooks/useMarker";
-import { getAccessToken } from "../../utils/auth";
+import { useCoords } from "@/hooks/useCoords";
+import { getLatLng } from "@/utils/map";
+import { useMap } from "@/hooks/useMap";
+import { Loader } from "@/components/Loader/Loader";
+import { ParentBottomSheet } from "@/components/Bottomsheet/Bottomsheet";
+import { PARENT_TOKEN, WEBSOCKET_URL } from "@/constants/constants";
+import { useMarker } from "@/hooks/useMarker";
+import { getAccessToken } from "@/utils/auth";
 import Car from "@/assets/car.svg";
 import { useLocation } from "react-router-dom";
 

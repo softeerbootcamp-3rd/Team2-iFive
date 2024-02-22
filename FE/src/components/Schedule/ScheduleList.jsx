@@ -1,4 +1,4 @@
-import { PICKUP_STATUS_MAP } from "../../../constants/constants";
+import { PICKUP_STATUS_MAP } from "@/constants/constants";
 import styles from "./ScheduleList.module.scss";
 
 export function ScheduleList({ schedule, status }) {

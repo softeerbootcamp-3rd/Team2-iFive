@@ -1,9 +1,9 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import { Header } from "@/components/common/Header/Header";
+import { Header } from "@/components/Header/Header";
 import { DriverListItem } from "./DriverListItem/DriverListItem";
 import styles from "./DriverList.module.scss";
-import { fetchDrivers } from "../../service/api";
+import { fetchDrivers } from "@/service/api";
 
 export default function DriverList() {
     const [drivers, setDrivers] = useState([]);

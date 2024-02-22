@@ -1,7 +1,7 @@
 import { transformSchedule } from "./transformSchedule";
 import styles from "./HistoryItem.module.scss";
-import { PICKUP_STATUS_MAP } from "../../../constants/constants";
-import { ScheduleList } from "../../../components/common/Schedule/ScheduleList";
+import { PICKUP_STATUS_MAP } from "@/constants/constants";
+import { ScheduleList } from "@/components/Schedule/ScheduleList";
 
 export function HistoryItem({ historyData }) {
     const {

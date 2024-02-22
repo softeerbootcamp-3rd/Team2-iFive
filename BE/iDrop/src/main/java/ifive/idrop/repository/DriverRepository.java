@@ -11,6 +11,8 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -55,7 +57,8 @@ public class DriverRepository {
                 "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +
                 "WHERE pui.driver.id =: driverId\n" +
                 "AND FUNCTION('DATE', pu.reservedTime) = :currentDate\n"+
-                "AND pu.endTime IS NULL";
+                "AND pu.endTime IS NULL\n" +
+                "ORDER BY pu.reservedTime ASC";
         return em.createQuery(query)
                 .setParameter("driverId", driverId)
                 .setParameter("currentDate", LocalDate.now())

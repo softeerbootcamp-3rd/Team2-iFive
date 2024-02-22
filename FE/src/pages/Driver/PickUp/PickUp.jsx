@@ -5,7 +5,7 @@ import { DriverContents } from "@/components/Bottomsheet/KidInfoBox";
 import { Header } from "@/components/Header/Header";
 import styles from "./PickUp.module.scss";
 import { CameraCapture } from "./cameraCapture";
-import { postKidInfo } from "@/service/api";
+import { postKidInfo } from "@/service/childrenAPI";
 import { isWithinRadius } from "@/utils/calculatorDistance";
 import { useCoords } from "@/hooks/useCoords";
 

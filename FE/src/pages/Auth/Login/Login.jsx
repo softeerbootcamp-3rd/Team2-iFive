@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./Login.module.scss";
 import { redirect, useNavigate } from "react-router-dom";
-import { login } from "@/service/api";
+import { login } from "@/service/authenticationAPI";
 import { getAccessToken, setToken } from "@/utils/auth";
 
 export default function Login() {

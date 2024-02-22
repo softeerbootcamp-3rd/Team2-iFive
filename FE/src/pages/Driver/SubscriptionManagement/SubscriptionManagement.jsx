@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./SubscriptionManagement.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
 import { Header } from "@/components/Header/Header";
-import { getKidInfo } from "@/service/api";
+import { getKidInfo } from "@/service/childrenAPI";
 import { useLoaderData } from "react-router-dom";
 
 export default function SubscriptionManagement() {

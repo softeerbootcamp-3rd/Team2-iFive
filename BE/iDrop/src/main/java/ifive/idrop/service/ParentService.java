@@ -39,6 +39,7 @@ public class ParentService {
     private final ParentRepository parentRepository;
     private final PickUpRepository pickUpRepository;
 
+    @Transactional
     public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) throws JSONException, ExecutionException, InterruptedException {
         Driver driver = driverRepository.findById(subscribeRequest.getDriverId())
                 .orElseThrow(() -> new CommonException(ErrorCode.DRIVER_NOT_EXIST));

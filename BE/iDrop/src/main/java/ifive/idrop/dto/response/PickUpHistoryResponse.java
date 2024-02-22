@@ -3,11 +3,9 @@ package ifive.idrop.dto.response;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import ifive.idrop.entity.PickUp;
 import ifive.idrop.entity.enums.PickUpInfoStatus;
-import ifive.idrop.util.Parser;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
@@ -18,7 +16,7 @@ public class PickUpHistoryResponse {
     private String day;
     private Info info;
 
-    static public PickUpHistoryResponse toEntity(PickUp pickUp) {
+    public static PickUpHistoryResponse toEntity(PickUp pickUp) {
         String time = pickUp.getReservedTime().toLocalTime().toString();
         return PickUpHistoryResponse.builder()
                 .date(pickUp.getReservedTime().toLocalDate())
@@ -44,7 +42,7 @@ public class PickUpHistoryResponse {
                     .startTime(pickUp.getStartTime())
                     .startImage(pickUp.getStartImage())
                     .endTime(pickUp.getEndTime())
-                    .endImage(pickUp.getStartImage())
+                    .endImage(pickUp.getEndImage())
                     .status(pickUp.getEndTime() != null ? PickUpInfoStatus.DONE : PickUpInfoStatus.START)
                     .build();
         }

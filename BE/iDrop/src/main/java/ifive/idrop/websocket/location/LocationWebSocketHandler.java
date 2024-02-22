@@ -1,10 +1,7 @@
 package ifive.idrop.websocket.location;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
-import ifive.idrop.entity.Driver;
-import ifive.idrop.entity.Parent;
-import ifive.idrop.entity.PickUp;
-import ifive.idrop.entity.Users;
+import ifive.idrop.entity.*;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
 import ifive.idrop.filter.AuthenticateUser;
@@ -13,6 +10,8 @@ import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
 import ifive.idrop.util.CustomObjectMapper;
 import ifive.idrop.websocket.PickUpInfoRepository;
+import ifive.idrop.websocket.direction.Direction;
+import ifive.idrop.websocket.direction.NaverDirectionFinder;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,18 +33,21 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
     private final PickUpInfoRepository pickUpInfoRepository;
+    private final NaverDirectionFinder directionFinder;
 
     private static final Map<String, WebSocketSession> sessions; //세션아이디, 세션
     private static final Map<String, Long> drivers;  //기사 세션아이디, 기사 id
     private static final Map<Long, String> parents; //부모 id, 부모 세션아이디
 
     private static final Map<Long, CurrentPickUp> currentPickUps; //기사 id, 현재픽업(child id, parent id, reserved time)
+    private static final Map<String, Location> lastLocation; //기사 세션아이디, 직전 위치
 
     static {
         sessions = new ConcurrentHashMap<>();
         drivers = new ConcurrentHashMap<>();
         parents = new ConcurrentHashMap<>();
         currentPickUps = new ConcurrentHashMap<>();
+        lastLocation = new ConcurrentHashMap<>();
     }
 
 
@@ -61,7 +63,9 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
             drivers.put(sessionId, driverId);
 
             try {
-                setCurrentPickUps(driverId);
+                CurrentPickUp currentPickUp = setCurrentPickUps(driverId);
+                Direction direction = directionFinder.getDirection(currentPickUp.getStartLocation(), currentPickUp.getEndLocation());
+                session.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
             } catch (CommonException e) {
                 sendErrorMessage(session, e.getMessage());
                 session.close(CloseStatus.NORMAL); // 정상 종료 상태로 소켓 연결 종료
@@ -86,6 +90,21 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
 
         DriverGeoLocation driverLocation = CustomObjectMapper.getObject(textMessage.getPayload(), DriverGeoLocation.class);
         CurrentPickUp currentPickUp = currentPickUps.get(driverId);
+
+        Location location = lastLocation.get(sessionId);
+        if (location == null) { //전 위치 기록이 없음 첫 위치
+            lastLocation.put(sessionId, driverLocation.getLocation());
+        }
+        else {
+            if (!driverLocation.isSameLocation(location)) { //전에 왔던 위치와 다른 위치
+                String loc = directionFinder.getLocationForApi(driverLocation);
+                Direction direction = directionFinder.getDirection(loc, currentPickUp.getEndLocation());
+                session.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
+                location.update(driverLocation);
+                lastLocation.replace(sessionId, location);
+            }
+        }
+
 
         sendChildLocationToParent(currentPickUp, driverLocation);
     }
@@ -123,17 +142,21 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     }
 
     //웹소켓 driver가 연결 시 currentPickUp 만들어서 세팅
-    private void setCurrentPickUps(Long driverId) {
+    private CurrentPickUp setCurrentPickUps(Long driverId) {
         PickUp pickup = pickUpInfoRepository.findPickUpByDriverIdWithCurrentTimeInReservedWindow(driverId)
                 .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
+        PickUpLocation pickUpLocation = pickUpInfoRepository.getPickUpLocation(pickup.getId());
 
         Object[] childIdAndParentId = pickUpInfoRepository.findChildAndParentIdByPickUp(pickup.getId());
         CurrentPickUp currentPickUp = CurrentPickUp.builder()
                 .childId((Long) childIdAndParentId[0])
                 .parentId((Long) childIdAndParentId[1])
                 .reservedTime(pickup.getReservedTime())
+                .startLocation(directionFinder.getStartLocationForApi(pickUpLocation))
+                .endLocation(directionFinder.getEndLocationForApi(pickUpLocation))
                 .build();
         currentPickUps.put(driverId, currentPickUp);
+        return  currentPickUp;
     }
 
     //웹소켓 연결 종료 시, 관련 데이터 각종 hashmap에서 삭제
@@ -155,7 +178,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
                 receiver.sendMessage(new TextMessage(CustomObjectMapper.getString(childLocation)));
             }
         } catch (Exception e) { //driver는 정보를 보내는데 부모가 접속중이 아닌경우
-            e.printStackTrace();
+            ;
         }
 
     }

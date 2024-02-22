@@ -2,9 +2,12 @@ package ifive.idrop.controller;
 
 import ifive.idrop.annotation.Login;
 
+import ifive.idrop.dto.request.SubscribeCheckRequest;
 import ifive.idrop.dto.response.CurrentPickUpResponse;
 import ifive.idrop.dto.request.DriverInformation;
 import ifive.idrop.dto.response.BaseResponse;
+import ifive.idrop.dto.response.DriverSubscribeInfoResponse;
+import ifive.idrop.dto.response.ParentSubscribeInfoResponse;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.service.DriverService;
 import lombok.RequiredArgsConstructor;
@@ -36,5 +39,15 @@ public class DriverController {
     @GetMapping("/pickup/now/child")
     public BaseResponse<List<CurrentPickUpResponse>> checkPickUpInfo(@Login Driver driver) {
         return driverService.getChildRunningInfo(driver);
+    }
+
+    @GetMapping("/subscribe/list")
+    public List<DriverSubscribeInfoResponse> subscribeList(@Login Driver driver) {
+        return driverService.subscribeList(driver.getId());
+    }
+
+    @PostMapping("/subscribe/check")
+    public BaseResponse subscribeCheck(@Login Driver driver, @RequestBody SubscribeCheckRequest subscribeCheckRequest) {
+        return driverService.subscribeCheck(driver.getId(), subscribeCheckRequest);
     }
 }

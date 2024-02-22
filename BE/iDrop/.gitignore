@@ -40,3 +40,4 @@ out/
 /src/main/resources/*.json
 
 .DS_Store
+.jmx

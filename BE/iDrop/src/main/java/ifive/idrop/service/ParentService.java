@@ -6,6 +6,7 @@ import ifive.idrop.dto.request.SubscribeRequest;
 import ifive.idrop.dto.response.CurrentPickUpResponse;
 
 import ifive.idrop.dto.response.PickUpHistoryResponse;
+import ifive.idrop.dto.response.ParentSubscribeInfoResponse;
 import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
 import ifive.idrop.exception.CommonException;
@@ -14,13 +15,19 @@ import ifive.idrop.repository.DriverRepository;
 import ifive.idrop.repository.ParentRepository;
 import ifive.idrop.repository.PickUpRepository;
 import ifive.idrop.util.Parser;
+import ifive.idrop.util.ScheduleUtils;
 import lombok.RequiredArgsConstructor;
 import org.json.JSONException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
+import static ifive.idrop.util.ScheduleUtils.calculateEndDate;
+import static ifive.idrop.util.ScheduleUtils.calculateStartDate;
 
 @Service
 @RequiredArgsConstructor
@@ -29,6 +36,7 @@ public class ParentService {
     private final ParentRepository parentRepository;
     private final PickUpRepository pickUpRepository;
 
+    @Transactional
     public BaseResponse<String> createSubscribe(Parent parent, SubscribeRequest subscribeRequest) throws JSONException {
         Driver driver = driverRepository.findById(subscribeRequest.getDriverId())
                 .orElseThrow(() -> new CommonException(ErrorCode.DRIVER_NOT_EXIST));
@@ -37,6 +45,9 @@ public class ParentService {
 
         PickUpSubscribe subscribe = createPickUpSubscribe();
         PickUpLocation location = createPickUpLocation(subscribeRequest);
+        PickUpInfo pickUpInfo = createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
+
+        //TODO Alarm to Driver
         createPickUpInfo(subscribeRequest, child, driver, location, subscribe);
 
         return BaseResponse.success();
@@ -44,7 +55,7 @@ public class ParentService {
 
     @Transactional(readOnly = true)
     public BaseResponse<List<CurrentPickUpResponse>> getChildRunningInfo(Parent parent) {
-        List<Object[]> runningPickInfo = parentRepository.findRunningPickInfo(parent.getId());
+        List<Object[]> runningPickInfo = parentRepository.findRunningPickUpInfo(parent.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
                         .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
@@ -96,9 +107,15 @@ public class ParentService {
     }
 
     public BaseResponse<List<PickUpHistoryResponse>> getPickUpHistoryInfo(Parent parent, long pickInfoId) {
-        List<PickUp> pickUpList = pickUpRepository.findPickUpInfoByPickUpInfoIdAndParentId(parent.getId(), pickInfoId);
+        List<PickUp> pickUpList = pickUpRepository.findPickUpByPickUpInfoIdAndParentIdOrderByReservedTime(parent.getId(), pickInfoId);
         return BaseResponse.of("Data Successfully Proceed",
                 pickUpList.stream().map(PickUpHistoryResponse::toEntity)
                         .toList());
+    }
+
+    @Transactional(readOnly = true)
+    public List<ParentSubscribeInfoResponse> subscribeList(Long parentId) {
+        List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByParentIdInTheLatestOrder(parentId);
+        return pickUpInfoList.stream().map(ParentSubscribeInfoResponse::of).toList();
     }
 }

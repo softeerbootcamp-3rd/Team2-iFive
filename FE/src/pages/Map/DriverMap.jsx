@@ -16,10 +16,10 @@ import { getKidInfo } from "@/service/childrenAPI";
 export default function DriverMap() {
     const ACCESS_TOKEN = getAccessToken();
 
-    const childrenData = getChildrenData();
-    const kidData = childrenData[0];
+    // const childrenData = fetchNowPickUpData();
 
-    const fetchData = useLoaderData();
+    const childrenData = useLoaderData();
+    const kidData = childrenData[0];
 
     const mapElementRef = useRef();
     const {
@@ -39,6 +39,12 @@ export default function DriverMap() {
 
     const destinationPos = getLatLng(kidData.endLatitude, kidData.endLongitude);
     const destinationMarker = useMarker(map, destinationPos);
+
+    const polyline = new naver.maps.Polyline({
+        map: map,
+        path: [],
+        strokeWeight: 10
+    });
 
     const webSocketRef = useRef(null);
     const lastLocationRef = useRef({ latitude: null, longitude: null });
@@ -66,7 +72,7 @@ export default function DriverMap() {
                 .then((location) => {
                     lastLocationRef.current = location;
                     const newLocation = {
-                        latitude: location.latitude + increase,
+                        latitude: location.latitude - increase,
                         longitude: location.longitude
                     };
                     sendLocation(newLocation);
@@ -77,12 +83,12 @@ export default function DriverMap() {
                                 newLocation.longitude
                             )
                         );
-                        map.setCenter(
-                            getLatLng(
-                                newLocation.latitude,
-                                newLocation.longitude
-                            )
-                        );
+                        // map.setCenter(
+                        //     getLatLng(
+                        //         newLocation.latitude,
+                        //         newLocation.longitude
+                        //     )
+                        // );
                     }
                 })
                 .catch((error) => {
@@ -103,10 +109,6 @@ export default function DriverMap() {
             let pathList = [];
             path.forEach((element) => {
                 pathList.push(new naver.maps.LatLng(element[1], element[0]));
-            });
-            const polyline = new naver.maps.Polyline({
-                map: map,
-                path: pathList
             });
             polyline.setPath(pathList);
         };
@@ -158,5 +160,5 @@ function getChildrenData() {
 
 export async function fetchNowPickUpData() {
     const fetchData = await getKidInfo("driver/pickup/now/child");
-    return fetchData;
+    return fetchData.data;
 }

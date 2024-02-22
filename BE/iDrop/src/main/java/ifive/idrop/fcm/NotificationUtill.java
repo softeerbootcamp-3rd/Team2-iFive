@@ -19,7 +19,7 @@ import java.util.concurrent.ExecutionException;
 @Slf4j
 public class NotificationUtill {
 
-    static public void createNotification(Users user, String title, String message) throws ExecutionException, InterruptedException {
+    static public void createNotification(Users user, String title, String message) {
         if (user.getFcmToken() == null) {
             log.error("user = {}, FCM토큰이 없습니다", user.getUserId());
             return;
@@ -30,7 +30,13 @@ public class NotificationUtill {
                 .token(user.getFcmToken())
                 .message(message)
                 .build();
-        sendNotification(request);
+        try {
+            sendNotification(request);
+        } catch (ExecutionException e) {
+            log.error("user = {}, FCM토큰이 없습니다", user.getUserId());
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     static private void sendNotification(NotificationRequest request) throws ExecutionException, InterruptedException {

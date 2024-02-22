@@ -3,8 +3,9 @@ import styles from "./HistoryItem.module.scss";
 import { PICKUP_STATUS_MAP } from "@/constants/constants";
 import { ScheduleList } from "@/components/Schedule/ScheduleList";
 
-export function HistoryItem({ historyData }) {
+export function HistoryItem({ historyData, handleHistoryItemClick }) {
     const {
+        pickUpInfoId,
         driverName,
         driverImage,
         startDate,
@@ -16,7 +17,12 @@ export function HistoryItem({ historyData }) {
     } = formatHistoryData(historyData);
 
     return (
-        <section className={styles.historyItem}>
+        <section
+            className={styles.historyItem}
+            onClick={() =>
+                handleHistoryItemClick(pickUpInfoId, driverImage, driverName)
+            }
+        >
             <div className={styles.driverInfo}>
                 <div className={styles.driverInfoText}>
                     <div className={styles.driverNameWrapper}>
@@ -39,8 +45,7 @@ export function HistoryItem({ historyData }) {
                 </div>
                 <img
                     className={styles.driverImg}
-                    // src={driverImage}
-                    src=""
+                    src={driverImage}
                     alt="기사님 사진"
                 />
             </div>

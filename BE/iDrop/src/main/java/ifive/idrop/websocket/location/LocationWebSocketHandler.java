@@ -45,7 +45,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     private static final Map<Long, CurrentPickUp> currentPickUps; //기사 id, 현재픽업(child id, parent id, reserved time)
 
     static {
-        sgessions = new ConcurrentHashMap<>();
+        sessions = new ConcurrentHashMap<>();
         drivers = new ConcurrentHashMap<>();
         parents = new ConcurrentHashMap<>();
         currentPickUps = new ConcurrentHashMap<>();

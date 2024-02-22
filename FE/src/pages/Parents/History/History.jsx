@@ -36,7 +36,10 @@ export default function History() {
             <Header title="이용내역" />
             <main className={styles.content}>{contentElement}</main>
             <Modal isVisible={isVisible} animationType="slideLeft">
-                <HistoryDetail driverProfile={driverProfile} />
+                <HistoryDetail
+                    driverProfile={driverProfile}
+                    closeModal={closeModal}
+                />
             </Modal>
         </div>
     );

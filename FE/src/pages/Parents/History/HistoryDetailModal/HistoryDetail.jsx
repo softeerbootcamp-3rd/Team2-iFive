@@ -2,32 +2,8 @@ import { Header } from "@/components/Header/Header";
 import styles from "./HistoryDetail.module.scss";
 import { useFetch } from "../../../../hooks/useFetch";
 import { useSearchParams } from "react-router-dom";
-const fakeHistoryDetailData = {
-    message: "Data Successfully Proceed",
-    data: [
-        {
-            date: "2024-02-19",
-            day: "08:30 WEDNESDAY",
-            info: {
-                status: "픽업 시작",
-                startTime: "2024-02-19T08:30:00",
-                startImage: "image.url"
-            }
-        },
-        {
-            date: "2024-02-19",
-            day: "08:30 MONDAY",
-            info: {
-                status: "픽업 종료",
-                startTime: "2024-02-19T08:30:00",
-                startImage: "image.url",
-                endTime: "2024-02-19T08:30:00",
-                endImage: "image.url"
-            }
-        }
-    ]
-};
-export function HistoryDetail({ driverProfile }) {
+
+export function HistoryDetail({ driverProfile, closeModal }) {
     const [searchParams] = useSearchParams();
     const searchParam = searchParams.get("pickup");
     const {
@@ -37,7 +13,7 @@ export function HistoryDetail({ driverProfile }) {
     } = useFetch(`/parent/history/${searchParam}`);
 
     const cardListElement =
-        detailHistoryData?.data.length > 0 ? (
+        detailHistoryData?.data?.length > 0 ? (
             detailHistoryData.data.map((cardData) => (
                 <HistoryCard
                     cardData={cardData}
@@ -49,7 +25,7 @@ export function HistoryDetail({ driverProfile }) {
         );
     return (
         <div className={styles.container}>
-            <Header title="상세 이용 내역" />
+            <Header title="상세 이용 내역" onClick={closeModal} />
             <main className={styles.cardList}>
                 {loading ? "loading..." : cardListElement}
             </main>
@@ -67,7 +43,7 @@ function EmptyHistoryCard() {
 
 function HistoryCard({ cardData, driverProfile: { driverImage, driverName } }) {
     const { info } = cardData;
-    const isPickUpStart = info.status === "픽업 시작";
+    const isPickUpStart = info.status === "START";
     const getTime = (timeInfo) => {
         const [date, time] = timeInfo.split("T");
         return [date, time];

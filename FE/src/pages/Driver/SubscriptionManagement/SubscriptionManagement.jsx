@@ -5,7 +5,7 @@ import { Header } from "@/components/Header/Header";
 import { getKidInfo } from "@/service/api";
 import { useLoaderData } from "react-router-dom";
 
-export default function ManagementSubscription() {
+export default function SubscriptionManagement() {
     const subscribeList = useLoaderData();
 
     return (

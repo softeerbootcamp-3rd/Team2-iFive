@@ -6,6 +6,8 @@ import ifive.idrop.dto.request.SubscribeCheckRequest;
 import ifive.idrop.dto.response.*;
 import ifive.idrop.dto.request.DriverInformation;
 import ifive.idrop.entity.Driver;
+import ifive.idrop.exception.CommonException;
+import ifive.idrop.exception.ErrorCode;
 import ifive.idrop.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -50,6 +52,9 @@ public class DriverController {
 
     @GetMapping("/pickup/today/remaining")
     public BaseResponse<List<DriverTodayRemainingPickUpResponse>> getRemainingPickUpList(@Login Driver driver) {
-        return BaseResponse.of("Data Successfully Proceed", driverService.getTodayRemainingPickUpList(driver.getId()));
+        List<DriverTodayRemainingPickUpResponse> pickUpList = driverService.getTodayRemainingPickUpList(driver.getId());
+        if(pickUpList.size()==0)
+            throw new CommonException(ErrorCode.PICKUP_NOT_FOUND);
+        return BaseResponse.of("Data Successfully Proceed", pickUpList);
     }
 }

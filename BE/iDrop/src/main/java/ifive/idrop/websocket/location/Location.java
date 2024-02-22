@@ -1,0 +1,17 @@
+package ifive.idrop.websocket.location;
+
+import ifive.idrop.websocket.location.dto.DriverGeoLocation;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+
+@Getter
+@AllArgsConstructor
+public class Location {
+    private Double longitude;
+    private Double latitude;
+
+    public void update(DriverGeoLocation driverGeoLocation) {
+        this.longitude = driverGeoLocation.getLongitude();
+        this.latitude = driverGeoLocation.getLatitude();
+    }
+}

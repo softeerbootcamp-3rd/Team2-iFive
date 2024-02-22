@@ -6,11 +6,8 @@ import { useSearchParams } from "react-router-dom";
 export function HistoryDetail({ driverProfile, closeModal }) {
     const [searchParams] = useSearchParams();
     const searchParam = searchParams.get("pickup");
-    const {
-        loading,
-        error,
-        data: detailHistoryData
-    } = useFetch(`/parent/history/${searchParam}`);
+    const fetchUrl = searchParam && `/parent/history/${searchParam}`;
+    const { loading, error, data: detailHistoryData } = useFetch(fetchUrl);
 
     const cardListElement =
         detailHistoryData?.data?.length > 0 ? (
@@ -43,7 +40,7 @@ function EmptyHistoryCard() {
 
 function HistoryCard({ cardData, driverProfile: { driverImage, driverName } }) {
     const { info } = cardData;
-    const isPickUpStart = info.status === "START";
+    const isPickUpStart = true;
     const getTime = (timeInfo) => {
         const [date, time] = timeInfo.split("T");
         return [date, time];

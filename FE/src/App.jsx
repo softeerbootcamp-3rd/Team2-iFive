@@ -31,6 +31,7 @@ import ManagementSubscription, {
     fetchSubscribeList
 } from "./pages/Driver/SubscriptionManagement/SubscriptionManagement";
 import History from "./pages/Parents/History/History";
+import Profile from "./pages/Parents/Profile/Profile";
 
 export default function App() {
     return <RouterProvider router={router} />;
@@ -110,6 +111,14 @@ const router = createBrowserRouter(
                     element={
                         <RoleProvider>
                             {(isParent) => isParent && <History />}
+                        </RoleProvider>
+                    }
+                />
+                <Route
+                    path="profile"
+                    element={
+                        <RoleProvider>
+                            {(isParent) => isParent && <Profile />}
                         </RoleProvider>
                     }
                 />

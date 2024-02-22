@@ -14,7 +14,8 @@ import org.springframework.web.client.RestTemplate;
 @RequiredArgsConstructor
 public class NaverDirectionFinder {
 
-    private final String NAVER_DIRECTION_URL = "https://naveropenapi.apigw.ntruss.com/map-direction/v1/driving";
+    @Value("${naver_direction_url}")
+    private String NAVER_DIRECTION_URL;
 
     @Value("${naver_client_id}")
     private String clientId;

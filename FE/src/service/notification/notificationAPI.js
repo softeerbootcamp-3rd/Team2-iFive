@@ -1,4 +1,4 @@
-import { sendAuthRequest } from "../api";
+import { sendAuthRequest } from "../authenticationAPI";
 
 export async function sendTokenToServer(token) {
     const url = "/new";

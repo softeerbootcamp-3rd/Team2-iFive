@@ -1,6 +1,7 @@
 package ifive.idrop.filter;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import ifive.idrop.dto.request.TokenRequest;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorResponse;
 import ifive.idrop.service.UserService;
@@ -15,7 +16,7 @@ import java.io.IOException;
 
 @Slf4j
 @RequiredArgsConstructor
-public class FcmFilter implements Filter {
+public class FCMFilter implements Filter {
     private final String[] blackListUris = {"/menu"};
     private final ObjectMapper objectMapper;
     private final UserService userService;
@@ -25,9 +26,9 @@ public class FcmFilter implements Filter {
         if (isBlackList(httpServletRequest.getRequestURI()) && (httpServletRequest.getMethod().equals("POST"))) {
             try {
                 String userId = (String) request.getAttribute(JwtAuthorizationFilter.USER_ID);
-                String fcmToken = objectMapper.readValue(request.getReader(), String.class);
-                log.info("user = {}, fcmToken = {}", userId, fcmToken);
-                userService.updateFCMToken(userId, fcmToken);
+                TokenRequest tokenRequest = objectMapper.readValue(request.getReader(), TokenRequest.class);
+                log.info("user = {}, fcmToken = {}", userId, tokenRequest.getFcmToken());
+                userService.updateFCMToken(userId, tokenRequest.getFcmToken());
                 String json = objectMapper.writeValueAsString("Data Successfully Proceed");
                 response.setContentType("application/json");
                 response.setCharacterEncoding("UTF-8");

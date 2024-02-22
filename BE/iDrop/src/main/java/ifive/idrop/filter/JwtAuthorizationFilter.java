@@ -26,10 +26,10 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter implements Filter {
+    public static final String USER_ID = "userId";
     private final String[] whiteListUris = {"/user/signup", "/user/login", "/auth/refresh/token", "/ws/**"};
     private final JwtProvider jwtProvider;
     private final ObjectMapper objectMapper;
-    public static final String USER_ID = "userId";
 
     @Override
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {

@@ -3,12 +3,12 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Search.module.scss";
 import { Header } from "@/components/common/Header/Header";
 import { Footer } from "@/components/common/Footer/Footer";
-import { AddressForm } from "@/components/Search/AddressForm";
-import { DayList } from "../../components/Search/DayList";
-import { TimeList } from "../../components/Search/TimeList";
+import { AddressForm } from "./AddressForm/AddressForm";
+import { DayList } from "./DayList/DayList";
+import { TimeList } from "./TimeList/TimeList";
 import { Modal } from "../../components/common/Modal/Modal";
 import { useModal } from "../../hooks/useModal";
-import { AddressFinderMap } from "../../components/Search/AddressFinderMap";
+import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
 
 const INITIAL_LOCATIION_STATE = {
     address: "",

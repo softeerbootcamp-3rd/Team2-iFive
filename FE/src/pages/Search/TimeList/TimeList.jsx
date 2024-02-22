@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./TimeList.module.scss";
-import { LabelledList } from "../common/Layout/LabelledList";
-import { NumericSelector } from "../common/Input/NumericSelector";
+import { LabelledList } from "../../../components/common/Layout/LabelledList";
+import { NumericSelector } from "../../../components/common/Input/NumericSelector";
 import { SEARCH_PAGE } from "@/constants/constants";
 
 export function TimeList({ schedule, handleScheduleChange }) {

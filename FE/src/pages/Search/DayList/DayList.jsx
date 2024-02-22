@@ -1,6 +1,6 @@
 import styles from "./DayList.module.scss";
-import { LabelledList } from "../common/Layout/LabelledList";
-import { SEARCH_PAGE } from "../../constants/constants";
+import { LabelledList } from "../../../components/common/Layout/LabelledList";
+import { SEARCH_PAGE } from "../../../constants/constants";
 
 export function DayList({ schedule, setSchedule }) {
     const handleWeekClick = (day) => {

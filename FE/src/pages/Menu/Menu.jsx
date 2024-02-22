@@ -46,7 +46,9 @@ export function DriverMenu() {
 }
 
 export function ParentMenu() {
+
     const childrenData = useLoaderData();
+
 
     return (
         <div className={styles.wrapper}>
@@ -68,9 +70,11 @@ export function ParentMenu() {
                     route="/subscription/search"
                 />
                 <MenuButton imgUrl={User} text="프로필" route="" />
-                <MenuButton imgUrl={Star} text="이용내역" route="" />
+                <MenuButton imgUrl={Star} text="이용내역" route="/history" />
             </div>
-            <ParentBottomSheet childrenData={childrenData}></ParentBottomSheet>
+
+           <ParentBottomSheet childrenData={childrenData}/>
+
         </div>
     );
 }

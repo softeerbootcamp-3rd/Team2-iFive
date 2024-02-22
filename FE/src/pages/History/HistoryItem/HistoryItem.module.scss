@@ -1,0 +1,91 @@
+@import "@/styles/util.scss";
+@import "@/styles/color.scss";
+@import "@/styles/fontStyle.scss";
+
+.historyItem {
+    margin-top: 10px;
+    width: 90%;
+    height: fit-content;
+    min-height: 180px;
+    padding: 3px 12px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0px 0px 3px 0px rgba(0, 0, 0, 0.25);
+}
+
+.driverInfo {
+    width: 100%;
+    height: fit-content;
+    min-height: 120px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.driverInfoText {
+    width: calc(100% - 100px);
+    height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 3px;
+    align-items: flex-start;
+
+    .driverNameWrapper {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 15px;
+
+        .driverName {
+            @extend %SB_18;
+        }
+        .pickupStatus {
+            width: 47px;
+            height: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 5px;
+            @extend %R_14;
+            color: #fff;
+        }
+    }
+    .period,
+    .departure,
+    .destination {
+        width: 90%;
+        @extend %R_14;
+        color: $gray;
+        overflow: hidden;
+        word-wrap: break-word;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    }
+}
+
+.driverImg {
+    width: 100px;
+    height: 100px;
+    background-color: $gray;
+    border-radius: 50%;
+}
+
+.expired {
+    background-color: $orange;
+}
+.canceled {
+    background-color: $purple;
+}
+.pending {
+    background-color: $blue;
+}
+.proceeding {
+    background-color: $primary;
+}

@@ -1,9 +1,12 @@
 import React from "react";
 import styles from "./SubscriptionManagement.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
+import { transformSchedule } from "../../Parents/History/HistoryItem/transformSchedule";
+import { removeCityPrefix } from "../../../utils/parseData";
 import { Header } from "@/components/Header/Header";
 import { getKidInfo } from "@/service/childrenAPI";
 import { useLoaderData } from "react-router-dom";
+import { ScheduleList } from "../../../components/Schedule/ScheduleList";
 
 export default function SubscriptionManagement() {
     const subscribeList = useLoaderData();
@@ -29,21 +32,24 @@ function KidInformationBox({
     endAddress,
     parentName,
     parentPhoneNumber,
+    status,
     schedule
 }) {
     startAddress = removeCityPrefix(startAddress);
     endAddress = removeCityPrefix(endAddress);
+    schedule = transformSchedule(schedule);
     return (
         <div className={styles.content}>
             <div className={styles.kidInfo}>
                 <img className={styles.kidImg} src={childImage || iDrop}></img>
                 <div className={styles.infoBox}>
-                    <span>
-                        {childName}{" "}
+                    <div>
+                        <span className={styles.name}>{childName}</span>
                         <span className={styles.birthDay}>
                             {childGender}, {childBirth}
                         </span>
-                    </span>
+                    </div>
+
                     <span>
                         {startDate} ~ {endDate}
                     </span>
@@ -57,17 +63,17 @@ function KidInformationBox({
                     {startAddress} <br /> {"→"} {endAddress}
                 </span>
             </div>
-            <div>수 8:30</div>
+            <ScheduleList schedule={schedule} status={status} />
             <div className={styles.btnBox}>
-                <button className={styles.denyButton}>거절</button>
-                <button className={styles.acceptButton}>수락</button>
+                {status !== "승인" && (
+                    <>
+                        <button className={styles.denyButton}>거절</button>
+                        <button className={styles.acceptButton}>수락</button>
+                    </>
+                )}
             </div>
         </div>
     );
-}
-
-function removeCityPrefix(address) {
-    return address !== null ? address.replace("서울특별시 ", "") : "null";
 }
 
 export async function fetchSubscribeList() {

@@ -1,5 +1,7 @@
 package ifive.idrop.websocket.direction;
 
+import ifive.idrop.websocket.direction.dto.Direction;
+import ifive.idrop.websocket.direction.dto.NaverDirectionResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;

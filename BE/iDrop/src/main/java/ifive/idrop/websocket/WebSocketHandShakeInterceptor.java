@@ -29,17 +29,12 @@ public class WebSocketHandShakeInterceptor implements HandshakeInterceptor {
     @Override
     public boolean beforeHandshake(ServerHttpRequest request, ServerHttpResponse response, WebSocketHandler wsHandler, Map<String, Object> attributes) throws Exception {
         String accessToken = request.getHeaders().getFirst("Sec-WebSocket-Protocol");
-
-        String subProtocol = new String(accessToken);
-        response.getHeaders().set("Sec-WebSocket-Protocol", subProtocol);
+        response.getHeaders().set("Sec-WebSocket-Protocol", accessToken);
 
         try {
             AuthenticateUser authenticateUser = getAuthenticateUser(accessToken);
             Optional<Users> user = userRepository.findByUserId(authenticateUser.getUserId());
-            if (user.isEmpty()) {
-                return false;
-            }
-            return true;
+            return user.isPresent();
         } catch (Exception e) {
             response.setStatusCode(HttpStatus.UNAUTHORIZED);
             return false;

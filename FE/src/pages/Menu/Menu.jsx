@@ -68,7 +68,7 @@ export function ParentMenu() {
                     text="구독하기"
                     route="/subscription/search"
                 />
-                <MenuButton imgUrl={User} text="프로필" route="" />
+                <MenuButton imgUrl={User} text="프로필" route="/profile" />
                 <MenuButton imgUrl={Star} text="이용내역" route="/history" />
             </div>
 

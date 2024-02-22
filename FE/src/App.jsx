@@ -27,7 +27,9 @@ import SubscriptionConfirmation from "./pages/Confirmation/Confirmation";
 import ParentMap from "./components/Map/ParentMap";
 import DriverMap, { fetchNowPickUpData } from "./components/Map/DriverMap";
 import EndPickUp from "./pages/EndPickUp/EndPickUp";
-import ManagementSubscription from "./pages/DriverSubsPage/Management";
+import ManagementSubscription, {
+    fetchSubscribeList
+} from "./pages/DriverSubsPage/Management";
 
 export default function App() {
     return <RouterProvider router={router} />;
@@ -43,10 +45,11 @@ const router = createBrowserRouter(
             />
             <Route path="signup" element={<ParentSignUp />} />
             <Route path="login" loader={loginLoader} element={<Login />} />
-            <Route id="auth" loader={checkAuthLoader} errorElement={<Login />}>
+            <Route id="auth" loader={checkAuthLoader}>
                 <Route path="logout" loader={logoutLoader} />
                 <Route
                     path="map"
+                    // TODO: Driver일 경우 loader로 비동기 처리
                     element={
                         <RoleProvider>
                             {(isParent) =>
@@ -120,6 +123,7 @@ const router = createBrowserRouter(
 
                 <Route
                     path="pickup/request"
+                    loader={fetchSubscribeList}
                     element={
                         <RoleProvider>
                             {(isParent) =>

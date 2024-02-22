@@ -27,7 +27,7 @@ public class PickUpHistoryResponse {
     @Builder
     @Getter
     static class Info {
-        private PickUpInfoStatus status;
+        private String status;
         private LocalDateTime startTime;
         private String startImage;
 
@@ -43,7 +43,7 @@ public class PickUpHistoryResponse {
                     .startImage(pickUp.getStartImage())
                     .endTime(pickUp.getEndTime())
                     .endImage(pickUp.getEndImage())
-                    .status(pickUp.getEndTime() != null ? PickUpInfoStatus.DONE : PickUpInfoStatus.START)
+                    .status(pickUp.getEndTime() != null ? PickUpInfoStatus.DONE.getStatus() : PickUpInfoStatus.START.getStatus())
                     .build();
         }
     }

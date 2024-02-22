@@ -45,16 +45,14 @@ export function ContentsBox({ childrenData, type }) {
                         src={childImage || iDrop}
                     ></img>
                     <div className={styles.infoBox}>
-                        <div>
-                            <span> {childName} </span>
-                            {isSelectPage ? (
-                                <button onClick={() => movePage(index)}>
-                                    픽업시작
-                                </button>
-                            ) : (
-                                ""
-                            )}
-                        </div>
+                        <span> {childName} </span>
+                        {isSelectPage ? (
+                            <button onClick={() => movePage(index)}>
+                                픽업시작
+                            </button>
+                        ) : (
+                            ""
+                        )}
                         <span>{timeMsg}</span>
                         <span>
                             {startAddress} {"→"} {endAddress}

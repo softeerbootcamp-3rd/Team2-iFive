@@ -16,10 +16,10 @@
     text-align: left;
     width: 80%;
     span:first-child {
-        @extend %M_24;
+        @extend %B_18;
     }
-    span:last-child {
-        @extend %R_16;
+    span {
+        @extend %R_14;
     }
 
     button {

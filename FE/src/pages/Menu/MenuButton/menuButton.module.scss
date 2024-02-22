@@ -1,3 +1,5 @@
+@import "@/styles/fontStyle.scss";
+
 .wrapper {
     display: flex;
     flex-direction: column;
@@ -12,5 +14,10 @@
 
     img {
         width: 60%;
+        height: 60%;
     }
+}
+
+span {
+    @extend %B_16;
 }

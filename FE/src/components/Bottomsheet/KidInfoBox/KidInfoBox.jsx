@@ -9,9 +9,10 @@ export function DriverContents({ childrenData }) {
     return (
         <>
             <span className={styles.headMessage}>{headerMsg}</span>
-            {isHaveData && (
-                <ContentsBox childrenData={childrenData} type="driver" />
-            )}
+            {isHaveData &&
+                childrenData.map((child, index) => (
+                    <ContentsBox key={index} {...child} type="driver" />
+                ))}
         </>
     );
 }
@@ -24,7 +25,10 @@ export function ParentContents({ childrenData }) {
     return (
         <>
             <span className={styles.headMessage}>{headerMsg}</span>
-            <ContentsBox childrenData={childrenData} type="parent" />
+            {isHaveData &&
+                childrenData.map((child, index) => (
+                    <ContentsBox key={index} {...child} type="parent" />
+                ))}
         </>
     );
 }

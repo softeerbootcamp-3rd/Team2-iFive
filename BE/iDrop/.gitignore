@@ -39,3 +39,4 @@ out/
 /src/main/resources/*.sql
 
 .DS_Store
+.jmx

@@ -1,6 +1,7 @@
 package ifive.idrop.websocket.direction;
 
 import ifive.idrop.entity.PickUpLocation;
+import ifive.idrop.websocket.location.DriverGeoLocation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,5 +52,9 @@ public class NaverDirectionFinder {
 
     public String getEndLocationForApi(PickUpLocation pickUpLocation) {
         return pickUpLocation.getEndLongitude() + "," + pickUpLocation.getEndLatitude();
+    }
+
+    public String getLocationForApi(DriverGeoLocation location) {
+        return location.getLongitude() + "," + location.getLatitude();
     }
 }

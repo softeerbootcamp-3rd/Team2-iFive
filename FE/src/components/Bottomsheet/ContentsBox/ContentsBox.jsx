@@ -49,8 +49,7 @@ export function ContentsBox({ childrenData, type }) {
                             <span> {childName} </span>
                             {isSelectPage ? (
                                 <button onClick={() => movePage(index)}>
-                                    {" "}
-                                    픽업시작{" "}
+                                    픽업시작
                                 </button>
                             ) : (
                                 ""

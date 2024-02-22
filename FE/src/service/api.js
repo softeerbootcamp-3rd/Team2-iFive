@@ -164,8 +164,7 @@ export async function getKidInfo(parameter) {
     try {
         const response = await sendAuthRequest(`${BASE_URL}/${parameter}`);
         if (response.ok) {
-            const kidInfo = await response.json();
-            return kidInfo.data;
+            return await response.json();
         } else {
             console.error("Failed to GET kid information");
             throw new Error("Failed to GET kid information");
@@ -176,18 +175,19 @@ export async function getKidInfo(parameter) {
     }
 }
 
-export async function postKidInfo(kidInfo) {
+export async function postKidInfo(kidData) {
     try {
-        const response = await sendAuthRequest(`${BASE_URL}/pickup`, {
+        const response = await sendAuthRequest(`${BASE_URL}/driver/pickup`, {
             method: "POST",
-            headers: { "Content-Type": "multipart/form-data" },
-            body: kidInfo
+            body: kidData
         });
-
         if (response.ok) {
             console.log("이미지 업로드 성공");
+            return true;
         } else {
-            console.error("이미지 업로드 실패.");
+            const data = await response.json();
+            alert(`${data.message}\n${data.solution}`);
+            return false;
         }
     } catch (error) {
         throw error;

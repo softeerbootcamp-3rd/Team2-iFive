@@ -1,20 +1,25 @@
 import { useEffect, useRef } from "react";
-import { useLocation } from "react-router-dom";
+import { useLocation, useLoaderData } from "react-router-dom";
 import styles from "./map.module.scss";
 import { useMap } from "../../hooks/useMap";
 import { useCoords } from "../../hooks/useCoords";
 import { getLatLng } from "../../utils/map";
 import { useMarker } from "../../hooks/useMarker";
 import { Loader } from "../common/Loader/Loader";
-import { WEBSOCKET_URL, ACCESS_TOKEN } from "../../constants/constants";
+import { WEBSOCKET_URL } from "../../constants/constants";
 import { getCurrentLocation } from "../../utils/coords";
 import { getAccessToken } from "../../utils/auth";
 import { DriverBottomSheet } from "../common/Bottomsheet/Bottomsheet";
-import { useFetchGet } from "../../hooks/useFetch";
 import Car from "@/assets/car.svg";
+import { getKidInfo } from "../../service/api";
 
 export default function DriverMap() {
-    const kidData = getKidData();
+    const ACCESS_TOKEN = getAccessToken();
+
+    const childrenData = getChildrenData();
+    const kidData = childrenData[0];
+
+    const fetchData = useLoaderData();
 
     const mapElementRef = useRef();
     const {
@@ -93,6 +98,18 @@ export default function DriverMap() {
         }, 1000);
 
         webSocketRef.current.onopen = () => console.log("WebSocket connected");
+        webSocketRef.current.onmessage = ({ data }) => {
+            const { path } = JSON.parse(data);
+            let pathList = [];
+            path.forEach((element) => {
+                pathList.push(new naver.maps.LatLng(element[1], element[0]));
+            });
+            const polyline = new naver.maps.Polyline({
+                map: map,
+                path: pathList
+            });
+            polyline.setPath(pathList);
+        };
         webSocketRef.current.onerror = (error) =>
             console.error("WebSocket error: ", error);
         webSocketRef.current.onclose = () =>
@@ -109,7 +126,7 @@ export default function DriverMap() {
         <div className={styles.wrapper}>
             {!map && <Loader />}
             <div ref={mapElementRef} id="map" className={styles.map} />
-            <DriverBottomSheet data={kidData} />
+            <DriverBottomSheet childrenData={childrenData} />
         </div>
     );
 }
@@ -122,19 +139,24 @@ const header = {
 
 const content = [
     "<div>",
-    `       <img src="${Car}" width="35" height="35" alt="현재 위치"/>`,
+    `       <img src="${Car}" width="40" height="40" alt="현재 위치"/>`,
     "</div>"
 ].join("");
 const markerIcon = {
     icon: {
-        content,
-        size: new naver.maps.Size(20, 20),
-        origin: new naver.maps.Point(16, 16)
+        content
+        // size: new naver.maps.Size(40, 40),
+        // origin: new naver.maps.Point(16, 16)
         // anchor: new naver.maps.Point(25, 26)
     }
 };
 
-function getKidData() {
+function getChildrenData() {
     const location = useLocation();
-    return location.state.kidData;
+    return location.state.childrenData;
+}
+
+export async function fetchNowPickUpData() {
+    const fetchData = await getKidInfo("driver/pickup/now/child");
+    return fetchData;
 }

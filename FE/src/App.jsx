@@ -22,17 +22,16 @@ import DriverDetail, {
     loader as driverDetailLoader
 } from "./pages/DriverDetail/DriverDetail";
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
-import {
-    DriverMenu,
-    ParentMenu,
-    fetchDriverChildData,
-    fetchParentChildData
-} from "./pages/Menu/Menu";
+import { DriverMenu, ParentMenu, fetchMenuData } from "./pages/Menu/Menu";
 import SubscriptionConfirmation from "./pages/Confirmation/Confirmation";
 import ParentMap from "./components/Map/ParentMap";
-import DriverMap from "./components/Map/DriverMap";
+import DriverMap, { fetchNowPickUpData } from "./components/Map/DriverMap";
 import EndPickUp from "./pages/EndPickUp/EndPickUp";
+import ManagementSubscription, {
+    fetchSubscribeList
+} from "./pages/DriverSubsPage/Management";
 import History, { loader as historyLoader } from "./pages/History/History";
+
 
 export default function App() {
     return <RouterProvider router={router} />;
@@ -52,6 +51,7 @@ const router = createBrowserRouter(
                 <Route path="logout" loader={logoutLoader} />
                 <Route
                     path="map"
+                    // TODO: Driver일 경우 loader로 비동기 처리
                     element={
                         <RoleProvider>
                             {(isParent) =>
@@ -62,12 +62,7 @@ const router = createBrowserRouter(
                 />
                 <Route
                     path="menu"
-                    loader={({ isParent }) => {
-                        const fetchData = isParent
-                            ? fetchParentChildData()
-                            : fetchDriverChildData();
-                        return fetchData;
-                    }}
+                    loader={fetchMenuData}
                     element={
                         <RoleProvider>
                             {(isParent) =>
@@ -133,6 +128,18 @@ const router = createBrowserRouter(
                     element={
                         <RoleProvider>
                             {(isParent) => !isParent && <EndPickUp />}
+                        </RoleProvider>
+                    }
+                />
+
+                <Route
+                    path="pickup/request"
+                    loader={fetchSubscribeList}
+                    element={
+                        <RoleProvider>
+                            {(isParent) =>
+                                !isParent && <ManagementSubscription />
+                            }
                         </RoleProvider>
                     }
                 />

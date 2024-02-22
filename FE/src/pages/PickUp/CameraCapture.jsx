@@ -43,8 +43,9 @@ export function CameraCapture({ onSetImage }) {
             size,
             size
         );
-        const capturedImage = canvasRef.current.toDataURL("image/png");
-        onSetImage(capturedImage);
+        canvasRef.current.toBlob((blob) => {
+            onSetImage(blob);
+        }, "image.jpeg");
         setIsToggle(!isToggle);
         videoRef.current.srcObject = null;
         videoRef.current.style.display = "none";

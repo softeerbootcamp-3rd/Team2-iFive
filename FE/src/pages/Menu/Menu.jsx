@@ -1,5 +1,7 @@
+import { useLoaderData } from "react-router-dom";
+import { getKidInfo } from "../../service/api";
 import styles from "./Menu.module.scss";
-import { MenuButton } from "./menuButton";
+import { MenuButton } from "./MenuButton";
 import iDropGreen from "@/assets/iDropGreen.svg";
 import {
     DriverBottomSheet,
@@ -11,12 +13,10 @@ import Success from "@/assets/Success.svg";
 import User from "@/assets/user_icon.svg";
 import Calender from "@/assets/calender.svg";
 import Truck from "@/assets/truck.png";
-import { getKidInfo } from "../../service/api";
-import { useLoaderData } from "react-router-dom";
 
 const userName = null;
 export function DriverMenu() {
-    const kidData = useLoaderData();
+    const childrenData = useLoaderData();
 
     return (
         <div className={styles.wrapper}>
@@ -31,18 +31,24 @@ export function DriverMenu() {
                     imgUrl={Truck}
                     text="픽업하기"
                     route="/pickup"
-                    data={kidData}
+                    data={childrenData}
                 />
                 <MenuButton imgUrl={User} text="프로필" route="" />
-                <MenuButton imgUrl={Success} text="요청 목록" route="" />
+                <MenuButton
+                    imgUrl={Success}
+                    text="요청 목록"
+                    route="/pickup/request"
+                />
             </div>
-            <DriverBottomSheet data={kidData} />
+            <DriverBottomSheet childrenData={childrenData} />
         </div>
     );
 }
 
 export function ParentMenu() {
-    const kidData = useLoaderData();
+
+    const childrenData = useLoaderData();
+
 
     return (
         <div className={styles.wrapper}>
@@ -56,7 +62,7 @@ export function ParentMenu() {
                     imgUrl={Location}
                     text="실시간 픽업"
                     route="/map?type=parent"
-                    data={kidData}
+                    data={childrenData}
                 />
                 <MenuButton
                     imgUrl={Success}
@@ -66,43 +72,21 @@ export function ParentMenu() {
                 <MenuButton imgUrl={User} text="프로필" route="" />
                 <MenuButton imgUrl={Star} text="이용내역" route="/history" />
             </div>
-            <ParentBottomSheet kidData={kidData} />
+
+           <ParentBottomSheet childrenData={childrenData}/>
+
         </div>
     );
 }
 
-const exampleData = [
-    {
-        childId: 1,
-        childName: "김하나",
-        childImage: "image",
-        startDate: "2024-02-19T09:30:00",
-        endDate: "2024-02-19T09:30:00",
-        startLatitude: 37.5138649,
-        startLongitude: 127.0295296,
-        startAddress: "서울특별시 강남구 논현동 58-3 에티버스러닝 학동캠퍼스",
-        endLatitude: 37.51559,
-        endLongitude: 127.0316161,
-        endAddress: "서울특별시 강남구 학동로31길 15 코마츠",
-        pickUpStartTime: "2024-02-19T08:30:00",
-        pickUpEndTime: "2024-02-19T09:30:00"
-    }
-];
-
-export async function fetchParentChildData() {
-    // const kidData = await getKidInfo("parent/pickup/now");
-    const result = parseData(exampleData);
+export async function fetchMenuData() {
+    const childrenData = await getKidInfo("user/pickup/now");
+    const result = parseData(childrenData.data);
     return result;
 }
 
-export async function fetchDriverChildData() {
-    // const kidData = await getKidInfo("driver/pickup/now");
-    const result = parseData(exampleData);
-    return result;
-}
-
-function parseData(kidData) {
-    return kidData.map((element) => {
+function parseData(childrenData) {
+    return childrenData.map((element) => {
         return {
             ...element,
             startAddress: removeCityPrefix(element.startAddress),
@@ -116,13 +100,15 @@ function parseData(kidData) {
 }
 
 function removeCityPrefix(address) {
-    return address.replace("서울특별시 ", "");
+    return address !== null ? address.replace("서울특별시 ", "") : "null";
 }
 
 function formatDate(dateString) {
-    return dateString.split("T")[0];
+    return dateString !== null ? dateString.split("T")[0] : "null";
 }
 
 function formatTime(timeString) {
-    return timeString.split("T")[1].slice(0, 5);
+    return timeString !== undefined
+        ? timeString.split("T")[1].slice(0, 5)
+        : "null";
 }

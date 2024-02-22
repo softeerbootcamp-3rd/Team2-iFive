@@ -7,6 +7,7 @@ import { Header } from "@/components/Header/Header";
 import { getKidInfo } from "@/service/childrenAPI";
 import { useLoaderData } from "react-router-dom";
 import { ScheduleList } from "../../../components/Schedule/ScheduleList";
+import { postSubscribeRequest } from "../../../service/driverAPI";
 
 export default function SubscriptionManagement() {
     const subscribeList = useLoaderData();
@@ -22,6 +23,7 @@ export default function SubscriptionManagement() {
 }
 
 function KidInformationBox({
+    pickUpInfoId,
     childImage,
     childName,
     childBirth,
@@ -38,16 +40,27 @@ function KidInformationBox({
     startAddress = removeCityPrefix(startAddress);
     endAddress = removeCityPrefix(endAddress);
     schedule = transformSchedule(schedule);
+
+    const handleSubscription = async (pickUpId, status) => {
+        const postData = {
+            pickUpInfoId: pickUpId,
+            statusCode: status
+        };
+        console.log(pickUpId, status);
+        // await postSubscribeRequest(postData);
+    };
+
     return (
         <div className={styles.content}>
             <div className={styles.kidInfo}>
                 <img className={styles.kidImg} src={childImage || iDrop}></img>
                 <div className={styles.infoBox}>
-                    <div>
+                    <div className={styles.profiles}>
                         <span className={styles.name}>{childName}</span>
                         <span className={styles.birthDay}>
                             {childGender}, {childBirth}
                         </span>
+                        <div className={styles.status}>{status}</div>
                     </div>
 
                     <span>
@@ -67,14 +80,39 @@ function KidInformationBox({
             <div className={styles.btnBox}>
                 {status !== "승인" && (
                     <>
-                        <button className={styles.denyButton}>거절</button>
-                        <button className={styles.acceptButton}>수락</button>
+                        <button
+                            className={styles.denyButton}
+                            onClick={() =>
+                                handleSubscription(
+                                    pickUpInfoId,
+                                    statusCode.refuse
+                                )
+                            }
+                        >
+                            거절
+                        </button>
+                        <button
+                            className={styles.acceptButton}
+                            onClick={() =>
+                                handleSubscription(
+                                    pickUpInfoId,
+                                    statusCode.accept
+                                )
+                            }
+                        >
+                            수락
+                        </button>
                     </>
                 )}
             </div>
         </div>
     );
 }
+
+const statusCode = {
+    accept: 1,
+    refuse: 0
+};
 
 export async function fetchSubscribeList() {
     const fetchData = await getKidInfo("driver/subscribe/list");

@@ -17,8 +17,9 @@
     height: calc(100% - 140px);
     display: flex;
     flex-direction: column;
-    justify-content: space-between;
+    justify-content: flex-start;
     align-items: center;
+    gap: 30px;
     overflow-y: scroll;
     @extend %hideScrollBar;
 }

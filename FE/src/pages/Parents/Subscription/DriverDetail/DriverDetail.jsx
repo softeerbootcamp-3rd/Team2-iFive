@@ -63,7 +63,7 @@ export default function DriverDetail() {
             <Header title="기사님 정보" />
             <main className={styles.main}>
                 <section className={styles.profile}>
-                    <div className={styles.profileImg}></div>
+                    <img src={image} className={styles.profileImg} />
                     <article className={styles.profileTextWrapper}>
                         <h3 className={styles.name}>{name}</h3>
                         <h4 className={styles.age}>{`${birth} (${gender})`}</h4>

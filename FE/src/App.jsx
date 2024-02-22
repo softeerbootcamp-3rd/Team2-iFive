@@ -24,14 +24,13 @@ import DriverDetail, {
 import ParentSignUp from "./pages/SignUp/ParentSignUp";
 import { DriverMenu, ParentMenu, fetchMenuData } from "./pages/Menu/Menu";
 import SubscriptionConfirmation from "./pages/Confirmation/Confirmation";
-import ParentMap from "./components/Map/ParentMap";
-import DriverMap, { fetchNowPickUpData } from "./components/Map/DriverMap";
+import ParentMap from "./pages/Map/ParentMap";
+import DriverMap from "./pages/Map/DriverMap";
 import EndPickUp from "./pages/EndPickUp/EndPickUp";
 import ManagementSubscription, {
     fetchSubscribeList
 } from "./pages/DriverSubsPage/Management";
 import History, { loader as historyLoader } from "./pages/History/History";
-
 
 export default function App() {
     return <RouterProvider router={router} />;

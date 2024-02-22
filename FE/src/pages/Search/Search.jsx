@@ -3,10 +3,12 @@ import { useNavigate } from "react-router-dom";
 import styles from "./Search.module.scss";
 import { Header } from "@/components/common/Header/Header";
 import { Footer } from "@/components/common/Footer/Footer";
-import { Modal } from "@/components/Search/Modal";
 import { AddressForm } from "@/components/Search/AddressForm";
 import { DayList } from "../../components/Search/DayList";
 import { TimeList } from "../../components/Search/TimeList";
+import { Modal } from "../../components/common/Modal/Modal";
+import { useModal } from "../../hooks/useModal";
+import { AddressFinderMap } from "../../components/Search/AddressFinderMap";
 
 const INITIAL_LOCATIION_STATE = {
     address: "",
@@ -16,31 +18,24 @@ const INITIAL_LOCATIION_STATE = {
 
 export default function Search() {
     const [schedule, setSchedule] = useState({});
-    const [modalOpen, setModalOpen] = useState(false);
-    const [mapFor, setMapFor] = useState("");
+    const [mapFor, setMapFor] = useState("departure");
     const [detailAddress, setDetailAddress] = useState({
         departure: "",
         destination: ""
     });
-
     const [location, setLocation] = useState({
         departure: { ...INITIAL_LOCATIION_STATE },
         destination: { ...INITIAL_LOCATIION_STATE }
     });
-
     const navigate = useNavigate();
+
+    const { isVisible, open: openModal, close: closeModal } = useModal();
 
     const handleOpenModal = ({ target: { name } }) => {
         setMapFor(name);
-
-        setModalOpen(true);
+        openModal();
     };
 
-    const handleCloseModal = () => {
-        setModalOpen(false);
-    };
-
-    // 상위에서 이렇게 함수를 만들어서 넘겨주는게 좋은지 set함수만 넘기고 사용하는 곳에서 함수로 만드는 것이 좋은지 모르겠음
     const handleLocationSelect = (data) => {
         setLocation((prevLocation) => ({
             ...prevLocation,
@@ -81,6 +76,21 @@ export default function Search() {
         });
     };
 
+    const handleAddressChange = async ({ target: { value } }) => {
+        setLocation((prevLocation) => ({
+            ...prevLocation,
+            [mapFor]: { ...prevLocation[mapFor], address: value }
+        }));
+        // const { address, point } = await searchAddressToCoordinate(value);
+    };
+
+    const handleDetailAddressChange = ({ target: { value } }) => {
+        setDetailAddress((prev) => ({
+            ...prev,
+            [mapFor]: value
+        }));
+    };
+
     return (
         <>
             <main className={styles.container}>
@@ -104,16 +114,47 @@ export default function Search() {
                     }
                     isButtonDisabled={!isButtonActive}
                 />
+
                 <Modal
-                    mapFor={mapFor}
-                    isOpen={modalOpen}
-                    onClose={handleCloseModal}
-                    location={location}
-                    setLocation={setLocation}
-                    handleLocationSelect={handleLocationSelect}
-                    detailAddress={detailAddress}
-                    setDetailAddress={setDetailAddress}
-                />
+                    isVisible={isVisible}
+                    onClose={closeModal}
+                    width="100%"
+                    height="100dvh"
+                >
+                    <div className={styles.modalContainer}>
+                        <AddressFinderMap
+                            handleLocationSelect={handleLocationSelect}
+                        />
+                        <div className={styles.addressWrapper}>
+                            <label htmlFor="address">
+                                {mapFor === "departure" ? "출발지" : "도착지"}
+                            </label>
+                            <input
+                                name="address"
+                                className={styles.address}
+                                type="text"
+                                value={location[mapFor].address}
+                                onChange={handleAddressChange}
+                                placeholder="지도를 이동해 주세요"
+                                readOnly
+                            />
+                            <label htmlFor="detailAddress">상세주소</label>
+                            <input
+                                name="detailAddress"
+                                className={styles.address}
+                                type="text"
+                                value={detailAddress[mapFor]}
+                                onChange={handleDetailAddressChange}
+                                placeholder="상세 주소가 있다면 적어주세요"
+                            />
+                        </div>
+                        <Footer
+                            className={styles.closeButton}
+                            onClick={closeModal}
+                            text="완료"
+                        />
+                    </div>
+                </Modal>
             </main>
         </>
     );

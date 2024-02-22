@@ -32,3 +32,86 @@ export const fakeDriversListData = {
         }
     ]
 };
+
+export const fakeHistoryData = [
+    {
+        pickUpInfoId: 1,
+        driverName: "기사1",
+        driverImage: "https://profile.jpg",
+        startDate: "2024-02-21",
+        endDate: "2024-03-19",
+        startAddress: "서울특별시 강남구 논현동 58-3 에티버스러닝 학동캠퍼스",
+        endAddress: "서울특별시 강남구 학동로31길 15 코마츠",
+        status: "픽업중",
+        schedule: {
+            Wed: {
+                min: 30,
+                hour: 8
+            },
+            Mon: {
+                min: 30,
+                hour: 8
+            }
+        }
+    },
+    {
+        pickUpInfoId: 2,
+        driverName: "기사2",
+        driverImage: "https://profile.jpg",
+        startDate: "2024-02-21",
+        endDate: "2024-03-19",
+        startAddress: "서울특별시 강남구 논현동 58-3 에티버스러닝 학동캠퍼스",
+        endAddress: "서울특별시 강남구 학동로31길 15 코마츠",
+        status: "대기중",
+        schedule: {
+            Wed: {
+                min: 30,
+                hour: 8
+            },
+            Mon: {
+                min: 30,
+                hour: 8
+            }
+        }
+    },
+    {
+        pickUpInfoId: 3,
+        driverName: "기사4",
+        driverImage: "https://profile.jpg",
+        startDate: "2024-02-21",
+        endDate: "2024-03-19",
+        startAddress: "서울특별시 강남구 논현동 58-3 에티버스러닝 학동캠퍼스",
+        endAddress: "서울특별시 강남구 학동로31길 15 코마츠",
+        status: "만료됨",
+        schedule: {
+            Wed: {
+                min: 30,
+                hour: 8
+            },
+            Mon: {
+                min: 30,
+                hour: 8
+            }
+        }
+    },
+    {
+        pickUpInfoId: 4,
+        driverName: "기사5",
+        driverImage: "https://profile.jpg",
+        startDate: "2024-02-21",
+        endDate: "2024-03-19",
+        startAddress: "서울특별시 강남구 논현동 58-3 에티버스러닝 학동캠퍼스",
+        endAddress: "서울특별시 강남구 학동로31길 15 코마츠",
+        status: "만료됨",
+        schedule: {
+            Wed: {
+                min: 30,
+                hour: 8
+            },
+            Mon: {
+                min: 30,
+                hour: 8
+            }
+        }
+    }
+];

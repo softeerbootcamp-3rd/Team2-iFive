@@ -44,8 +44,6 @@ export function DriverMenu() {
 export function ParentMenu() {
     const kidData = useLoaderData();
 
-    console.log(kidData);
-
     return (
         <div className={styles.wrapper}>
             <img src={iDropGreen}></img>
@@ -66,9 +64,9 @@ export function ParentMenu() {
                     route="/subscription/search"
                 />
                 <MenuButton imgUrl={User} text="프로필" route="" />
-                <MenuButton imgUrl={Star} text="이용내역" route="" />
+                <MenuButton imgUrl={Star} text="이용내역" route="/history" />
             </div>
-            <ParentBottomSheet kidData={kidData}></ParentBottomSheet>
+            <ParentBottomSheet kidData={kidData} />
         </div>
     );
 }

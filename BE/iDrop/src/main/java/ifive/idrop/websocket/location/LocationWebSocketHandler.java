@@ -65,7 +65,6 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         if (user.getRole() == DRIVER) {
             Long driverId = ((Driver) user).getId();
             drivers.put(sessionId, driverId);
-
             try {
                 CurrentPickUp currentPickUp = setCurrentPickUps(driverId);
                 Direction direction = directionFinder.getDirection(currentPickUp.getStartLocation(), currentPickUp.getEndLocation());
@@ -101,10 +100,14 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         }
         else {
             if (!driverLocation.isSameLocation(lastLocation)) { //전에 왔던 위치와 다른 위치
-                Direction direction = directionFinder.getDirection(currentPickUp.getStartLocation(), currentPickUp.getEndLocation());
+                Direction direction = directionFinder.getDirection(driverLocation.getLocation(), currentPickUp.getEndLocation());
                 session.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
                 lastLocation.update(driverLocation);
                 lastLocations.replace(sessionId, lastLocation);
+
+                String parentSessionId = parents.get(currentPickUp.getParentId());
+                WebSocketSession parentSession = sessions.get(parentSessionId);
+                parentSession.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
             }
         }
 

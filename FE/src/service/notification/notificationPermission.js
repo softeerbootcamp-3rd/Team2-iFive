@@ -1,5 +1,5 @@
 import { getToken } from "firebase/messaging";
-import { sendTokenToServer } from "./api";
+import { postFcmToken } from "./api";
 import { registerServiceWorker } from "./registerServiceWorker";
 
 export async function handleAllowNotification() {
@@ -12,7 +12,7 @@ export async function handleAllowNotification() {
             });
             if (token) {
                 // console.log(`fcm 토큰 발급 완료 : ${token}`);
-                sendTokenToServer(token);
+                postFcmToken(token);
             } else {
                 alert(
                     "토큰 등록이 불가능 합니다. 생성하려면 권한을 허용해주세요"

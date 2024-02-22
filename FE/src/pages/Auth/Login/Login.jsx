@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styles from "./Login.module.scss";
 import { redirect, useNavigate } from "react-router-dom";
-import { login } from "@/service/authenticationAPI";
+import { postLogin } from "@/service/authenticationAPI";
 import { getAccessToken, setToken } from "@/utils/auth";
 
 export default function Login() {
@@ -11,7 +11,7 @@ export default function Login() {
 
     const handleLogin = async (e) => {
         e.preventDefault();
-        const { success, data, message } = await login({
+        const { success, data, message } = await postLogin({
             id: userId,
             password
         });

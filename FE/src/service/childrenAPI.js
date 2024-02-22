@@ -1,9 +1,9 @@
-import { sendAuthRequest } from "./authenticationAPI";
+import { authRequest } from "./authenticationAPI";
 import { BASE_URL } from "@/constants/constants";
 
 export async function getKidInfo(parameter) {
     try {
-        const response = await sendAuthRequest(`${BASE_URL}/${parameter}`);
+        const response = await authRequest(`${BASE_URL}/${parameter}`);
         if (response.ok) {
             return await response.json();
         } else {
@@ -18,7 +18,7 @@ export async function getKidInfo(parameter) {
 
 export async function postKidInfo(kidData) {
     try {
-        const response = await sendAuthRequest(`${BASE_URL}/driver/pickup`, {
+        const response = await authRequest(`${BASE_URL}/driver/pickup`, {
             method: "POST",
             body: kidData
         });

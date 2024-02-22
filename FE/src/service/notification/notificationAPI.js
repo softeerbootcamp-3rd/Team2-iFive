@@ -1,10 +1,10 @@
-import { sendAuthRequest } from "../authenticationAPI";
+import { authRequest } from "../authenticationAPI";
 
-export async function sendTokenToServer(token) {
+export async function postFcmToken(token) {
     const url = "/new";
 
     try {
-        const response = await sendAuthRequest(url, {
+        const response = await authRequest(url, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
@@ -25,7 +25,7 @@ export async function getAlarm() {
     const url = "/alarm";
 
     try {
-        const response = await sendAuthRequest(url, {
+        const response = await authRequest(url, {
             method: "GET",
             headers: {
                 "Content-Type": "application/json"

@@ -10,7 +10,7 @@ import { getAccessToken, getRefreshToken } from "@/utils/auth";
  * 로그인 성공 시 { success: true, data: Object },
  * 실패 시 { success: false, message: string } 반환
  */
-export async function login({ id, password }) {
+export async function postLogin({ id, password }) {
     try {
         const response = await fetch(`${BASE_URL}/user/login`, {
             method: "POST",
@@ -37,7 +37,7 @@ export async function login({ id, password }) {
 }
 
 // TODO - 배포 주소로 변경
-async function refreshAccessToken() {
+async function postAccessToken() {
     const refreshToken = getRefreshToken();
     const response = await fetch("/api/refresh_token", {
         method: "POST",
@@ -55,7 +55,7 @@ async function refreshAccessToken() {
     }
 }
 
-export async function sendAuthRequest(url, options = {}) {
+export async function authRequest(url, options = {}) {
     const accessToken = getAccessToken();
     if (accessToken) {
         options.headers = {
@@ -69,7 +69,7 @@ export async function sendAuthRequest(url, options = {}) {
     // TODO - 액세스 토큰이 만료되었을 경우 로직, status 코드 백엔드에 따라 변경 필요
     if (response.status === 401) {
         try {
-            const newAccessToken = await refreshAccessToken();
+            const newAccessToken = await postAccessToken();
             options.headers.Authorization = `Bearer ${newAccessToken}`;
             response = await fetch(url, options);
         } catch (error) {

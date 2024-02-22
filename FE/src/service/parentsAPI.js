@@ -1,11 +1,11 @@
-import { sendAuthRequest } from "./authenticationAPI";
+import { authRequest } from "./authenticationAPI";
 import { BASE_URL } from "@/constants/constants";
 
-export async function fetchDrivers(subscriptionOption) {
+export async function getDriverList(subscriptionOption) {
     if (!subscriptionOption) return;
 
     try {
-        const response = await sendAuthRequest(
+        const response = await authRequest(
             `${BASE_URL}/parent/search/drivers`,
             {
                 method: "POST",
@@ -30,7 +30,7 @@ export async function fetchDrivers(subscriptionOption) {
 
 export async function getDriverDetail(driverId) {
     try {
-        const response = await sendAuthRequest(
+        const response = await authRequest(
             `${BASE_URL}/detail/driver/${driverId}`
         );
 
@@ -45,7 +45,7 @@ export async function getDriverDetail(driverId) {
 
 export async function postSubscribe(subscribeOption) {
     try {
-        const response = await sendAuthRequest(`${BASE_URL}/parent/subscribe`, {
+        const response = await authRequest(`${BASE_URL}/parent/subscribe`, {
             method: "POST",
             headers: { "Content-Type": "application/json" },
             body: JSON.stringify(subscribeOption)
@@ -63,9 +63,7 @@ export async function postSubscribe(subscribeOption) {
 
 export async function getSubscriptionHistoryList() {
     try {
-        const response = await sendAuthRequest(
-            `${BASE_URL}/parent/subscribe/list`
-        );
+        const response = await authRequest(`${BASE_URL}/parent/subscribe/list`);
 
         if (!response.ok) {
             console.error("이용내역 가져오기 실패.");

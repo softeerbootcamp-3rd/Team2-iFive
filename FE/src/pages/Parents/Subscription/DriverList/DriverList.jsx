@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { Header } from "@/components/Header/Header";
 import { DriverListItem } from "./DriverListItem/DriverListItem";
 import styles from "./DriverList.module.scss";
-import { fetchDrivers } from "@/service/parentsAPI";
+import { getDriverList } from "@/service/parentsAPI";
 
 export default function DriverList() {
     const [drivers, setDrivers] = useState([]);
@@ -15,7 +15,7 @@ export default function DriverList() {
 
     useEffect(() => {
         (async () => {
-            const data = await fetchDrivers(subscriptionOption);
+            const data = await getDriverList(subscriptionOption);
             setDrivers(data.drivers);
         })();
     }, [subscriptionOption]);

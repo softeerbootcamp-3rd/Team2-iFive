@@ -1,6 +1,7 @@
 package ifive.idrop.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import ifive.idrop.entity.PickUp;
 import ifive.idrop.entity.enums.PickUpInfoStatus;
 import lombok.Builder;
@@ -28,22 +29,32 @@ public class PickUpHistoryResponse {
     @Getter
     static class Info {
         private String status;
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         private LocalDateTime startTime;
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         private String startImage;
 
-        @JsonIgnore
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         private LocalDateTime endTime;
 
-        @JsonIgnore
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         private String endImage;
 
         static Info toEntity(PickUp pickUp) {
+            if (pickUp.getEndTime() == null) {
+                return Info.builder()
+                        .status(PickUpInfoStatus.START.getStatus())
+                        .startTime(pickUp.getStartTime())
+                        .startImage(pickUp.getStartImage())
+                        .build();
+            }
+
             return Info.builder()
-                    .startTime(pickUp.getStartTime())
-                    .startImage(pickUp.getStartImage())
                     .endTime(pickUp.getEndTime())
                     .endImage(pickUp.getEndImage())
-                    .status(pickUp.getEndTime() != null ? PickUpInfoStatus.DONE.getStatus() : PickUpInfoStatus.START.getStatus())
+                    .status(PickUpInfoStatus.DONE.getStatus())
                     .build();
         }
     }

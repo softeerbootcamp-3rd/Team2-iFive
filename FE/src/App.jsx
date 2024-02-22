@@ -30,9 +30,7 @@ import EndPickUp from "./pages/Complete/EndPickUp/EndPickUp";
 import ManagementSubscription, {
     fetchSubscribeList
 } from "./pages/Driver/SubscriptionManagement/SubscriptionManagement";
-import History, {
-    loader as historyLoader
-} from "./pages/Parents/History/History";
+import History from "./pages/Parents/History/History";
 
 export default function App() {
     return <RouterProvider router={router} />;
@@ -109,7 +107,6 @@ const router = createBrowserRouter(
                 />
                 <Route
                     path="history"
-                    loader={historyLoader}
                     element={
                         <RoleProvider>
                             {(isParent) => isParent && <History />}

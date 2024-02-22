@@ -1,15 +1,23 @@
 import { Header } from "@/components/Header/Header";
 import styles from "./History.module.scss";
 import { HistoryItem } from "./HistoryItem/HistoryItem";
-import { getSubscriptionHistoryList } from "@/service/parentsAPI";
-import { useLoaderData, useSearchParams } from "react-router-dom";
+import { redirect, useSearchParams } from "react-router-dom";
 import { Modal } from "@/components/Modal/Modal";
 import { useModal } from "@/hooks/useModal";
 import { HistoryDetail } from "./HistoryDetailModal/HistoryDetail";
 import { useState } from "react";
+import { useFetch } from "@/hooks/useFetch";
 
 export default function History() {
-    const historyListData = useLoaderData();
+    const {
+        loading,
+        data: historyListData,
+        error
+    } = useFetch("/parent/subscribe/list");
+    if (error) {
+        // TODO 404로 보내기
+        redirect("/");
+    }
     const { isVisible, open: openModal, close: closeModal } = useModal();
     const [searchParams, setSearchParams] = useSearchParams();
     const [driverProfile, setDriverProfile] = useState({
@@ -23,7 +31,7 @@ export default function History() {
         openModal();
     };
 
-    const contentElement = historyListData.map((historyData) => (
+    const contentElement = historyListData?.map((historyData) => (
         <HistoryItem
             key={historyData.pickUpInfoId}
             historyData={historyData}
@@ -34,7 +42,9 @@ export default function History() {
     return (
         <div className={styles.container}>
             <Header title="이용내역" />
-            <main className={styles.content}>{contentElement}</main>
+            <main className={styles.content}>
+                {loading ? "loading..." : contentElement}
+            </main>
             <Modal isVisible={isVisible} animationType="slideLeft">
                 <HistoryDetail
                     driverProfile={driverProfile}
@@ -43,9 +53,4 @@ export default function History() {
             </Modal>
         </div>
     );
-}
-
-export async function loader() {
-    const response = await getSubscriptionHistoryList();
-    return response;
 }

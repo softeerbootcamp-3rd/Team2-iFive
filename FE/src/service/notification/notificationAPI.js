@@ -8,7 +8,7 @@ export async function postFcmToken(token) {
             headers: {
                 "Content-Type": "application/json"
             },
-            body: token
+            body: JSON.stringify({ fcmToken: token })
         });
         if (!response.ok) {
             throw new Error("서버로 토큰 전송 실패함");

@@ -62,6 +62,7 @@ export function useFetch(query, options = {}, skip = false) {
     );
 
     useEffect(() => {
+        if (!query) return;
         if (skip) return;
         const controller = new AbortController();
         fetchData(controller.signal);

@@ -15,6 +15,7 @@ import ifive.idrop.websocket.location.dto.CurrentPickUp;
 import ifive.idrop.websocket.direction.dto.Direction;
 import ifive.idrop.websocket.direction.NaverDirectionFinder;
 import ifive.idrop.websocket.location.dto.DriverGeoLocation;
+import ifive.idrop.websocket.location.dto.Location;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -43,14 +44,14 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     private static final Map<Long, String> parents; //부모 id, 부모 세션아이디
 
     private static final Map<Long, CurrentPickUp> currentPickUps; //기사 id, 현재픽업(child id, parent id, reserved time)
-    private static final Map<String, Location> lastLocation; //기사 세션아이디, 직전 위치
+    private static final Map<String, Location> lastLocations; //기사 세션아이디, 직전 위치
 
     static {
         sessions = new ConcurrentHashMap<>();
         drivers = new ConcurrentHashMap<>();
         parents = new ConcurrentHashMap<>();
         currentPickUps = new ConcurrentHashMap<>();
-        lastLocation = new ConcurrentHashMap<>();
+        lastLocations = new ConcurrentHashMap<>();
     }
 
 
@@ -67,7 +68,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
 
             try {
                 CurrentPickUp currentPickUp = setCurrentPickUps(driverId);
-                Direction direction = directionFinder.getDirection(currentPickUp.getStartLongitude(), currentPickUp.getStartLatitude(), currentPickUp.getEndLongitude(), currentPickUp.getEndLatitude());
+                Direction direction = directionFinder.getDirection(currentPickUp.getStartLocation(), currentPickUp.getEndLocation());
                 session.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
             } catch (CommonException e) {
                 sendErrorMessage(session, e.getMessage());
@@ -94,17 +95,16 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         DriverGeoLocation driverLocation = CustomObjectMapper.getObject(textMessage.getPayload(), DriverGeoLocation.class);
         CurrentPickUp currentPickUp = currentPickUps.get(driverId);
 
-        Location location = lastLocation.get(sessionId);
-        if (location == null) { //전 위치 기록이 없음 첫 위치
-            lastLocation.put(sessionId, driverLocation.getLocation());
+        Location lastLocation = lastLocations.get(sessionId);
+        if (lastLocation == null) { //전 위치 기록이 없음 첫 위치
+            lastLocations.put(sessionId, driverLocation.getLocation());
         }
         else {
-            if (!driverLocation.isSameLocation(location)) { //전에 왔던 위치와 다른 위치
-                /*String loc = directionFinder.getLocationForApi(driverLocation);
-                Direction direction = directionFinder.getDirection(loc, currentPickUp.getEndLocation());
+            if (!driverLocation.isSameLocation(lastLocation)) { //전에 왔던 위치와 다른 위치
+                Direction direction = directionFinder.getDirection(currentPickUp.getStartLocation(), currentPickUp.getEndLocation());
                 session.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
-                location.update(driverLocation);
-                lastLocation.replace(sessionId, location);*/
+                lastLocation.update(driverLocation);
+                lastLocations.replace(sessionId, lastLocation);
             }
         }
 
@@ -155,10 +155,8 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
                 .childId((Long) childIdAndParentId[0])
                 .parentId((Long) childIdAndParentId[1])
                 .reservedTime(pickup.getReservedTime())
-                .startLongitude(pickUpLocation.getStartLongitude())
-                .startLatitude(pickUpLocation.getStartLatitude())
-                .endLongitude(pickUpLocation.getEndLongitude())
-                .endLatitude(pickUpLocation.getEndLatitude())
+                .startLocation(new Location(pickUpLocation.getStartLongitude(), pickUpLocation.getStartLatitude()))
+                .endLocation(new Location(pickUpLocation.getEndLongitude(), pickUpLocation.getEndLatitude()))
                 .build();
         currentPickUps.put(driverId, currentPickUp);
         return currentPickUp;

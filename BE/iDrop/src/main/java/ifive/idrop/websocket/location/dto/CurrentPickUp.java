@@ -11,8 +11,6 @@ public class CurrentPickUp {
     private Long childId;
     private Long parentId;
     private LocalDateTime reservedTime;
-    private Double startLongitude;
-    private Double startLatitude;
-    private Double endLongitude;
-    private Double endLatitude;
+    private Location startLocation;
+    private Location endLocation;
 }

@@ -1,10 +1,3 @@
-import Location from "@/assets/Location.svg";
-import Star from "@/assets/Star.svg";
-import Success from "@/assets/Success.svg";
-import User from "@/assets/user_icon.svg";
-import Calender from "@/assets/calender.svg";
-import Truck from "@/assets/truck.png";
-
 export const userType = {
     parent: 0,
     driver: 1

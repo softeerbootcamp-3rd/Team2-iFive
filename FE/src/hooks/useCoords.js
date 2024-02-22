@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { DEFAULT_COORDS } from "../constants/constants";
-import { getCurrentLocation } from "../utils/coords";
+import { DEFAULT_COORDS } from "@/constants/constants";
+import { getCurrentLocation } from "@/utils/coords";
 
 export function useCoords() {
     const [isLoading, setIsLoading] = useState(true);

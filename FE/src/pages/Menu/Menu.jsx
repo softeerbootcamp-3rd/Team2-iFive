@@ -1,12 +1,12 @@
 import { useLoaderData } from "react-router-dom";
-import { getKidInfo } from "../../service/api";
+import { getKidInfo } from "@/service/childrenAPI";
 import styles from "./Menu.module.scss";
-import { MenuButton } from "./MenuButton";
+import { MenuButton } from "./MenuButton/MenuButton";
 import iDropGreen from "@/assets/iDropGreen.svg";
 import {
     DriverBottomSheet,
     ParentBottomSheet
-} from "../../components/common/Bottomsheet/Bottomsheet";
+} from "@/components/Bottomsheet/Bottomsheet";
 import Location from "@/assets/Location.svg";
 import Star from "@/assets/Star.svg";
 import Success from "@/assets/Success.svg";
@@ -46,9 +46,7 @@ export function DriverMenu() {
 }
 
 export function ParentMenu() {
-
     const childrenData = useLoaderData();
-
 
     return (
         <div className={styles.wrapper}>
@@ -73,8 +71,7 @@ export function ParentMenu() {
                 <MenuButton imgUrl={Star} text="이용내역" route="/history" />
             </div>
 
-           <ParentBottomSheet childrenData={childrenData}/>
-
+            <ParentBottomSheet childrenData={childrenData} />
         </div>
     );
 }

@@ -19,7 +19,7 @@ public class NotificationService {
 
     @Scheduled(cron = "0 * * * * *")
     @Transactional
-    public void checkPickUpTime() throws ExecutionException, InterruptedException {
+    public void checkPickUpTime() {
         List<Notification> notificationList = notificationRepository.findAllNotification();
         for (Notification notification : notificationList) {
             NotificationUtill.createNotification(notification.getDriver()

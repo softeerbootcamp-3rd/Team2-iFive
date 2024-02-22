@@ -41,6 +41,10 @@ h3 {
     background-color: #c0c1c2;
 }
 
+.container {
+    overflow: scroll;
+}
+
 .list {
     width: 100%;
     height: calc(100% - 60px);

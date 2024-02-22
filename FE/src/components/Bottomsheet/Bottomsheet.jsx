@@ -48,7 +48,7 @@ function BttmSheetTemplate({ children }) {
             <header>
                 <div className={styles.handle}></div>
             </header>
-            {children}
+            <div className={styles.container}>{children}</div>
         </div>
     );
 }

@@ -1,7 +1,7 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Footer } from "@/components/Footer/Footer";
-import { DriverContents } from "@/components/Bottomsheet/KidInfoBox";
+import { DriverContents } from "@/components/Bottomsheet/KidInfoBox/KidInfoBox";
 import { Header } from "@/components/Header/Header";
 import styles from "./PickUp.module.scss";
 import { CameraCapture } from "./cameraCapture";

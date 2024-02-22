@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./bottomsheet.module.scss";
-import { DriverContents, ParentContents } from "./KidInfoBox";
+import { DriverContents, ParentContents } from "./KidInfoBox/KidInfoBox";
 import { Footer } from "../Footer/Footer";
 
 export function ParentBottomSheet({ childrenData }) {

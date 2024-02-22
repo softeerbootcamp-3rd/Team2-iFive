@@ -3,11 +3,8 @@ package ifive.idrop.controller;
 import ifive.idrop.annotation.Login;
 
 import ifive.idrop.dto.request.SubscribeCheckRequest;
-import ifive.idrop.dto.response.CurrentPickUpResponse;
+import ifive.idrop.dto.response.*;
 import ifive.idrop.dto.request.DriverInformation;
-import ifive.idrop.dto.response.BaseResponse;
-import ifive.idrop.dto.response.DriverSubscribeInfoResponse;
-import ifive.idrop.dto.response.ParentSubscribeInfoResponse;
 import ifive.idrop.entity.Driver;
 import ifive.idrop.service.DriverService;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +49,7 @@ public class DriverController {
     }
 
     @GetMapping("/pickup/today/remaining")
-    public BaseResponse<List<CurrentPickUpResponse>> getRemainingPickUpList(@Login Driver driver) {
-        return driverService.getTodayRemainingPickUpList(driver.getId());
+    public BaseResponse<List<DriverTodayRemainingPickUpResponse>> getRemainingPickUpList(@Login Driver driver) {
+        return BaseResponse.of("Data Successfully Proceed", driverService.getTodayRemainingPickUpList(driver.getId()));
     }
 }

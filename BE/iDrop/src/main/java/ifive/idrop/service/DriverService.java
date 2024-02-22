@@ -122,8 +122,17 @@ public class DriverService {
         //TODO Alarm to Parent
     }
 
-    public BaseResponse<List<CurrentPickUpResponse>> getTodayRemainingPickUpList(Long driverId) {
-        //TODO 기사의 오늘 남은 픽업 업무 조회
+    @Transactional(readOnly = true)
+    public List<DriverTodayRemainingPickUpResponse> getTodayRemainingPickUpList(Long driverId) {
+        List<DriverTodayRemainingPickUpResponse> response = new ArrayList<>();
+
+        List<Object[]> remainingPickUpInfo = driverRepository.findRemainingPickUpInfo(driverId);
+        for (Object[] o : remainingPickUpInfo) {
+            PickUpInfo po = (PickUpInfo) o[0];
+            LocalDateTime reservedTime = (LocalDateTime) o[1];
+            response.add(DriverTodayRemainingPickUpResponse.of(po, reservedTime));
+        }
+        return response;
     }
 
     private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {

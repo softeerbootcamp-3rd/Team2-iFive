@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -50,4 +51,21 @@ public class DriverRepository {
                 .setParameter("driverId", driverId)
                 .getResultList();
     }
+
+    public List<Object[]> findRemainingPickUpInfo(Long driverId) {
+        String query = "SELECT pui, pu.reservedTime " +
+                "FROM PickUpInfo pui " +
+                "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id " +
+                "WHERE pui.driver.id = :driverId " +
+                "AND FUNCTION('DATE', pu.reservedTime) = :currentDate " +
+                "AND pu.endTime IS NULL " +
+                "AND pu.reservedTime > :oneHourBeforeNow";
+
+        return em.createQuery(query, Object[].class)
+                .setParameter("driverId", driverId)
+                .setParameter("currentDate", LocalDate.now())
+                .setParameter("oneHourBeforeNow", LocalDateTime.now().minusHours(1))
+                .getResultList();
+    }
+
 }

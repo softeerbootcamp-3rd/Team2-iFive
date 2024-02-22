@@ -33,7 +33,7 @@ import ManagementSubscription, {
 import History, {
     loader as historyLoader
 } from "./pages/Parents/History/History";
-import SelectChild from "./pages/Driver/PickUp/SelectChild";
+import SelectChild from "./pages/Driver/PickUp/SelectChild/SelectChild";
 
 export default function App() {
     return <RouterProvider router={router} />;

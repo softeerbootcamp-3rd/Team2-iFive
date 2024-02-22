@@ -1,7 +1,7 @@
 import { useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Header } from "@/components/common/Header/Header";
-import { DriverListItem } from "@/components/DriverList/DriverListItem";
+import { DriverListItem } from "./DriverListItem/DriverListItem";
 import styles from "./DriverList.module.scss";
 import { fetchDrivers } from "../../service/api";
 

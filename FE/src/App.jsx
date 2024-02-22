@@ -6,31 +6,33 @@ import {
     createRoutesFromElements,
     useRouteLoaderData
 } from "react-router-dom";
-import Search from "./pages/Search/Search";
+import Search from "./pages/Parents/Subscription/Search/Search";
 import Onboarding, {
     loader as onboardingLoader
 } from "./pages/Onboarding/Onboarding";
 import Login, {
     loginLoader,
     logout as logoutLoader
-} from "./pages/Login/Login";
+} from "./pages/Auth/Login/Login";
 
-import DriverList from "./pages/DriverList/DriverList";
+import DriverList from "./pages/Parents/Subscription/DriverList/DriverList";
 import { checkAuthLoader } from "./utils/auth";
-import PickUpPage from "./pages/PickUp/PickUp";
+import PickUpPage from "./pages/Driver/PickUp/PickUp";
 import DriverDetail, {
     loader as driverDetailLoader
-} from "./pages/DriverDetail/DriverDetail";
-import ParentSignUp from "./pages/SignUp/ParentSignUp";
+} from "./pages/Parents/Subscription/DriverDetail/DriverDetail";
+import ParentSignUp from "./pages/Auth/SignUp/ParentSignUp";
 import { DriverMenu, ParentMenu, fetchMenuData } from "./pages/Menu/Menu";
-import SubscriptionConfirmation from "./pages/Confirmation/Confirmation";
+import SubscriptionConfirmation from "./pages/Complete/Confirmation/Confirmation";
 import ParentMap from "./pages/Map/ParentMap";
 import DriverMap from "./pages/Map/DriverMap";
-import EndPickUp from "./pages/EndPickUp/EndPickUp";
+import EndPickUp from "./pages/Complete/EndPickUp/EndPickUp";
 import ManagementSubscription, {
     fetchSubscribeList
-} from "./pages/DriverSubsPage/Management";
-import History, { loader as historyLoader } from "./pages/History/History";
+} from "./pages/Driver/SubscriptionManagement/SubscriptionManagement";
+import History, {
+    loader as historyLoader
+} from "./pages/Parents/History/History";
 
 export default function App() {
     return <RouterProvider router={router} />;

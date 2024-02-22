@@ -1,5 +1,5 @@
 import { BASE_URL } from "@/constants/constants";
-import { logout } from "@/pages/Login/Login";
+import { logout } from "@/pages/Auth/Login/Login";
 import { getAccessToken, getRefreshToken } from "@/utils/auth";
 
 /**

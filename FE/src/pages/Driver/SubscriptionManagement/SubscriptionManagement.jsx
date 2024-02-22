@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "./Management.module.scss";
+import styles from "./SubscriptionManagement.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
 import { Header } from "@/components/Header/Header";
 import { getKidInfo } from "@/service/api";

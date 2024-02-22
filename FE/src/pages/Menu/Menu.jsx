@@ -1,7 +1,7 @@
 import { useLoaderData } from "react-router-dom";
 import { getKidInfo } from "@/service/api";
 import styles from "./Menu.module.scss";
-import { MenuButton } from "./MenuButton";
+import { MenuButton } from "./MenuButton/MenuButton";
 import iDropGreen from "@/assets/iDropGreen.svg";
 import {
     DriverBottomSheet,

@@ -2,7 +2,7 @@ import styles from "./Onboarding.module.scss";
 import logoIcon from "@/assets/logo.svg";
 import truckIcon from "@/assets/truck.png";
 import userIcon from "@/assets/user_icon.svg";
-import { Type } from "@/components/Onboarding/Type";
+import { Type } from "./Type/Type";
 import { getAccessToken } from "../../utils/auth";
 import { redirect } from "react-router-dom";
 

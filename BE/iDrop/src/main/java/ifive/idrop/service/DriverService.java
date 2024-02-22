@@ -22,6 +22,7 @@ import ifive.idrop.entity.PickUpInfo;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 import static ifive.idrop.util.ScheduleUtils.*;
 
@@ -124,16 +125,17 @@ public class DriverService {
 
     @Transactional(readOnly = true)
     public List<DriverTodayRemainingPickUpResponse> getTodayRemainingPickUpList(Long driverId) {
-        List<DriverTodayRemainingPickUpResponse> response = new ArrayList<>();
-
         List<Object[]> remainingPickUpInfo = driverRepository.findRemainingPickUpInfo(driverId);
-        for (Object[] o : remainingPickUpInfo) {
-            PickUpInfo po = (PickUpInfo) o[0];
-            LocalDateTime reservedTime = (LocalDateTime) o[1];
-            response.add(DriverTodayRemainingPickUpResponse.of(po, reservedTime));
-        }
-        return response;
+
+        return remainingPickUpInfo.stream()
+                .map(o -> {
+                    PickUpInfo po = (PickUpInfo) o[0];
+                    LocalDateTime reservedTime = (LocalDateTime) o[1];
+                    return DriverTodayRemainingPickUpResponse.of(po, reservedTime);
+                })
+                .collect(Collectors.toList());
     }
+
 
     private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
         PickUp pickUp = PickUp.builder()

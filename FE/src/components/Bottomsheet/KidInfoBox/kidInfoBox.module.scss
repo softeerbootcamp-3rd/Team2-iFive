@@ -21,6 +21,16 @@
     span:last-child {
         @extend %R_16;
     }
+
+    button {
+        float: right;
+        width: 70px;
+        background: #6eca95;
+        color: white;
+        border-radius: 10px;
+        height: 30px;
+        @extend %M_14;
+    }
 }
 
 .kidImg {

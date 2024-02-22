@@ -13,6 +13,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Builder
 @Getter
+@Table(indexes = @Index(name = "idx_date", columnList = "pickUpTime"))
 public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

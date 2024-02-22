@@ -5,7 +5,8 @@ import { getDriverDetail, postSubscribe } from "@/service/parentsAPI";
 import styles from "./DriverDetail.module.scss";
 
 export default function DriverDetail() {
-    const { subscriptionOption } = useLocation();
+    const { state: subscriptionOption } = useLocation();
+    console.log(subscriptionOption);
     const navigate = useNavigate();
     const {
         driverId,

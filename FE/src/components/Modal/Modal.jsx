@@ -2,14 +2,14 @@ import React from "react";
 import ReactDOM from "react-dom";
 import styles from "./Modal.module.scss";
 
-export const Modal = ({
+export function Modal({
     isVisible: { isOpen, animate },
     onClose,
     children,
     animationType = "scale",
     width = "100%",
     height = "100%"
-}) => {
+}) {
     const modalStyle = {
         width,
         height
@@ -38,4 +38,4 @@ export const Modal = ({
         </div>,
         document.getElementById("portal")
     );
-};
+}

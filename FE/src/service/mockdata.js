@@ -115,3 +115,28 @@ export const fakeHistoryData = [
         }
     }
 ];
+export const fakeHistoryDetailData = {
+    message: "Data Successfully Proceed",
+    data: [
+        {
+            date: "2024-02-19",
+            day: "08:30 WEDNESDAY",
+            info: {
+                status: "픽업 시작",
+                startTime: "2024-02-19T08:30:00",
+                startImage: "image.url"
+            }
+        },
+        {
+            date: "2024-02-19",
+            day: "08:30 MONDAY",
+            info: {
+                status: "픽업 종료",
+                startTime: "2024-02-19T08:30:00",
+                startImage: "image.url",
+                endTime: "2024-02-19T08:30:00",
+                endImage: "image.url"
+            }
+        }
+    ]
+};

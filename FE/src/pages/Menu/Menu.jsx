@@ -13,6 +13,7 @@ import Success from "@/assets/Success.svg";
 import User from "@/assets/user_icon.svg";
 import Calender from "@/assets/calender.svg";
 import Truck from "@/assets/truck.png";
+import { handleAllowNotification } from "../../service/notification/notificationPermission";
 
 const userName = null;
 export function DriverMenu() {
@@ -77,8 +78,10 @@ export function ParentMenu() {
 }
 
 export async function fetchMenuData() {
+    await handleAllowNotification();
     const childrenData = await getKidInfo("user/pickup/now");
     const result = parseData(childrenData.data);
+
     return result;
 }
 

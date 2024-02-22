@@ -45,7 +45,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     private static final Map<Long, CurrentPickUp> currentPickUps; //기사 id, 현재픽업(child id, parent id, reserved time)
 
     static {
-        sessions = new ConcurrentHashMap<>();
+        sgessions = new ConcurrentHashMap<>();
         drivers = new ConcurrentHashMap<>();
         parents = new ConcurrentHashMap<>();
         currentPickUps = new ConcurrentHashMap<>();
@@ -121,7 +121,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         // HTTP 헤더에서 엑세스 토큰을 꺼낸다.
 
         String accessToken = String.valueOf(session.getHandshakeHeaders().get("Sec-Websocket-Protocol"));
-        accessToken = accessToken.substring(1,accessToken.length()-1);
+        accessToken = accessToken.substring(1, accessToken.length() - 1);
         AuthenticateUser authenticateUser = getAuthenticateUser(accessToken);
         return userRepository.findByUserId(authenticateUser.getUserId())
                 .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
@@ -144,7 +144,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
                 .endLatitude(pickUpLocation.getEndLatitude())
                 .build();
         currentPickUps.put(driverId, currentPickUp);
-        return  currentPickUp;
+        return currentPickUp;
     }
 
     //웹소켓 연결 종료 시, 관련 데이터 각종 hashmap에서 삭제

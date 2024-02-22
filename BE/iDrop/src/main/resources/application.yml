@@ -6,6 +6,7 @@ spring:
       - "env/mysql.yml"
       - "env/jwt.yml"
       - "env/s3.yml"
+      - "env/naver_api.yml"
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: ${mysql_endpoint}

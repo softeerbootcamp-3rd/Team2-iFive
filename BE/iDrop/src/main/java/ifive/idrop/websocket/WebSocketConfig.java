@@ -2,6 +2,7 @@ package ifive.idrop.websocket;
 
 import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
+import ifive.idrop.websocket.direction.NaverDirectionFinder;
 import ifive.idrop.websocket.location.LocationWebSocketHandler;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
     private final JwtProvider jwtProvider;
     private final UserRepository userRepository;
     private final PickUpInfoRepository pickUpInfoRepository;
+    private final NaverDirectionFinder naverDirectionFinder;
 
     @Override
     public void registerWebSocketHandlers(WebSocketHandlerRegistry registry) {
@@ -28,7 +30,7 @@ public class WebSocketConfig implements WebSocketConfigurer {
 
     @Bean
     public LocationWebSocketHandler locationWebSocketHandler() {
-        return new LocationWebSocketHandler(jwtProvider, userRepository, pickUpInfoRepository);
+        return new LocationWebSocketHandler(jwtProvider, userRepository, pickUpInfoRepository, naverDirectionFinder);
     }
 
     @Bean

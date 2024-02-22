@@ -24,7 +24,7 @@ public class NotificationRepository {
                 .getResultList();
     }
 
-    public void deleteById(Long notifiactoinId) {
-        em.remove(notifiactoinId);
+    public void deleteById(Long notifiactionId) {
+        em.remove(em.find(Notification.class, notifiactionId));
     }
 }

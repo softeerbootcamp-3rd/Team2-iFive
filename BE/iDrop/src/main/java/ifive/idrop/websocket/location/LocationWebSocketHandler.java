@@ -65,7 +65,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
 
             try {
                 CurrentPickUp currentPickUp = setCurrentPickUps(driverId);
-                Direction direction = directionFinder.getDirection(currentPickUp.getStartLocation(), currentPickUp.getEndLocation());
+                Direction direction = directionFinder.getDirection(currentPickUp.getStartLongitude(), currentPickUp.getStartLatitude(), currentPickUp.getEndLongitude(), currentPickUp.getEndLatitude());
                 session.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
             } catch (CommonException e) {
                 sendErrorMessage(session, e.getMessage());
@@ -138,8 +138,10 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
                 .childId((Long) childIdAndParentId[0])
                 .parentId((Long) childIdAndParentId[1])
                 .reservedTime(pickup.getReservedTime())
-                .startLocation(directionFinder.getStartLocationForApi(pickUpLocation))
-                .endLocation(directionFinder.getEndLocationForApi(pickUpLocation))
+                .startLongitude(pickUpLocation.getStartLongitude())
+                .startLatitude(pickUpLocation.getStartLatitude())
+                .endLongitude(pickUpLocation.getEndLongitude())
+                .endLatitude(pickUpLocation.getEndLatitude())
                 .build();
         currentPickUps.put(driverId, currentPickUp);
         return  currentPickUp;

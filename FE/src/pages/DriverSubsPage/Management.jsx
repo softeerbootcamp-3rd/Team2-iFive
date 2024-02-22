@@ -2,13 +2,17 @@ import React from "react";
 import styles from "./Management.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
 import { Header } from "../../components/common/Header/Header";
+import { getKidInfo } from "../../service/api";
+import { useLoaderData } from "react-router-dom";
 
 export default function ManagementSubscription() {
+    const subscribeList = useLoaderData();
+
     return (
         <div>
             <Header title="구독 요청 목록" />
-            {exampleData.map((element, index) => (
-                <KidInformationBox key={index} {...element} />
+            {subscribeList.map((subscription, index) => (
+                <KidInformationBox key={index} {...subscription} />
             ))}
         </div>
     );
@@ -18,6 +22,7 @@ function KidInformationBox({
     childImage,
     childName,
     childBirth,
+    childGender,
     startDate,
     endDate,
     startAddress,
@@ -26,6 +31,8 @@ function KidInformationBox({
     parentPhoneNumber,
     schedule
 }) {
+    startAddress = removeCityPrefix(startAddress);
+    endAddress = removeCityPrefix(endAddress);
     return (
         <div className={styles.content}>
             <div className={styles.kidInfo}>
@@ -33,10 +40,12 @@ function KidInformationBox({
                 <div className={styles.infoBox}>
                     <span>
                         {childName}{" "}
-                        <span className={styles.birthDay}>{childBirth}</span>
+                        <span className={styles.birthDay}>
+                            {childGender}, {childBirth}
+                        </span>
                     </span>
                     <span>
-                        {startDate} {"→"} {endDate}
+                        {startDate} ~ {endDate}
                     </span>
                     <span>
                         {parentName} / {parentPhoneNumber}
@@ -57,29 +66,11 @@ function KidInformationBox({
     );
 }
 
-const exampleData = [
-    {
-        pickUpInfoId: 1,
-        parentName: "부모1",
-        parentPhoneNumber: "010-1234-5678",
-        childName: "김하나",
-        childBirth: "2008-09-12",
-        childGender: "여성",
-        childImage: "https://profile.jpg",
-        startDate: "2024-02-21",
-        endDate: "2024-03-19",
-        startAddress: "강남구 논현동 58-3 에티버스러닝 학동캠퍼스",
-        endAddress: "강남구 학동로31길 15 코마츠",
-        status: "승인",
-        schedule: {
-            Wed: {
-                min: 30,
-                hour: 8
-            },
-            Mon: {
-                min: 30,
-                hour: 8
-            }
-        }
-    }
-];
+function removeCityPrefix(address) {
+    return address !== null ? address.replace("서울특별시 ", "") : "null";
+}
+
+export async function fetchSubscribeList() {
+    const fetchData = await getKidInfo("driver/subscribe/list");
+    return fetchData;
+}

@@ -50,4 +50,9 @@ public class DriverController {
     public BaseResponse subscribeCheck(@Login Driver driver, @RequestBody SubscribeCheckRequest subscribeCheckRequest) {
         return driverService.subscribeCheck(driver.getId(), subscribeCheckRequest);
     }
+
+    @GetMapping("/pickup/today/remaining")
+    public BaseResponse<List<CurrentPickUpResponse>> getRemainingPickUpList(@Login Driver driver) {
+        return driverService.getTodayRemainingPickUpList(driver.getId());
+    }
 }

@@ -122,6 +122,10 @@ public class DriverService {
         //TODO Alarm to Parent
     }
 
+    public BaseResponse<List<CurrentPickUpResponse>> getTodayRemainingPickUpList(Long driverId) {
+        //TODO 기사의 오늘 남은 픽업 업무 조회
+    }
+
     private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
         PickUp pickUp = PickUp.builder()
                 .reservedTime(localDateTime)

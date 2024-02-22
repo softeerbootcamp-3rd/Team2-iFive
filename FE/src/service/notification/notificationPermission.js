@@ -3,7 +3,6 @@ import { sendTokenToServer } from "./api";
 import { registerServiceWorker } from "./registerServiceWorker";
 
 export async function handleAllowNotification() {
-    registerServiceWorker();
     try {
         const permission = await Notification.requestPermission();
 

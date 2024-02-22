@@ -6,7 +6,7 @@ import { useCoords } from "../../hooks/useCoords";
 import { getLatLng } from "../../utils/map";
 import { useMarker } from "../../hooks/useMarker";
 import { Loader } from "../common/Loader/Loader";
-import { WEBSOCKET_URL, ACCESS_TOKEN } from "../../constants/constants";
+import { WEBSOCKET_URL } from "../../constants/constants";
 import { getCurrentLocation } from "../../utils/coords";
 import { getAccessToken } from "../../utils/auth";
 import { DriverBottomSheet } from "../common/Bottomsheet/Bottomsheet";
@@ -14,6 +14,8 @@ import Car from "@/assets/car.svg";
 import { getKidInfo } from "../../service/api";
 
 export default function DriverMap() {
+    const ACCESS_TOKEN = getAccessToken();
+
     const childrenData = getChildrenData();
     const kidData = childrenData[0];
 
@@ -100,15 +102,13 @@ export default function DriverMap() {
             const { path } = JSON.parse(data);
             let pathList = [];
             path.forEach((element) => {
-                pathList.push({
-                    latitude: element.latitude,
-                    longitude: element.longitude
-                });
+                pathList.push(new naver.maps.LatLng(element[1], element[0]));
             });
-            new naver.maps.Polyline({
+            const polyline = new naver.maps.Polyline({
                 map: map,
                 path: pathList
             });
+            polyline.setPath(pathList);
         };
         webSocketRef.current.onerror = (error) =>
             console.error("WebSocket error: ", error);

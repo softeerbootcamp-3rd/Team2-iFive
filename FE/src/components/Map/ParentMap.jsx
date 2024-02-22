@@ -12,6 +12,8 @@ import Car from "@/assets/car.svg";
 import { useLocation } from "react-router-dom";
 
 export default function ParentMap() {
+    const ACCESS_TOKEN = getAccessToken();
+
     const mapElementRef = useRef();
     const childrenData = getChildrenData();
     const kidData = childrenData[0];
@@ -30,7 +32,7 @@ export default function ParentMap() {
 
     useEffect(() => {
         if (!driverMarker) return;
-        webSocketRef.current = new WebSocket(WEBSOCKET_URL, [PARENT_TOKEN]);
+        webSocketRef.current = new WebSocket(WEBSOCKET_URL, [ACCESS_TOKEN]);
 
         webSocketRef.current.onopen = () => console.log("WebSocket Connected!");
         webSocketRef.current.onmessage = ({ data }) => {

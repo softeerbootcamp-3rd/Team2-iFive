@@ -119,18 +119,19 @@ const router = createBrowserRouter(
                     }
                 />
                 <Route
-                    path="pickup"
+                    path="select"
+                    //loader={fetchSelectChild}
                     element={
                         <RoleProvider>
-                            {(isParent) => !isParent && <PickUpPage />}
+                            {(isParent) => !isParent && <SelectChild />}
                         </RoleProvider>
                     }
                 />
                 <Route
-                    path="select"
+                    path="pickup"
                     element={
                         <RoleProvider>
-                            {(isParent) => !isParent && <SelectChild />}
+                            {(isParent) => !isParent && <PickUpPage />}
                         </RoleProvider>
                     }
                 />

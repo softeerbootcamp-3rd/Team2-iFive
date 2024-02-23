@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 
 @RequiredArgsConstructor
@@ -47,7 +46,7 @@ public class DriverController {
     }
 
     @PostMapping("/subscribe/check")
-    public BaseResponse subscribeCheck(@Login Driver driver, @RequestBody SubscribeCheckRequest subscribeCheckRequest) throws ExecutionException, InterruptedException {
+    public BaseResponse subscribeCheck(@Login Driver driver, @RequestBody SubscribeCheckRequest subscribeCheckRequest) {
         return driverService.subscribeCheck(driver.getId(), subscribeCheckRequest);
     }
 

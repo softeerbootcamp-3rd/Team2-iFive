@@ -2,11 +2,15 @@ package ifive.idrop.config;
 
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import ifive.idrop.filter.*;
+import ifive.idrop.filter.CorsFilter;
+import ifive.idrop.filter.JwtAuthorizationFilter;
+import ifive.idrop.filter.JwtFilter;
+import ifive.idrop.filter.VerifyUserFilter;
 import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
 import ifive.idrop.resolver.LoginUsersArgumentResolver;
 import ifive.idrop.service.UserService;
+import io.jsonwebtoken.lang.Arrays;
 import jakarta.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -61,14 +65,6 @@ public class WebConfig implements WebMvcConfigurer {
         FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
         filterRegistrationBean.setFilter(new JwtAuthorizationFilter(provider, mapper));
         filterRegistrationBean.setOrder(2);
-        return filterRegistrationBean;
-    }
-
-    @Bean
-    public FilterRegistrationBean<Filter> fcmTokenFilter() {
-        FilterRegistrationBean<Filter> filterRegistrationBean = new FilterRegistrationBean<>();
-        filterRegistrationBean.setFilter(new FCMFilter(mapper, userService));
-        filterRegistrationBean.setOrder(3);
         return filterRegistrationBean;
     }
 }

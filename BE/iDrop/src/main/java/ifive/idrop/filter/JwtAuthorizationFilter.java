@@ -26,7 +26,6 @@ import java.io.IOException;
 @Slf4j
 @RequiredArgsConstructor
 public class JwtAuthorizationFilter implements Filter {
-    public static final String USER_ID = "userId";
     private final String[] whiteListUris = {"/user/signup", "/user/login", "/auth/refresh/token", "/ws/**"};
     private final JwtProvider jwtProvider;
     private final ObjectMapper objectMapper;
@@ -48,7 +47,6 @@ public class JwtAuthorizationFilter implements Filter {
             String token = getToken(httpServletRequest);
             AuthenticateUser authenticateUser = getAuthenticateUser(token);
             verifyAuthorization(httpServletRequest.getRequestURI(), authenticateUser);
-            request.setAttribute(USER_ID, authenticateUser.getUserId());
             log.info("userId : {}", authenticateUser.getUserId());
             chain.doFilter(request, response);
         } catch (JsonParseException e){

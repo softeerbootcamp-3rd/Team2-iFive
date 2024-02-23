@@ -15,7 +15,6 @@ public abstract class Users {
     @Enumerated(EnumType.STRING)
     private Role role;
     private String refreshToken;
-    private String fcmToken;
 
     public void setUserInfo(String userId, String password, String name, String phoneNumber, Role role){
         this.userId = userId;
@@ -27,10 +26,6 @@ public abstract class Users {
 
     public void updateRefreshToken(String refreshToken) {
         this.refreshToken = refreshToken;
-    }
-
-    public void updateFcmToken(String fcmToken) {
-        this.fcmToken = fcmToken;
     }
 
     public boolean verifyUser(LoginRequest loginRequest) {

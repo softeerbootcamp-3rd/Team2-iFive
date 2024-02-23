@@ -1,7 +1,6 @@
 package ifive.idrop.repository;
 
 import ifive.idrop.entity.Child;
-import ifive.idrop.entity.Parent;
 import ifive.idrop.entity.PickUpInfo;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
@@ -14,10 +13,6 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class ParentRepository {
     private final EntityManager em;
-
-    public Optional<Parent> findParent(Long parentId) {
-        return Optional.ofNullable(em.find(Parent.class, parentId));
-    }
 
     public Optional<Child> findChild(Long parentId) {
         return em.createQuery("SELECT c FROM Child c where c.parent.id =: parentId", Child.class)

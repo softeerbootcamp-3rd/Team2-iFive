@@ -13,10 +13,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-import ifive.idrop.entity.PickUpInfo;
-import ifive.idrop.entity.PickUpLocation;
-import ifive.idrop.entity.PickUpSubscribe;
-
 
 @Repository
 @RequiredArgsConstructor
@@ -76,7 +72,7 @@ public class PickUpRepository {
     public Optional<PickUp> findById(Long pickUpId) {
         return Optional.ofNullable(em.find(PickUp.class, pickUpId));
     }
-
+    
     public List<PickUpInfo> findWaitingPickUpInfoByDriverId(Long driverId) {
         TypedQuery<PickUpInfo> query = em.createQuery(
                 "SELECT pui FROM PickUpInfo pui " +

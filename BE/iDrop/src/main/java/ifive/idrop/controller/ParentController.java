@@ -5,10 +5,14 @@ import ifive.idrop.dto.response.CurrentPickUpResponse;
 import ifive.idrop.dto.response.DriverListResponse;
 import ifive.idrop.dto.response.ParentSubscribeInfoResponse;
 import ifive.idrop.entity.Driver;
+import ifive.idrop.exception.CommonException;
+import ifive.idrop.exception.ErrorCode;
 import ifive.idrop.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import ifive.idrop.annotation.Login;
 import ifive.idrop.dto.response.BaseResponse;
 import ifive.idrop.dto.request.SubscribeRequest;
@@ -37,7 +41,7 @@ public class ParentController {
     }
 
     @PostMapping("/subscribe")
-    public BaseResponse<String> subscribeDriver(@Login Parent parent, @RequestBody SubscribeRequest request) throws JSONException {
+    public BaseResponse<String> subscribeDriver(@Login Parent parent, @RequestBody SubscribeRequest request) throws JSONException, ExecutionException, InterruptedException {
         return parentService.createSubscribe(parent, request);
     }
 
@@ -50,9 +54,16 @@ public class ParentController {
     public BaseResponse checkHistoryInfo(@Login Parent parent, @PathVariable(value = "pickup-info-id") long pickInfoId) {
         return parentService.getPickUpHistoryInfo(parent, pickInfoId);
     }
-      
+
     @GetMapping("/subscribe/list")
     public List<ParentSubscribeInfoResponse> subscribeList(@Login Parent parent) {
         return parentService.subscribeList(parent.getId());
+    }
+
+    @GetMapping("/location/now")
+    public BaseResponse hasCurrentPickUp(@Login Parent parent) {
+        if(parentService.hasCurrentPickUp(parent.getId()))
+            return BaseResponse.success();
+        throw new CommonException(ErrorCode.PICKUP_NOT_FOUND);
     }
 }

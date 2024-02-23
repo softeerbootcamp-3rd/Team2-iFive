@@ -13,6 +13,10 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import ifive.idrop.entity.PickUpInfo;
+import ifive.idrop.entity.PickUpLocation;
+import ifive.idrop.entity.PickUpSubscribe;
+
 
 @Repository
 @RequiredArgsConstructor
@@ -72,7 +76,7 @@ public class PickUpRepository {
     public Optional<PickUp> findById(Long pickUpId) {
         return Optional.ofNullable(em.find(PickUp.class, pickUpId));
     }
-    
+
     public List<PickUpInfo> findWaitingPickUpInfoByDriverId(Long driverId) {
         TypedQuery<PickUpInfo> query = em.createQuery(
                 "SELECT pui FROM PickUpInfo pui " +
@@ -147,4 +151,22 @@ public class PickUpRepository {
 
         return query.getResultList();
     }
+
+    public Long getCurrentPickUpSize(Long parentId) {
+        LocalDateTime now = LocalDateTime.now();
+
+        TypedQuery<Long> query = em.createQuery(
+                "SELECT COUNT(p) FROM PickUp p " +
+                        "JOIN p.pickUpInfo pi " +
+                        "JOIN pi.child c " +
+                        "WHERE c.parent.id = :parentId " +
+                        "AND p.reservedTime <= :now " +
+                        "AND (p.reservedTime + 1 HOUR) > :now", Long.class);
+
+        query.setParameter("parentId", parentId);
+        query.setParameter("now", now);
+
+        return query.getSingleResult();
+    }
+
 }

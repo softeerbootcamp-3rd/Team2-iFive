@@ -58,4 +58,8 @@ public class PickUp {
     public Driver getDriver() {
         return pickUpInfo.getDriver();
     }
+
+    public Parent getParent() {
+        return pickUpInfo.getChild().getParent();
+    }
 }

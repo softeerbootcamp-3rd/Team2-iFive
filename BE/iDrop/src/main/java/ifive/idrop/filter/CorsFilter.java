@@ -8,13 +8,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Configuration;
 
 import java.io.IOException;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
 @Slf4j
 public class CorsFilter implements Filter {
 
-    final static String requestOrigin = "http://localhost:5173";
+    final static List<String> requestOrigin = List.of("http://localhost:5173", "https://idrop-44945.web.app");
     final static String wsOrigin = "/ws";
 
     @Override

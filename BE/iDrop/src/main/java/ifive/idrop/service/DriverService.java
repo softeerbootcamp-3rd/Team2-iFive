@@ -8,7 +8,10 @@ import ifive.idrop.entity.*;
 import ifive.idrop.entity.enums.PickUpStatus;
 import ifive.idrop.exception.CommonException;
 import ifive.idrop.exception.ErrorCode;
+import ifive.idrop.fcm.AlarmMessage;
+import ifive.idrop.fcm.NotificationUtill;
 import ifive.idrop.repository.DriverRepository;
+import ifive.idrop.repository.NotificationRepository;
 import ifive.idrop.repository.PickUpRepository;
 import ifive.idrop.util.RequestSchedule;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +25,9 @@ import ifive.idrop.entity.PickUpInfo;
 
 import java.util.List;
 import java.util.Objects;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
+
 
 import static ifive.idrop.util.ScheduleUtils.*;
 
@@ -31,6 +37,7 @@ import static ifive.idrop.util.ScheduleUtils.*;
 public class DriverService {
     private final DriverRepository driverRepository;
     private final PickUpRepository pickUpRepository;
+    private final NotificationRepository notificationRepository;
 
     @Transactional(readOnly = true)
     public List<Driver> searchAvailableDrivers(DriverListRequest driverListRequest) {
@@ -69,7 +76,7 @@ public class DriverService {
 
     @Transactional(readOnly = true)
     public BaseResponse<List<CurrentPickUpResponse>> getAllChildRunningInfo(Driver driver) {
-        List<Object[]> runningPickInfo = driverRepository.findAllRunningPickUpInfo(driver.getId());
+        List<Object[]> runningPickInfo = driverRepository.findAllRunningPickUpInfoOrderByreservedTimeASC(driver.getId());
         return BaseResponse.of("Data Successfully Proceed",
                 runningPickInfo.stream()
                         .map(o -> CurrentPickUpResponse.of((PickUpInfo) o[0], (LocalDateTime) o[1]))
@@ -92,7 +99,7 @@ public class DriverService {
     }
 
     @Transactional
-    public BaseResponse subscribeCheck(Long driverId, SubscribeCheckRequest subscribeCheckRequest) {
+    public BaseResponse subscribeCheck(Long driverId, SubscribeCheckRequest subscribeCheckRequest) throws ExecutionException, InterruptedException {
         Integer statusCode = subscribeCheckRequest.getStatusCode();
         if (statusCode == null || !(statusCode == 0 || statusCode == 1)) {
             throw new CommonException(ErrorCode.INVALID_PICKUP_STATUS);
@@ -115,12 +122,36 @@ public class DriverService {
                 createPickUp(reservedTime, pickUpInfo);
             }
             removeOverlappedSubscribe(driverId, pickUpInfo); //승인한 구독 요청과 시간이 겹치는 다른 구독 요청을 거절로 처리함
+
+            // 알림 보내기
+            Parent parent = pickUpInfo.getChild().getParent();
+            NotificationUtill.createNotification(parent,
+                    AlarmMessage.APPROVE.getTitle(), AlarmMessage.APPROVE.getMessage());
+
             return BaseResponse.from("요청을 성공적으로 승인했습니다.");
         } else {
+            Parent parent = pickUpInfo.getChild().getParent();
+            NotificationUtill.createNotification(parent,
+                    AlarmMessage.DECLINE.getTitle(), AlarmMessage.DECLINE.getMessage());
+
             return BaseResponse.from("요청을 성공적으로 거절했습니다.");
         }
         //TODO Alarm to Parent
     }
+
+    @Transactional(readOnly = true)
+    public List<DriverTodayRemainingPickUpResponse> getTodayRemainingPickUpList(Long driverId) {
+        List<Object[]> remainingPickUpInfo = driverRepository.findRemainingPickUpInfo(driverId);
+
+        return remainingPickUpInfo.stream()
+                .map(o -> {
+                    PickUpInfo po = (PickUpInfo) o[0];
+                    LocalDateTime reservedTime = (LocalDateTime) o[1];
+                    return DriverTodayRemainingPickUpResponse.of(po, reservedTime);
+                })
+                .collect(Collectors.toList());
+    }
+
 
     private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
         PickUp pickUp = PickUp.builder()
@@ -128,13 +159,25 @@ public class DriverService {
                 .build();
         pickUp.updatePickUpInfo(pickUpInfo);
         pickUpRepository.savePickUp(pickUp);
+
+        // Notifiaciton 생성
+        Notification notification = Notification.builder()
+                .driver(pickUpInfo.getDriver())
+                .pickUpAlarmTime(localDateTime.minusHours(1))
+                .build();
+        notificationRepository.save(notification);
     }
 
     private void removeOverlappedSubscribe(Long driverId, PickUpInfo pickUpInfo) {
         List<PickUpInfo> waitingPickUpInfoList = pickUpRepository.findWaitingPickUpInfoByDriverId(driverId);
         for (PickUpInfo waitingPickUpInfo : waitingPickUpInfoList) {
             if (isOverlapped(pickUpInfo.getSchedule(), waitingPickUpInfo.getSchedule())) {
-                waitingPickUpInfo.getPickUpSubscribe().modify(PickUpStatus.DECLINE); //TODO Alarm to Parent
+                waitingPickUpInfo.getPickUpSubscribe().modify(PickUpStatus.DECLINE);
+
+                // 거절 알람
+                Parent parent = pickUpInfo.getParent();
+                NotificationUtill.createNotification(parent, AlarmMessage.DECLINE.getTitle(),
+                        AlarmMessage.DECLINE.getMessage());
             }
         }
     }

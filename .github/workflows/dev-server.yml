@@ -27,16 +27,30 @@ jobs:
         cd BE/iDrop
         mkdir -p ./src/main/resources/env
         touch ./src/main/resources/env/mysql.yml
+        touch ./src/main/resources/env/fcm.yml
         touch ./src/main/resources/env/jwt.yml
         touch ./src/main/resources/env/s3.yml
         touch ./src/main/resources/env/naver_api.yml
         touch ./src/main/resources/data.sql
+        touch ./src/main/resources/idropFireBase.json
         
         printf "%s" "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
         printf "%s" "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
         printf "%s" "${{ secrets.S3_INFO }}" > ./src/main/resources/env/s3.yml
+        printf "%s" "${{ secrets.FCM_DATA }}" > ./src/main/resources/env/fcm.yml
         printf "%s" "${{ secrets.NAVER_API_INFO }}" > ./src/main/resources/env/naver_api.yml
         printf "%s" "${{ secrets.DATA }}" > ./src/main/resources/data.sql
+
+    - name: create-json
+      id: create-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "idropFireBase.json"
+        json: ${{ secrets.FIREBASE_DATA }}
+        dir: "./BE/iDrop/src/main/resources/"
+
+        
+
 
     - name: gradlew 실행 권한 설정
       run: |

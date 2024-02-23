@@ -45,10 +45,11 @@ jobs:
       with:
         name: "gcp.json"
         json: ${{ secrets.GCP_JSON }}
+      
 
     - name: Move JSON
       run: |
-        mv gcp.json ./src/main/resources/idropFireBase.json
+        mv ${{ steps.create-json.outputs.file-path }} ./src/main/resources/idropFireBase.json
 
 
     - name: gradlew 실행 권한 설정

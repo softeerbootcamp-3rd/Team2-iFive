@@ -58,7 +58,6 @@ export default function PickUpPage() {
             alert("이미지 업로드 해주세요!");
             return;
         }
-        console.log(image);
         const formData = new FormData();
         formData.append("childId", kidData.childId);
         formData.append("image", image);

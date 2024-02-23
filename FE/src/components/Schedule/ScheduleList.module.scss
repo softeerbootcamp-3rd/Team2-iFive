@@ -1,0 +1,36 @@
+@import "@/styles/util.scss";
+@import "@/styles/color.scss";
+@import "@/styles/fontStyle.scss";
+
+.scheduleList {
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 5px;
+    flex-wrap: nowrap;
+}
+.scheduleItem {
+    width: 60px;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    @extend %R_14;
+    color: #fff;
+}
+
+.expired {
+    background-color: $orange;
+}
+.canceled {
+    background-color: $purple;
+}
+.pending {
+    background-color: $blue;
+}
+.proceeding {
+    background-color: $primary;
+}

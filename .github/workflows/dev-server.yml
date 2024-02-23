@@ -40,11 +40,16 @@ jobs:
         printf "%s" "${{ secrets.DATA }}" > ./src/main/resources/data.sql
 
     - name: create-json
-        id: create-json
-        uses: jsdaniell/create-json@1.1.2
-        with:
-          name: "gcp.json"
-          json: ${{ secrets.GCP_JSON }} > ./src/main/resources/idropFireBase.json
+      id: create-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "gcp.json"
+        json: ${{ secrets.GCP_JSON }}
+
+    - name: Move JSON
+      run: |
+        mv gcp.json ./src/main/resources/idropFireBase.json
+
 
     - name: gradlew 실행 권한 설정
       run: |

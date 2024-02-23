@@ -156,7 +156,12 @@ public class DriverService {
         List<PickUpInfo> waitingPickUpInfoList = pickUpRepository.findWaitingPickUpInfoByDriverId(driverId);
         for (PickUpInfo waitingPickUpInfo : waitingPickUpInfoList) {
             if (isOverlapped(pickUpInfo.getSchedule(), waitingPickUpInfo.getSchedule())) {
-                waitingPickUpInfo.getPickUpSubscribe().modify(PickUpStatus.DECLINE); //TODO Alarm to Parent
+                waitingPickUpInfo.getPickUpSubscribe().modify(PickUpStatus.DECLINE);
+
+                // 거절 알람
+                Parent parent = pickUpInfo.getParent();
+                NotificationUtill.createNotification(parent, AlarmMessage.DECLINE.getTitle(),
+                        AlarmMessage.DECLINE.getMessage());
             }
         }
     }

@@ -46,7 +46,6 @@ function KidInformationBox({
             pickUpInfoId: pickUpId,
             statusCode: status
         };
-        console.log(pickUpId, status);
         // await postSubscribeRequest(postData);
     };
 

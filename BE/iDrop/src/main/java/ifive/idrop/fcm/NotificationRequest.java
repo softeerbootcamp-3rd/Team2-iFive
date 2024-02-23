@@ -1,4 +1,4 @@
-package ifive.idrop.dto.request;
+package ifive.idrop.fcm;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

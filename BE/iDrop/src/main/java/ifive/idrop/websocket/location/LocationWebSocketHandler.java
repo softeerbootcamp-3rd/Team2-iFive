@@ -180,6 +180,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         drivers.remove(sessionId);
         currentPickUps.remove(driverId);
         parents.remove(parentId);
+        lastLocations.remove(sessionId);
     }
 
     private void sendChildLocationToParent(CurrentPickUp currentPickUp, DriverGeoLocation driverLocation) throws Exception {

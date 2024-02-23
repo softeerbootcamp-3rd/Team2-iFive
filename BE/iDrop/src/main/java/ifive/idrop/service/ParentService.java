@@ -65,14 +65,6 @@ public class ParentService {
                         .toList());
     }
 
-    private void createPickUp(LocalDateTime localDateTime, PickUpInfo pickUpInfo) {
-        PickUp pickUp = PickUp.builder()
-                .reservedTime(localDateTime)
-                .build();
-        pickUp.updatePickUpInfo(pickUpInfo);
-        pickUpRepository.savePickUp(pickUp);
-    }
-
     // todo: 데모 이후 구독 생성시 후에 모두 승인이 아닌 대기 상태로 변경
     private PickUpSubscribe createPickUpSubscribe() {
         PickUpSubscribe subscribe = PickUpSubscribe.builder()

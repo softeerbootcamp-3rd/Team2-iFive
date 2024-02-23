@@ -9,6 +9,8 @@ import ifive.idrop.service.DriverService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
+
 import ifive.idrop.annotation.Login;
 import ifive.idrop.dto.response.BaseResponse;
 import ifive.idrop.dto.request.SubscribeRequest;
@@ -37,7 +39,7 @@ public class ParentController {
     }
 
     @PostMapping("/subscribe")
-    public BaseResponse<String> subscribeDriver(@Login Parent parent, @RequestBody SubscribeRequest request) throws JSONException {
+    public BaseResponse<String> subscribeDriver(@Login Parent parent, @RequestBody SubscribeRequest request) throws JSONException, ExecutionException, InterruptedException {
         return parentService.createSubscribe(parent, request);
     }
 

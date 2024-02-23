@@ -37,6 +37,7 @@ out/
 .vscode/
 /src/main/resources/env/**
 /src/main/resources/*.sql
+/src/main/resources/*.json
 
 .DS_Store
 .jmx

@@ -50,7 +50,7 @@ const router = createBrowserRouter(
             />
             <Route path="signup" element={<ParentSignUp />} />
             <Route path="login" loader={loginLoader} element={<Login />} />
-            <Route id="auth" loader={checkAuthLoader}>
+            <Route id="auth" loader={checkAuthLoader} errorElement={<Login />}>
                 <Route path="logout" loader={logoutLoader} />
                 <Route
                     path="map"

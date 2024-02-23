@@ -6,7 +6,6 @@ import styles from "./DriverDetail.module.scss";
 
 export default function DriverDetail() {
     const { state: subscriptionOption } = useLocation();
-    console.log(subscriptionOption);
     const navigate = useNavigate();
     const {
         driverId,
@@ -47,7 +46,7 @@ export default function DriverDetail() {
             case "별점":
                 return `${starRate} (${numberOfReviews} 리뷰)`;
             default:
-                return ""; // 기본값, 해당하는 title이 없는 경우
+                return "";
         }
     }
 
@@ -62,16 +61,16 @@ export default function DriverDetail() {
     return (
         <div className={styles.container}>
             <Header title="기사님 정보" />
-            <section className={styles.main}>
+            <main className={styles.main}>
                 <section className={styles.profile}>
-                    <div className={styles.profileImg}></div>
+                    <img src={image} className={styles.profileImg} />
                     <article className={styles.profileTextWrapper}>
                         <h3 className={styles.name}>{name}</h3>
                         <h4 className={styles.age}>{`${birth} (${gender})`}</h4>
                     </article>
                 </section>
                 <section className={styles.infoList}>{detailInfoList}</section>
-            </section>
+            </main>
             <Footer text="확인" onClick={handleSubscriptionRequest} />
         </div>
     );
@@ -91,4 +90,4 @@ export async function loader({ params }) {
     return driverInfoData;
 }
 
-const DRIVER_DETAIL_LIST = ["자기소개", "경력", "연락처", "별점", "후기"];
+const DRIVER_DETAIL_LIST = ["자기소개", "경력", "연락처", "별점"];

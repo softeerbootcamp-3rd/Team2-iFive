@@ -31,7 +31,7 @@ public class PickUpService {
     public void saveStartOrEndPickUp(Long pickUpId, MultipartFile image, String message) throws IOException, ExecutionException, InterruptedException {
         PickUp pickUp = pickUpRepository.findPickUpById(pickUpId)
                 .orElseThrow(() -> new CommonException(ErrorCode.PICKUP_NOT_FOUND));
-        Parent parent = pickUp.getPickUpInfo().getChild().getParent();
+        Parent parent = pickUp.getParent();
         if (pickUp.getStartImage() == null) {
             String imageUrl = imageService.upload(image, PICKUP_IMAGE_PATH);
             pickUpRepository.savePickUpStartInfo(pickUpId, imageUrl, message);

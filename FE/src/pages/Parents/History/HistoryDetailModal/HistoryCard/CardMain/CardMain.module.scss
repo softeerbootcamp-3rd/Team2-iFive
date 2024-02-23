@@ -1,0 +1,28 @@
+@import "@/styles/util.scss";
+@import "@/styles/color.scss";
+@import "@/styles/fontStyle.scss";
+
+.cardContentImg {
+    width: 100%;
+    aspect-ratio: 1 / 1;
+}
+
+.cardContent {
+    width: 100%;
+    height: max-content;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 16px;
+    img {
+        object-fit: cover;
+    }
+    .cardContentText {
+        @extend %R_14;
+        color: $gray;
+        padding: 0 12px;
+        width: 100%;
+        margin-bottom: 10px;
+    }
+}

@@ -18,6 +18,7 @@ import Success from "@/assets/Success.svg";
 import User from "@/assets/user_icon.svg";
 import Calender from "@/assets/calender.svg";
 import Truck from "@/assets/truck.png";
+import { handleAllowNotification } from "../../service/notification/notificationPermission";
 
 const userName = null;
 export function DriverMenu() {
@@ -72,7 +73,7 @@ export function ParentMenu() {
                     text="구독하기"
                     route="/subscription/search"
                 />
-                <MenuButton imgUrl={User} text="프로필" route="" />
+                <MenuButton imgUrl={User} text="프로필" route="/profile" />
                 <MenuButton imgUrl={Star} text="이용내역" route="/history" />
             </div>
 
@@ -82,8 +83,10 @@ export function ParentMenu() {
 }
 
 export async function fetchMenuData() {
+    await handleAllowNotification();
     const childrenData = await getKidInfo("user/pickup/now");
     const result = parseData(childrenData.data);
+
     return result;
 }
 

@@ -7,7 +7,7 @@ export function DriverListItem({
         gender,
         starRate,
         numberOfReviews,
-        imgSrc,
+        image,
         introduction
     },
     handleClick
@@ -23,7 +23,7 @@ export function DriverListItem({
                         ⭐️{starRate}/5.0({numberOfReviews})
                     </h6>
                 </div>
-                <img src={imgSrc} alt="" className={styles.img} />
+                <img src={image} alt="기사님 사진" className={styles.img} />
             </div>
             <p className={styles.introduce}>{introduction}</p>
         </article>

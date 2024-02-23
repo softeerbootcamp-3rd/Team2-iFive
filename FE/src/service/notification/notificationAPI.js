@@ -1,15 +1,14 @@
+import { BASE_URL } from "../../constants/constants";
 import { authRequest } from "../authenticationAPI";
 
 export async function postFcmToken(token) {
-    const url = "/new";
-
     try {
-        const response = await authRequest(url, {
+        const response = await authRequest(`${BASE_URL}/menu`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json"
             },
-            body: token
+            body: JSON.stringify({ fcmToken: token })
         });
         if (!response.ok) {
             throw new Error("서버로 토큰 전송 실패함");
@@ -22,7 +21,7 @@ export async function postFcmToken(token) {
 }
 
 export async function getAlarm() {
-    const url = "/alarm";
+    const url = "/";
 
     try {
         const response = await authRequest(url, {

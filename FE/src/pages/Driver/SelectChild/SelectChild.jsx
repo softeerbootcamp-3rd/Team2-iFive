@@ -3,7 +3,7 @@ import { Header } from "@/components/Header/Header";
 import { getKidInfo } from "@/service/childrenAPI";
 import styles from "./SelectChild.module.scss";
 import { TodayPickUpList } from "./TodayPickUpList";
-import { parseData } from "../../../../utils/parseData";
+import { parseData } from "../../../utils/parseData";
 
 export default function SelectChild() {
     const childrenData = useLoaderData();

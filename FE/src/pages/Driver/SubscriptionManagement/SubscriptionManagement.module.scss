@@ -30,7 +30,6 @@
 
     .name {
         @extend %B_18;
-        margin-right: 10px;
     }
     .birthDay {
         @extend %R_14;
@@ -45,6 +44,18 @@
     background-color: #c0c1c2;
 }
 
+.profiles {
+    display: flex;
+    text-align: center;
+}
+
+.status {
+    padding: 3px;
+    border-radius: 5px;
+    background-color: #6eca95;
+    color: white;
+}
+
 .headMessage {
     text-align: center;
     @extend %B_20;
@@ -52,6 +63,7 @@
 
 span {
     @extend %R_16;
+    margin-right: 10px;
 }
 
 .btnBox {

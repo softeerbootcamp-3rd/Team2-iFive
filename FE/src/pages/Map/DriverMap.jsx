@@ -12,14 +12,14 @@ import { getAccessToken } from "@/utils/auth";
 import { DriverBottomSheet } from "@/components/Bottomsheet/Bottomsheet";
 import Car from "@/assets/car.svg";
 import { getKidInfo } from "@/service/childrenAPI";
+import { parseData } from "../../utils/parseData";
 
 export default function DriverMap() {
     const ACCESS_TOKEN = getAccessToken();
 
-    // const childrenData = fetchNowPickUpData();
-
     const childrenData = useLoaderData();
-    const kidData = childrenData[0];
+    const { startLatitude, startLongitude, endLatitude, endLongitude } =
+        childrenData[0];
 
     const mapElementRef = useRef();
     const {
@@ -31,13 +31,10 @@ export default function DriverMap() {
     const map = useMap(mapElementRef, { center }, locationLoading);
     const driverMarker = useMarker(map, center, markerIcon);
 
-    const departurePos = getLatLng(
-        kidData.startLatitude,
-        kidData.startLongitude
-    );
+    const departurePos = getLatLng(startLatitude, startLongitude);
     const departureMarker = useMarker(map, departurePos);
 
-    const destinationPos = getLatLng(kidData.endLatitude, kidData.endLongitude);
+    const destinationPos = getLatLng(endLatitude, endLongitude);
     const destinationMarker = useMarker(map, destinationPos);
 
     const polyline = new naver.maps.Polyline({
@@ -153,12 +150,7 @@ const markerIcon = {
     }
 };
 
-function getChildrenData() {
-    const location = useLocation();
-    return location.state.childrenData;
-}
-
 export async function fetchNowPickUpData() {
     const fetchData = await getKidInfo("driver/pickup/now/child");
-    return fetchData.data;
+    return parseData(fetchData.data);
 }

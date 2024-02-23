@@ -30,9 +30,12 @@ import EndPickUp from "./pages/Complete/EndPickUp/EndPickUp";
 import ManagementSubscription, {
     fetchSubscribeList
 } from "./pages/Driver/SubscriptionManagement/SubscriptionManagement";
-import SelectChild from "./pages/Driver/PickUp/SelectChild/SelectChild";
+import SelectChild, {
+    fetchPickUpList
+} from "./pages/Driver/PickUp/SelectChild/SelectChild";
 import History from "./pages/Parents/History/History";
 import Profile from "./pages/Parents/Profile/Profile";
+
 
 
 export default function App() {
@@ -119,7 +122,7 @@ const router = createBrowserRouter(
                 />
                 <Route
                     path="select"
-                    //loader={fetchPickUpList}
+                    loader={fetchPickUpList}
                     element={
                         <RoleProvider>
                             {(isParent) => !isParent && <SelectChild />}

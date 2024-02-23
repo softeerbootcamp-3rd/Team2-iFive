@@ -22,12 +22,7 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
         
-    - name: create-json
-      id: create-json
-      uses: jsdaniell/create-json@1.1.2
-      with:
-        name: "firebase.json"
-        json: ${{ secrets.FIREBASE_DATA }}
+    
 
     - name: properties 설정
       run: |
@@ -47,7 +42,14 @@ jobs:
         printf "%s" "${{ secrets.FCM_DATA }}" > ./src/main/resources/env/fcm.yml
         printf "%s" "${{ secrets.NAVER_API_INFO }}" > ./src/main/resources/env/naver_api.yml
         printf "%s" "${{ secrets.DATA }}" > ./src/main/resources/data.sql
-        printf "%s" "${{ secrets.FIREBASE_DATA }}" > ./src/main/resources/idropFireBase.json
+
+    - name: create-json
+      id: create-json
+      uses: jsdaniell/create-json@1.1.2
+      with:
+        name: "firebase.json"
+        json: ${{ secrets.FIREBASE_DATA }}
+        dir: "./src/main/resources/"
 
         
 

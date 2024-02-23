@@ -70,7 +70,6 @@ public class ParentService {
         PickUpSubscribe subscribe = PickUpSubscribe.builder()
                 .status(PickUpStatus.WAIT)
                 .requestDate(LocalDateTime.now())
-                .expiredDate(LocalDateTime.now().plusDays(1).plusWeeks(4))
                 .build();
         pickUpRepository.savePickUpSubscribe(subscribe);
         return subscribe;

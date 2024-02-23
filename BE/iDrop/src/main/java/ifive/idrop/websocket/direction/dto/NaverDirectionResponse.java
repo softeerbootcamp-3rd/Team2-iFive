@@ -1,4 +1,4 @@
-package ifive.idrop.websocket.direction;
+package ifive.idrop.websocket.direction.dto;
 
 import lombok.Data;
 import lombok.Getter;

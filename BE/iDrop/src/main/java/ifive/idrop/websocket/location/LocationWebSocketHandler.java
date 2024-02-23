@@ -10,8 +10,12 @@ import ifive.idrop.jwt.JwtProvider;
 import ifive.idrop.repository.UserRepository;
 import ifive.idrop.util.CustomObjectMapper;
 import ifive.idrop.websocket.PickUpInfoRepository;
-import ifive.idrop.websocket.direction.Direction;
+import ifive.idrop.websocket.location.dto.ChildGeoLocation;
+import ifive.idrop.websocket.location.dto.CurrentPickUp;
+import ifive.idrop.websocket.direction.dto.Direction;
 import ifive.idrop.websocket.direction.NaverDirectionFinder;
+import ifive.idrop.websocket.location.dto.DriverGeoLocation;
+import ifive.idrop.websocket.location.dto.Location;
 import io.jsonwebtoken.Claims;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -40,14 +44,16 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     private static final Map<Long, String> parents; //부모 id, 부모 세션아이디
 
     private static final Map<Long, CurrentPickUp> currentPickUps; //기사 id, 현재픽업(child id, parent id, reserved time)
-    private static final Map<String, Location> lastLocation; //기사 세션아이디, 직전 위치
+    private static final Map<Long, Long> parentDriverSets; //부모 id, 기사 id
+    private static final Map<String, Location> lastLocations; //기사 세션아이디, 직전 위치
 
     static {
         sessions = new ConcurrentHashMap<>();
         drivers = new ConcurrentHashMap<>();
         parents = new ConcurrentHashMap<>();
         currentPickUps = new ConcurrentHashMap<>();
-        lastLocation = new ConcurrentHashMap<>();
+        parentDriverSets = new ConcurrentHashMap<>();
+        lastLocations = new ConcurrentHashMap<>();
     }
 
 
@@ -61,7 +67,6 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         if (user.getRole() == DRIVER) {
             Long driverId = ((Driver) user).getId();
             drivers.put(sessionId, driverId);
-
             try {
                 CurrentPickUp currentPickUp = setCurrentPickUps(driverId);
                 Direction direction = directionFinder.getDirection(currentPickUp.getStartLocation(), currentPickUp.getEndLocation());
@@ -76,6 +81,10 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
 
         } else if (user.getRole() == PARENT) {
             Long parentId = ((Parent) user).getId();
+            if (!parentDriverSets.containsKey(parentId)) {
+                session.sendMessage(new TextMessage("기사가 접속 중이 아닙니다."));
+                session.close(CloseStatus.NORMAL);
+            }
             parents.put(parentId, sessionId);
 
             log.info("webSocket/location - PARENT connected (session ID={}, parent ID={})", sessionId, parentId);
@@ -91,17 +100,20 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         DriverGeoLocation driverLocation = CustomObjectMapper.getObject(textMessage.getPayload(), DriverGeoLocation.class);
         CurrentPickUp currentPickUp = currentPickUps.get(driverId);
 
-        Location location = lastLocation.get(sessionId);
-        if (location == null) { //전 위치 기록이 없음 첫 위치
-            lastLocation.put(sessionId, driverLocation.getLocation());
+        Location lastLocation = lastLocations.get(sessionId);
+        if (lastLocation == null) { //전 위치 기록이 없음 첫 위치
+            lastLocations.put(sessionId, driverLocation.getLocation());
         }
         else {
-            if (!driverLocation.isSameLocation(location)) { //전에 왔던 위치와 다른 위치
-                String loc = directionFinder.getLocationForApi(driverLocation);
-                Direction direction = directionFinder.getDirection(loc, currentPickUp.getEndLocation());
+            if (!driverLocation.isSameLocation(lastLocation)) { //전에 왔던 위치와 다른 위치
+                Direction direction = directionFinder.getDirection(driverLocation.getLocation(), currentPickUp.getEndLocation());
                 session.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
-                location.update(driverLocation);
-                lastLocation.replace(sessionId, location);
+                lastLocation.update(driverLocation);
+                lastLocations.replace(sessionId, lastLocation);
+
+                String parentSessionId = parents.get(currentPickUp.getParentId());
+                WebSocketSession parentSession = sessions.get(parentSessionId);
+                parentSession.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
             }
         }
 
@@ -135,7 +147,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         // HTTP 헤더에서 엑세스 토큰을 꺼낸다.
 
         String accessToken = String.valueOf(session.getHandshakeHeaders().get("Sec-Websocket-Protocol"));
-        accessToken = accessToken.substring(1,accessToken.length()-1);
+        accessToken = accessToken.substring(1, accessToken.length() - 1);
         AuthenticateUser authenticateUser = getAuthenticateUser(accessToken);
         return userRepository.findByUserId(authenticateUser.getUserId())
                 .orElseThrow(() -> new CommonException(ErrorCode.USER_NOT_FOUND));
@@ -152,11 +164,12 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
                 .childId((Long) childIdAndParentId[0])
                 .parentId((Long) childIdAndParentId[1])
                 .reservedTime(pickup.getReservedTime())
-                .startLocation(directionFinder.getStartLocationForApi(pickUpLocation))
-                .endLocation(directionFinder.getEndLocationForApi(pickUpLocation))
+                .startLocation(new Location(pickUpLocation.getStartLongitude(), pickUpLocation.getStartLatitude()))
+                .endLocation(new Location(pickUpLocation.getEndLongitude(), pickUpLocation.getEndLatitude()))
                 .build();
         currentPickUps.put(driverId, currentPickUp);
-        return  currentPickUp;
+        parentDriverSets.put((Long) childIdAndParentId[1], driverId);
+        return currentPickUp;
     }
 
     //웹소켓 연결 종료 시, 관련 데이터 각종 hashmap에서 삭제
@@ -167,6 +180,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         drivers.remove(sessionId);
         currentPickUps.remove(driverId);
         parents.remove(parentId);
+        lastLocations.remove(sessionId);
     }
 
     private void sendChildLocationToParent(CurrentPickUp currentPickUp, DriverGeoLocation driverLocation) throws Exception {

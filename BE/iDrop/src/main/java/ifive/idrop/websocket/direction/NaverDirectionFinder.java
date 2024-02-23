@@ -1,7 +1,8 @@
 package ifive.idrop.websocket.direction;
 
-import ifive.idrop.entity.PickUpLocation;
-import ifive.idrop.websocket.location.DriverGeoLocation;
+import ifive.idrop.websocket.direction.dto.Direction;
+import ifive.idrop.websocket.direction.dto.NaverDirectionResponse;
+import ifive.idrop.websocket.location.dto.Location;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,35 +27,31 @@ public class NaverDirectionFinder {
 
     private final RestTemplate restTemplate = new RestTemplate();
 
-    public Direction getDirection(String start, String goal) throws Exception {
-        StringBuilder sb = new StringBuilder(NAVER_DIRECTION_URL);
-        sb.append("?start=").append(start).append("&goal=").append(goal);
-        String url = sb.toString();
+    public Direction getDirection(Location startLocation, Location endLocation) throws Exception {
+        String url = makeUrl(startLocation, endLocation);
+        HttpHeaders headers = makeHeader();
 
-        HttpHeaders headers = new HttpHeaders();
-        headers.setContentType(MediaType.APPLICATION_JSON);
-        headers.set("X-NCP-APIGW-API-KEY-ID", clientId);
-        headers.set("X-NCP-APIGW-API-KEY", clientSecret);
-
-        RequestEntity<Void> req = RequestEntity
+        RequestEntity<Void> request = RequestEntity
                 .get(url)
                 .headers(headers)
                 .build();
 
-        NaverDirectionResponse response = restTemplate.exchange(req, NaverDirectionResponse.class).getBody();
-        Direction direction = new Direction(response.getPath());
-        return direction;
+        NaverDirectionResponse response = restTemplate.exchange(request, NaverDirectionResponse.class).getBody();
+        return new Direction(response.getPath());
     }
 
-    public String getStartLocationForApi(PickUpLocation pickUpLocation) {
-        return pickUpLocation.getStartLongitude() + "," + pickUpLocation.getStartLatitude();
+    private String makeUrl(Location startLocation, Location endLocation) {
+        StringBuilder sb = new StringBuilder(NAVER_DIRECTION_URL);
+        sb.append("?start=").append(startLocation.getLongitude()).append(",").append(startLocation.getLatitude());
+        sb.append("&goal=").append(endLocation.getLongitude()).append(",").append(endLocation.getLatitude());
+        return sb.toString();
     }
 
-    public String getEndLocationForApi(PickUpLocation pickUpLocation) {
-        return pickUpLocation.getEndLongitude() + "," + pickUpLocation.getEndLatitude();
-    }
-
-    public String getLocationForApi(DriverGeoLocation location) {
-        return location.getLongitude() + "," + location.getLatitude();
+    private HttpHeaders makeHeader() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.APPLICATION_JSON);
+        headers.set("X-NCP-APIGW-API-KEY-ID", clientId);
+        headers.set("X-NCP-APIGW-API-KEY", clientSecret);
+        return headers;
     }
 }

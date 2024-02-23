@@ -1,4 +1,4 @@
-package ifive.idrop.websocket.location;
+package ifive.idrop.websocket.location.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

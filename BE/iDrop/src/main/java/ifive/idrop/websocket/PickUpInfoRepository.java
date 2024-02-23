@@ -2,8 +2,6 @@ package ifive.idrop.websocket;
 
 import ifive.idrop.entity.PickUp;
 import ifive.idrop.entity.PickUpLocation;
-import ifive.idrop.exception.CommonException;
-import ifive.idrop.exception.ErrorCode;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.NoResultException;
 import jakarta.persistence.TypedQuery;
@@ -31,7 +29,7 @@ public class PickUpInfoRepository {
 
         //현재 시간이 reservedTime ~ reservedTime+1시간 에 해당하는 PickUp 찾기
         String jpql = "SELECT p FROM PickUp p WHERE p.pickUpInfo.driver.id = :driverId " +
-                "AND (p.reservedTime - 10 MINUTE) <= :now AND :now <= (p.reservedTime + 1 HOUR)";
+                "AND (p.reservedTime) <= :now AND :now < (p.reservedTime + 1 HOUR)";
 
         TypedQuery<PickUp> query = em.createQuery(jpql, PickUp.class);
         query.setParameter("driverId", driverId);

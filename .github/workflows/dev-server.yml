@@ -49,7 +49,7 @@ jobs:
       with:
         name: "idropFireBase.json"
         json: ${{ secrets.FIREBASE_DATA }}
-        dir: "./src/main/resources/"
+        dir: "./BE/iDrop/src/main/resources/"
 
         
 

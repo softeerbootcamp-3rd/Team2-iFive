@@ -19,7 +19,7 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime pickUpTime;
+    private LocalDateTime pickUpAlarmTime;
 
     @ManyToOne
     @JoinColumn(name = "driver_id")

@@ -19,7 +19,7 @@ public class NotificationRepository {
     public List<Notification> findAllNotificationBeforeCurrentTime() {
         String query =
                 "SELECT n FROM Notification n " +
-                "WHERE n.pickUpTime <= CURRENT_TIME";
+                "WHERE n.pickUpAlarmTime <= CURRENT_TIME";
         return em.createQuery(query)
                 .getResultList();
     }

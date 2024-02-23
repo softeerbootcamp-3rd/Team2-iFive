@@ -147,7 +147,7 @@ public class DriverService {
         // Notifiaciton 생성
         Notification notification = Notification.builder()
                 .driver(pickUpInfo.getDriver())
-                .pickUpTime(localDateTime.minusHours(1))
+                .pickUpAlarmTime(localDateTime.minusHours(1))
                 .build();
         notificationRepository.save(notification);
     }

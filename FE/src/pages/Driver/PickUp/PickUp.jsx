@@ -8,6 +8,7 @@ import { postKidInfo } from "@/service/childrenAPI";
 import { isWithinRadius } from "@/utils/calculatorDistance";
 import { useCoords } from "@/hooks/useCoords";
 import { TodayPickUpList } from "./SelectChild/TodayPickUpList";
+import { ContentsBox } from "../../../components/Bottomsheet/ContentsBox/ContentsBox";
 
 export default function PickUpPage() {
     const [validLocation, setCrntLocation] = useState(false);
@@ -72,7 +73,7 @@ export default function PickUpPage() {
         <div className={styles.wrapper}>
             <Header title={flag ? "픽업 종료" : "픽업 시작"}></Header>
             <div className={styles.contents}>
-                <TodayPickUpList childrenData={childrenData} />
+                <ContentsBox {...childrenData} />
                 <CameraCapture onSetImage={onSetImage} />
                 <div className={styles.textarea}>
                     <label htmlFor="significant">특이사항</label>

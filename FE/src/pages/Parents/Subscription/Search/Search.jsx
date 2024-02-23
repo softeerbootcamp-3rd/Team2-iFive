@@ -120,6 +120,7 @@ export default function Search() {
                     onClose={closeModal}
                     width="100%"
                     height="100dvh"
+                    animationType="slideDown"
                 >
                     <div className={styles.modalContainer}>
                         <AddressFinderMap

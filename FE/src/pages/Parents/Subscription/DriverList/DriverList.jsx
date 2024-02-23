@@ -10,7 +10,7 @@ export default function DriverList() {
     const { state: subscriptionOption } = useLocation();
     const navigate = useNavigate();
     const handleItemClick = (id) => {
-        navigate(`/subscription/driver/${id}`, {});
+        navigate(`/subscription/driver/${id}`, { state: subscriptionOption });
     };
 
     useEffect(() => {

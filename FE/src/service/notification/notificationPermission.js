@@ -1,6 +1,6 @@
 import { getToken } from "firebase/messaging";
-import { postFcmToken } from "./api";
-import { registerServiceWorker } from "./registerServiceWorker";
+import { postFcmToken } from "./notificationAPI";
+import { messaging } from "./foregroundMessage";
 
 export async function handleAllowNotification() {
     try {
@@ -11,7 +11,7 @@ export async function handleAllowNotification() {
                 vapidKey: import.meta.env.VITE_FIREBASE_VAPID_KEY
             });
             if (token) {
-                // console.log(`fcm 토큰 발급 완료 : ${token}`);
+                console.log(`fcm 토큰 발급 완료 : ${token}`);
                 postFcmToken(token);
             } else {
                 alert(

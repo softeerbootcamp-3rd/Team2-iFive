@@ -28,7 +28,7 @@ function reducer(state, action) {
  * @param {Object} options
  * @returns {[Object, function]}
  */
-export function useFetchGet(query, options = {}, skip = false) {
+export function useFetch(query, options = {}, skip = false) {
     const [state, dispatch] = useReducer(reducer, {
         loading: false,
         error: null,
@@ -43,7 +43,7 @@ export function useFetchGet(query, options = {}, skip = false) {
         async (signal) => {
             dispatch({ type: actionType.loading });
             try {
-                const response = await authRequest(`${BASE_URL}/${query}`, {
+                const response = await authRequest(`${BASE_URL}${query}`, {
                     signal,
                     ...options
                 });
@@ -62,11 +62,17 @@ export function useFetchGet(query, options = {}, skip = false) {
     );
 
     useEffect(() => {
+        if (!query) return;
         if (skip) return;
         const controller = new AbortController();
         fetchData(controller.signal);
         return () => controller.abort();
     }, [fetchData]);
 
-    return [state, fetchData];
+    return {
+        loading: state.loading,
+        error: state.error,
+        data: state.data,
+        fetchData
+    };
 }

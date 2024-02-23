@@ -3,7 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import styles from "./PickUp.module.scss";
-import { CameraCapture } from "./cameraCapture";
+import { CameraCapture } from "./CameraCapture";
 import { postKidInfo } from "@/service/childrenAPI";
 import { isWithinRadius } from "@/utils/calculatorDistance";
 import { useCoords } from "@/hooks/useCoords";

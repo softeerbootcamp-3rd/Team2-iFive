@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import styles from "./bottomsheet.module.scss";
+import styles from "./Bottomsheet.module.scss";
 import { DriverContents, ParentContents } from "./KidInfoBox/KidInfoBox";
 import { Footer } from "../Footer/Footer";
 

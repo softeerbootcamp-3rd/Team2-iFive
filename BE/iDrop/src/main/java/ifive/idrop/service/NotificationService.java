@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +19,7 @@ public class NotificationService {
     @Scheduled(cron = "0 * * * * *")
     @Transactional
     public void checkPickUpTime() {
-        List<Notification> notificationList = notificationRepository.findAllNotification();
+        List<Notification> notificationList = notificationRepository.findAllNotificationBeforeCurrentTime();
         for (Notification notification : notificationList) {
             NotificationUtill.createNotification(notification.getDriver()
                     , AlarmMessage.PICK_UP_PRE_INFO.getTitle(), AlarmMessage.PICK_UP_PRE_INFO.getMessage());

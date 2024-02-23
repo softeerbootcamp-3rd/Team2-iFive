@@ -16,7 +16,7 @@ public class NotificationRepository {
         em.persist(notification);
     }
 
-    public List<Notification> findAllNotification() {
+    public List<Notification> findAllNotificationBeforeCurrentTime() {
         String query =
                 "SELECT n FROM Notification n " +
                 "WHERE n.pickUpTime <= CURRENT_TIME";

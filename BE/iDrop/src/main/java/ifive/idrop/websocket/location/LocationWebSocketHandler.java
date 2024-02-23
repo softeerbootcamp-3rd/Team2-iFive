@@ -44,6 +44,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
     private static final Map<Long, String> parents; //부모 id, 부모 세션아이디
 
     private static final Map<Long, CurrentPickUp> currentPickUps; //기사 id, 현재픽업(child id, parent id, reserved time)
+    private static final Map<Long, Long> parentDriverSets; //부모 id, 기사 id
     private static final Map<String, Location> lastLocations; //기사 세션아이디, 직전 위치
 
     static {
@@ -51,6 +52,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         drivers = new ConcurrentHashMap<>();
         parents = new ConcurrentHashMap<>();
         currentPickUps = new ConcurrentHashMap<>();
+        parentDriverSets = new ConcurrentHashMap<>();
         lastLocations = new ConcurrentHashMap<>();
     }
 
@@ -79,6 +81,10 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
 
         } else if (user.getRole() == PARENT) {
             Long parentId = ((Parent) user).getId();
+            if (!parentDriverSets.containsKey(parentId)) {
+                session.sendMessage(new TextMessage("기사가 접속 중이 아닙니다."));
+                session.close(CloseStatus.NORMAL);
+            }
             parents.put(parentId, sessionId);
 
             log.info("webSocket/location - PARENT connected (session ID={}, parent ID={})", sessionId, parentId);
@@ -162,6 +168,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
                 .endLocation(new Location(pickUpLocation.getEndLongitude(), pickUpLocation.getEndLatitude()))
                 .build();
         currentPickUps.put(driverId, currentPickUp);
+        parentDriverSets.put((Long) childIdAndParentId[1], driverId);
         return currentPickUp;
     }
 

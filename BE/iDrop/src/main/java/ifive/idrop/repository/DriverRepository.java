@@ -5,14 +5,12 @@ import ifive.idrop.entity.*;
 import ifive.idrop.util.RequestSchedule;
 import ifive.idrop.util.ScheduleUtils;
 import ifive.idrop.entity.Driver;
-import ifive.idrop.entity.PickUpInfo;
 import jakarta.persistence.EntityManager;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 
@@ -51,7 +49,7 @@ public class DriverRepository {
         }
         return availableDrivers;
     }
-    public List<Object[]> findAllRunningPickUpInfo(Long driverId) {
+    public List<Object[]> findAllRunningPickUpInfoOrderByreservedTimeASC(Long driverId) {
         String query = "SELECT pui, pu.reservedTime\n" +
                 "FROM PickUpInfo pui\n" +
                 "JOIN PickUp pu ON pui.id = pu.pickUpInfo.id\n" +

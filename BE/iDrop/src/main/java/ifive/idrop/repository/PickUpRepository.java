@@ -148,7 +148,7 @@ public class PickUpRepository {
         return query.getResultList();
     }
 
-    public int getCurrentPickUpSize(Long parentId) {
+    public Long getCurrentPickUpSize(Long parentId) {
         LocalDateTime now = LocalDateTime.now();
 
         TypedQuery<Long> query = em.createQuery(
@@ -162,7 +162,7 @@ public class PickUpRepository {
         query.setParameter("parentId", parentId);
         query.setParameter("now", now);
 
-        return query.getSingleResult().intValue();
+        return query.getSingleResult();
     }
 
 }

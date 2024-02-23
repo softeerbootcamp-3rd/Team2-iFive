@@ -100,10 +100,15 @@ public class ParentService {
                 pickUpList.stream().map(PickUpHistoryResponse::toEntity)
                         .toList());
     }
-  
+
     @Transactional(readOnly = true)
     public List<ParentSubscribeInfoResponse> subscribeList(Long parentId) {
         List<PickUpInfo> pickUpInfoList = pickUpRepository.findPickUpInfoByParentIdInTheLatestOrder(parentId);
         return pickUpInfoList.stream().map(ParentSubscribeInfoResponse::of).toList();
+    }
+
+    @Transactional(readOnly = true)
+    public boolean hasCurrentPickUp(Long parentId) {
+        return pickUpRepository.getCurrentPickUpSize(parentId) != 0;
     }
 }

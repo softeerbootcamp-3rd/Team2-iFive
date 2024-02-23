@@ -38,13 +38,13 @@ public class PickUpService {
             log.info("pickUp Start - driverId = {}, pickUpId = {}", pickUp.getDriver().getId(), pickUp.getId());
 
             NotificationUtill.createNotification(parent, AlarmMessage.PICK_UP_START.getTitle(),
-                    AlarmMessage.PICK_UP_END.getMessage());
+                    AlarmMessage.PICK_UP_START.getMessage());
         } else if (pickUp.getEndImage() == null) {
             String imageUrl = imageService.upload(image, PICKUP_IMAGE_PATH);
             pickUpRepository.savePickUpEndInfo(pickUpId, imageUrl, message);
             log.info("pickUp End - driverId = {}, pickUpId = {}", pickUp.getDriver().getId(), pickUp.getId());
 
-            NotificationUtill.createNotification(parent, AlarmMessage.PICK_UP_START.getTitle(),
+            NotificationUtill.createNotification(parent, AlarmMessage.PICK_UP_END.getTitle(),
                     AlarmMessage.PICK_UP_END.getMessage());
         } else {
             throw new CommonException(ErrorCode.PICKUP_ALREADY_END);

@@ -25,13 +25,15 @@ import ParentSignUp from "./pages/Auth/SignUp/ParentSignUp";
 import { DriverMenu, ParentMenu, fetchMenuData } from "./pages/Menu/Menu";
 import SubscriptionConfirmation from "./pages/Complete/Confirmation/Confirmation";
 import ParentMap from "./pages/Map/ParentMap";
-import DriverMap from "./pages/Map/DriverMap";
+import DriverMap, { fetchNowPickUpData } from "./pages/Map/DriverMap";
 import EndPickUp from "./pages/Complete/EndPickUp/EndPickUp";
 import ManagementSubscription, {
     fetchSubscribeList
 } from "./pages/Driver/SubscriptionManagement/SubscriptionManagement";
+import SelectChild from "./pages/Driver/PickUp/SelectChild/SelectChild";
 import History from "./pages/Parents/History/History";
 import Profile from "./pages/Parents/Profile/Profile";
+
 
 export default function App() {
     return <RouterProvider router={router} />;
@@ -52,6 +54,7 @@ const router = createBrowserRouter(
                 <Route
                     path="map"
                     // TODO: Driver일 경우 loader로 비동기 처리
+                    loader={fetchNowPickUpData}
                     element={
                         <RoleProvider>
                             {(isParent) =>
@@ -115,10 +118,19 @@ const router = createBrowserRouter(
                     }
                 />
                 <Route
+                    path="select"
+                    //loader={fetchPickUpList}
+                    element={
+                        <RoleProvider>
+                            {(isParent) => !isParent && <SelectChild />}
+                        </RoleProvider>
+                 />
+                 <Route
                     path="profile"
                     element={
                         <RoleProvider>
                             {(isParent) => isParent && <Profile />}
+
                         </RoleProvider>
                     }
                 />

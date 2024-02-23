@@ -1,0 +1,46 @@
+@import "@/styles/fontStyle.scss";
+
+.content {
+    display: flex;
+    gap: 30px;
+    border-block: 1px solid #c0c1c2;
+    writing-mode: horizontal-tb;
+    margin-bottom: 10px;
+    padding: 20px 0px;
+}
+
+.infoBox {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    text-align: left;
+    width: 80%;
+    span:first-child {
+        @extend %B_18;
+    }
+    span {
+        @extend %R_14;
+    }
+
+    button {
+        float: right;
+        width: 70px;
+        background: #6eca95;
+        color: white;
+        border-radius: 10px;
+        height: 30px;
+        @extend %M_14;
+    }
+}
+
+.kidImg {
+    width: 82px;
+    height: 82px;
+    border-radius: 15px;
+    background-color: #c0c1c2;
+}
+
+.headMessage {
+    text-align: center;
+    @extend %B_20;
+}

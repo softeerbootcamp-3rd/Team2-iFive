@@ -5,17 +5,19 @@
     flex-direction: column;
     gap: 30px;
     writing-mode: horizontal-tb;
-    margin-bottom: 10px;
+    width: 90%;
+    margin: 10px auto;
     padding: 20px;
     border: 1px solid #c0c1c2;
     border-radius: 10px;
-    // box-shadow: 5px 11px 14px -7px rgba(0, 0, 0, 0.75);
 }
 
 .kidInfo {
     display: flex;
     flex-direction: row;
     gap: 20px;
+    align-items: center;
+    justify-content: space-evenly;
 }
 
 .infoBox {
@@ -25,11 +27,14 @@
     text-align: left;
     gap: 10px;
     width: 80%;
-    span:first-child {
-        @extend %M_24;
+
+    .name {
+        @extend %B_18;
+        margin-right: 10px;
     }
-    span:last-child {
-        @extend %R_16;
+    .birthDay {
+        @extend %R_14;
+        color: #656363;
     }
 }
 
@@ -45,9 +50,8 @@
     @extend %B_20;
 }
 
-.birthDay {
-    @extend %M_16;
-    color: #656363;
+span {
+    @extend %R_16;
 }
 
 .btnBox {

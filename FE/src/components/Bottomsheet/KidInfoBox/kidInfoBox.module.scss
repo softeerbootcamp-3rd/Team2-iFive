@@ -16,10 +16,20 @@
     text-align: left;
     width: 80%;
     span:first-child {
-        @extend %M_24;
+        @extend %B_18;
     }
-    span:last-child {
-        @extend %R_16;
+    span {
+        @extend %R_14;
+    }
+
+    button {
+        float: right;
+        width: 70px;
+        background: #6eca95;
+        color: white;
+        border-radius: 10px;
+        height: 30px;
+        @extend %M_14;
     }
 }
 

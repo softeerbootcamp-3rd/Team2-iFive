@@ -1,19 +1,19 @@
 import { useState, useRef, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Footer } from "@/components/Footer/Footer";
-import { DriverContents } from "@/components/Bottomsheet/KidInfoBox";
 import { Header } from "@/components/Header/Header";
 import styles from "./PickUp.module.scss";
 import { CameraCapture } from "./cameraCapture";
 import { postKidInfo } from "@/service/childrenAPI";
 import { isWithinRadius } from "@/utils/calculatorDistance";
 import { useCoords } from "@/hooks/useCoords";
+import { TodayPickUpList } from "./SelectChild/TodayPickUpList";
 
 export default function PickUpPage() {
     const [validLocation, setCrntLocation] = useState(false);
 
-    const childrenData = getChildrenData();
-    const kidData = childrenData[0];
+    const { state: childrenData } = useLocation();
+    const kidData = childrenData;
 
     const {
         location: { latitude, longitude },
@@ -72,7 +72,7 @@ export default function PickUpPage() {
         <div className={styles.wrapper}>
             <Header title={flag ? "픽업 종료" : "픽업 시작"}></Header>
             <div className={styles.contents}>
-                <DriverContents childrenData={childrenData} />
+                <TodayPickUpList childrenData={childrenData} />
                 <CameraCapture onSetImage={onSetImage} />
                 <div className={styles.textarea}>
                     <label htmlFor="significant">특이사항</label>
@@ -99,9 +99,4 @@ export default function PickUpPage() {
             )}
         </div>
     );
-}
-
-function getChildrenData() {
-    const location = useLocation();
-    return location.state.childrenData;
 }

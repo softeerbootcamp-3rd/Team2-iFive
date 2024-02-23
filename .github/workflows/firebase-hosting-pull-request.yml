@@ -15,6 +15,7 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           cd FE
+          yarn install
           yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:

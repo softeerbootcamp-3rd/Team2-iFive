@@ -21,7 +21,7 @@ export function Modal({
         }
     };
 
-    if (!isOpen) return null;
+    if (!animate || !isOpen) return null;
 
     return ReactDOM.createPortal(
         <div
@@ -31,7 +31,6 @@ export function Modal({
                     : styles[animationType + "Out"]
             }`}
             style={modalStyle}
-            onClick={(e) => e.stopPropagation()}
             onAnimationEnd={handleAnimationEnd}
         >
             {children}

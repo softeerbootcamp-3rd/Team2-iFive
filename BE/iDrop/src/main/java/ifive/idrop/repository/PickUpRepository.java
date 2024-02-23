@@ -151,4 +151,22 @@ public class PickUpRepository {
 
         return query.getResultList();
     }
+
+    public Long getCurrentPickUpSize(Long parentId) {
+        LocalDateTime now = LocalDateTime.now();
+
+        TypedQuery<Long> query = em.createQuery(
+                "SELECT COUNT(p) FROM PickUp p " +
+                        "JOIN p.pickUpInfo pi " +
+                        "JOIN pi.child c " +
+                        "WHERE c.parent.id = :parentId " +
+                        "AND p.reservedTime <= :now " +
+                        "AND (p.reservedTime + 1 HOUR) > :now", Long.class);
+
+        query.setParameter("parentId", parentId);
+        query.setParameter("now", now);
+
+        return query.getSingleResult();
+    }
+
 }

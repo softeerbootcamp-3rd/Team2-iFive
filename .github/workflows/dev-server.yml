@@ -47,7 +47,7 @@ jobs:
       id: create-json
       uses: jsdaniell/create-json@1.1.2
       with:
-        name: "firebase.json"
+        name: "idropFireBase.json"
         json: ${{ secrets.FIREBASE_DATA }}
         dir: "./src/main/resources/"
 

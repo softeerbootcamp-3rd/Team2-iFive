@@ -53,8 +53,6 @@ public class DriverController {
     @GetMapping("/pickup/today/remaining")
     public BaseResponse<List<DriverTodayRemainingPickUpResponse>> getRemainingPickUpList(@Login Driver driver) {
         List<DriverTodayRemainingPickUpResponse> pickUpList = driverService.getTodayRemainingPickUpList(driver.getId());
-        if(pickUpList.isEmpty())
-            throw new CommonException(ErrorCode.PICKUP_NOT_FOUND);
         return BaseResponse.of("Data Successfully Proceed", pickUpList);
     }
 }

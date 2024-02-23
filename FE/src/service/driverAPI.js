@@ -6,6 +6,9 @@ export async function postSubscribeRequest(subscribeInfo) {
             `${BASE_URL}/driver/subscribe/check`,
             {
                 method: "POST",
+                headers:{
+                    "Content-Type": 'application/json'
+                },
                 body: JSON.stringify(subscribeInfo)
             }
         );

@@ -31,12 +31,20 @@ jobs:
         touch ./src/main/resources/env/s3.yml
         touch ./src/main/resources/env/naver_api.yml
         touch ./src/main/resources/data.sql
+        touch ./src/main/resources/idropFireBase.json
         
         printf "%s" "${{ secrets.MYSQL_INFO }}" > ./src/main/resources/env/mysql.yml
         printf "%s" "${{ secrets.AUTH_INFO }}" > ./src/main/resources/env/jwt.yml
         printf "%s" "${{ secrets.S3_INFO }}" > ./src/main/resources/env/s3.yml
         printf "%s" "${{ secrets.NAVER_API_INFO }}" > ./src/main/resources/env/naver_api.yml
         printf "%s" "${{ secrets.DATA }}" > ./src/main/resources/data.sql
+
+    - name: create-json
+        id: create-json
+        uses: jsdaniell/create-json@1.1.2
+        with:
+          name: "gcp.json"
+          json: ${{ secrets.GCP_JSON }} > ./src/main/resources/idropFireBase.json
 
     - name: gradlew 실행 권한 설정
       run: |

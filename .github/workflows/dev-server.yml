@@ -49,7 +49,7 @@ jobs:
 
     - name: Move JSON
       run: |
-        mv ${{ steps.create-json.outputs.file-path }} ./src/main/resources/idropFireBase.json
+        printf "%s" ${{ steps.create-json.outputs.file-path }} > ./src/main/resources/idropFireBase.json
 
 
     - name: gradlew 실행 권한 설정

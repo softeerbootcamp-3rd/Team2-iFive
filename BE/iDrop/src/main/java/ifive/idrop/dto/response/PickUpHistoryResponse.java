@@ -37,10 +37,16 @@ public class PickUpHistoryResponse {
         private String startImage;
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
+        private String startAddress;
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
         private LocalDateTime endTime;
 
         @JsonInclude(JsonInclude.Include.NON_NULL)
         private String endImage;
+
+        @JsonInclude(JsonInclude.Include.NON_NULL)
+        private String endAddress;
 
         static Info toEntity(PickUp pickUp) {
             if (pickUp.getEndTime() == null) {
@@ -48,12 +54,16 @@ public class PickUpHistoryResponse {
                         .status(PickUpInfoStatus.START.getStatus())
                         .startTime(pickUp.getStartTime())
                         .startImage(pickUp.getStartImage())
+                        .startAddress(pickUp.getPickUpInfo().getPickUpLocation().getStartAddress())
+                        .endAddress(pickUp.getPickUpInfo().getPickUpLocation().getEndAddress())
                         .build();
             }
 
             return Info.builder()
                     .endTime(pickUp.getEndTime())
                     .endImage(pickUp.getEndImage())
+                    .startAddress(pickUp.getPickUpInfo().getPickUpLocation().getStartAddress())
+                    .endAddress(pickUp.getPickUpInfo().getPickUpLocation().getEndAddress())
                     .status(PickUpInfoStatus.DONE.getStatus())
                     .build();
         }

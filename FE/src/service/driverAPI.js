@@ -1,4 +1,5 @@
 import { authRequest } from "./authenticationAPI";
+import { BASE_URL } from "@/constants/constants.js";
 
 export async function postSubscribeRequest(subscribeInfo) {
     try {
@@ -6,8 +7,8 @@ export async function postSubscribeRequest(subscribeInfo) {
             `${BASE_URL}/driver/subscribe/check`,
             {
                 method: "POST",
-                headers:{
-                    "Content-Type": 'application/json'
+                headers: {
+                    "Content-Type": "application/json"
                 },
                 body: JSON.stringify(subscribeInfo)
             }

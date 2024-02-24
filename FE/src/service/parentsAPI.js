@@ -73,3 +73,18 @@ export async function getSubscriptionHistoryList() {
         throw error;
     }
 }
+
+export async function getCurrentPickUp() {
+    try {
+        const response = await authRequest(`${BASE_URL}/parent/location/now`);
+
+        const result = await response.json();
+        if (!response.ok) {
+            alert(`${result.message}\n ${result.solution}`);
+            return false;
+        }
+        return true;
+    } catch (error) {
+        throw error;
+    }
+}

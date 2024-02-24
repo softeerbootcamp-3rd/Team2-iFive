@@ -154,7 +154,6 @@ const router = createBrowserRouter(
 
                 <Route
                     path="pickup/request"
-                    loader={fetchSubscribeList}
                     element={
                         <RoleProvider>
                             {(isParent) =>

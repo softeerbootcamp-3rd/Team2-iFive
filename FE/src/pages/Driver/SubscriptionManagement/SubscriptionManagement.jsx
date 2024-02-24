@@ -2,28 +2,38 @@ import React from "react";
 import styles from "./SubscriptionManagement.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
 import { transformSchedule } from "../../Parents/History/HistoryItem/transformSchedule";
-import { removeCityPrefix } from "../../../utils/parseData";
+import { isHaveItems, removeCityPrefix } from "../../../utils/parseData";
 import { Header } from "@/components/Header/Header";
 import { getKidInfo } from "@/service/childrenAPI";
-import { useLoaderData } from "react-router-dom";
+import { redirect, useLoaderData } from "react-router-dom";
 import { ScheduleList } from "../../../components/Schedule/ScheduleList";
 import { postSubscribeRequest } from "../../../service/driverAPI";
+import { useFetch } from "../../../hooks/useFetch";
+import { NoChildItems } from "../../../components/Layout/Content/noChildData";
+import { Loader } from "../../../components/Loader/Loader";
 
 export default function SubscriptionManagement() {
-    const subscribeList = useLoaderData();
-    const isHaveData = subscribeList.length === 0 ? true : false;
+    const {
+        loading,
+        data: subscribeList,
+        error,
+        refetchData
+    } = useFetch("/driver/subscribe/list", {});
+
+    if (loading || !subscribeList) return <Loader />;
+    if (error) redirect("/menu");
+
+    const isHaveData = isHaveItems(subscribeList);
 
     return (
         <div>
             <Header title="구독 요청 목록" />
             {isHaveData ? (
-                <div className={styles.headMessage}>
-                    현재 요청된 구독이 없습니다
-                </div>
-            ) : (
                 subscribeList.map((subscription, index) => (
                     <KidInformationBox key={index} {...subscription} />
                 ))
+            ) : (
+                <NoChildItems type="subscribe" />
             )}
         </div>
     );
@@ -42,7 +52,8 @@ function KidInformationBox({
     parentName,
     parentPhoneNumber,
     status,
-    schedule
+    schedule,
+    refetchData
 }) {
     startAddress = removeCityPrefix(startAddress);
     endAddress = removeCityPrefix(endAddress);
@@ -54,6 +65,8 @@ function KidInformationBox({
             statusCode: status
         };
         await postSubscribeRequest(postData);
+        // TODO 요청 처리 후 데이터 업데이트 고려하기
+        refetchData();
     };
 
     return (

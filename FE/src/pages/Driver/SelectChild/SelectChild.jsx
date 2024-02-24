@@ -24,8 +24,9 @@ export default function SelectChild() {
     );
 }
 
-//페이지 접근 시 남아있는 픽업 리스트 요청. 없는 경우 메뉴로 리다이렉트
 export async function fetchPickUpList() {
     const pickUpList = await getKidInfo("driver/pickup/today/remaining");
-    return parseData(pickUpList.data);
+    return pickUpList.data.length === 0
+        ? pickUpList.data
+        : parseData(pickUpList.data);
 }

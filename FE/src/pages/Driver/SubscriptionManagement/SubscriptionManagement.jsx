@@ -64,7 +64,7 @@ function KidInformationBox({
                     <div className={styles.profiles}>
                         <span className={styles.name}>{childName}</span>
                         <div
-                            className={`${styles.status} ${status === "대기중" ? styles.waiting : styles.accept}`}
+                            className={`${styles.status} ${status === "대기" ? styles.waiting : styles.accept}`}
                         >
                             {status}
                         </div>

@@ -34,6 +34,7 @@ export const SEARCH_PAGE = (function () {
 export const PICKUP_STATUS_MAP = {
     승인: "proceeding",
     픽업중: "proceeding",
+    대기: "pending",
     대기중: "pending",
     만료됨: "expired",
     취소됨: "canceled"

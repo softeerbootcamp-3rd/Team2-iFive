@@ -66,7 +66,6 @@ function KidInformationBox({
         };
         await postSubscribeRequest(postData);
         // TODO 요청 처리 후 데이터 업데이트 고려하기
-        refetchData();
     };
 
     return (

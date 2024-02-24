@@ -11,13 +11,20 @@ import { postSubscribeRequest } from "../../../service/driverAPI";
 
 export default function SubscriptionManagement() {
     const subscribeList = useLoaderData();
+    const isHaveData = subscribeList.length === 0 ? true : false;
 
     return (
         <div>
             <Header title="구독 요청 목록" />
-            {subscribeList.map((subscription, index) => (
-                <KidInformationBox key={index} {...subscription} />
-            ))}
+            {isHaveData ? (
+                <div className={styles.headMessage}>
+                    현재 요청된 구독이 없습니다
+                </div>
+            ) : (
+                subscribeList.map((subscription, index) => (
+                    <KidInformationBox key={index} {...subscription} />
+                ))
+            )}
         </div>
     );
 }
@@ -56,11 +63,15 @@ function KidInformationBox({
                 <div className={styles.infoBox}>
                     <div className={styles.profiles}>
                         <span className={styles.name}>{childName}</span>
-                        <span className={styles.birthDay}>
-                            {childGender}, {childBirth}
-                        </span>
-                        <div className={styles.status}>{status}</div>
+                        <div
+                            className={`${styles.status} ${status === "대기중" ? styles.waiting : styles.accept}`}
+                        >
+                            {status}
+                        </div>
                     </div>
+                    <span className={styles.birthDay}>
+                        {childGender}, {childBirth}
+                    </span>
 
                     <span>
                         {startDate} ~ {endDate}

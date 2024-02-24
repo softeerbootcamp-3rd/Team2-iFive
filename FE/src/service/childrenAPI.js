@@ -8,7 +8,7 @@ export async function getKidInfo(parameter) {
             return await response.json();
         } else {
             console.error("Failed to GET kid information");
-            throw new Error("Failed to GET kid information");
+            return [];
         }
     } catch (error) {
         console.error(error);

@@ -25,8 +25,8 @@ export default function PickUpPage() {
     const [image, setImage] = useState();
 
     const onSetImage = (image) => {
-        setImage(image);
         let checkLocation;
+        setImage(image);
         if (!flag) {
             checkLocation = isWithinRadius(
                 kidData.startLatitude,

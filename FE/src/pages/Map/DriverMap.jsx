@@ -18,9 +18,9 @@ export default function DriverMap() {
     const ACCESS_TOKEN = getAccessToken();
 
     const childrenData = useLoaderData();
-    console.log(childrenData);
+    console.log("childrenData", childrenData);
     const { startLatitude, startLongitude, endLatitude, endLongitude } =
-        childrenData;
+        childrenData[0];
     // ODO 에러 해결: Uncaught TypeError: Cannot destructure property 'startLatitude' of 'childrenData[0]' as it is undefined.
 
     const mapElementRef = useRef();

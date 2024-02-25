@@ -8,7 +8,7 @@ export async function getKidInfo(parameter) {
             return await response.json();
         } else {
             console.error("Failed to GET kid information");
-            throw new Error("Failed to GET kid information");
+            return [];
         }
     } catch (error) {
         console.error(error);
@@ -23,11 +23,11 @@ export async function postKidInfo(kidData) {
             body: kidData
         });
         if (response.ok) {
-            console.log("이미지 업로드 성공");
             return true;
         } else {
             const data = await response.json();
-            alert(`${data.message}\n${data.solution}`);
+            // alert(`${data.message}\n${data.solution}`);
+            alert(`현재 가능한 픽업이 아닙니다.`);
             return false;
         }
     } catch (error) {

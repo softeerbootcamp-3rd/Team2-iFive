@@ -49,72 +49,87 @@ export default function DriverMap() {
     useEffect(() => {
         if (!driverMarker) return;
         let increase = 0.0001;
-        webSocketRef.current = new WebSocket(WEBSOCKET_URL, [ACCESS_TOKEN]);
-        const sendLocation = (location) => {
-            if (
-                webSocketRef.current &&
-                webSocketRef.current.readyState === WebSocket.OPEN
-            ) {
-                webSocketRef.current.send(
-                    JSON.stringify({
-                        longitude: location.longitude,
-                        latitude: location.latitude,
-                        createdAt: "2024-02-13T13:45:30"
-                    })
-                );
-            }
-        };
-        const updateLocation = setInterval(() => {
-            getCurrentLocation()
-                .then((location) => {
-                    lastLocationRef.current = location;
-                    const newLocation = {
-                        latitude: location.latitude - increase,
-                        longitude: location.longitude
-                    };
-                    sendLocation(newLocation);
-                    if (driverMarker) {
-                        driverMarker.setPosition(
-                            getLatLng(
-                                newLocation.latitude,
-                                newLocation.longitude
-                            )
-                        );
-                        // map.setCenter(
-                        //     getLatLng(
-                        //         newLocation.latitude,
-                        //         newLocation.longitude
-                        //     )
-                        // );
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
-                    if (
-                        lastLocationRef.current.latitude &&
-                        lastLocationRef.current.longitude
-                    ) {
-                        sendLocation(lastLocationRef.current);
-                    }
-                });
-            increase += 0.0001;
-        }, 1000);
+        let reconnect;
+        let updateLocation;
 
-        webSocketRef.current.onopen = () => console.log("WebSocket connected");
-        webSocketRef.current.onmessage = ({ data }) => {
-            const { path } = JSON.parse(data);
-            let pathList = [];
-            path.forEach((element) => {
-                pathList.push(new naver.maps.LatLng(element[1], element[0]));
-            });
-            polyline.setPath(pathList);
+        const connectWebSocket = () => {
+            webSocketRef.current = new WebSocket(WEBSOCKET_URL, [ACCESS_TOKEN]);
+            const sendLocation = (location) => {
+                if (
+                    webSocketRef.current &&
+                    webSocketRef.current.readyState === WebSocket.OPEN
+                ) {
+                    console.log(latitude, longitude);
+                    webSocketRef.current.send(
+                        JSON.stringify({
+                            longitude: location.longitude,
+                            latitude: location.latitude,
+                            createdAt: "2024-02-13T13:45:30"
+                        })
+                    );
+                }
+            };
+            updateLocation = setInterval(() => {
+                getCurrentLocation()
+                    .then((location) => {
+                        lastLocationRef.current = location;
+                        const newLocation = {
+                            latitude: location.latitude - increase,
+                            longitude: location.longitude
+                        };
+                        sendLocation(newLocation);
+                        if (driverMarker) {
+                            driverMarker.setPosition(
+                                getLatLng(
+                                    newLocation.latitude,
+                                    newLocation.longitude
+                                )
+                            );
+                            // map.setCenter(
+                            //     getLatLng(
+                            //         newLocation.latitude,
+                            //         newLocation.longitude
+                            //     )
+                            // );
+                        }
+                    })
+                    .catch((error) => {
+                        console.error(error);
+                        if (
+                            lastLocationRef.current.latitude &&
+                            lastLocationRef.current.longitude
+                        ) {
+                            sendLocation(lastLocationRef.current);
+                        }
+                    });
+                increase += 0.0001;
+            }, 1000);
+
+            webSocketRef.current.onopen = () =>
+                console.log("WebSocket connected");
+            webSocketRef.current.onmessage = ({ data }) => {
+                const { path } = JSON.parse(data);
+                let pathList = [];
+                path.forEach((element) => {
+                    pathList.push(
+                        new naver.maps.LatLng(element[1], element[0])
+                    );
+                });
+                polyline.setPath(pathList);
+            };
+            webSocketRef.current.onerror = (error) =>
+                console.error("WebSocket error: ", error);
+            webSocketRef.current.onclose = () => {
+                console.log("WebSocket disconnected");
+                reconnect = setTimeout(connectWebSocket, 3000);
+            };
         };
-        webSocketRef.current.onerror = (error) =>
-            console.error("WebSocket error: ", error);
-        webSocketRef.current.onclose = () =>
-            console.log("WebSocket disconnected");
+
+        connectWebSocket();
+
         return () => {
             clearInterval(updateLocation);
+            clearInterval(reconnect);
             if (webSocketRef.current) {
                 webSocketRef.current.close();
             }

@@ -12,10 +12,10 @@ import Car from "@/assets/car.svg";
 import { useLocation } from "react-router-dom";
 
 export default function ParentMap() {
-    const ACCESS_TOKEN = getAccessToken();
+    const accessToken = getAccessToken();
 
     const mapElementRef = useRef();
-    const childrenData = getChildrenData();
+    const { state: childrenData } = useLocation();
     const kidData = childrenData[0];
 
     const center = getLatLng(kidData.startLatitude, kidData.startLongitude);
@@ -32,23 +32,30 @@ export default function ParentMap() {
 
     useEffect(() => {
         if (!driverMarker) return;
-        webSocketRef.current = new WebSocket(WEBSOCKET_URL, [ACCESS_TOKEN]);
+        let reconnect;
+        const connectWebSocket = () => {
+            webSocketRef.current = new WebSocket(WEBSOCKET_URL, [accessToken]);
 
-        webSocketRef.current.onopen = () => console.log("WebSocket Connected!");
-        webSocketRef.current.onmessage = ({ data }) => {
-            // 위치 정보 받고 지도에 업데이트
-            const { latitude, longitude } = JSON.parse(data);
-            console.log(driverMarker);
-            console.log(latitude, longitude);
-            driverMarker.setPosition(getLatLng(latitude, longitude));
-            map.setCenter(getLatLng(latitude, longitude));
+            webSocketRef.current.onopen = () =>
+                console.log("WebSocket Connected!");
+            webSocketRef.current.onmessage = ({ data }) => {
+                // 위치 정보 받고 지도에 업데이트
+                const { latitude, longitude } = JSON.parse(data);
+                driverMarker.setPosition(getLatLng(latitude, longitude));
+                map.setCenter(getLatLng(latitude, longitude));
+            };
+            webSocketRef.current.onerror = (error) =>
+                console.error("WebSocket: ", error);
+            webSocketRef.current.onclose = (event) => {
+                console.log("WebSocket Disconnected!");
+                reconnect = setTimeout(connectWebSocket, 3000);
+            };
         };
-        webSocketRef.current.onerror = (error) =>
-            console.error("WebSocket: ", error);
-        webSocketRef.current.onclose = () =>
-            console.log("WebSocket Disconnected!");
+
+        connectWebSocket();
 
         return () => {
+            if (reconnect) clearInterval(reconnect);
             if (webSocketRef.current) {
                 webSocketRef.current.close();
             }
@@ -70,11 +77,9 @@ const header = {
     Bearer: accessToken
 };
 
-const content = [
-    "<div>",
-    `       <img src="${Car}" width="40" height="40" alt="현재 위치"/>`,
-    "</div>"
-].join("");
+const content = `<div>
+                    <img src="${Car}" width="40" height="40" alt="현재 위치"/>
+                </div>`;
 const markerIcon = {
     icon: {
         content,
@@ -83,8 +88,3 @@ const markerIcon = {
         // anchor: new naver.maps.Point(25, 26)
     }
 };
-
-function getChildrenData() {
-    const location = useLocation();
-    return location.state.childrenData;
-}

@@ -1,32 +1,47 @@
 @import "@/styles/util.scss";
+@import "@/styles/fontStyle.scss";
 
 .wrapper {
     display: flex;
     flex-direction: column;
-    gap: 20px;
     position: absolute;
     bottom: 0;
     max-width: 480px;
     width: 100%;
-    height: 5%;
-    padding: 20px;
+    height: 20%;
+    padding: 20px 10px;
     border-radius: 20px 20px 0px 0px;
     background: #fff;
-    z-index: 1;
     overflow: hidden;
-    transition: height 0.3s;
+    transition: height 0.4s;
     box-shadow: 0px -4px 6px -4px rgba(0, 0, 0, 0.75);
+    :not(:first-child) {
+        opacity: 0;
+        transition: opacity 0.4s ease-in-out;
+    }
 }
 
 .expanded {
     height: 85%;
+    :not(:first-child) {
+        opacity: 1;
+    }
+}
+
+.wrapper > :not(.expanded) > *:not(header) {
+    opacity: 1;
 }
 
 header {
     display: flex;
-    height: 10%;
-    margin-bottom: 10px;
+    flex-direction: column;
+    text-align: center;
+    justify-content: center;
+    gap: 10px;
     cursor: pointer;
+    span {
+        @extend %B_20;
+    }
 }
 
 h3 {

@@ -3,11 +3,10 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { Footer } from "@/components/Footer/Footer";
 import { Header } from "@/components/Header/Header";
 import styles from "./PickUp.module.scss";
-import { CameraCapture } from "./CameraCapture";
+import { CameraSnapshotPreview } from "./CameraSnapshotPreview";
 import { postKidInfo } from "@/service/childrenAPI";
 import { isWithinRadius } from "@/utils/calculatorDistance";
 import { useCoords } from "@/hooks/useCoords";
-import { TodayPickUpList } from "./SelectChild/TodayPickUpList";
 import { ContentsBox } from "../../../components/Bottomsheet/ContentsBox/ContentsBox";
 
 export default function PickUpPage() {
@@ -74,7 +73,7 @@ export default function PickUpPage() {
             <Header title={flag ? "픽업 종료" : "픽업 시작"}></Header>
             <div className={styles.contents}>
                 <ContentsBox {...childrenData} />
-                <CameraCapture onSetImage={onSetImage} />
+                <CameraSnapshotPreview onSetImage={onSetImage} />
                 <div className={styles.textarea}>
                     <label htmlFor="significant">특이사항</label>
                     <textarea

@@ -17,18 +17,19 @@
 }
 
 .cameraContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
     width: 90%;
     margin: 0 auto;
     text-align: center;
-
-    canvas {
-        width: 100%;
-        aspect-ratio: 1;
-        margin: 10px auto;
-        border-radius: 10px;
-    }
 }
 
-.video {
+.imageInput {
     display: none;
+}
+
+.previewImageBox {
+    display: "block";
+    border-radius: 10px;
 }

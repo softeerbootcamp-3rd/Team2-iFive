@@ -1,0 +1,23 @@
+@import "@/styles/util.scss";
+@import "@/styles/color.scss";
+@import "@/styles/fontStyle.scss";
+
+.container {
+    width: 100%;
+    max-width: 480px;
+    height: 100%;
+    background-color: $bgColor;
+}
+
+.cardList {
+    width: 100%;
+    height: calc(100% - 70px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    overflow-y: scroll;
+    @extend %hideScrollBar;
+    padding-top: 15px;
+    gap: 19px;
+}

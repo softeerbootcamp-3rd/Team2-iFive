@@ -1,0 +1,144 @@
+@keyframes scaleIn {
+    from {
+        transform: translate(-50%, 0) scale(0);
+        opacity: 0;
+    }
+    to {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 1;
+    }
+}
+
+@keyframes scaleOut {
+    from {
+        transform: translate(-50%, 0) scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: translate(-50%, 0) scale(0);
+        opacity: 0;
+    }
+}
+
+.scaleIn {
+    animation: scaleIn 0.5s ease-out forwards;
+}
+
+.scaleOut {
+    animation: scaleOut 0.5s ease-out forwards;
+}
+
+@keyframes slideRightIn {
+    from {
+        transform: translateX(-150%);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes slideRightOut {
+    from {
+        transform: translateX(-50%);
+    }
+    to {
+        transform: translateX(-150%);
+    }
+}
+
+.slideRightIn {
+    animation: slideRightIn 0.5s ease-out forwards;
+}
+
+.slideRightOut {
+    animation: slideRightOut 0.5s ease-out forwards;
+}
+
+@keyframes slideLeftIn {
+    from {
+        transform: translateX(100%);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@keyframes slideLeftOut {
+    from {
+        transform: translateX(-50%);
+    }
+    to {
+        transform: translateX(100%);
+    }
+}
+
+.slideLeftIn {
+    animation: slideLeftIn 0.5s ease-out forwards;
+}
+
+.slideLeftOut {
+    animation: slideLeftOut 0.5s ease-out forwards;
+}
+
+@keyframes slideUpIn {
+    from {
+        transform: translate(-50%, 100%);
+    }
+    to {
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes slideUpOut {
+    from {
+        transform: translate(-50%, 0);
+    }
+    to {
+        transform: translate(-50%, 100%);
+    }
+}
+
+.slideUpIn {
+    animation: slideUpIn 0.5s ease-out forwards;
+}
+
+.slideUpOut {
+    animation: slideUpOut 0.5s ease-out forwards;
+}
+
+@keyframes slideDownIn {
+    from {
+        transform: translate(-50%, -100%);
+    }
+    to {
+        transform: translate(-50%, 0);
+    }
+}
+
+@keyframes slideDownOut {
+    from {
+        transform: translate(-50%, 0);
+    }
+    to {
+        transform: translate(-50%, -100%);
+    }
+}
+
+.slideDownIn {
+    animation: slideDownIn 0.5s ease-out forwards;
+}
+
+.slideDownOut {
+    animation: slideDownOut 0.5s ease-out forwards;
+}
+
+.modalContent {
+    border-radius: 5px;
+    position: fixed;
+    top: 0;
+    left: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+}

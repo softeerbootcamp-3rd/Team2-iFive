@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+        <meta
+            name="viewport"
+            content="width=device-width, initial-scale=1.0,  maximum-scale=1.0, user-scalable=0"
+        />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="manifest" href="/manifest.json" />
+        <title>Vite + React</title>
+    </head>
+    <body>
+        <div id="portal"></div>
+        <div id="root"></div>
+        <script type="module" src="/src/main.jsx"></script>
+
+        <script
+            type="text/javascript"
+            src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=<%= naverApiKey %>&submodules=geocoder"
+        ></script>
+        <script>
+            if ("serviceWorker" in navigator) {
+                window.addEventListener("load", function () {
+                    navigator.serviceWorker
+                        .register("/firebase-messaging-sw.js")
+                        .then(function (registration) {
+                            console.log(
+                                "Service Worker가 scope에 등록되었습니다.:",
+                                registration.scope
+                            );
+                        })
+                        .catch(function (err) {
+                            console.log("Service Worker 등록 실패:", err);
+                        });
+                });
+            }
+        </script>
+    </body>
+</html>

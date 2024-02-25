@@ -26,6 +26,7 @@ public enum ErrorCode {
     PICKUP_INFO_NOT_EXIST(HttpStatus.BAD_REQUEST, "해당하는 픽업 정보가 없습니다.", "다시 확인해 주세요."),
     PICKUP_ALREADY_END(HttpStatus.BAD_REQUEST, "이미 종료된 픽업입니다.", "다시 확인해주세요."),
     IMAGE_UPLOAD_ERROR(HttpStatus.INTERNAL_SERVER_ERROR, "이미지 업로드 중 문제가 발생했습니다.", "다시 요청해주세요."),
+    DIRECTION_NOT_FOUND(HttpStatus.INTERNAL_SERVER_ERROR, "경로가 없습니다.", "도착했는지 확인해주세요."),
     ;
     private final HttpStatus httpStatus;
     private final String message;

@@ -12,8 +12,18 @@ import { ContentsBox } from "../../../components/Bottomsheet/ContentsBox/Content
 export default function PickUpPage() {
     const [validLocation, setCrntLocation] = useState(false);
 
-    const { state: childrenData } = useLocation();
-    const kidData = childrenData;
+    const { state } = useLocation();
+    console.log(state);
+    const flag = state?.flag;
+    const childrenData = state?.childrenData;
+
+    const kidData = flag ? childrenData[0] : childrenData;
+
+    console.log(kidData);
+
+    // const { state: childrenData } = useLocation();
+    // console.log(childrenData);
+    // const kidData = childrenData;
 
     const {
         location: { latitude, longitude },
@@ -25,8 +35,8 @@ export default function PickUpPage() {
     const [image, setImage] = useState();
 
     const onSetImage = (image) => {
-        setImage(image);
         let checkLocation;
+        setImage(image);
         if (!flag) {
             checkLocation = isWithinRadius(
                 kidData.startLatitude,
@@ -45,12 +55,11 @@ export default function PickUpPage() {
         setCrntLocation(checkLocation);
     };
 
-    const { state } = useLocation();
-    const flag = state?.flag;
+    // const { state } = useLocation();
 
     const navigate = useNavigate();
     const movePage = (route) => {
-        navigate(`${route}`, { state: { childrenData: childrenData } });
+        navigate(`${route}`, { state: childrenData });
     };
 
     const handleClick = async () => {
@@ -72,7 +81,7 @@ export default function PickUpPage() {
         <div className={styles.wrapper}>
             <Header title={flag ? "픽업 종료" : "픽업 시작"}></Header>
             <div className={styles.contents}>
-                <ContentsBox {...childrenData} />
+                <ContentsBox {...kidData} />
                 <CameraSnapshotPreview onSetImage={onSetImage} />
                 <div className={styles.textarea}>
                     <label htmlFor="significant">특이사항</label>

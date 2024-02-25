@@ -20,6 +20,7 @@ export default function DriverMap() {
     const childrenData = useLoaderData();
     const { startLatitude, startLongitude, endLatitude, endLongitude } =
         childrenData[0];
+    // TODO 에러 해결: Uncaught TypeError: Cannot destructure property 'startLatitude' of 'childrenData[0]' as it is undefined.
 
     const mapElementRef = useRef();
     const {
@@ -39,8 +40,7 @@ export default function DriverMap() {
 
     const polyline = new naver.maps.Polyline({
         map: map,
-        path: [],
-        strokeWeight: 10
+        path: []
     });
 
     const webSocketRef = useRef(null);
@@ -50,82 +50,70 @@ export default function DriverMap() {
         if (!driverMarker) return;
         let increase = 0.0001;
         let reconnect;
-        let updateLocation;
 
-        const connectWebSocket = () => {
-            webSocketRef.current = new WebSocket(WEBSOCKET_URL, [ACCESS_TOKEN]);
-            const sendLocation = (location) => {
-                if (
-                    webSocketRef.current &&
-                    webSocketRef.current.readyState === WebSocket.OPEN
-                ) {
-                    console.log(latitude, longitude);
-                    webSocketRef.current.send(
-                        JSON.stringify({
-                            longitude: location.longitude,
-                            latitude: location.latitude,
-                            createdAt: "2024-02-13T13:45:30"
-                        })
-                    );
-                }
-            };
-            updateLocation = setInterval(() => {
-                getCurrentLocation()
-                    .then((location) => {
-                        lastLocationRef.current = location;
-                        const newLocation = {
-                            latitude: location.latitude - increase,
-                            longitude: location.longitude
-                        };
-                        sendLocation(newLocation);
-                        if (driverMarker) {
-                            driverMarker.setPosition(
-                                getLatLng(
-                                    newLocation.latitude,
-                                    newLocation.longitude
-                                )
-                            );
-                            // map.setCenter(
-                            //     getLatLng(
-                            //         newLocation.latitude,
-                            //         newLocation.longitude
-                            //     )
-                            // );
-                        }
+        webSocketRef.current = new WebSocket(WEBSOCKET_URL, [ACCESS_TOKEN]);
+        const sendLocation = (location) => {
+            if (
+                webSocketRef.current &&
+                webSocketRef.current.readyState === WebSocket.OPEN
+            ) {
+                console.log(location.latitude, location.longitude);
+                webSocketRef.current.send(
+                    JSON.stringify({
+                        longitude: location.longitude,
+                        latitude: location.latitude,
+                        createdAt: "2024-02-13T13:45:30"
                     })
-                    .catch((error) => {
-                        console.error(error);
-                        if (
-                            lastLocationRef.current.latitude &&
-                            lastLocationRef.current.longitude
-                        ) {
-                            sendLocation(lastLocationRef.current);
-                        }
-                    });
-                increase += 0.0001;
-            }, 1000);
-
-            webSocketRef.current.onopen = () =>
-                console.log("WebSocket connected");
-            webSocketRef.current.onmessage = ({ data }) => {
-                const { path } = JSON.parse(data);
-                let pathList = [];
-                path.forEach((element) => {
-                    pathList.push(
-                        new naver.maps.LatLng(element[1], element[0])
-                    );
-                });
-                polyline.setPath(pathList);
-            };
-            webSocketRef.current.onerror = (error) =>
-                console.error("WebSocket error: ", error);
-            webSocketRef.current.onclose = () => {
-                console.log("WebSocket disconnected");
-                reconnect = setTimeout(connectWebSocket, 3000);
-            };
+                );
+            }
         };
+        const updateLocation = setInterval(() => {
+            getCurrentLocation()
+                .then((location) => {
+                    lastLocationRef.current = location;
+                    // const newLocation = {
+                    //     latitude: location.latitude,
+                    //     longitude: location.longitude
+                    // };
+                    sendLocation(location);
+                    if (driverMarker) {
+                        driverMarker.setPosition(
+                            getLatLng(location.latitude, location.longitude)
+                        );
+                        // map.setCenter(
+                        //     getLatLng(
+                        //         newLocation.latitude,
+                        //         newLocation.longitude
+                        //     )
+                        // );
+                    }
+                })
+                .catch((error) => {
+                    console.error(error);
+                    if (
+                        lastLocationRef.current.latitude &&
+                        lastLocationRef.current.longitude
+                    ) {
+                        sendLocation(lastLocationRef.current);
+                    }
+                });
+        }, 3000);
 
-        connectWebSocket();
+        webSocketRef.current.onopen = () => console.log("WebSocket connected");
+        webSocketRef.current.onmessage = ({ data }) => {
+            const { path } = JSON.parse(data);
+            let pathList = [];
+            path.forEach((element) => {
+                pathList.push(new naver.maps.LatLng(element[1], element[0]));
+            });
+            polyline.setPath(pathList);
+        };
+        webSocketRef.current.onerror = (error) =>
+            console.error("WebSocket error: ", error);
+        webSocketRef.current.onclose = () => {
+            console.log("WebSocket disconnected");
+            reconnect = setTimeout(connectWebSocket, 3000);
+        };
 
         return () => {
             clearInterval(updateLocation);
@@ -133,6 +121,7 @@ export default function DriverMap() {
             if (webSocketRef.current) {
                 webSocketRef.current.close();
             }
+            map.destroy();
         };
     }, [driverMarker]);
 

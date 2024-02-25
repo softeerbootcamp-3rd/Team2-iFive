@@ -127,14 +127,7 @@ const router = createBrowserRouter(
                         </RoleProvider>
                     }
                 />
-                <Route
-                    path="profile"
-                    element={
-                        <RoleProvider>
-                            {(isParent) => isParent && <Profile />}
-                        </RoleProvider>
-                    }
-                />
+                <Route path="profile" element={<Profile />} />
                 <Route
                     path="pickup"
                     element={

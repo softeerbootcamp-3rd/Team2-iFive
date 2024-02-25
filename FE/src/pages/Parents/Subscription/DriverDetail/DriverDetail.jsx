@@ -63,7 +63,11 @@ export default function DriverDetail() {
             <Header title="기사님 정보" />
             <main className={styles.main}>
                 <section className={styles.profile}>
-                    <img src={image} className={styles.profileImg} />
+                    <img
+                        src={image}
+                        className={styles.profileImg}
+                        alt="프로필"
+                    />
                     <article className={styles.profileTextWrapper}>
                         <h3 className={styles.name}>{name}</h3>
                         <h4 className={styles.age}>{`${birth} (${gender})`}</h4>
@@ -71,7 +75,7 @@ export default function DriverDetail() {
                 </section>
                 <section className={styles.infoList}>{detailInfoList}</section>
             </main>
-            <Footer text="확인" onClick={handleSubscriptionRequest} />
+            <Footer text="구독 신청" onClick={handleSubscriptionRequest} />
         </div>
     );
 }

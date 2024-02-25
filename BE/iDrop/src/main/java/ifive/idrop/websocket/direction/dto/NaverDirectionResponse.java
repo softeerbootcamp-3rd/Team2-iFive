@@ -2,10 +2,13 @@ package ifive.idrop.websocket.direction.dto;
 
 import lombok.Data;
 import lombok.Getter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
+@Slf4j
 @Data
 public class NaverDirectionResponse {
     private int code;
@@ -13,8 +16,14 @@ public class NaverDirectionResponse {
     private LocalDateTime currentDateTime;
     private Route route;
 
-    public List<List<Double>> getPath() {
-        return route.getTraoptimal().get(0).getPath();
+    public Optional<List<List<Double>>> getPath() {
+        List<List<Double>> path = null;
+        try {
+            path = route.getTraoptimal().get(0).getPath();
+        } catch (NullPointerException e) {
+            log.error("경로가 존재하지 않습니다.");
+        }
+        return Optional.ofNullable(path);
     }
 }
 
@@ -31,6 +40,7 @@ class TraOptimal {
     private List<Guide> guide;
 }
 
+@Getter
 class Summary {
     private Location start;
     private Goal goal;
@@ -44,14 +54,17 @@ class Summary {
     private int fuelPrice;
 }
 
+@Getter
 class Location {
     private List<Double> location;
 }
 
+@Getter
 class Goal extends Location {
     private int dir;
 }
 
+@Getter
 class Section {
     private int pointIndex;
     private int pointCount;
@@ -61,6 +74,7 @@ class Section {
     private int speed;
 }
 
+@Getter
 class Guide {
     private int pointIndex;
     private int type;

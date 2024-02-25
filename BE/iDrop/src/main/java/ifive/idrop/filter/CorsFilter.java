@@ -15,7 +15,7 @@ import java.util.List;
 @Slf4j
 public class CorsFilter implements Filter {
 
-    final static List<String> requestOrigin = List.of("http://localhost:5173", "https://idrop-44945.web.app");
+    final static List<String> requestOrigin = List.of("http://localhost:5173", "https://idrop-44945.web.app", "http://192.168.35.169:5173");
     final static String wsOrigin = "/ws";
 
     @Override

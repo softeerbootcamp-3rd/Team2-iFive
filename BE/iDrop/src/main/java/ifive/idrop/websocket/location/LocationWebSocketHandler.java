@@ -98,6 +98,7 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
         Long driverId = drivers.get(sessionId);
 
         DriverGeoLocation driverLocation = CustomObjectMapper.getObject(textMessage.getPayload(), DriverGeoLocation.class);
+        log.info("webSocket/location - DRIVER LOCATION {} {} ", driverLocation.getLatitude(), driverLocation.getLongitude());
         CurrentPickUp currentPickUp = currentPickUps.get(driverId);
 
         Location lastLocation = lastLocations.get(sessionId);
@@ -111,13 +112,14 @@ public class LocationWebSocketHandler extends TextWebSocketHandler {
                 lastLocation.update(driverLocation);
                 lastLocations.replace(sessionId, lastLocation);
 
-                String parentSessionId = parents.get(currentPickUp.getParentId());
-                WebSocketSession parentSession = sessions.get(parentSessionId);
-                parentSession.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
+                if (parents.containsKey(currentPickUp.getParentId())) {
+                    String parentSessionId = parents.get(currentPickUp.getParentId());
+                    WebSocketSession parentSession = sessions.get(parentSessionId);
+                    if(parentSession.isOpen())
+                        parentSession.sendMessage(new TextMessage(CustomObjectMapper.getString(direction)));
+                }
             }
         }
-
-
         sendChildLocationToParent(currentPickUp, driverLocation);
     }
 

@@ -4,7 +4,7 @@ import { getKidInfo } from "@/service/childrenAPI";
 import styles from "./SelectChild.module.scss";
 import { TodayPickUpList } from "./TodayPickUpList";
 import { isHaveItems, parseData } from "../../../utils/parseData";
-import { NoChildItems } from "@/components/Layout/Content/noChildData";
+import { NoChildItems } from "@/components/Layout/Content/EmptyChildData";
 
 export default function SelectChild() {
     const childrenData = useLoaderData();

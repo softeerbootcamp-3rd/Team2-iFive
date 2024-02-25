@@ -9,7 +9,7 @@ import { redirect, useLoaderData } from "react-router-dom";
 import { ScheduleList } from "../../../components/Schedule/ScheduleList";
 import { postSubscribeRequest } from "../../../service/driverAPI";
 import { useFetch } from "../../../hooks/useFetch";
-import { NoChildItems } from "../../../components/Layout/Content/noChildData";
+import { NoChildItems } from "../../../components/Layout/Content/EmptyChildData";
 import { Loader } from "../../../components/Loader/Loader";
 
 export default function SubscriptionManagement() {

@@ -53,6 +53,7 @@ export function DriverMenu() {
 
 export function ParentMenu() {
     const childrenData = useLoaderData();
+    console.log(childrenData);
 
     return (
         <div className={styles.wrapper}>

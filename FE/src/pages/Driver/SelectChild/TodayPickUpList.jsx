@@ -5,7 +5,9 @@ import iDrop from "@/assets/iDropGreen.svg";
 export function TodayPickUpList({ childrenData }) {
     const navigator = useNavigate();
     const movePage = (index) => {
-        navigator("/pickup", { state: childrenData[index] });
+        navigator("/pickup", {
+            state: { flag: false, childrenData: childrenData[index] }
+        });
     };
 
     const render = childrenData.map(

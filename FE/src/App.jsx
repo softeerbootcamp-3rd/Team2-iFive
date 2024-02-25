@@ -32,7 +32,7 @@ import ManagementSubscription, {
 } from "./pages/Driver/SubscriptionManagement/SubscriptionManagement";
 import SelectChild, {
     fetchPickUpList
-} from "./pages/Driver/PickUp/SelectChild/SelectChild";
+} from "./pages/Driver/SelectChild/SelectChild";
 import History from "./pages/Parents/History/History";
 import Profile from "./pages/Parents/Profile/Profile";
 
@@ -50,7 +50,7 @@ const router = createBrowserRouter(
             />
             <Route path="signup" element={<ParentSignUp />} />
             <Route path="login" loader={loginLoader} element={<Login />} />
-            <Route id="auth" loader={checkAuthLoader}>
+            <Route id="auth" loader={checkAuthLoader} errorElement={<Login />}>
                 <Route path="logout" loader={logoutLoader} />
                 <Route
                     path="map"
@@ -147,7 +147,6 @@ const router = createBrowserRouter(
 
                 <Route
                     path="pickup/request"
-                    loader={fetchSubscribeList}
                     element={
                         <RoleProvider>
                             {(isParent) =>

@@ -28,7 +28,7 @@ export function DriverMenu() {
         <div className={styles.wrapper}>
             <img src={iDropGreen}></img>
             <div>
-                <h1>안녕하세요, {userName || "육종호"}님 </h1>
+                <h1>안녕하세요, {childrenData.userName || "육종호"}님 </h1>
                 <span>오늘도 안전한 픽업 부탁드려요</span>
             </div>
             <div className={styles.menuContainer}>
@@ -58,7 +58,7 @@ export function ParentMenu() {
         <div className={styles.wrapper}>
             <img src={iDropGreen} alt="logo" />
             <div>
-                <h1>안녕하세요, {userName || "육종호"}님 </h1>
+                <h1>안녕하세요, {childrenData.userName || "육종호"}님 </h1>
                 <span>오늘도 안전하게 픽업할게요</span>
             </div>
             <div className={styles.menuContainer}>

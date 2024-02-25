@@ -1,3 +1,7 @@
+export function isHaveItems(data) {
+    return data.length === 0 ? false : true;
+}
+
 export function removeCityPrefix(address) {
     return address !== null && address.replace("서울특별시 ", "");
 }

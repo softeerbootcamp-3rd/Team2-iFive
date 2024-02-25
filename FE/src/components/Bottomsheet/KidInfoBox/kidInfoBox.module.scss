@@ -5,8 +5,8 @@
     gap: 30px;
     border-block: 1px solid #c0c1c2;
     writing-mode: horizontal-tb;
-    margin-bottom: 10px;
-    padding: 20px 0px;
+    margin: 10px 0;
+    padding: 13px 0px;
 }
 
 .infoBox {
@@ -41,6 +41,7 @@
 }
 
 .headMessage {
+    margin-bottom: 20px;
     text-align: center;
     @extend %B_20;
 }

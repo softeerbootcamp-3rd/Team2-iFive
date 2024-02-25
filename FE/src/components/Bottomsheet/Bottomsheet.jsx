@@ -5,15 +5,18 @@ import { DriverContents, ParentContents } from "./KidInfoBox/KidInfoBox";
 import { Footer } from "../Footer/Footer";
 
 export function ParentBottomSheet({ childrenData }) {
+    const { headerMsg, isHaveData } = checkData(childrenData);
+
     return (
-        <BttmSheetTemplate>
-            <ParentContents childrenData={childrenData} />
+        <BttmSheetTemplate headerMsg={headerMsg}>
+            {isHaveData && <ParentContents childrenData={childrenData} />}
         </BttmSheetTemplate>
     );
 }
 
 export function DriverBottomSheet({ childrenData }) {
     const { pathname } = useLocation();
+    const { headerMsg, isHaveData } = checkData(childrenData);
 
     const navigate = useNavigate();
     const movePage = () => {
@@ -22,8 +25,10 @@ export function DriverBottomSheet({ childrenData }) {
         });
     };
     return (
-        <BttmSheetTemplate>
-            <DriverContents childrenData={childrenData}></DriverContents>
+        <BttmSheetTemplate headerMsg={headerMsg}>
+            {isHaveData && (
+                <DriverContents childrenData={childrenData}></DriverContents>
+            )}
             {pathname === "/map" ? (
                 <Footer text={"운행종료"} onClick={movePage} />
             ) : (
@@ -33,7 +38,7 @@ export function DriverBottomSheet({ childrenData }) {
     );
 }
 
-function BttmSheetTemplate({ children }) {
+function BttmSheetTemplate({ children, headerMsg }) {
     const [isExpanded, setIsExpanded] = useState(false);
 
     const toggleBottomSheet = () => {
@@ -47,8 +52,15 @@ function BttmSheetTemplate({ children }) {
         >
             <header>
                 <div className={styles.handle}></div>
+                <span className={styles.headMessage}>{headerMsg}</span>
             </header>
             <div className={styles.container}>{children}</div>
         </div>
     );
+}
+
+function checkData(childrenData) {
+    const isHaveData = childrenData.length > 0 ? true : false;
+    const headerMsg = isHaveData ? "오늘의 픽업" : "오늘은 픽업이 없습니다";
+    return { headerMsg, isHaveData };
 }

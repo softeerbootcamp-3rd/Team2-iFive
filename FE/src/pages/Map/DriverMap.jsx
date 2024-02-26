@@ -20,7 +20,7 @@ export default function DriverMap() {
     const childrenData = useLoaderData();
     const { startLatitude, startLongitude, endLatitude, endLongitude } =
         childrenData[0];
-    // TODO 에러 해결: Uncaught TypeError: Cannot destructure property 'startLatitude' of 'childrenData[0]' as it is undefined.
+    // ODO 에러 해결: Uncaught TypeError: Cannot destructure property 'startLatitude' of 'childrenData[0]' as it is undefined.
 
     const mapElementRef = useRef();
     const {
@@ -48,7 +48,6 @@ export default function DriverMap() {
 
     useEffect(() => {
         if (!driverMarker) return;
-        let increase = 0.0001;
         let reconnect;
 
         webSocketRef.current = new WebSocket(WEBSOCKET_URL, [ACCESS_TOKEN]);
@@ -112,7 +111,7 @@ export default function DriverMap() {
             console.error("WebSocket error: ", error);
         webSocketRef.current.onclose = () => {
             console.log("WebSocket disconnected");
-            reconnect = setTimeout(connectWebSocket, 3000);
+            reconnect = setTimeout(connectWebSocket, 1000);
         };
 
         return () => {

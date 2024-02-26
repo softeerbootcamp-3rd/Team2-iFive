@@ -13,17 +13,10 @@ export default function PickUpPage() {
     const [validLocation, setCrntLocation] = useState(false);
 
     const { state } = useLocation();
-    console.log(state);
     const flag = state?.flag;
     const childrenData = state?.childrenData;
 
     const kidData = flag ? childrenData[0] : childrenData;
-
-    console.log(kidData);
-
-    // const { state: childrenData } = useLocation();
-    // console.log(childrenData);
-    // const kidData = childrenData;
 
     const {
         location: { latitude, longitude },
@@ -34,28 +27,26 @@ export default function PickUpPage() {
 
     const [image, setImage] = useState();
 
-    const onSetImage = (image) => {
+    const onSetImage = async (image) => {
         let checkLocation;
         setImage(image);
         if (!flag) {
-            checkLocation = isWithinRadius(
+            checkLocation = await isWithinRadius(
                 kidData.startLatitude,
                 kidData.startLongitude,
                 latitude,
                 longitude
             );
         } else {
-            checkLocation = isWithinRadius(
+            checkLocation = await isWithinRadius(
                 kidData.endLatitude,
                 kidData.endLongitude,
                 latitude,
                 longitude
             );
         }
-        setCrntLocation(checkLocation);
+        setCrntLocation(!validLocation);
     };
-
-    // const { state } = useLocation();
 
     const navigate = useNavigate();
     const movePage = (route) => {
@@ -94,14 +85,14 @@ export default function PickUpPage() {
                     ></textarea>
                 </div>
             </div>
-            {validLocation ? (
+            {!validLocation ? (
                 <Footer
+                    isButtonDisabled="true"
                     text={flag ? "픽업 종료" : "픽업 시작"}
                     onClick={handleClick}
                 ></Footer>
             ) : (
                 <Footer
-                    isButtonDisabled="true"
                     text={flag ? "픽업 종료" : "픽업 시작"}
                     onClick={handleClick}
                 ></Footer>

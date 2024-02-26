@@ -19,9 +19,9 @@ export async function handleAllowNotification() {
                 );
             }
         } else if (permission === "denied") {
-            alert(
-                "web push 권한이 차단되었습니다. 알림을 사용하시려면 권한을 허용해주세요"
-            );
+            // alert(
+            //     "web push 권한이 차단되었습니다. 알림을 사용하시려면 권한을 허용해주세요"
+            // );
         }
     } catch (error) {
         console.error("푸시 토큰 가져오는 중에 에러 발생", error);

@@ -28,6 +28,11 @@ export default function ParentMap() {
     const destinationPos = getLatLng(kidData.endLatitude, kidData.endLongitude);
     const destinationMarker = useMarker(map, destinationPos);
 
+    const polyline = new naver.maps.Polyline({
+        map: map,
+        path: []
+    });
+
     const webSocketRef = useRef();
 
     useEffect(() => {
@@ -39,7 +44,6 @@ export default function ParentMap() {
             webSocketRef.current.onopen = () =>
                 console.log("WebSocket Connected!");
             webSocketRef.current.onmessage = ({ data }) => {
-                // 위치 정보 받고 지도에 업데이트
                 const { latitude, longitude } = JSON.parse(data);
                 driverMarker.setPosition(getLatLng(latitude, longitude));
                 map.setCenter(getLatLng(latitude, longitude));
@@ -48,7 +52,7 @@ export default function ParentMap() {
                 console.error("WebSocket: ", error);
             webSocketRef.current.onclose = (event) => {
                 console.log("WebSocket Disconnected!");
-                reconnect = setTimeout(connectWebSocket, 3000);
+                reconnect = setTimeout(connectWebSocket, 1000);
             };
         };
 
@@ -59,6 +63,7 @@ export default function ParentMap() {
             if (webSocketRef.current) {
                 webSocketRef.current.close();
             }
+            map.destroy();
         };
     }, [driverMarker]);
 

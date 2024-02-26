@@ -100,6 +100,7 @@ public class ParentService {
         return location;
     }
 
+    @Transactional(readOnly = true)
     public BaseResponse<List<PickUpHistoryResponse>> getPickUpHistoryInfo(Parent parent, long pickInfoId) {
         List<PickUp> pickUpList = pickUpRepository.findPickUpByPickUpInfoIdAndParentIdOrderByReservedTime(parent.getId(), pickInfoId);
         return BaseResponse.of("Data Successfully Proceed",

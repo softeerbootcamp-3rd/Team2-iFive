@@ -50,7 +50,7 @@ function BttmSheetTemplate({ children, headerMsg }) {
             onClick={toggleBottomSheet}
             className={`${styles.wrapper} ${isExpanded ? styles.expanded : ""}`}
         >
-            <header>
+            <header className={styles.headLine}>
                 <div className={styles.handle}></div>
                 <span className={styles.headMessage}>{headerMsg}</span>
             </header>

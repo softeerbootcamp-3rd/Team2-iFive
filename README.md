@@ -40,23 +40,6 @@
   - 사적 카톡
   - 공적 슬랙
 
-## 문서
-
-## ⌨️ Commit Convention
-
-- `태그(소문자): 이슈내용(한글)`
-  - chore: 기능에 영향이 없는 작업(주석 삭제, 빌드 파일 변경, 기타 등등)
-  - feat: 새로운 기능 구현
-  - fix: 버그, 오류 해결
-  - refactor: 프로덕션 코드 리팩토링
-  - docs: README나 WIKI 등의 문서 개정
-  - style: 코드가 아닌 스타일 변경을 하는 경우
-  - test: 테스트 추가, 테스트 리팩토링(프로덕션 코드 변경 X)
-
-## 🔀 브렌치 구조 (협업 전략)
-
-![브렌치 구조](https://github.com/softeerbootcamp-3rd/Team2-iFive/assets/39684697/7b76adcf-e68b-4566-a20d-2a76e3c8537a)
-
 ## 📃 프로젝트 문서 📃
 
 ### 개발 문서
@@ -64,9 +47,9 @@
 | 문서 종류          | 링크                                                                               |
 | ------------------ | ---------------------------------------------------------------------------------- |
 | API 문서           | [API 명세서](https://scalloped-hubcap-8c3.notion.site/API-37b47d5ead004049a4010e52aed3c73c) |
-| ERD                |  |
-| 코딩 컨벤션        |  |
-| Git 컨벤션        | [Git 컨벤션]()        |
+| ERD                | [ERD]() |
+| 코딩 컨벤션        | [Coding 컨벤션](https://github.com/softeerbootcamp-3rd/Team2-iFive/wiki/Coding-Convention)  |
+| Git 컨벤션        | [Git 컨벤션](https://github.com/softeerbootcamp-3rd/Team2-iFive/wiki/Git-Convention)        |
 
 
 <br/>
@@ -75,7 +58,7 @@
 
 | 문서 종류     | 링크                                                                                                                                                                                                                           |
 | ------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
-| 기획안     | [기획안]()|
-| 와이어 프레임 | [와이어 프레임]() |
+| 기획안     | [기획안](https://github.com/softeerbootcamp-3rd/Team2-iFive/wiki/%EA%B8%B0%ED%9A%8D%EC%95%88)|
+| 와이어 프레임 | [와이어 프레임](https://www.figma.com/file/E3AXcTrejyzuaIczrBVhQO/%EC%95%84%EC%9D%B4%EB%93%9C%EB%9E%8D?type=design&node-id=1554-255&mode=design) |
 
 <br/><br/>

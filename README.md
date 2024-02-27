@@ -12,6 +12,13 @@
 
 - 더불어 실시간 위치 확인 및 승하차 알림 기능을 통해 부모님들이 언제든지 아이의 현재 위치를 확인하고 안심할 수 있도록 합니다.
 
+## 시연 영상 (유튜브)
+### 픽업 구독 요청하기
+[![Video Label](http://img.youtube.com/vi/D16UpcCU8S8/0.jpg)](https://youtu.be/D16UpcCU8S8)
+
+### 픽업 - 실시간 위치추적
+[![Video Label](http://img.youtube.com/vi/2nyEEmA7uak/0.jpg)](https://youtu.be/2nyEEmA7uak)
+
 ## 🙌 팀 소개 🙌
 
 |                                개발(FE)                              |                                개발(FE)                                |                              개발(BE)                               |                             개발(BE)                                |                              개발(BE)                              |

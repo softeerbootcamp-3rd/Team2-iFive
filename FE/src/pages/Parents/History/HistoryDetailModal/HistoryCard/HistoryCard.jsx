@@ -27,7 +27,7 @@ export function HistoryCard({
         <section className={styles.card}>
             <CardHeader
                 date={date}
-                time={time}
+                time={time.split(".")[0]}
                 driverImage={driverImage}
                 driverName={driverName}
                 status={info.status}

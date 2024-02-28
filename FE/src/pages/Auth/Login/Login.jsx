@@ -28,6 +28,10 @@ export default function Login() {
     return (
         <main className={styles.container}>
             <h1 className={styles.title}>로그인</h1>
+            <div>
+                <span>테스트ID: parent1</span>
+                <span>테스트 비밀번호: 1234</span>
+            </div>
             <form className={styles.loginForm} onSubmit={handleLogin}>
                 <label className={styles.loginLabel} htmlFor="id">
                     아이디
@@ -58,7 +62,12 @@ export default function Login() {
             <nav className={styles.nav}>
                 <button className={styles.navBtn}>ID 찾기</button>
                 <button className={styles.navBtn}>PW 찾기</button>
-                <button className={styles.navBtn}>회원가입</button>
+                <button
+                    onClick={() => navigate("/signup")}
+                    className={styles.navBtn}
+                >
+                    회원가입
+                </button>
             </nav>
         </main>
     );

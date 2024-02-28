@@ -71,17 +71,6 @@ export default function ParentSignUp() {
                     </div>
                 </fieldset>
             </div>
-            <div>
-                <input
-                    className={styles.checkinput}
-                    type="checkbox"
-                    id="service"
-                    name="agree"
-                />
-                <label className={styles.signLabel} htmlFor="agree">
-                    서비스 이용 약관에 동의해랏
-                </label>
-            </div>
 
             <Footer text="가입하기" />
         </div>

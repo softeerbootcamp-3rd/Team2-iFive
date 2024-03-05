@@ -14,6 +14,10 @@ export function getCurrentLocation() {
             },
             (error) => {
                 reject(error);
+            },
+            {
+                timeout: 1000,
+                maximumAge: 1000
             }
         );
     });

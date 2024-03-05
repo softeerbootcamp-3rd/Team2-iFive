@@ -1,5 +1,8 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable no-undef */
+
 import { useEffect, useRef } from "react";
-import { useLocation, useLoaderData } from "react-router-dom";
+import { useLocation, useLoaderData, redirect } from "react-router-dom";
 import styles from "./map.module.scss";
 import { useMap } from "@/hooks/useMap";
 import { useCoords } from "@/hooks/useCoords";
@@ -13,11 +16,26 @@ import { DriverBottomSheet } from "@/components/Bottomsheet/Bottomsheet";
 import Car from "@/assets/car.svg";
 import { getKidInfo } from "@/service/childrenAPI";
 import { parseData } from "../../utils/parseData";
+import { useFetch } from "../../hooks/useFetch";
 
 export default function DriverMap() {
     const ACCESS_TOKEN = getAccessToken();
 
-    const childrenData = useLoaderData();
+    useEffect(() => {});
+    const {
+        loading,
+        error,
+        data: childrenData,
+        fetchData
+    } = useFetch("driver/pickup/now/child", {});
+    if (loading || !childrenData) {
+        return <Loader />;
+    }
+    if (error) {
+        alert("재접속 해주세요");
+        redirect("/menu");
+    }
+
     const { startLatitude, startLongitude, endLatitude, endLongitude } =
         childrenData[0];
     // ODO 에러 해결: Uncaught TypeError: Cannot destructure property 'startLatitude' of 'childrenData[0]' as it is undefined.
@@ -70,21 +88,14 @@ export default function DriverMap() {
             getCurrentLocation()
                 .then((location) => {
                     lastLocationRef.current = location;
-                    // const newLocation = {
-                    //     latitude: location.latitude,
-                    //     longitude: location.longitude
-                    // };
                     sendLocation(location);
                     if (driverMarker) {
                         driverMarker.setPosition(
                             getLatLng(location.latitude, location.longitude)
                         );
-                        // map.setCenter(
-                        //     getLatLng(
-                        //         newLocation.latitude,
-                        //         newLocation.longitude
-                        //     )
-                        // );
+                        map.setCenter(
+                            getLatLng(location.latitude, location.longitude)
+                        );
                     }
                 })
                 .catch((error) => {
@@ -139,17 +150,12 @@ const header = {
     Bearer: accessToken
 };
 
-const content = [
-    "<div>",
-    `       <img src="${Car}" width="40" height="40" alt="현재 위치"/>`,
-    "</div>"
-].join("");
+const content = `<div>
+                    <img src="${Car}" width="40" height="40" alt="현재 위치"/>
+                </div>`;
 const markerIcon = {
     icon: {
         content
-        // size: new naver.maps.Size(40, 40),
-        // origin: new naver.maps.Point(16, 16)
-        // anchor: new naver.maps.Point(25, 26)
     }
 };
 

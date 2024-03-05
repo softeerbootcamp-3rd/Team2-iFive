@@ -28,7 +28,7 @@ export default function PickUpPage() {
     const [image, setImage] = useState();
 
     const onSetImage = async (image) => {
-        let checkLocation;
+        let checkLocation = false;
         setImage(image);
         if (!flag) {
             checkLocation = await isWithinRadius(
@@ -45,7 +45,14 @@ export default function PickUpPage() {
                 longitude
             );
         }
-        setCrntLocation(!validLocation);
+        if (checkLocation) {
+            setCrntLocation(!validLocation);
+        } else {
+            let msg = !flag
+                ? "현재 위치는 출발지로부터 300m 밖의 범위 입니다. 출발지 근처에서 픽업해주세요"
+                : "현재 위치는 목적지로부터 300m 밖의 범위 입니다. 목적지 근처에서 픽업해주세요";
+            alert(msg);
+        }
     };
 
     const navigate = useNavigate();

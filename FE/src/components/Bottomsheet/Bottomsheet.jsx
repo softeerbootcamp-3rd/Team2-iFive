@@ -1,15 +1,17 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import styles from "./Bottomsheet.module.scss";
-import { DriverContents, ParentContents } from "./KidInfoBox/KidInfoBox";
 import { Footer } from "../Footer/Footer";
+import { ContentsBox } from "./ContentsBox/ContentsBox";
 
 export function ParentBottomSheet({ childrenData }) {
     const { headerMsg, isHaveData } = checkData(childrenData);
-
+    const renderChildData = childrenData.map((kid, index) => {
+        return <ContentsBox key={index} {...kid} />;
+    });
     return (
         <BttmSheetTemplate headerMsg={headerMsg}>
-            {isHaveData && <ParentContents childrenData={childrenData} />}
+            {isHaveData && renderChildData}
         </BttmSheetTemplate>
     );
 }
@@ -17,6 +19,9 @@ export function ParentBottomSheet({ childrenData }) {
 export function DriverBottomSheet({ childrenData }) {
     const { pathname } = useLocation();
     const { headerMsg, isHaveData } = checkData(childrenData);
+    const renderChildData = childrenData.map((kid, index) => {
+        return <ContentsBox key={index} {...kid} />;
+    });
 
     const navigate = useNavigate();
     const movePage = () => {
@@ -26,9 +31,7 @@ export function DriverBottomSheet({ childrenData }) {
     };
     return (
         <BttmSheetTemplate headerMsg={headerMsg}>
-            {isHaveData && (
-                <DriverContents childrenData={childrenData}></DriverContents>
-            )}
+            {isHaveData && renderChildData}
             {pathname === "/map" ? (
                 <Footer text={"운행종료"} onClick={movePage} />
             ) : (

@@ -5,7 +5,7 @@ import { transformSchedule } from "../../Parents/History/HistoryItem/transformSc
 import { isHaveItems, removeCityPrefix } from "../../../utils/parseData";
 import { Header } from "@/components/Header/Header";
 import { getKidInfo } from "@/service/childrenAPI";
-import { redirect, useLoaderData } from "react-router-dom";
+import { redirect } from "react-router-dom";
 import { ScheduleList } from "../../../components/Schedule/ScheduleList";
 import { postSubscribeRequest } from "../../../service/driverAPI";
 import { useFetch } from "../../../hooks/useFetch";
@@ -17,7 +17,7 @@ export default function SubscriptionManagement() {
         loading,
         data: subscribeList,
         error,
-        refetchData
+        fetchData
     } = useFetch("/driver/subscribe/list", {});
 
     if (loading || !subscribeList) return <Loader />;
@@ -30,7 +30,11 @@ export default function SubscriptionManagement() {
             <Header title="구독 요청 목록" />
             {isHaveData ? (
                 subscribeList.map((subscription, index) => (
-                    <KidInformationBox key={index} {...subscription} />
+                    <KidInformationBox
+                        key={index}
+                        subscripData={subscription}
+                        fetchData={fetchData}
+                    />
                 ))
             ) : (
                 <NoChildItems type="subscribe" />
@@ -40,20 +44,22 @@ export default function SubscriptionManagement() {
 }
 
 function KidInformationBox({
-    pickUpInfoId,
-    childImage,
-    childName,
-    childBirth,
-    childGender,
-    startDate,
-    endDate,
-    startAddress,
-    endAddress,
-    parentName,
-    parentPhoneNumber,
-    status,
-    schedule,
-    refetchData
+    subscripData: {
+        pickUpInfoId,
+        childImage,
+        childName,
+        childBirth,
+        childGender,
+        startDate,
+        endDate,
+        startAddress,
+        endAddress,
+        parentName,
+        parentPhoneNumber,
+        status,
+        schedule
+    },
+    fetchData
 }) {
     startAddress = removeCityPrefix(startAddress);
     endAddress = removeCityPrefix(endAddress);
@@ -65,7 +71,7 @@ function KidInformationBox({
             statusCode: status
         };
         await postSubscribeRequest(postData);
-        // TODO 요청 처리 후 데이터 업데이트 고려하기
+        fetchData();
     };
 
     return (
@@ -115,12 +121,13 @@ function KidInformationBox({
                         </button>
                         <button
                             className={styles.acceptButton}
-                            onClick={() =>
-                                handleSubscription(
+                            onClick={async () => {
+                                await handleSubscription(
                                     pickUpInfoId,
                                     statusCode.accept
-                                )
-                            }
+                                );
+                                console.log("리로드!!!");
+                            }}
                         >
                             수락
                         </button>

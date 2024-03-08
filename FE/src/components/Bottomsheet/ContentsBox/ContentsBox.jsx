@@ -1,4 +1,4 @@
-import styles from "./kidInfoBox.module.scss";
+import styles from "./ContentsBox.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
 
 export function ContentsBox({

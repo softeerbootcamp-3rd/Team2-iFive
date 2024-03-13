@@ -10,18 +10,18 @@ import { useModal } from "@/hooks/useModal";
 import { MapModal } from "./MapModal/MapModal";
 
 export default function Search() {
+    const navigate = useNavigate();
     const [schedule, setSchedule] = useState({});
     const [mapType, setMapType] = useState("departure");
 
-    const [location, dispatchLocation] = useReducer(addressReducer, {
+    const [location, dispatchLocation] = useReducer(locationReducer, {
         departure: { ...INITIAL_LOCATION_STATE },
         destination: { ...INITIAL_LOCATION_STATE }
     });
+
     const handleLocationSelect = (data, mapType) => {
         dispatchLocation({ type: mapType, payload: data });
     };
-
-    const navigate = useNavigate();
 
     const { isVisible, open: openModal, close: closeModal } = useModal();
 
@@ -93,7 +93,7 @@ const INITIAL_LOCATION_STATE = {
     detailAddress: ""
 };
 
-const addressReducer = (state, action) => {
+const locationReducer = (state, action) => {
     switch (action.type) {
         case "departure":
             return {

@@ -12,15 +12,23 @@ import { MapModal } from "./MapModal/MapModal";
 export default function Search() {
     const [schedule, setSchedule] = useState({});
     const [mapType, setMapType] = useState("departure");
-    const [detailAddress, setDetailAddress] = useState({
+
+    const [location, dispatchLocation] = useReducer(addressReducer, {
+        departure: { ...INITIAL_LOCATION_STATE },
+        destination: { ...INITIAL_LOCATION_STATE }
+    });
+    const handleLocationSelect = (data, mapType) => {
+        dispatchLocation({ type: mapType, payload: data });
+    };
+
+    const [detailAddress, dispatchDetailAddress] = useReducer(addressReducer, {
         departure: "",
         destination: ""
     });
 
-    const [location, dispatch] = useReducer(locationReducer, {
-        departure: { ...INITIAL_LOCATION_STATE },
-        destination: { ...INITIAL_LOCATION_STATE }
-    });
+    const handleDetailAddressChange = ({ target: { value } }, mapType) => {
+        dispatchDetailAddress({ type: mapType, payload: value });
+    };
 
     const navigate = useNavigate();
 
@@ -29,10 +37,6 @@ export default function Search() {
     const handleOpenModal = ({ target: { name } }) => {
         setMapType(name);
         openModal();
-    };
-
-    const handleLocationSelect = (data, mapType) => {
-        dispatch({ type: mapType, payload: data });
     };
 
     const handleScheduleChange = (day, unit) => (value) => {
@@ -68,13 +72,6 @@ export default function Search() {
         });
     };
 
-    const handleDetailAddressChange = ({ target: { value } }) => {
-        setDetailAddress((prev) => ({
-            ...prev,
-            [mapType]: value
-        }));
-    };
-
     return (
         <>
             <main className={styles.container}>
@@ -101,7 +98,9 @@ export default function Search() {
                 <MapModal
                     isVisible={isVisible}
                     onClose={closeModal}
-                    handleDetailAddressChange={handleDetailAddressChange}
+                    handleDetailAddressChange={(event) =>
+                        handleDetailAddressChange(event, mapType)
+                    }
                     handleLocationSelect={handleLocationSelect}
                     mapType={mapType}
                     location={location}
@@ -118,7 +117,7 @@ const INITIAL_LOCATION_STATE = {
     longitude: ""
 };
 
-const locationReducer = (state, action) => {
+const addressReducer = (state, action) => {
     switch (action.type) {
         case "departure":
             return {

@@ -6,7 +6,7 @@ import { MapAddressForm } from "./MapAddressForm/MapAddressForm";
 
 export function MapModal({
     isVisible,
-    closeModal,
+    onClose,
     handleDetailAddressChange,
     handleLocationSelect,
     mapType,
@@ -16,7 +16,7 @@ export function MapModal({
     return (
         <Modal
             isVisible={isVisible}
-            onClose={closeModal}
+            onClose={onClose}
             width="100%"
             height="100dvh"
             animationType="slideDown"
@@ -32,7 +32,7 @@ export function MapModal({
                     detailAddress={detailAddress}
                     handleDetailAddressChange={handleDetailAddressChange}
                 />
-                <Footer onClick={closeModal} text="완료" />
+                <Footer onClick={onClose} text="완료" />
             </div>
         </Modal>
     );

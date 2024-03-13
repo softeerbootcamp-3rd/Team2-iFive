@@ -98,7 +98,6 @@ export default function Search() {
                     }
                     isButtonDisabled={!isButtonActive}
                 />
-
                 <MapModal
                     isVisible={isVisible}
                     onClose={closeModal}

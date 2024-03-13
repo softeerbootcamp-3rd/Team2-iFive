@@ -12,7 +12,7 @@ import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
 
 export default function Search() {
     const [schedule, setSchedule] = useState({});
-    const [mapFor, setMapFor] = useState("departure");
+    const [mapType, setMapType] = useState("departure");
     const [detailAddress, setDetailAddress] = useState({
         departure: "",
         destination: ""
@@ -32,19 +32,19 @@ export default function Search() {
     const { isVisible, open: openModal, close: closeModal } = useModal();
 
     const handleOpenModal = ({ target: { name } }) => {
-        setMapFor(name);
+        setMapType(name);
         openModal();
     };
 
     // const handleLocationSelect = (data) => {
     //     setLocation((prevLocation) => ({
     //         ...prevLocation,
-    //         [mapFor]: data
+    //         [mapType]: data
     //     }));
     // };
 
-    const handleLocationSelect = (data, mapFor) => {
-        dispatch({ type: mapFor, payload: data });
+    const handleLocationSelect = (data, mapType) => {
+        dispatch({ type: mapType, payload: data });
     };
 
     const handleScheduleChange = (day, unit) => (value) => {
@@ -83,7 +83,7 @@ export default function Search() {
     const handleDetailAddressChange = ({ target: { value } }) => {
         setDetailAddress((prev) => ({
             ...prev,
-            [mapFor]: value
+            [mapType]: value
         }));
     };
 
@@ -121,17 +121,17 @@ export default function Search() {
                     <div className={styles.modalContainer}>
                         <AddressFinderMap
                             handleLocationSelect={handleLocationSelect}
-                            mapFor={mapFor}
+                            mapType={mapType}
                         />
                         <div className={styles.addressWrapper}>
                             <label htmlFor="address">
-                                {mapFor === "departure" ? "출발지" : "도착지"}
+                                {mapType === "departure" ? "출발지" : "도착지"}
                             </label>
                             <input
                                 name="address"
                                 className={styles.address}
                                 type="text"
-                                value={location[mapFor].address}
+                                value={location[mapType].address}
                                 placeholder="지도를 이동해 주세요"
                                 readOnly
                             />
@@ -140,7 +140,7 @@ export default function Search() {
                                 name="detailAddress"
                                 className={styles.address}
                                 type="text"
-                                value={detailAddress[mapFor]}
+                                value={detailAddress[mapType]}
                                 onChange={handleDetailAddressChange}
                                 placeholder="상세 주소가 있다면 적어주세요"
                             />

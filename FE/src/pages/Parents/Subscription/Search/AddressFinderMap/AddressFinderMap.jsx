@@ -6,7 +6,7 @@ import { getLatLng } from "@/utils/map";
 import { useMarker } from "@/hooks/useMarker";
 import { useCoords } from "@/hooks/useCoords";
 
-export function AddressFinderMap({ handleLocationSelect, mapFor }) {
+export function AddressFinderMap({ handleLocationSelect, mapType }) {
     const mapElementRef = useRef();
     const {
         location: { latitude, longitude },
@@ -26,7 +26,7 @@ export function AddressFinderMap({ handleLocationSelect, mapFor }) {
     );
 }
 
-function addDragEventListener({ map, marker, handleLocationSelect, mapFor }) {
+function addDragEventListener({ map, marker, handleLocationSelect, mapType }) {
     if (!map || !marker) {
         return;
     }
@@ -36,11 +36,11 @@ function addDragEventListener({ map, marker, handleLocationSelect, mapFor }) {
 
     naver.maps.Event.addListener(map, "dragend", (e) => {
         const currentCoords = map.getCenter();
-        searchCoordinateToAddress(currentCoords, handleLocationSelect, mapFor);
+        searchCoordinateToAddress(currentCoords, handleLocationSelect, mapType);
     });
 }
 
-function searchCoordinateToAddress(latLng, handleLocationSelect, mapFor) {
+function searchCoordinateToAddress(latLng, handleLocationSelect, mapType) {
     naver.maps.Service.reverseGeocode(
         {
             coords: latLng,
@@ -62,7 +62,7 @@ function searchCoordinateToAddress(latLng, handleLocationSelect, mapFor) {
                 latitude,
                 longitude
             };
-            handleLocationSelect(location, mapFor);
+            handleLocationSelect(location, mapType);
         }
     );
 }

@@ -17,10 +17,6 @@ export default function Search() {
         departure: "",
         destination: ""
     });
-    // const [location, setLocation] = useState({
-    //     departure: { ...INITIAL_LOCATIION_STATE },
-    //     destination: { ...INITIAL_LOCATIION_STATE }
-    // });
 
     const [location, dispatch] = useReducer(locationReducer, {
         departure: { ...INITIAL_LOCATION_STATE },
@@ -35,13 +31,6 @@ export default function Search() {
         setMapType(name);
         openModal();
     };
-
-    // const handleLocationSelect = (data) => {
-    //     setLocation((prevLocation) => ({
-    //         ...prevLocation,
-    //         [mapType]: data
-    //     }));
-    // };
 
     const handleLocationSelect = (data, mapType) => {
         dispatch({ type: mapType, payload: data });

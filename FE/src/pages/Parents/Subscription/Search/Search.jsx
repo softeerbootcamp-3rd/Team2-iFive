@@ -37,17 +37,6 @@ export default function Search() {
         }));
     };
 
-    function transformLocationData({ departure, destination }) {
-        return {
-            startAddress: departure.address,
-            startLatitude: departure.latitude,
-            startLongitude: departure.longitude,
-            endAddress: destination.address,
-            endLatitude: destination.latitude,
-            endLongitude: destination.longitude
-        };
-    }
-
     const isButtonActive =
         location.departure.address &&
         location.destination.address &&
@@ -126,3 +115,14 @@ const addressReducer = (state, action) => {
             return state;
     }
 };
+
+function transformLocationData({ departure, destination }) {
+    return {
+        startAddress: departure.address + " " + departure.detailAddress,
+        startLatitude: departure.latitude,
+        startLongitude: departure.longitude,
+        endAddress: destination.address + " " + destination.detailAddress,
+        endLatitude: destination.latitude,
+        endLongitude: destination.longitude
+    };
+}

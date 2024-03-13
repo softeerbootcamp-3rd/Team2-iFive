@@ -6,9 +6,8 @@ import { Footer } from "@/components/Footer/Footer";
 import { AddressForm } from "./AddressForm/AddressForm";
 import { DayList } from "./DayList/DayList";
 import { TimeList } from "./TimeList/TimeList";
-import { Modal } from "@/components/Modal/Modal";
 import { useModal } from "@/hooks/useModal";
-import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
+import { MapModal } from "./MapModal/MapModal";
 
 export default function Search() {
     const [schedule, setSchedule] = useState({});
@@ -100,47 +99,15 @@ export default function Search() {
                     isButtonDisabled={!isButtonActive}
                 />
 
-                <Modal
+                <MapModal
                     isVisible={isVisible}
                     onClose={closeModal}
-                    width="100%"
-                    height="100dvh"
-                    animationType="slideDown"
-                >
-                    <div className={styles.modalContainer}>
-                        <AddressFinderMap
-                            handleLocationSelect={handleLocationSelect}
-                            mapType={mapType}
-                        />
-                        <div className={styles.addressWrapper}>
-                            <label htmlFor="address">
-                                {mapType === "departure" ? "출발지" : "도착지"}
-                            </label>
-                            <input
-                                name="address"
-                                className={styles.address}
-                                type="text"
-                                value={location[mapType].address}
-                                placeholder="지도를 이동해 주세요"
-                                readOnly
-                            />
-                            <label htmlFor="detailAddress">상세주소</label>
-                            <input
-                                name="detailAddress"
-                                className={styles.address}
-                                type="text"
-                                value={detailAddress[mapType]}
-                                onChange={handleDetailAddressChange}
-                                placeholder="상세 주소가 있다면 적어주세요"
-                            />
-                        </div>
-                        <Footer
-                            className={styles.closeButton}
-                            onClick={closeModal}
-                            text="완료"
-                        />
-                    </div>
-                </Modal>
+                    handleDetailAddressChange={handleDetailAddressChange}
+                    handleLocationSelect={handleLocationSelect}
+                    mapType={mapType}
+                    location={location}
+                    detailAddress={detailAddress}
+                />
             </main>
         </>
     );

@@ -14,6 +14,7 @@ export function HistoryDetail({ driverProfile, closeModal }) {
         detailHistoryData?.data?.length > 0 ? (
             detailHistoryData.data.map((cardData) => (
                 <HistoryCard
+                    key={cardData.day}
                     cardData={cardData}
                     driverProfile={driverProfile}
                 />

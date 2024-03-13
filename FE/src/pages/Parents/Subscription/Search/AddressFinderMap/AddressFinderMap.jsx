@@ -16,7 +16,7 @@ export function AddressFinderMap({ handleLocationSelect, mapType }) {
     const center = !locationLoading && getLatLng(latitude, longitude);
     const map = useMap(mapElementRef, { center }, locationLoading);
     const marker = useMarker(map, map?.getCenter());
-    addDragEventListener({ map, marker, handleLocationSelect });
+    addDragEventListener({ map, marker, handleLocationSelect, mapType });
 
     return (
         <div className={styles.container}>

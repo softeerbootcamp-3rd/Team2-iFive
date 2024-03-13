@@ -1,11 +1,6 @@
 import styles from "./MapAddressForm.module.scss";
 
-export function MapAddressForm({
-    mapType,
-    location,
-    detailAddress,
-    handleDetailAddressChange
-}) {
+export function MapAddressForm({ mapType, location, handleLocationSelect }) {
     return (
         <div className={styles.addressWrapper}>
             <label htmlFor="address">
@@ -24,8 +19,10 @@ export function MapAddressForm({
                 name="detailAddress"
                 className={styles.address}
                 type="text"
-                value={detailAddress[mapType]}
-                onChange={handleDetailAddressChange}
+                value={location[mapType].detailAddress}
+                onChange={({ target: { value } }) =>
+                    handleLocationSelect({ detailAddress: value }, mapType)
+                }
                 placeholder="상세 주소가 있다면 적어주세요"
             />
         </div>

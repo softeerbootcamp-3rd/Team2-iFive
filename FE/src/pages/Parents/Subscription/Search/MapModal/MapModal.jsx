@@ -7,11 +7,9 @@ import { MapAddressForm } from "./MapAddressForm/MapAddressForm";
 export function MapModal({
     isVisible,
     onClose,
-    handleDetailAddressChange,
     handleLocationSelect,
     mapType,
-    location,
-    detailAddress
+    location
 }) {
     return (
         <Modal
@@ -29,8 +27,7 @@ export function MapModal({
                 <MapAddressForm
                     mapType={mapType}
                     location={location}
-                    detailAddress={detailAddress}
-                    handleDetailAddressChange={handleDetailAddressChange}
+                    handleLocationSelect={handleLocationSelect}
                 />
                 <Footer onClick={onClose} text="완료" />
             </div>

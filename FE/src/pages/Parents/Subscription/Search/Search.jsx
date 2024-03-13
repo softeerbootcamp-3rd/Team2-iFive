@@ -21,15 +21,6 @@ export default function Search() {
         dispatchLocation({ type: mapType, payload: data });
     };
 
-    const [detailAddress, dispatchDetailAddress] = useReducer(addressReducer, {
-        departure: "",
-        destination: ""
-    });
-
-    const handleDetailAddressChange = ({ target: { value } }, mapType) => {
-        dispatchDetailAddress({ type: mapType, payload: value });
-    };
-
     const navigate = useNavigate();
 
     const { isVisible, open: openModal, close: closeModal } = useModal();
@@ -80,7 +71,6 @@ export default function Search() {
                     <AddressForm
                         handleOpenModal={handleOpenModal}
                         location={location}
-                        detailAddress={detailAddress}
                     />
                     <DayList schedule={schedule} setSchedule={setSchedule} />
                     <TimeList
@@ -98,13 +88,9 @@ export default function Search() {
                 <MapModal
                     isVisible={isVisible}
                     onClose={closeModal}
-                    handleDetailAddressChange={(event) =>
-                        handleDetailAddressChange(event, mapType)
-                    }
                     handleLocationSelect={handleLocationSelect}
                     mapType={mapType}
                     location={location}
-                    detailAddress={detailAddress}
                 />
             </main>
         </>
@@ -114,7 +100,8 @@ export default function Search() {
 const INITIAL_LOCATION_STATE = {
     address: "",
     latitude: "",
-    longitude: ""
+    longitude: "",
+    detailAddress: ""
 };
 
 const addressReducer = (state, action) => {
@@ -122,12 +109,18 @@ const addressReducer = (state, action) => {
         case "departure":
             return {
                 ...state,
-                departure: action.payload
+                departure: {
+                    ...state.departure,
+                    ...action.payload
+                }
             };
         case "destination":
             return {
                 ...state,
-                destination: action.payload
+                destination: {
+                    ...state.destination,
+                    ...action.payload
+                }
             };
         default:
             return state;

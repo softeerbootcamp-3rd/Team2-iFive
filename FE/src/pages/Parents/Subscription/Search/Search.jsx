@@ -10,12 +10,6 @@ import { Modal } from "@/components/Modal/Modal";
 import { useModal } from "@/hooks/useModal";
 import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
 
-const INITIAL_LOCATIION_STATE = {
-    address: "",
-    latitude: "",
-    longitude: ""
-};
-
 export default function Search() {
     const [schedule, setSchedule] = useState({});
     const [mapFor, setMapFor] = useState("departure");
@@ -23,10 +17,16 @@ export default function Search() {
         departure: "",
         destination: ""
     });
-    const [location, setLocation] = useState({
-        departure: { ...INITIAL_LOCATIION_STATE },
-        destination: { ...INITIAL_LOCATIION_STATE }
+    // const [location, setLocation] = useState({
+    //     departure: { ...INITIAL_LOCATIION_STATE },
+    //     destination: { ...INITIAL_LOCATIION_STATE }
+    // });
+
+    const [location, dispatch] = useReducer(locationReducer, {
+        departure: { ...INITIAL_LOCATION_STATE },
+        destination: { ...INITIAL_LOCATION_STATE }
     });
+
     const navigate = useNavigate();
 
     const { isVisible, open: openModal, close: closeModal } = useModal();
@@ -36,11 +36,15 @@ export default function Search() {
         openModal();
     };
 
-    const handleLocationSelect = (data) => {
-        setLocation((prevLocation) => ({
-            ...prevLocation,
-            [mapFor]: data
-        }));
+    // const handleLocationSelect = (data) => {
+    //     setLocation((prevLocation) => ({
+    //         ...prevLocation,
+    //         [mapFor]: data
+    //     }));
+    // };
+
+    const handleLocationSelect = (data, mapFor) => {
+        dispatch({ type: mapFor, payload: data });
     };
 
     const handleScheduleChange = (day, unit) => (value) => {
@@ -74,14 +78,6 @@ export default function Search() {
         navigate("/subscription/drivers", {
             state: { ...locationData, schedule }
         });
-    };
-
-    const handleAddressChange = async ({ target: { value } }) => {
-        setLocation((prevLocation) => ({
-            ...prevLocation,
-            [mapFor]: { ...prevLocation[mapFor], address: value }
-        }));
-        // const { address, point } = await searchAddressToCoordinate(value);
     };
 
     const handleDetailAddressChange = ({ target: { value } }) => {
@@ -125,6 +121,7 @@ export default function Search() {
                     <div className={styles.modalContainer}>
                         <AddressFinderMap
                             handleLocationSelect={handleLocationSelect}
+                            mapFor={mapFor}
                         />
                         <div className={styles.addressWrapper}>
                             <label htmlFor="address">
@@ -135,7 +132,6 @@ export default function Search() {
                                 className={styles.address}
                                 type="text"
                                 value={location[mapFor].address}
-                                onChange={handleAddressChange}
                                 placeholder="지도를 이동해 주세요"
                                 readOnly
                             />
@@ -160,3 +156,26 @@ export default function Search() {
         </>
     );
 }
+
+const INITIAL_LOCATION_STATE = {
+    address: "",
+    latitude: "",
+    longitude: ""
+};
+
+const locationReducer = (state, action) => {
+    switch (action.type) {
+        case "departure":
+            return {
+                ...state,
+                departure: action.payload
+            };
+        case "destination":
+            return {
+                ...state,
+                destination: action.payload
+            };
+        default:
+            return state;
+    }
+};

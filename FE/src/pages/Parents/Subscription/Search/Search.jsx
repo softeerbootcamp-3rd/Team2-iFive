@@ -11,8 +11,11 @@ import { MapModal } from "./MapModal/MapModal";
 
 export default function Search() {
     const navigate = useNavigate();
-    const [schedule, setSchedule] = useState({});
     const [mapType, setMapType] = useState("departure");
+    const [schedule, dispatchSchedule] = useReducer(
+        scheduleReducer,
+        INITIAL_SCHEDULE_STATE
+    );
     const [location, dispatchLocation] = useReducer(locationReducer, {
         departure: { ...INITIAL_LOCATION_STATE },
         destination: { ...INITIAL_LOCATION_STATE }
@@ -30,22 +33,24 @@ export default function Search() {
     };
 
     const handleWeekClick = (day) => {
-        setSchedule((prevTimeList) => {
-            const newTimeList = { ...prevTimeList };
-            if (newTimeList[day]) {
-                delete newTimeList[day];
-            } else {
-                newTimeList[day] = DEFAULT_TIME;
-            }
-            return newTimeList;
-        });
+        if (schedule[day]) {
+            dispatchSchedule({
+                type: SCHEDULE_ACTION_TYPE.DELETE_DAY,
+                payload: { day }
+            });
+        } else {
+            dispatchSchedule({
+                type: SCHEDULE_ACTION_TYPE.ADD_DAY,
+                payload: { day, time: DEFAULT_TIME }
+            });
+        }
     };
 
-    const handleScheduleChange = (day, unit) => (value) => {
-        setSchedule((prevSchedule) => ({
-            ...prevSchedule,
-            [day]: { ...prevSchedule[day], [unit]: Number(value) }
-        }));
+    const handleTimeChange = (day, unit) => (value) => {
+        dispatchSchedule({
+            type: SCHEDULE_ACTION_TYPE.CHANGE_TIME,
+            payload: { day, unit, value }
+        });
     };
 
     const isButtonActive =
@@ -78,7 +83,7 @@ export default function Search() {
                     />
                     <TimeList
                         schedule={schedule}
-                        handleScheduleChange={handleScheduleChange}
+                        handleTimeChange={handleTimeChange}
                     />
                 </section>
                 <Footer
@@ -123,6 +128,36 @@ const locationReducer = (state, action) => {
     }
 };
 
+const SCHEDULE_ACTION_TYPE = {
+    ADD_DAY: "ADD_DAY",
+    DELETE_DAY: "DELETE_DAY",
+    CHANGE_TIME: "CHANGE_TIME"
+};
+
+const scheduleReducer = (state, action) => {
+    switch (action.type) {
+        case SCHEDULE_ACTION_TYPE.ADD_DAY:
+            return {
+                ...state,
+                [action.payload.day]: action.payload.time
+            };
+        case SCHEDULE_ACTION_TYPE.DELETE_DAY:
+            const newState = { ...state };
+            delete newState[action.payload.day];
+            return newState;
+        case SCHEDULE_ACTION_TYPE.CHANGE_TIME:
+            return {
+                ...state,
+                [action.payload.day]: {
+                    ...state[action.payload.day],
+                    [action.payload.unit]: Number(action.payload.value)
+                }
+            };
+        default:
+            return state;
+    }
+};
+
 function transformLocationData({ departure, destination }) {
     return {
         startAddress: departure.address + " " + departure.detailAddress,
@@ -142,3 +177,5 @@ const INITIAL_LOCATION_STATE = {
 };
 
 const DEFAULT_TIME = { hour: 8, min: 10 };
+
+const INITIAL_SCHEDULE_STATE = {};

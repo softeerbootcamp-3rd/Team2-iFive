@@ -4,7 +4,7 @@ import { LabelledList } from "@/components/Layout/LabelledList";
 import { NumericSelector } from "@/components/Input/NumericSelector";
 import { SEARCH_PAGE } from "@/constants/constants";
 
-export function TimeList({ schedule, handleScheduleChange }) {
+export function TimeList({ schedule, handleTimeChange }) {
     const filteredTimeItems = SEARCH_PAGE.WEEK.filter(
         (day) => schedule[day] !== undefined
     );
@@ -14,7 +14,7 @@ export function TimeList({ schedule, handleScheduleChange }) {
             <TimeItem
                 key={`day-${index}`}
                 day={day}
-                handleScheduleChange={handleScheduleChange}
+                handleTimeChange={handleTimeChange}
             />
         ))
     ) : (
@@ -27,9 +27,9 @@ export function TimeList({ schedule, handleScheduleChange }) {
     );
 }
 
-function TimeItem({ day, handleScheduleChange }) {
-    const handleHourSelect = handleScheduleChange(day, "hour");
-    const handleMinuteSelect = handleScheduleChange(day, "min");
+function TimeItem({ day, handleTimeChange }) {
+    const handleHourSelect = handleTimeChange(day, "hour");
+    const handleMinuteSelect = handleTimeChange(day, "min");
     return (
         <li className={styles.timeItem}>
             <h6 className={styles.timeDay}>{SEARCH_PAGE.WEEK_MAP[day]}</h6>

@@ -1,6 +1,6 @@
 import styles from "./AddressForm.module.scss";
 
-export function AddressForm({ handleOpenModal, location, detailAddress }) {
+export function AddressForm({ handleOpenModal, location }) {
     const { departure, destination } = location;
 
     return (
@@ -13,7 +13,7 @@ export function AddressForm({ handleOpenModal, location, detailAddress }) {
                 name="departure"
                 value={
                     departure.address
-                        ? departure.address + " " + detailAddress.departure
+                        ? departure.address + " " + departure.detailAddress
                         : "출발지"
                 }
                 onClick={handleOpenModal}
@@ -25,7 +25,7 @@ export function AddressForm({ handleOpenModal, location, detailAddress }) {
                 name="destination"
                 value={
                     destination.address
-                        ? destination.address + " " + detailAddress.destination
+                        ? destination.address + " " + destination.detailAddress
                         : "도착지"
                 }
                 onClick={handleOpenModal}

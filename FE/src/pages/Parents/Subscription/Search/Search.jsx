@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useReducer, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./Search.module.scss";
 import { Header } from "@/components/Header/Header";
@@ -6,60 +6,52 @@ import { Footer } from "@/components/Footer/Footer";
 import { AddressForm } from "./AddressForm/AddressForm";
 import { DayList } from "./DayList/DayList";
 import { TimeList } from "./TimeList/TimeList";
-import { Modal } from "@/components/Modal/Modal";
 import { useModal } from "@/hooks/useModal";
-import { AddressFinderMap } from "./AddressFinderMap/AddressFinderMap";
-
-const INITIAL_LOCATIION_STATE = {
-    address: "",
-    latitude: "",
-    longitude: ""
-};
+import { MapModal } from "./MapModal/MapModal";
 
 export default function Search() {
-    const [schedule, setSchedule] = useState({});
-    const [mapFor, setMapFor] = useState("departure");
-    const [detailAddress, setDetailAddress] = useState({
-        departure: "",
-        destination: ""
-    });
-    const [location, setLocation] = useState({
-        departure: { ...INITIAL_LOCATIION_STATE },
-        destination: { ...INITIAL_LOCATIION_STATE }
-    });
     const navigate = useNavigate();
+    const [mapType, setMapType] = useState("departure");
+    const [schedule, dispatchSchedule] = useReducer(
+        scheduleReducer,
+        INITIAL_SCHEDULE_STATE
+    );
+    const [location, dispatchLocation] = useReducer(locationReducer, {
+        departure: { ...INITIAL_LOCATION_STATE },
+        destination: { ...INITIAL_LOCATION_STATE }
+    });
 
     const { isVisible, open: openModal, close: closeModal } = useModal();
 
     const handleOpenModal = ({ target: { name } }) => {
-        setMapFor(name);
+        setMapType(name);
         openModal();
     };
 
-    const handleLocationSelect = (data) => {
-        setLocation((prevLocation) => ({
-            ...prevLocation,
-            [mapFor]: data
-        }));
+    const handleLocationSelect = (data, mapType) => {
+        dispatchLocation({ type: mapType, payload: data });
     };
 
-    const handleScheduleChange = (day, unit) => (value) => {
-        setSchedule((prevSchedule) => ({
-            ...prevSchedule,
-            [day]: { ...prevSchedule[day], [unit]: Number(value) }
-        }));
+    const handleWeekClick = (day) => {
+        if (schedule[day]) {
+            dispatchSchedule({
+                type: SCHEDULE_ACTION_TYPE.DELETE_DAY,
+                payload: { day }
+            });
+        } else {
+            dispatchSchedule({
+                type: SCHEDULE_ACTION_TYPE.ADD_DAY,
+                payload: { day, time: DEFAULT_TIME }
+            });
+        }
     };
 
-    function transformLocationData({ departure, destination }) {
-        return {
-            startAddress: departure.address,
-            startLatitude: departure.latitude,
-            startLongitude: departure.longitude,
-            endAddress: destination.address,
-            endLatitude: destination.latitude,
-            endLongitude: destination.longitude
-        };
-    }
+    const handleTimeChange = (day, unit) => (value) => {
+        dispatchSchedule({
+            type: SCHEDULE_ACTION_TYPE.CHANGE_TIME,
+            payload: { day, unit, value }
+        });
+    };
 
     const isButtonActive =
         location.departure.address &&
@@ -76,21 +68,6 @@ export default function Search() {
         });
     };
 
-    const handleAddressChange = async ({ target: { value } }) => {
-        setLocation((prevLocation) => ({
-            ...prevLocation,
-            [mapFor]: { ...prevLocation[mapFor], address: value }
-        }));
-        // const { address, point } = await searchAddressToCoordinate(value);
-    };
-
-    const handleDetailAddressChange = ({ target: { value } }) => {
-        setDetailAddress((prev) => ({
-            ...prev,
-            [mapFor]: value
-        }));
-    };
-
     return (
         <>
             <main className={styles.container}>
@@ -99,12 +76,14 @@ export default function Search() {
                     <AddressForm
                         handleOpenModal={handleOpenModal}
                         location={location}
-                        detailAddress={detailAddress}
                     />
-                    <DayList schedule={schedule} setSchedule={setSchedule} />
+                    <DayList
+                        schedule={schedule}
+                        handleWeekClick={handleWeekClick}
+                    />
                     <TimeList
                         schedule={schedule}
-                        handleScheduleChange={handleScheduleChange}
+                        handleTimeChange={handleTimeChange}
                     />
                 </section>
                 <Footer
@@ -114,49 +93,89 @@ export default function Search() {
                     }
                     isButtonDisabled={!isButtonActive}
                 />
-
-                <Modal
+                <MapModal
                     isVisible={isVisible}
                     onClose={closeModal}
-                    width="100%"
-                    height="100dvh"
-                    animationType="slideDown"
-                >
-                    <div className={styles.modalContainer}>
-                        <AddressFinderMap
-                            handleLocationSelect={handleLocationSelect}
-                        />
-                        <div className={styles.addressWrapper}>
-                            <label htmlFor="address">
-                                {mapFor === "departure" ? "출발지" : "도착지"}
-                            </label>
-                            <input
-                                name="address"
-                                className={styles.address}
-                                type="text"
-                                value={location[mapFor].address}
-                                onChange={handleAddressChange}
-                                placeholder="지도를 이동해 주세요"
-                                readOnly
-                            />
-                            <label htmlFor="detailAddress">상세주소</label>
-                            <input
-                                name="detailAddress"
-                                className={styles.address}
-                                type="text"
-                                value={detailAddress[mapFor]}
-                                onChange={handleDetailAddressChange}
-                                placeholder="상세 주소가 있다면 적어주세요"
-                            />
-                        </div>
-                        <Footer
-                            className={styles.closeButton}
-                            onClick={closeModal}
-                            text="완료"
-                        />
-                    </div>
-                </Modal>
+                    handleLocationSelect={handleLocationSelect}
+                    mapType={mapType}
+                    location={location}
+                />
             </main>
         </>
     );
 }
+
+const locationReducer = (state, action) => {
+    switch (action.type) {
+        case "departure":
+            return {
+                ...state,
+                departure: {
+                    ...state.departure,
+                    ...action.payload
+                }
+            };
+        case "destination":
+            return {
+                ...state,
+                destination: {
+                    ...state.destination,
+                    ...action.payload
+                }
+            };
+        default:
+            return state;
+    }
+};
+
+const SCHEDULE_ACTION_TYPE = {
+    ADD_DAY: "ADD_DAY",
+    DELETE_DAY: "DELETE_DAY",
+    CHANGE_TIME: "CHANGE_TIME"
+};
+
+const scheduleReducer = (state, action) => {
+    switch (action.type) {
+        case SCHEDULE_ACTION_TYPE.ADD_DAY:
+            return {
+                ...state,
+                [action.payload.day]: action.payload.time
+            };
+        case SCHEDULE_ACTION_TYPE.DELETE_DAY:
+            const newState = { ...state };
+            delete newState[action.payload.day];
+            return newState;
+        case SCHEDULE_ACTION_TYPE.CHANGE_TIME:
+            return {
+                ...state,
+                [action.payload.day]: {
+                    ...state[action.payload.day],
+                    [action.payload.unit]: Number(action.payload.value)
+                }
+            };
+        default:
+            return state;
+    }
+};
+
+function transformLocationData({ departure, destination }) {
+    return {
+        startAddress: departure.address + " " + departure.detailAddress,
+        startLatitude: departure.latitude,
+        startLongitude: departure.longitude,
+        endAddress: destination.address + " " + destination.detailAddress,
+        endLatitude: destination.latitude,
+        endLongitude: destination.longitude
+    };
+}
+
+const INITIAL_LOCATION_STATE = {
+    address: "",
+    latitude: "",
+    longitude: "",
+    detailAddress: ""
+};
+
+const DEFAULT_TIME = { hour: 8, min: 10 };
+
+const INITIAL_SCHEDULE_STATE = {};

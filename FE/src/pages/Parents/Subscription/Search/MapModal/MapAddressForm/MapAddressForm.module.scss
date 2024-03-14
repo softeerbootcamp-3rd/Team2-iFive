@@ -1,0 +1,26 @@
+@import "@/styles/color";
+@import "@/styles/fontStyle";
+@import "@/styles/util";
+@import "@/styles/layout";
+
+.addressWrapper {
+    width: 90%;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    label {
+        color: $gray;
+    }
+}
+
+.address {
+    width: 100%;
+    height: 40px;
+
+    padding-left: 10px;
+    outline: none;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 0 0 1px rgba(0, 0, 0, 0.5);
+}

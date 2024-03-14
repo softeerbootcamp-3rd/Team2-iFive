@@ -13,21 +13,32 @@ export default function Search() {
     const navigate = useNavigate();
     const [schedule, setSchedule] = useState({});
     const [mapType, setMapType] = useState("departure");
-
     const [location, dispatchLocation] = useReducer(locationReducer, {
         departure: { ...INITIAL_LOCATION_STATE },
         destination: { ...INITIAL_LOCATION_STATE }
     });
-
-    const handleLocationSelect = (data, mapType) => {
-        dispatchLocation({ type: mapType, payload: data });
-    };
 
     const { isVisible, open: openModal, close: closeModal } = useModal();
 
     const handleOpenModal = ({ target: { name } }) => {
         setMapType(name);
         openModal();
+    };
+
+    const handleLocationSelect = (data, mapType) => {
+        dispatchLocation({ type: mapType, payload: data });
+    };
+
+    const handleWeekClick = (day) => {
+        setSchedule((prevTimeList) => {
+            const newTimeList = { ...prevTimeList };
+            if (newTimeList[day]) {
+                delete newTimeList[day];
+            } else {
+                newTimeList[day] = DEFAULT_TIME;
+            }
+            return newTimeList;
+        });
     };
 
     const handleScheduleChange = (day, unit) => (value) => {
@@ -61,7 +72,10 @@ export default function Search() {
                         handleOpenModal={handleOpenModal}
                         location={location}
                     />
-                    <DayList schedule={schedule} setSchedule={setSchedule} />
+                    <DayList
+                        schedule={schedule}
+                        handleWeekClick={handleWeekClick}
+                    />
                     <TimeList
                         schedule={schedule}
                         handleScheduleChange={handleScheduleChange}
@@ -85,13 +99,6 @@ export default function Search() {
         </>
     );
 }
-
-const INITIAL_LOCATION_STATE = {
-    address: "",
-    latitude: "",
-    longitude: "",
-    detailAddress: ""
-};
 
 const locationReducer = (state, action) => {
     switch (action.type) {
@@ -126,3 +133,12 @@ function transformLocationData({ departure, destination }) {
         endLongitude: destination.longitude
     };
 }
+
+const INITIAL_LOCATION_STATE = {
+    address: "",
+    latitude: "",
+    longitude: "",
+    detailAddress: ""
+};
+
+const DEFAULT_TIME = { hour: 8, min: 10 };

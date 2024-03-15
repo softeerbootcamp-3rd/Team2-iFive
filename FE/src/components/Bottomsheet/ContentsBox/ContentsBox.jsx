@@ -1,5 +1,4 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import styles from "../KidInfoBox/kidInfoBox.module.scss";
+import styles from "./ContentsBox.module.scss";
 import iDrop from "@/assets/iDropGreen.svg";
 
 export function ContentsBox({
@@ -9,25 +8,16 @@ export function ContentsBox({
     pickUpStartTime,
     pickUpEndTime,
     startAddress,
-    endAddress,
-    startDate,
-    endDate,
-    type
+    endAddress
 }) {
-    const { pathname } = useLocation();
-
-    let timeMsg =
-        type === "parent"
-            ? pathname === "/map"
-                ? `${pickUpStartTime} ~ ${pickUpEndTime}`
-                : `${startDate} ~ ${endDate}`
-            : `${pickUpStartTime} ~ ${pickUpEndTime}`;
     return (
         <div className={styles.content}>
             <img className={styles.kidImg} src={childImage || iDrop}></img>
             <div className={styles.infoBox}>
                 <span> {childName} </span>
-                <span>{timeMsg}</span>
+                <span>
+                    {pickUpStartTime} ~ {pickUpEndTime}
+                </span>
                 <span>
                     {startAddress} <br /> {"→"} {endAddress}
                 </span>
